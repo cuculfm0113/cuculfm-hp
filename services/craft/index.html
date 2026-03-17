@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>オリジナルクラフト販売 | CUCUL FM</title>
+    <meta name="description" content="ククルFMのオリジナルクラフト販売事業。業務別のノウハウが詰まった手製のアイテムを製作・販売。現場経験を活かした実用的な機器をお届けします。">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+JP:wght@300;400;500;700&family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .product-showcase {
+            background: linear-gradient(135deg, var(--color-bg-darker) 0%, var(--color-bg-dark) 100%);
+            border: 1px solid var(--color-border);
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 60px;
+        }
+        .product-badge {
+            display: inline-block;
+            background: var(--color-primary);
+            color: var(--color-bg-dark);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        .product-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+        @media (max-width: 768px) {
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .product-image {
+            background: var(--color-bg-dark);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .product-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .product-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 16px;
+            color: var(--color-text);
+        }
+        .product-description {
+            color: var(--color-text-muted);
+            margin-bottom: 24px;
+            line-height: 1.8;
+        }
+        .product-features {
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+        .product-features h4 {
+            font-size: 1rem;
+            margin-bottom: 12px;
+            color: var(--color-primary);
+        }
+        .product-features ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .product-features li {
+            padding: 8px 0;
+            border-bottom: 1px solid var(--color-border);
+            color: var(--color-text-muted);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .product-features li:last-child {
+            border-bottom: none;
+        }
+        .product-features li::before {
+            content: "✓";
+            color: var(--color-primary);
+            font-weight: bold;
+        }
+        .inquiry-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--color-primary);
+            color: var(--color-bg-dark);
+            padding: 16px 32px;
+            border-radius: 8px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+        .inquiry-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+        }
+        .inquiry-button svg {
+            width: 20px;
+            height: 20px;
+        }
+        .handmade-concept {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+        @media (max-width: 768px) {
+            .handmade-concept {
+                grid-template-columns: 1fr;
+            }
+        }
+        .concept-card {
+            background: var(--color-bg-darker);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+        }
+        .concept-card svg {
+            width: 48px;
+            height: 48px;
+            stroke: var(--color-primary);
+            margin-bottom: 16px;
+        }
+        .concept-card h4 {
+            font-size: 1.125rem;
+            margin-bottom: 12px;
+            color: var(--color-text);
+        }
+        .concept-card p {
+            color: var(--color-text-muted);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="service-header">
+        <div class="container">
+            <div class="header-content">
+                <a href="../../index.html" class="back-link">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>TOP に戻る</span>
+                </a>
+                <div class="header-logo">CUCUL FM</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="service-hero service-hero--starry">
+        <div class="starry-bg">
+            <div class="stars stars-small"></div>
+            <div class="stars stars-medium"></div>
+            <div class="stars stars-large"></div>
+            <div class="shooting-star"></div>
+            <div class="shooting-star"></div>
+            <div class="shooting-star"></div>
+            <div class="moon"></div>
+        </div>
+        <div class="container">
+            <p class="hero-label">ORIGINAL CRAFT</p>
+            <h1 class="hero-title">オリジナルクラフト販売</h1>
+            <p class="hero-description">
+                業務別のノウハウが詰まった手製のアイテムを製作・販売。<br>
+                現場経験を活かした、実用的で高品質な機器をお届けします。
+            </p>
+        </div>
+    </section>
+
+    <!-- Product Sample -->
+    <section class="content-section">
+        <div class="container">
+            <div class="product-showcase">
+                <span class="product-badge">製作サンプル</span>
+                <div class="product-grid">
+                    <div class="product-image">
+                        <img src="images/sample-equipment.png" alt="ハンドメイド製品サンプル - 業務用機器">
+                    </div>
+                    <div class="product-info">
+                        <h3>業務用カスタム機器</h3>
+                        <p class="product-description">
+                            現場での経験とノウハウを活かし、実際の業務で使いやすい機器を手作りで製作しています。
+                            既製品では対応できない特殊なニーズにも、一つひとつ丁寧にお応えします。
+                        </p>
+                        <div class="product-features">
+                            <h4>オリジナルクラフトの特徴</h4>
+                            <ul>
+                                <li>現場のニーズに合わせたカスタム設計</li>
+                                <li>業務経験に基づいた使いやすさ</li>
+                                <li>一つひとつ丁寧な手作り</li>
+                                <li>アフターサポート対応</li>
+                            </ul>
+                        </div>
+                        <a href="../../index.html#contact" class="inquiry-button">
+                            製作のご相談・お問い合わせ
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12H19M19 12L12 5M19 12L12 19"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Concept -->
+    <section class="content-section">
+        <div class="container">
+            <p class="section-label">CONCEPT</p>
+            <h2 class="section-title">オリジナルクラフトへのこだわり</h2>
+            <div class="handmade-concept">
+                <div class="concept-card">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                    </svg>
+                    <h4>現場のノウハウ</h4>
+                    <p>実際の業務経験から生まれた、本当に使いやすい設計を実現。</p>
+                </div>
+                <div class="concept-card">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                        <path d="M2 17l10 5 10-5"/>
+                        <path d="M2 12l10 5 10-5"/>
+                    </svg>
+                    <h4>丁寧な手作り</h4>
+                    <p>一つひとつ手作業で製作。細部までこだわった高品質。</p>
+                </div>
+                <div class="concept-card">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M12 6v6l4 2"/>
+                    </svg>
+                    <h4>カスタム対応</h4>
+                    <p>お客様のニーズに合わせて、仕様をカスタマイズ可能。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories -->
+    <section class="content-section">
+        <div class="container">
+            <p class="section-label">CATEGORIES</p>
+            <h2 class="section-title">製作可能なカテゴリ</h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="2" y="3" width="20" height="14" rx="2" stroke="currentColor" stroke-width="2"/>
+                        <path d="M8 21h8M12 17v4" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    <h3 class="feature-title">業務用機器</h3>
+                    <p class="feature-text">現場作業に特化した操作盤、収納ボックス、作業台など</p>
+                </div>
+                <div class="feature-item">
+                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    <h3 class="feature-title">専用治具・工具</h3>
+                    <p class="feature-text">特定の作業を効率化するためのオリジナル治具</p>
+                </div>
+                <div class="feature-item">
+                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    <h3 class="feature-title">収納・整理用品</h3>
+                    <p class="feature-text">工具や機材を効率的に収納するカスタムケース</p>
+                </div>
+                <div class="feature-item">
+                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                        <path d="M12 16v-4M12 8h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <h3 class="feature-title">その他カスタム製品</h3>
+                    <p class="feature-text">ご要望に応じて様々な製品を製作可能</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="container">
+            <h2 class="cta-title">オリジナル製品のご相談</h2>
+            <p class="cta-text">「こんなものが欲しい」をカタチにします。お気軽にご相談ください。</p>
+            <a href="../../index.html#contact" class="cta-button">
+                お問い合わせ
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="service-footer">
+        <div class="container">
+            <p class="footer-text">&copy; 2024 CUCUL FM LLC. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

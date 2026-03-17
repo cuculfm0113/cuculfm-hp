@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIツール紹介 / 学習 | CUCUL FM</title>
+    <meta name="description" content="ChatGPT、Claude、Gemini、Cursor、NotebookLM、n8n、Grok、Canva、Manus AIなど主要AIツールの紹介と、10ステップで学べる学習コンテンツをまとめています。">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+JP:wght@300;400;500;700&family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="service-header">
+        <div class="container">
+            <div class="header-content">
+                <a href="../../index.html" class="back-link">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>TOP に戻る</span>
+                </a>
+                <div class="header-logo">CUCUL FM</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="service-hero service-hero--starry">
+        <div class="starry-bg">
+            <div class="stars stars-small"></div>
+            <div class="stars stars-medium"></div>
+            <div class="stars stars-large"></div>
+            <div class="shooting-star"></div>
+            <div class="shooting-star"></div>
+            <div class="shooting-star"></div>
+            <div class="moon"></div>
+        </div>
+        <div class="container">
+            <p class="hero-label">AI TOOLS & LEARNING</p>
+            <h1 class="hero-title">AIツール紹介 / 学習</h1>
+            <p class="hero-description">
+                主要13ツールを10ステップで学べる体系的なカリキュラム。
+                「どれを使うべき？」「どう学べばいい？」を最短で解決するためのライブラリです。
+            </p>
+        </div>
+    </section>
+
+    <!-- Overview -->
+    <section class="content-section">
+        <div class="container">
+            <p class="section-label">OVERVIEW</p>
+            <h2 class="section-title">このページでできること</h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <h3 class="feature-title">13ツールを網羅</h3>
+                    <p class="feature-text">ChatGPT / Claude / Gemini / Cursor / n8n / Grok / Canva / Manus AI など主要ツールを完全カバー</p>
+                </div>
+                <div class="feature-item">
+                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 19.5V4.5C4 3.67 4.67 3 5.5 3H20V21H5.5C4.67 21 4 20.33 4 19.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M8 7H16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M8 11H16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M8 15H13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <h3 class="feature-title">10ステップで学習</h3>
+                    <p class="feature-text">入門→実務→応用→マスターまで、迷わず学べる体系的なカリキュラム</p>
+                </div>
+                <div class="feature-item">
+                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M7 10l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12 15V3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <h3 class="feature-title">実務への落とし込み</h3>
+                    <p class="feature-text">ワークフロー・テンプレ・注意点を、業務に使える形で提供</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Library Tabs -->
+    <section class="content-section" id="ai-library">
+        <div class="container">
+            <p class="section-label">AI LIBRARY</p>
+            <h2 class="section-title">AIツール紹介 / 学習</h2>
+
+            <div class="tabs" role="tablist" aria-label="AIツール紹介と学習">
+                <button class="tab-btn active" type="button" role="tab" aria-selected="true" aria-controls="tab-tools" data-tab="tools">AIツール紹介</button>
+                <button class="tab-btn" type="button" role="tab" aria-selected="false" aria-controls="tab-learning" data-tab="learning">学習（10ステップ）</button>
+            </div>
+
+            <div class="tab-panel active" id="tab-tools" role="tabpanel">
+                <div class="series" aria-label="ツールまとめ" style="margin-bottom: 18px;">
+                    <div class="series-layout" style="grid-template-columns: 1fr;">
+                        <div class="series-detail">
+                            <div class="series-detail-kicker">TOOL SUMMARY</div>
+                            <h3 class="series-detail-title">各ツールは「何のツール？」</h3>
+                            <p class="series-detail-desc">
+                                目的に合わせて使い分けると効果が出ます。以下は用途の早見表です。
+                            </p>
+                            <div class="service-tags">
+                                <span class="service-tag">ChatGPT：対話型生成AI（文章/要約/企画）</span>
+                                <span class="service-tag">Claude：長文/整理に強い生成AI</span>
+                                <span class="service-tag">Gemini：Google連携が強い生成AI</span>
+                                <span class="service-tag">Cursor：AIエディタ（開発/改善）</span>
+                                <span class="service-tag">NotebookLM：資料読解/ナレッジ整理</span>
+                                <span class="service-tag">Perplexity：出典付きAIリサーチ</span>
+                                <span class="service-tag">Obsidian：知識管理（ノート/リンク/テンプレ）</span>
+                                <span class="service-tag">Superwhisper：音声入力（文章/メモ）</span>
+                                <span class="service-tag">Aqua Voice：音声入力（メモ→整理→清書）</span>
+                                <span class="service-tag">n8n：ノーコード自動化ツール</span>
+                                <span class="service-tag">Grok：xAI製リアルタイムAI</span>
+                                <span class="service-tag">Canva：AIデザインツール</span>
+                                <span class="service-tag">Manus AI：自律型AIエージェント</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="articles-grid">
+                    <article class="article-card"><a href="../../blog/ai/chatgpt/chatgpt-basics.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop" alt="ChatGPT"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">ChatGPT業務活用の始め方</h3><p class="article-excerpt">STEP 01: 入門</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/chatgpt/chatgpt-prompts-practical.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop" alt="ChatGPT"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">ChatGPTプロンプト術</h3><p class="article-excerpt">STEP 02: プロンプト</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/chatgpt/chatgpt-workflows-business.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop" alt="ChatGPT"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">ChatGPTで業務フローを効率化</h3><p class="article-excerpt">STEP 03: 業務フロー</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/chatgpt/chatgpt-excel-gas.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop" alt="ChatGPT"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">スプレッドシート×ChatGPTで業務を自動化する</h3><p class="article-excerpt">STEP 04: 自動化</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/chatgpt/chatgpt-data-analysis.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop" alt="ChatGPT"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">ChatGPTでデータ分析</h3><p class="article-excerpt">STEP 05: データ分析</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/chatgpt/chatgpt-writing-review.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop" alt="ChatGPT"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">ChatGPTで文章校正・リライト</h3><p class="article-excerpt">STEP 06: 文章校正</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/chatgpt/chatgpt-api-basics.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop" alt="ChatGPT"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">ChatGPT API入門</h3><p class="article-excerpt">STEP 07: API連携</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/chatgpt/chatgpt-gpts-custom.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop" alt="ChatGPT"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">GPTs</h3><p class="article-excerpt">STEP 08: GPTs</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/chatgpt/chatgpt-team-operations.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop" alt="ChatGPT"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">ChatGPTチーム運用</h3><p class="article-excerpt">STEP 09: チーム運用</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/chatgpt/chatgpt-master.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop" alt="ChatGPT"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">ChatGPTマスター編</h3><p class="article-excerpt">STEP 10: 総まとめ</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/claude/claude-basics.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=600&h=400&fit=crop" alt="Claude"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Claudeの使い分け入門</h3><p class="article-excerpt">STEP 01: 入門</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/claude/claude-longform-writing.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=600&h=400&fit=crop" alt="Claude"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Claudeで長文を破綻させない</h3><p class="article-excerpt">STEP 02: 長文</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/claude/claude-artifacts.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=600&h=400&fit=crop" alt="Claude"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Artifacts活用：成果物をテンプレ化して再利</h3><p class="article-excerpt">STEP 03: テンプレ</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/claude/claude-writing-review.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=600&h=400&fit=crop" alt="Claude"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Claudeで文章校正・推敲</h3><p class="article-excerpt">STEP 04: 文章校正</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/claude/claude-document-creation.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=600&h=400&fit=crop" alt="Claude"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Claudeで資料作成</h3><p class="article-excerpt">STEP 05: 資料作成</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/claude/claude-code-review.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=600&h=400&fit=crop" alt="Claude"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Claudeでコード生成・レビュー</h3><p class="article-excerpt">STEP 06: コード</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/claude/claude-document-analysis.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=600&h=400&fit=crop" alt="Claude"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Claudeで長文分析</h3><p class="article-excerpt">STEP 07: 分析</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/claude/claude-api-basics.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=600&h=400&fit=crop" alt="Claude"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Claude API入門</h3><p class="article-excerpt">STEP 08: API</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/claude/claude-team-operations.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=600&h=400&fit=crop" alt="Claude"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Claudeチーム運用</h3><p class="article-excerpt">STEP 09: チーム</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/claude/claude-master.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=600&h=400&fit=crop" alt="Claude"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Claudeマスター編</h3><p class="article-excerpt">STEP 10: 総まとめ</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/gemini/gemini-basics.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1573804633927-bfcbcd909acd?w=600&h=400&fit=crop" alt="Gemini"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Google Gemini入門</h3><p class="article-excerpt">STEP 01: 入門</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/gemini/gemini-workspace.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1573804633927-bfcbcd909acd?w=600&h=400&fit=crop" alt="Gemini"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Gemini×Google Workspace活用</h3><p class="article-excerpt">STEP 02: Workspace</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/gemini/google-ai-studio.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1573804633927-bfcbcd909acd?w=600&h=400&fit=crop" alt="Gemini"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Google AI Studio入門</h3><p class="article-excerpt">STEP 03: AI Studio</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/gemini/google-ai-automation.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1573804633927-bfcbcd909acd?w=600&h=400&fit=crop" alt="Gemini"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Gemini×Googleフォーム/スプレッドシー</h3><p class="article-excerpt">STEP 04: 自動化</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/gemini/gemini-search-efficiency.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1573804633927-bfcbcd909acd?w=600&h=400&fit=crop" alt="Gemini"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Geminiで検索を効率化</h3><p class="article-excerpt">STEP 05: 検索</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/gemini/gemini-image-creation.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1573804633927-bfcbcd909acd?w=600&h=400&fit=crop" alt="Gemini"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Geminiで画像生成・編集</h3><p class="article-excerpt">STEP 06: 画像</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/gemini/gemini-youtube-summary.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1573804633927-bfcbcd909acd?w=600&h=400&fit=crop" alt="Gemini"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Gemini×YouTube要約</h3><p class="article-excerpt">STEP 07: YouTube</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/gemini/gemini-extensions.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1573804633927-bfcbcd909acd?w=600&h=400&fit=crop" alt="Gemini"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Gemini拡張機能フル活用</h3><p class="article-excerpt">STEP 08: 拡張機能</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/gemini/gemini-team-operations.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1573804633927-bfcbcd909acd?w=600&h=400&fit=crop" alt="Gemini"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Geminiチーム運用</h3><p class="article-excerpt">STEP 09: チーム</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/gemini/gemini-master.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1573804633927-bfcbcd909acd?w=600&h=400&fit=crop" alt="Gemini"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Geminiマスター編</h3><p class="article-excerpt">STEP 10: 総まとめ</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/cursor/cursor-setup.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=600&h=400&fit=crop" alt="Cursor"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Cursor導入ガイド</h3><p class="article-excerpt">STEP 01: 入門</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/cursor/cursor-for-non-engineers.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=600&h=400&fit=crop" alt="Cursor"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">非エンジニアのためのCursor活用</h3><p class="article-excerpt">STEP 02: 実務</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/cursor/cursor-productivity-tips.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=600&h=400&fit=crop" alt="Cursor"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Cursor実践Tips</h3><p class="article-excerpt">STEP 03: Tips</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/cursor/cursor-composer.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=600&h=400&fit=crop" alt="Cursor"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Cursor Composer活用</h3><p class="article-excerpt">STEP 04: Composer</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/cursor/cursor-debugging.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=600&h=400&fit=crop" alt="Cursor"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Cursorでデバッグ</h3><p class="article-excerpt">STEP 05: デバッグ</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/cursor/cursor-rules.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=600&h=400&fit=crop" alt="Cursor"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Cursor Rules設定</h3><p class="article-excerpt">STEP 06: ルール</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/cursor/cursor-git-workflow.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=600&h=400&fit=crop" alt="Cursor"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Cursor×Git連携</h3><p class="article-excerpt">STEP 07: Git</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/cursor/cursor-extensions-mcp.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=600&h=400&fit=crop" alt="Cursor"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Cursor拡張機能・MCP連携</h3><p class="article-excerpt">STEP 08: 拡張</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/cursor/cursor-team-operations.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=600&h=400&fit=crop" alt="Cursor"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Cursorチーム運用</h3><p class="article-excerpt">STEP 09: チーム</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/cursor/cursor-master.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=600&h=400&fit=crop" alt="Cursor"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Cursorマスター編</h3><p class="article-excerpt">STEP 10: 総まとめ</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/notebooklm/notebook-lm.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=600&h=400&fit=crop" alt="NotebookLM"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">NotebookLM完全ガイド - AIがあなたの</h3><p class="article-excerpt">STEP 01: 入門</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/notebooklm/notebooklm-workflows.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=600&h=400&fit=crop" alt="NotebookLM"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">NotebookLMで資料読解を高速化</h3><p class="article-excerpt">STEP 02: 実務</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/notebooklm/notebooklm-compare.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=600&h=400&fit=crop" alt="NotebookLM"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">NotebookLMで複数資料を比較分析</h3><p class="article-excerpt">STEP 03: 比較</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/notebooklm/notebooklm-academic.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=600&h=400&fit=crop" alt="NotebookLM"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">NotebookLMでレポート・論文を要約</h3><p class="article-excerpt">STEP 04: 要約</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/notebooklm/notebooklm-meeting.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=600&h=400&fit=crop" alt="NotebookLM"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">NotebookLM×会議資料</h3><p class="article-excerpt">STEP 05: 会議</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/notebooklm/notebooklm-audio.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=600&h=400&fit=crop" alt="NotebookLM"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">NotebookLM Audio Overview</h3><p class="article-excerpt">STEP 06: Audio</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/notebooklm/notebooklm-faq.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=600&h=400&fit=crop" alt="NotebookLM"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">NotebookLMでFAQ作成</h3><p class="article-excerpt">STEP 07: FAQ</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/notebooklm/notebooklm-integration.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=600&h=400&fit=crop" alt="NotebookLM"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">NotebookLM×他ツール連携</h3><p class="article-excerpt">STEP 08: 連携</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/notebooklm/notebooklm-team.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=600&h=400&fit=crop" alt="NotebookLM"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">NotebookLMチーム運用</h3><p class="article-excerpt">STEP 09: チーム</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/notebooklm/notebooklm-master.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=600&h=400&fit=crop" alt="NotebookLM"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">NotebookLMマスター編</h3><p class="article-excerpt">STEP 10: 総まとめ</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/perplexity/perplexity-research.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=600&h=400&fit=crop" alt="Perplexity"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Perplexityで"根拠が追える"AIリサーチ</h3><p class="article-excerpt">STEP 01: リサーチ</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/perplexity/perplexity-search.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=600&h=400&fit=crop" alt="Perplexity"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Perplexity検索術</h3><p class="article-excerpt">STEP 02: 検索</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/perplexity/perplexity-comparison.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=600&h=400&fit=crop" alt="Perplexity"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Perplexityで競合調査・比較表作成</h3><p class="article-excerpt">STEP 03: 比較</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/perplexity/perplexity-market-research.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=600&h=400&fit=crop" alt="Perplexity"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Perplexityで市場調査</h3><p class="article-excerpt">STEP 04: 市場</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/perplexity/perplexity-academic.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=600&h=400&fit=crop" alt="Perplexity"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Perplexityで論文・学術情報を調べる</h3><p class="article-excerpt">STEP 05: 論文</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/perplexity/perplexity-news.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=600&h=400&fit=crop" alt="Perplexity"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Perplexityで最新ニュース・動向をキャッチ</h3><p class="article-excerpt">STEP 06: ニュース</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/perplexity/perplexity-pro.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=600&h=400&fit=crop" alt="Perplexity"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Perplexity Pro活用</h3><p class="article-excerpt">STEP 07: Pro</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/perplexity/perplexity-api.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=600&h=400&fit=crop" alt="Perplexity"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Perplexity API入門</h3><p class="article-excerpt">STEP 08: API</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/perplexity/perplexity-team.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=600&h=400&fit=crop" alt="Perplexity"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Perplexityチーム運用</h3><p class="article-excerpt">STEP 09: チーム</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/perplexity/perplexity-master.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=600&h=400&fit=crop" alt="Perplexity"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Perplexityマスター編</h3><p class="article-excerpt">STEP 10: 総まとめ</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/obsidian/obsidian-basics.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1517842645767-c639042777db?w=600&h=400&fit=crop" alt="Obsidian"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Obsidian入門</h3><p class="article-excerpt">STEP 01: 入門</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/obsidian/obsidian-setup.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1517842645767-c639042777db?w=600&h=400&fit=crop" alt="Obsidian"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Obsidian初期設定</h3><p class="article-excerpt">STEP 02: 設定</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/obsidian/obsidian-linking.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1517842645767-c639042777db?w=600&h=400&fit=crop" alt="Obsidian"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Obsidianでノートをリンク</h3><p class="article-excerpt">STEP 03: リンク</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/obsidian/obsidian-templates.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1517842645767-c639042777db?w=600&h=400&fit=crop" alt="Obsidian"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Obsidianテンプレート活用</h3><p class="article-excerpt">STEP 04: テンプレ</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/obsidian/obsidian-daily-notes.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1517842645767-c639042777db?w=600&h=400&fit=crop" alt="Obsidian"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Obsidian Daily Notes活用</h3><p class="article-excerpt">STEP 05: Daily</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/obsidian/obsidian-dataview.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1517842645767-c639042777db?w=600&h=400&fit=crop" alt="Obsidian"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Obsidian Dataviewで情報を可視化</h3><p class="article-excerpt">STEP 06: Dataview</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/obsidian/obsidian-ai-integration.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1517842645767-c639042777db?w=600&h=400&fit=crop" alt="Obsidian"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Obsidian×AI連携</h3><p class="article-excerpt">STEP 07: AI</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/obsidian/obsidian-tasks.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1517842645767-c639042777db?w=600&h=400&fit=crop" alt="Obsidian"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Obsidianでタスク管理</h3><p class="article-excerpt">STEP 08: タスク</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/obsidian/obsidian-sync.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1517842645767-c639042777db?w=600&h=400&fit=crop" alt="Obsidian"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Obsidian同期・バックアップ</h3><p class="article-excerpt">STEP 09: 同期</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/obsidian/obsidian-master.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1517842645767-c639042777db?w=600&h=400&fit=crop" alt="Obsidian"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Obsidianマスター編</h3><p class="article-excerpt">STEP 10: 総まとめ</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/superwhisper/superwhisper-basics.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=600&h=400&fit=crop" alt="Superwhisper"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Superwhisper入門</h3><p class="article-excerpt">STEP 01: 入門</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/superwhisper/superwhisper-setup.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=600&h=400&fit=crop" alt="Superwhisper"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Superwhisper初期設定</h3><p class="article-excerpt">STEP 02: 設定</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/superwhisper/superwhisper-speaking.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=600&h=400&fit=crop" alt="Superwhisper"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Superwhisperで効率的に話す</h3><p class="article-excerpt">STEP 03: 入力</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/superwhisper/superwhisper-memo.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=600&h=400&fit=crop" alt="Superwhisper"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Superwhisper×メモアプリ連携</h3><p class="article-excerpt">STEP 04: メモ</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/superwhisper/superwhisper-meeting.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=600&h=400&fit=crop" alt="Superwhisper"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Superwhisperで議事録作成</h3><p class="article-excerpt">STEP 05: 議事録</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/superwhisper/superwhisper-email.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=600&h=400&fit=crop" alt="Superwhisper"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Superwhisperでメール下書き</h3><p class="article-excerpt">STEP 06: メール</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/superwhisper/superwhisper-writing.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=600&h=400&fit=crop" alt="Superwhisper"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Superwhisperで長文執筆</h3><p class="article-excerpt">STEP 07: 執筆</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/superwhisper/superwhisper-ai.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=600&h=400&fit=crop" alt="Superwhisper"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Superwhisper×AI連携</h3><p class="article-excerpt">STEP 08: AI連携</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/superwhisper/superwhisper-shortcuts.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=600&h=400&fit=crop" alt="Superwhisper"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Superwhisper×Macショートカット連携</h3><p class="article-excerpt">STEP 09: ショートカット</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/superwhisper/superwhisper-master.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=600&h=400&fit=crop" alt="Superwhisper"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Superwhisperマスター編</h3><p class="article-excerpt">STEP 10: 総まとめ</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/aquavoice/aquavoice-basics.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1589903308904-1010c2294adc?w=600&h=400&fit=crop" alt="Aqua Voice"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Aqua Voice入門</h3><p class="article-excerpt">STEP 01: 入門</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/aquavoice/aquavoice-setup.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1589903308904-1010c2294adc?w=600&h=400&fit=crop" alt="Aqua Voice"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Aqua Voice初期設定</h3><p class="article-excerpt">STEP 02: 設定</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/aquavoice/aquavoice-speaking.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1589903308904-1010c2294adc?w=600&h=400&fit=crop" alt="Aqua Voice"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Aqua Voiceで効率的に話す</h3><p class="article-excerpt">STEP 03: 入力</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/aquavoice/aquavoice-realtime.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1589903308904-1010c2294adc?w=600&h=400&fit=crop" alt="Aqua Voice"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Aqua Voiceリアルタイム入力</h3><p class="article-excerpt">STEP 04: リアルタイム</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/aquavoice/aquavoice-memo.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1589903308904-1010c2294adc?w=600&h=400&fit=crop" alt="Aqua Voice"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Aqua Voice×メモアプリ連携</h3><p class="article-excerpt">STEP 05: メモ</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/aquavoice/aquavoice-meeting.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1589903308904-1010c2294adc?w=600&h=400&fit=crop" alt="Aqua Voice"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Aqua Voiceで議事録作成</h3><p class="article-excerpt">STEP 06: 議事録</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/aquavoice/aquavoice-writing.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1589903308904-1010c2294adc?w=600&h=400&fit=crop" alt="Aqua Voice"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Aqua Voiceで長文執筆</h3><p class="article-excerpt">STEP 07: 執筆</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/aquavoice/aquavoice-ai.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1589903308904-1010c2294adc?w=600&h=400&fit=crop" alt="Aqua Voice"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Aqua Voice×AI連携</h3><p class="article-excerpt">STEP 08: AI連携</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/aquavoice/aquavoice-team.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1589903308904-1010c2294adc?w=600&h=400&fit=crop" alt="Aqua Voice"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Aqua Voiceチーム運用</h3><p class="article-excerpt">STEP 09: チーム</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/aquavoice/aquavoice-master.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1589903308904-1010c2294adc?w=600&h=400&fit=crop" alt="Aqua Voice"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Aqua Voiceマスター編</h3><p class="article-excerpt">STEP 10: 総まとめ</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/n8n/n8n-basics.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?w=600&h=400&fit=crop" alt="n8n"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">n8n入門</h3><p class="article-excerpt">STEP 01: 入門</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/n8n/n8n-setup.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?w=600&h=400&fit=crop" alt="n8n"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">n8n初期設定</h3><p class="article-excerpt">STEP 02: 設定</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/n8n/n8n-nodes.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?w=600&h=400&fit=crop" alt="n8n"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">n8nノードの基本</h3><p class="article-excerpt">STEP 03: ノード</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/n8n/n8n-first-workflow.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?w=600&h=400&fit=crop" alt="n8n"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">n8nで最初の自動化</h3><p class="article-excerpt">STEP 04: 初級</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/n8n/n8n-data-processing.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?w=600&h=400&fit=crop" alt="n8n"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">n8nでデータ処理</h3><p class="article-excerpt">STEP 05: データ</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/n8n/n8n-ai-integration.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?w=600&h=400&fit=crop" alt="n8n"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">n8n×AI連携</h3><p class="article-excerpt">STEP 06: AI</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/n8n/n8n-practical-examples.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?w=600&h=400&fit=crop" alt="n8n"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">n8n実践例</h3><p class="article-excerpt">STEP 07: 中級</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/n8n/n8n-error-handling.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?w=600&h=400&fit=crop" alt="n8n"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">n8nエラーハンドリング</h3><p class="article-excerpt">STEP 08: エラー</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/n8n/n8n-operations.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?w=600&h=400&fit=crop" alt="n8n"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">n8n運用管理</h3><p class="article-excerpt">STEP 09: 運用</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/n8n/n8n-master.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?w=600&h=400&fit=crop" alt="n8n"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">n8nマスター編</h3><p class="article-excerpt">STEP 10: 総まとめ</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/grok/grok-basics.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=600&h=400&fit=crop" alt="Grok"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Grok入門</h3><p class="article-excerpt">STEP 01: 入門</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/grok/grok-setup.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=600&h=400&fit=crop" alt="Grok"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Grok初期設定</h3><p class="article-excerpt">STEP 02: 設定</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/grok/grok-conversation.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=600&h=400&fit=crop" alt="Grok"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Grokとの対話のコツ</h3><p class="article-excerpt">STEP 03: 対話</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/grok/grok-realtime.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=600&h=400&fit=crop" alt="Grok"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Grokでリアルタイム情報を取得</h3><p class="article-excerpt">STEP 04: リアルタイム</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/grok/grok-search.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=600&h=400&fit=crop" alt="Grok"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Grokで検索・調査</h3><p class="article-excerpt">STEP 05: 検索</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/grok/grok-writing.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=600&h=400&fit=crop" alt="Grok"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Grokで文章作成</h3><p class="article-excerpt">STEP 06: 文章</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/grok/grok-analysis.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=600&h=400&fit=crop" alt="Grok"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Grokでデータ分析</h3><p class="article-excerpt">STEP 07: 分析</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/grok/grok-comparison.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=600&h=400&fit=crop" alt="Grok"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Grokと他AIの使い分け</h3><p class="article-excerpt">STEP 08: 比較</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/grok/grok-business.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=600&h=400&fit=crop" alt="Grok"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Grokビジネス活用</h3><p class="article-excerpt">STEP 09: 活用</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/grok/grok-master.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=600&h=400&fit=crop" alt="Grok"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Grokマスター編</h3><p class="article-excerpt">STEP 10: 総まとめ</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/canva/canva-basics.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?w=600&h=400&fit=crop" alt="Canva"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Canva入門</h3><p class="article-excerpt">STEP 01: 入門</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/canva/canva-setup.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?w=600&h=400&fit=crop" alt="Canva"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Canva初期設定</h3><p class="article-excerpt">STEP 02: 設定</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/canva/canva-templates.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?w=600&h=400&fit=crop" alt="Canva"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Canvaテンプレート活用</h3><p class="article-excerpt">STEP 03: テンプレ</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/canva/canva-editing.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?w=600&h=400&fit=crop" alt="Canva"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Canva基本編集</h3><p class="article-excerpt">STEP 04: 編集</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/canva/canva-ai-features.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?w=600&h=400&fit=crop" alt="Canva"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Canva AI機能活用</h3><p class="article-excerpt">STEP 05: AI機能</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/canva/canva-social.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?w=600&h=400&fit=crop" alt="Canva"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">CanvaでSNS投稿を作成</h3><p class="article-excerpt">STEP 06: SNS</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/canva/canva-presentation.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?w=600&h=400&fit=crop" alt="Canva"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Canvaでプレゼン資料作成</h3><p class="article-excerpt">STEP 07: プレゼン</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/canva/canva-video.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?w=600&h=400&fit=crop" alt="Canva"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Canvaで動画編集</h3><p class="article-excerpt">STEP 08: 動画</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/canva/canva-teams.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?w=600&h=400&fit=crop" alt="Canva"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Canva Teams活用</h3><p class="article-excerpt">STEP 09: チーム</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/canva/canva-master.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?w=600&h=400&fit=crop" alt="Canva"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Canvaマスター編</h3><p class="article-excerpt">STEP 10: 総まとめ</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/manus/manus-basics.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop" alt="Manus AI"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Manus AI入門</h3><p class="article-excerpt">STEP 01: 入門</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/manus/manus-setup.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop" alt="Manus AI"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Manus AI初期設定</h3><p class="article-excerpt">STEP 02: 設定</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/manus/manus-tasks.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop" alt="Manus AI"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Manus AIでタスクを依頼する</h3><p class="article-excerpt">STEP 03: タスク</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/manus/manus-research.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop" alt="Manus AI"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Manus AIでリサーチを自動化</h3><p class="article-excerpt">STEP 04: リサーチ</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/manus/manus-document.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop" alt="Manus AI"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Manus AIで文書作成</h3><p class="article-excerpt">STEP 05: 文書作成</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/manus/manus-data.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop" alt="Manus AI"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Manus AIでデータ処理</h3><p class="article-excerpt">STEP 06: データ</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/manus/manus-workflow.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop" alt="Manus AI"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Manus AIで複雑なワークフローを組む</h3><p class="article-excerpt">STEP 07: ワークフロー</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/manus/manus-integration.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop" alt="Manus AI"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Manus AI×他ツール連携</h3><p class="article-excerpt">STEP 08: 連携</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/manus/manus-business.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop" alt="Manus AI"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Manus AIビジネス活用</h3><p class="article-excerpt">STEP 09: ビジネス</p></div></a></article>
+                    <article class="article-card"><a href="../../blog/ai/manus/manus-master.html"><div class="article-image"><img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop" alt="Manus AI"></div><div class="article-content"><p class="article-date">2026.01.01</p><h3 class="article-title">Manus AIマスター編</h3><p class="article-excerpt">STEP 10: 総まとめ</p></div></a></article>
+                </div>
+            </div>
+
+            <div class="tab-panel" id="tab-learning" role="tabpanel">
+                <div class="series" id="learning-series">
+                    <div class="series-tools" role="tablist" aria-label="学習シリーズ（ツール別）">
+                        <button class="series-tool-btn active" type="button" role="tab" aria-selected="true" data-tool="chatgpt">ChatGPT</button>
+                        <button class="series-tool-btn" type="button" role="tab" aria-selected="false" data-tool="claude">Claude</button>
+                        <button class="series-tool-btn" type="button" role="tab" aria-selected="false" data-tool="gemini">Gemini</button>
+                        <button class="series-tool-btn" type="button" role="tab" aria-selected="false" data-tool="cursor">Cursor</button>
+                        <button class="series-tool-btn" type="button" role="tab" aria-selected="false" data-tool="notebooklm">NotebookLM</button>
+                        <button class="series-tool-btn" type="button" role="tab" aria-selected="false" data-tool="perplexity">Perplexity</button>
+                        <button class="series-tool-btn" type="button" role="tab" aria-selected="false" data-tool="obsidian">Obsidian</button>
+                        <button class="series-tool-btn" type="button" role="tab" aria-selected="false" data-tool="superwhisper">Superwhisper</button>
+                        <button class="series-tool-btn" type="button" role="tab" aria-selected="false" data-tool="aquavoice">Aqua Voice</button>
+                        <button class="series-tool-btn" type="button" role="tab" aria-selected="false" data-tool="n8n">n8n</button>
+                        <button class="series-tool-btn" type="button" role="tab" aria-selected="false" data-tool="grok">Grok</button>
+                        <button class="series-tool-btn" type="button" role="tab" aria-selected="false" data-tool="canva">Canva</button>
+                        <button class="series-tool-btn" type="button" role="tab" aria-selected="false" data-tool="manus">Manus AI</button>
+                    </div>
+
+                    <div class="series-layout">
+                        <div class="series-steps" aria-label="工程一覧">
+                            <button class="series-step active" type="button" data-tool="chatgpt" data-index="0" data-kicker="STEP 01 / 入門" data-title="ChatGPT業務活用の始め方（安全ルールと最短の型）" data-desc="業務で安全に使うための最低限ルールと、最短で成果が出る"型"を作ります。" data-href="../../blog/ai/chatgpt/chatgpt-basics.html">
+                                <div class="series-step-meta"><span class="series-step-badge">入門</span><span class="series-step-label">STEP 01</span></div>
+                                <div class="series-step-title">ChatGPT業務活用の始め方</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="chatgpt" data-index="1" data-kicker="STEP 02 / プロンプト" data-title="ChatGPTプロンプト術（精度を上げる5つの型）" data-desc="曖昧な指示を具体化し、出力品質を安定させるプロンプトの型を学びます。" data-href="../../blog/ai/chatgpt/chatgpt-prompts-practical.html">
+                                <div class="series-step-meta"><span class="series-step-badge">プロンプト</span><span class="series-step-label">STEP 02</span></div>
+                                <div class="series-step-title">ChatGPTプロンプト術</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="chatgpt" data-index="2" data-kicker="STEP 03 / 業務フロー" data-title="ChatGPTで業務フローを効率化（メール・議事録・企画）" data-desc="メール・議事録・企画書など、定型業務をChatGPTで高速化します。" data-href="../../blog/ai/chatgpt/chatgpt-workflows-business.html">
+                                <div class="series-step-meta"><span class="series-step-badge">業務フロー</span><span class="series-step-label">STEP 03</span></div>
+                                <div class="series-step-title">ChatGPTで業務フローを効率化</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="chatgpt" data-index="3" data-kicker="STEP 04 / 自動化" data-title="スプレッドシート×ChatGPTで業務を自動化する" data-desc="関数・GASを絡めて、定型業務を"仕組み"として自動化します。" data-href="../../blog/ai/chatgpt/chatgpt-excel-gas.html">
+                                <div class="series-step-meta"><span class="series-step-badge">自動化</span><span class="series-step-label">STEP 04</span></div>
+                                <div class="series-step-title">スプレッドシート×ChatGPTで業務を</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="chatgpt" data-index="4" data-kicker="STEP 05 / データ分析" data-title="ChatGPTでデータ分析（CSV読み込み・集計・可視化）" data-desc="CSVデータをアップロードして、集計・グラフ化・傾向分析を行います。" data-href="../../blog/ai/chatgpt/chatgpt-data-analysis.html">
+                                <div class="series-step-meta"><span class="series-step-badge">データ分析</span><span class="series-step-label">STEP 05</span></div>
+                                <div class="series-step-title">ChatGPTでデータ分析</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="chatgpt" data-index="5" data-kicker="STEP 06 / 文章校正" data-title="ChatGPTで文章校正・リライト（品質を上げる実践テクニック）" data-desc="文章の誤字脱字・読みやすさ・トーン統一をAIで効率化します。" data-href="../../blog/ai/chatgpt/chatgpt-writing-review.html">
+                                <div class="series-step-meta"><span class="series-step-badge">文章校正</span><span class="series-step-label">STEP 06</span></div>
+                                <div class="series-step-title">ChatGPTで文章校正・リライト</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="chatgpt" data-index="6" data-kicker="STEP 07 / API連携" data-title="ChatGPT API入門（外部サービス連携の第一歩）" data-desc="APIを使って自社システムやSlackと連携する基本を学びます。" data-href="../../blog/ai/chatgpt/chatgpt-api-basics.html">
+                                <div class="series-step-meta"><span class="series-step-badge">API連携</span><span class="series-step-label">STEP 07</span></div>
+                                <div class="series-step-title">ChatGPT API入門</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="chatgpt" data-index="7" data-kicker="STEP 08 / GPTs" data-title="GPTs（カスタムGPT）で専用AIを作る" data-desc="業務に特化したGPTsを作成し、チームで共有する方法を学びます。" data-href="../../blog/ai/chatgpt/chatgpt-gpts-custom.html">
+                                <div class="series-step-meta"><span class="series-step-badge">GPTs</span><span class="series-step-label">STEP 08</span></div>
+                                <div class="series-step-title">GPTs</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="chatgpt" data-index="8" data-kicker="STEP 09 / チーム運用" data-title="ChatGPTチーム運用（ルール設計と定着の仕組み）" data-desc="チームでChatGPTを使うためのルール・ガイドライン・教育の仕組みを作ります。" data-href="../../blog/ai/chatgpt/chatgpt-team-operations.html">
+                                <div class="series-step-meta"><span class="series-step-badge">チーム運用</span><span class="series-step-label">STEP 09</span></div>
+                                <div class="series-step-title">ChatGPTチーム運用</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="chatgpt" data-index="9" data-kicker="STEP 10 / 総まとめ" data-title="ChatGPTマスター編（10ステップ総復習と発展的活用）" data-desc="全ステップの振り返りと、さらなる活用に向けたロードマップです。" data-href="../../blog/ai/chatgpt/chatgpt-master.html">
+                                <div class="series-step-meta"><span class="series-step-badge">総まとめ</span><span class="series-step-label">STEP 10</span></div>
+                                <div class="series-step-title">ChatGPTマスター編</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="claude" data-index="0" data-kicker="STEP 01 / 入門" data-title="Claudeの使い分け入門（長文に強い理由と安全な運用）" data-desc="Claudeの強み（長文/安全運用）を押さえて、使いどころを整理します。" data-href="../../blog/ai/claude/claude-basics.html">
+                                <div class="series-step-meta"><span class="series-step-badge">入門</span><span class="series-step-label">STEP 01</span></div>
+                                <div class="series-step-title">Claudeの使い分け入門</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="claude" data-index="1" data-kicker="STEP 02 / 長文" data-title="Claudeで長文を破綻させない（分割→統合の手順）" data-desc="長文作成を"分割→統合"で安定させる、実務向けの手順です。" data-href="../../blog/ai/claude/claude-longform-writing.html">
+                                <div class="series-step-meta"><span class="series-step-badge">長文</span><span class="series-step-label">STEP 02</span></div>
+                                <div class="series-step-title">Claudeで長文を破綻させない</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="claude" data-index="2" data-kicker="STEP 03 / テンプレ" data-title="Artifacts活用：成果物をテンプレ化して再利用する" data-desc="成果物をテンプレとして再利用し、品質とスピードを両立します。" data-href="../../blog/ai/claude/claude-artifacts.html">
+                                <div class="series-step-meta"><span class="series-step-badge">テンプレ</span><span class="series-step-label">STEP 03</span></div>
+                                <div class="series-step-title">Artifacts活用：成果物をテンプレ</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="claude" data-index="3" data-kicker="STEP 04 / 文章校正" data-title="Claudeで文章校正・推敲（論理チェックと改善提案）" data-desc="論理の飛躍・冗長表現・トーンのズレをClaudeで検出・改善します。" data-href="../../blog/ai/claude/claude-writing-review.html">
+                                <div class="series-step-meta"><span class="series-step-badge">文章校正</span><span class="series-step-label">STEP 04</span></div>
+                                <div class="series-step-title">Claudeで文章校正・推敲</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="claude" data-index="4" data-kicker="STEP 05 / 資料作成" data-title="Claudeで資料作成（構成から本文まで一気に仕上げる）" data-desc="構成案→見出し→本文と段階的に資料を仕上げる手順です。" data-href="../../blog/ai/claude/claude-document-creation.html">
+                                <div class="series-step-meta"><span class="series-step-badge">資料作成</span><span class="series-step-label">STEP 05</span></div>
+                                <div class="series-step-title">Claudeで資料作成</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="claude" data-index="5" data-kicker="STEP 06 / コード" data-title="Claudeでコード生成・レビュー（非エンジニア向け）" data-desc="コード生成とレビューをClaudeに任せ、非エンジニアでも改善を回します。" data-href="../../blog/ai/claude/claude-code-review.html">
+                                <div class="series-step-meta"><span class="series-step-badge">コード</span><span class="series-step-label">STEP 06</span></div>
+                                <div class="series-step-title">Claudeでコード生成・レビュー</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="claude" data-index="6" data-kicker="STEP 07 / 分析" data-title="Claudeで長文分析（契約書・論文・報告書の読解）" data-desc="長文資料のポイント抽出・比較・要約を効率化します。" data-href="../../blog/ai/claude/claude-document-analysis.html">
+                                <div class="series-step-meta"><span class="series-step-badge">分析</span><span class="series-step-label">STEP 07</span></div>
+                                <div class="series-step-title">Claudeで長文分析</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="claude" data-index="7" data-kicker="STEP 08 / API" data-title="Claude API入門（外部連携とバッチ処理の基本）" data-desc="APIを使った外部連携と、大量処理の基本を学びます。" data-href="../../blog/ai/claude/claude-api-basics.html">
+                                <div class="series-step-meta"><span class="series-step-badge">API</span><span class="series-step-label">STEP 08</span></div>
+                                <div class="series-step-title">Claude API入門</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="claude" data-index="8" data-kicker="STEP 09 / チーム" data-title="Claudeチーム運用（セキュリティと品質管理）" data-desc="チームで安全に使うためのルールと品質チェックの仕組みです。" data-href="../../blog/ai/claude/claude-team-operations.html">
+                                <div class="series-step-meta"><span class="series-step-badge">チーム</span><span class="series-step-label">STEP 09</span></div>
+                                <div class="series-step-title">Claudeチーム運用</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="claude" data-index="9" data-kicker="STEP 10 / 総まとめ" data-title="Claudeマスター編（10ステップ総復習と発展的活用）" data-desc="全ステップの振り返りと、さらなる活用に向けたロードマップです。" data-href="../../blog/ai/claude/claude-master.html">
+                                <div class="series-step-meta"><span class="series-step-badge">総まとめ</span><span class="series-step-label">STEP 10</span></div>
+                                <div class="series-step-title">Claudeマスター編</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="gemini" data-index="0" data-kicker="STEP 01 / 入門" data-title="Google Gemini入門（できること・安全運用・業務の型）" data-desc="Geminiの基本と安全運用、業務で使う"型"を最短で整理します。" data-href="../../blog/ai/gemini/gemini-basics.html">
+                                <div class="series-step-meta"><span class="series-step-badge">入門</span><span class="series-step-label">STEP 01</span></div>
+                                <div class="series-step-title">Google Gemini入門</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="gemini" data-index="1" data-kicker="STEP 02 / Workspace" data-title="Gemini×Google Workspace活用（Gmail/Docs/Sheets）" data-desc="日々のGmail/Docs/Sheetsで即効く使い方を、実務例で学びます。" data-href="../../blog/ai/gemini/gemini-workspace.html">
+                                <div class="series-step-meta"><span class="series-step-badge">Workspace</span><span class="series-step-label">STEP 02</span></div>
+                                <div class="series-step-title">Gemini×Google Workspace活用</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="gemini" data-index="2" data-kicker="STEP 03 / AI Studio" data-title="Google AI Studio入門（プロンプト設計と検証）" data-desc="プロンプト設計→テスト→改善で、再現性のある運用に近づけます。" data-href="../../blog/ai/gemini/google-ai-studio.html">
+                                <div class="series-step-meta"><span class="series-step-badge">AI Studio</span><span class="series-step-label">STEP 03</span></div>
+                                <div class="series-step-title">Google AI Studio入門</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="gemini" data-index="3" data-kicker="STEP 04 / 自動化" data-title="Gemini×Googleフォーム/スプレッドシートで自動化" data-desc="フォーム→シート→通知など、業務の流れを自動化する設計の考え方を学びます。" data-href="../../blog/ai/gemini/google-ai-automation.html">
+                                <div class="series-step-meta"><span class="series-step-badge">自動化</span><span class="series-step-label">STEP 04</span></div>
+                                <div class="series-step-title">Gemini×Googleフォーム/スプ</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="gemini" data-index="4" data-kicker="STEP 05 / 検索" data-title="Geminiで検索を効率化（複雑な調査を一発で）" data-desc="複数条件の調査、比較表作成、情報整理をGeminiで高速化します。" data-href="../../blog/ai/gemini/gemini-search-efficiency.html">
+                                <div class="series-step-meta"><span class="series-step-badge">検索</span><span class="series-step-label">STEP 05</span></div>
+                                <div class="series-step-title">Geminiで検索を効率化</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="gemini" data-index="5" data-kicker="STEP 06 / 画像" data-title="Geminiで画像生成・編集（Imagen活用術）" data-desc="画像生成・編集機能を使ったビジュアルコンテンツ作成を学びます。" data-href="../../blog/ai/gemini/gemini-image-creation.html">
+                                <div class="series-step-meta"><span class="series-step-badge">画像</span><span class="series-step-label">STEP 06</span></div>
+                                <div class="series-step-title">Geminiで画像生成・編集</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="gemini" data-index="6" data-kicker="STEP 07 / YouTube" data-title="Gemini×YouTube要約（動画内容を5分で把握）" data-desc="長時間動画の要点抽出・タイムスタンプ付き要約を作成します。" data-href="../../blog/ai/gemini/gemini-youtube-summary.html">
+                                <div class="series-step-meta"><span class="series-step-badge">YouTube</span><span class="series-step-label">STEP 07</span></div>
+                                <div class="series-step-title">Gemini×YouTube要約</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="gemini" data-index="7" data-kicker="STEP 08 / 拡張機能" data-title="Gemini拡張機能フル活用（Flights/Hotels/Maps連携）" data-desc="旅行計画・店舗検索など、拡張機能を使った実用例を学びます。" data-href="../../blog/ai/gemini/gemini-extensions.html">
+                                <div class="series-step-meta"><span class="series-step-badge">拡張機能</span><span class="series-step-label">STEP 08</span></div>
+                                <div class="series-step-title">Gemini拡張機能フル活用</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="gemini" data-index="8" data-kicker="STEP 09 / チーム" data-title="Geminiチーム運用（Workspaceとの統合管理）" data-desc="組織でのWorkspace連携と、管理者向けの設定を整理します。" data-href="../../blog/ai/gemini/gemini-team-operations.html">
+                                <div class="series-step-meta"><span class="series-step-badge">チーム</span><span class="series-step-label">STEP 09</span></div>
+                                <div class="series-step-title">Geminiチーム運用</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="gemini" data-index="9" data-kicker="STEP 10 / 総まとめ" data-title="Geminiマスター編（10ステップ総復習と発展的活用）" data-desc="全ステップの振り返りと、さらなる活用に向けたロードマップです。" data-href="../../blog/ai/gemini/gemini-master.html">
+                                <div class="series-step-meta"><span class="series-step-badge">総まとめ</span><span class="series-step-label">STEP 10</span></div>
+                                <div class="series-step-title">Geminiマスター編</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="cursor" data-index="0" data-kicker="STEP 01 / 入門" data-title="Cursor導入ガイド（初期設定と安全な進め方）" data-desc="AIエディタCursorを安全に導入し、最短で使い始めるための手順です。" data-href="../../blog/ai/cursor/cursor-setup.html">
+                                <div class="series-step-meta"><span class="series-step-badge">入門</span><span class="series-step-label">STEP 01</span></div>
+                                <div class="series-step-title">Cursor導入ガイド</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="cursor" data-index="1" data-kicker="STEP 02 / 実務" data-title="非エンジニアのためのCursor活用（安全な改善の回し方）" data-desc="壊さず改善するための"進め方"にフォーカスし、非エンジニアでも回せる形にします。" data-href="../../blog/ai/cursor/cursor-for-non-engineers.html">
+                                <div class="series-step-meta"><span class="series-step-badge">実務</span><span class="series-step-label">STEP 02</span></div>
+                                <div class="series-step-title">非エンジニアのためのCursor活用</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="cursor" data-index="2" data-kicker="STEP 03 / Tips" data-title="Cursor実践Tips（品質を落とさず速度を上げる）" data-desc="プロンプト・差分レビュー・小さく確実に進めるコツをまとめます。" data-href="../../blog/ai/cursor/cursor-productivity-tips.html">
+                                <div class="series-step-meta"><span class="series-step-badge">Tips</span><span class="series-step-label">STEP 03</span></div>
+                                <div class="series-step-title">Cursor実践Tips</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="cursor" data-index="3" data-kicker="STEP 04 / Composer" data-title="Cursor Composer活用（複数ファイル編集を安全に）" data-desc="Composerで複数ファイルを一括編集する際の安全な進め方です。" data-href="../../blog/ai/cursor/cursor-composer.html">
+                                <div class="series-step-meta"><span class="series-step-badge">Composer</span><span class="series-step-label">STEP 04</span></div>
+                                <div class="series-step-title">Cursor Composer活用</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="cursor" data-index="4" data-kicker="STEP 05 / デバッグ" data-title="Cursorでデバッグ（エラー解決を高速化）" data-desc="エラーメッセージの読み方から、AIに聞く際のコツまでを学びます。" data-href="../../blog/ai/cursor/cursor-debugging.html">
+                                <div class="series-step-meta"><span class="series-step-badge">デバッグ</span><span class="series-step-label">STEP 05</span></div>
+                                <div class="series-step-title">Cursorでデバッグ</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="cursor" data-index="5" data-kicker="STEP 06 / ルール" data-title="Cursor Rules設定（プロジェクト固有の指示を自動化）" data-desc=".cursorrules でプロジェクト固有の指示を自動適用する方法です。" data-href="../../blog/ai/cursor/cursor-rules.html">
+                                <div class="series-step-meta"><span class="series-step-badge">ルール</span><span class="series-step-label">STEP 06</span></div>
+                                <div class="series-step-title">Cursor Rules設定</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="cursor" data-index="6" data-kicker="STEP 07 / Git" data-title="Cursor×Git連携（差分管理とレビューのコツ）" data-desc="Git差分を活用した安全なレビュー・ロールバックの手順です。" data-href="../../blog/ai/cursor/cursor-git-workflow.html">
+                                <div class="series-step-meta"><span class="series-step-badge">Git</span><span class="series-step-label">STEP 07</span></div>
+                                <div class="series-step-title">Cursor×Git連携</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="cursor" data-index="7" data-kicker="STEP 08 / 拡張" data-title="Cursor拡張機能・MCP連携（外部ツールと繋ぐ）" data-desc="MCP（Model Context Protocol）や拡張機能でCursorを強化します。" data-href="../../blog/ai/cursor/cursor-extensions-mcp.html">
+                                <div class="series-step-meta"><span class="series-step-badge">拡張</span><span class="series-step-label">STEP 08</span></div>
+                                <div class="series-step-title">Cursor拡張機能・MCP連携</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="cursor" data-index="8" data-kicker="STEP 09 / チーム" data-title="Cursorチーム運用（コードレビューと品質管理）" data-desc="チームでの運用ルール・レビュー手順・教育の仕組みを作ります。" data-href="../../blog/ai/cursor/cursor-team-operations.html">
+                                <div class="series-step-meta"><span class="series-step-badge">チーム</span><span class="series-step-label">STEP 09</span></div>
+                                <div class="series-step-title">Cursorチーム運用</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="cursor" data-index="9" data-kicker="STEP 10 / 総まとめ" data-title="Cursorマスター編（10ステップ総復習と発展的活用）" data-desc="全ステップの振り返りと、さらなる活用に向けたロードマップです。" data-href="../../blog/ai/cursor/cursor-master.html">
+                                <div class="series-step-meta"><span class="series-step-badge">総まとめ</span><span class="series-step-label">STEP 10</span></div>
+                                <div class="series-step-title">Cursorマスター編</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="notebooklm" data-index="0" data-kicker="STEP 01 / 入門" data-title="NotebookLM完全ガイド - AIがあなたの資料を読み解く" data-desc="まずはNotebookLMの基本と、資料読解の全体像を掴みます。" data-href="../../blog/ai/notebooklm/notebook-lm.html">
+                                <div class="series-step-meta"><span class="series-step-badge">入門</span><span class="series-step-label">STEP 01</span></div>
+                                <div class="series-step-title">NotebookLM完全ガイド - AI</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="notebooklm" data-index="1" data-kicker="STEP 02 / 実務" data-title="NotebookLMで資料読解を高速化（論点抽出とQ&A）" data-desc="論点抽出→質問→要約の回し方で、読む時間を一気に短縮します。" data-href="../../blog/ai/notebooklm/notebooklm-workflows.html">
+                                <div class="series-step-meta"><span class="series-step-badge">実務</span><span class="series-step-label">STEP 02</span></div>
+                                <div class="series-step-title">NotebookLMで資料読解を高速化</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="notebooklm" data-index="2" data-kicker="STEP 03 / 比較" data-title="NotebookLMで複数資料を比較分析" data-desc="複数のPDF/ドキュメントを横断して比較・分析する手順です。" data-href="../../blog/ai/notebooklm/notebooklm-compare.html">
+                                <div class="series-step-meta"><span class="series-step-badge">比較</span><span class="series-step-label">STEP 03</span></div>
+                                <div class="series-step-title">NotebookLMで複数資料を比較分析</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="notebooklm" data-index="3" data-kicker="STEP 04 / 要約" data-title="NotebookLMでレポート・論文を要約" data-desc="学術論文やレポートの要点を短時間で把握するコツです。" data-href="../../blog/ai/notebooklm/notebooklm-academic.html">
+                                <div class="series-step-meta"><span class="series-step-badge">要約</span><span class="series-step-label">STEP 04</span></div>
+                                <div class="series-step-title">NotebookLMでレポート・論文を要</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="notebooklm" data-index="4" data-kicker="STEP 05 / 会議" data-title="NotebookLM×会議資料（議事録・決定事項の整理）" data-desc="会議資料から論点・決定事項・ToDoを自動抽出します。" data-href="../../blog/ai/notebooklm/notebooklm-meeting.html">
+                                <div class="series-step-meta"><span class="series-step-badge">会議</span><span class="series-step-label">STEP 05</span></div>
+                                <div class="series-step-title">NotebookLM×会議資料</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="notebooklm" data-index="5" data-kicker="STEP 06 / Audio" data-title="NotebookLM Audio Overview活用" data-desc="資料サマリーを音声で聴ける機能の活用法を学びます。" data-href="../../blog/ai/notebooklm/notebooklm-audio.html">
+                                <div class="series-step-meta"><span class="series-step-badge">Audio</span><span class="series-step-label">STEP 06</span></div>
+                                <div class="series-step-title">NotebookLM Audio Ove</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="notebooklm" data-index="6" data-kicker="STEP 07 / FAQ" data-title="NotebookLMでFAQ作成（資料からQ&Aを自動生成）" data-desc="資料をソースにしたFAQの自動生成手順です。" data-href="../../blog/ai/notebooklm/notebooklm-faq.html">
+                                <div class="series-step-meta"><span class="series-step-badge">FAQ</span><span class="series-step-label">STEP 07</span></div>
+                                <div class="series-step-title">NotebookLMでFAQ作成</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="notebooklm" data-index="7" data-kicker="STEP 08 / 連携" data-title="NotebookLM×他ツール連携（Drive/Docs/Slides）" data-desc="Google製品との連携で、資料管理を効率化します。" data-href="../../blog/ai/notebooklm/notebooklm-integration.html">
+                                <div class="series-step-meta"><span class="series-step-badge">連携</span><span class="series-step-label">STEP 08</span></div>
+                                <div class="series-step-title">NotebookLM×他ツール連携</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="notebooklm" data-index="8" data-kicker="STEP 09 / チーム" data-title="NotebookLMチーム運用（共有ノートブックの管理）" data-desc="チームで資料を共有・管理するためのルールを整理します。" data-href="../../blog/ai/notebooklm/notebooklm-team.html">
+                                <div class="series-step-meta"><span class="series-step-badge">チーム</span><span class="series-step-label">STEP 09</span></div>
+                                <div class="series-step-title">NotebookLMチーム運用</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="notebooklm" data-index="9" data-kicker="STEP 10 / 総まとめ" data-title="NotebookLMマスター編（10ステップ総復習）" data-desc="全ステップの振り返りと、さらなる活用に向けたロードマップです。" data-href="../../blog/ai/notebooklm/notebooklm-master.html">
+                                <div class="series-step-meta"><span class="series-step-badge">総まとめ</span><span class="series-step-label">STEP 10</span></div>
+                                <div class="series-step-title">NotebookLMマスター編</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="perplexity" data-index="0" data-kicker="STEP 01 / リサーチ" data-title="Perplexityで"根拠が追える"AIリサーチ" data-desc="出典を追いながら、比較・検証して結論を作るリサーチ手順です。" data-href="../../blog/ai/perplexity/perplexity-research.html">
+                                <div class="series-step-meta"><span class="series-step-badge">リサーチ</span><span class="series-step-label">STEP 01</span></div>
+                                <div class="series-step-title">Perplexityで"根拠が追える"A</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="perplexity" data-index="1" data-kicker="STEP 02 / 検索" data-title="Perplexity検索術（複雑な調査を一発で）" data-desc="複数条件の調査、絞り込み、深掘りのテクニックを学びます。" data-href="../../blog/ai/perplexity/perplexity-search.html">
+                                <div class="series-step-meta"><span class="series-step-badge">検索</span><span class="series-step-label">STEP 02</span></div>
+                                <div class="series-step-title">Perplexity検索術</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="perplexity" data-index="2" data-kicker="STEP 03 / 比較" data-title="Perplexityで競合調査・比較表作成" data-desc="競合サービス・製品の比較表を効率的に作成します。" data-href="../../blog/ai/perplexity/perplexity-comparison.html">
+                                <div class="series-step-meta"><span class="series-step-badge">比較</span><span class="series-step-label">STEP 03</span></div>
+                                <div class="series-step-title">Perplexityで競合調査・比較表作</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="perplexity" data-index="3" data-kicker="STEP 04 / 市場" data-title="Perplexityで市場調査（トレンド・統計データ）" data-desc="業界トレンド・市場規模・統計データを収集する手順です。" data-href="../../blog/ai/perplexity/perplexity-market-research.html">
+                                <div class="series-step-meta"><span class="series-step-badge">市場</span><span class="series-step-label">STEP 04</span></div>
+                                <div class="series-step-title">Perplexityで市場調査</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="perplexity" data-index="4" data-kicker="STEP 05 / 論文" data-title="Perplexityで論文・学術情報を調べる" data-desc="学術論文の検索・要約・引用情報の整理を行います。" data-href="../../blog/ai/perplexity/perplexity-academic.html">
+                                <div class="series-step-meta"><span class="series-step-badge">論文</span><span class="series-step-label">STEP 05</span></div>
+                                <div class="series-step-title">Perplexityで論文・学術情報を調</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="perplexity" data-index="5" data-kicker="STEP 06 / ニュース" data-title="Perplexityで最新ニュース・動向をキャッチアップ" data-desc="リアルタイムの情報収集と、定期的なモニタリングの仕組みです。" data-href="../../blog/ai/perplexity/perplexity-news.html">
+                                <div class="series-step-meta"><span class="series-step-badge">ニュース</span><span class="series-step-label">STEP 06</span></div>
+                                <div class="series-step-title">Perplexityで最新ニュース・動向</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="perplexity" data-index="6" data-kicker="STEP 07 / Pro" data-title="Perplexity Pro活用（Pro Searchと高度な検索）" data-desc="Pro機能を使った、より深い調査の方法を学びます。" data-href="../../blog/ai/perplexity/perplexity-pro.html">
+                                <div class="series-step-meta"><span class="series-step-badge">Pro</span><span class="series-step-label">STEP 07</span></div>
+                                <div class="series-step-title">Perplexity Pro活用</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="perplexity" data-index="7" data-kicker="STEP 08 / API" data-title="Perplexity API入門（自動リサーチの仕組み化）" data-desc="APIを使ってリサーチを自動化する基本を学びます。" data-href="../../blog/ai/perplexity/perplexity-api.html">
+                                <div class="series-step-meta"><span class="series-step-badge">API</span><span class="series-step-label">STEP 08</span></div>
+                                <div class="series-step-title">Perplexity API入門</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="perplexity" data-index="8" data-kicker="STEP 09 / チーム" data-title="Perplexityチーム運用（リサーチ結果の共有と管理）" data-desc="チームでのリサーチ共有・ナレッジ蓄積の仕組みです。" data-href="../../blog/ai/perplexity/perplexity-team.html">
+                                <div class="series-step-meta"><span class="series-step-badge">チーム</span><span class="series-step-label">STEP 09</span></div>
+                                <div class="series-step-title">Perplexityチーム運用</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="perplexity" data-index="9" data-kicker="STEP 10 / 総まとめ" data-title="Perplexityマスター編（10ステップ総復習）" data-desc="全ステップの振り返りと、さらなる活用に向けたロードマップです。" data-href="../../blog/ai/perplexity/perplexity-master.html">
+                                <div class="series-step-meta"><span class="series-step-badge">総まとめ</span><span class="series-step-label">STEP 10</span></div>
+                                <div class="series-step-title">Perplexityマスター編</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="obsidian" data-index="0" data-kicker="STEP 01 / 入門" data-title="Obsidian入門（知識管理とAI時代の学習の型）" data-desc="ノートの構造化・リンク・テンプレで、学びを"資産化"する基本の型を作ります。" data-href="../../blog/ai/obsidian/obsidian-basics.html">
+                                <div class="series-step-meta"><span class="series-step-badge">入門</span><span class="series-step-label">STEP 01</span></div>
+                                <div class="series-step-title">Obsidian入門</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="obsidian" data-index="1" data-kicker="STEP 02 / 設定" data-title="Obsidian初期設定（使いやすい環境を整える）" data-desc="プラグイン・テーマ・フォルダ構成で快適な環境を作ります。" data-href="../../blog/ai/obsidian/obsidian-setup.html">
+                                <div class="series-step-meta"><span class="series-step-badge">設定</span><span class="series-step-label">STEP 02</span></div>
+                                <div class="series-step-title">Obsidian初期設定</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="obsidian" data-index="2" data-kicker="STEP 03 / リンク" data-title="Obsidianでノートをリンク（ナレッジグラフ）" data-desc="ノート間のリンクで知識を繋ぎ、発見を促すグラフを構築します。" data-href="../../blog/ai/obsidian/obsidian-linking.html">
+                                <div class="series-step-meta"><span class="series-step-badge">リンク</span><span class="series-step-label">STEP 03</span></div>
+                                <div class="series-step-title">Obsidianでノートをリンク</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="obsidian" data-index="3" data-kicker="STEP 04 / テンプレ" data-title="Obsidianテンプレート活用（入力を効率化）" data-desc="定型的なノートをテンプレ化し、入力の手間を減らします。" data-href="../../blog/ai/obsidian/obsidian-templates.html">
+                                <div class="series-step-meta"><span class="series-step-badge">テンプレ</span><span class="series-step-label">STEP 04</span></div>
+                                <div class="series-step-title">Obsidianテンプレート活用</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="obsidian" data-index="4" data-kicker="STEP 05 / Daily" data-title="Obsidian Daily Notes活用（日記・ログの習慣化）" data-desc="日次ノートで思考・行動・学びをログに残す習慣を作ります。" data-href="../../blog/ai/obsidian/obsidian-daily-notes.html">
+                                <div class="series-step-meta"><span class="series-step-badge">Daily</span><span class="series-step-label">STEP 05</span></div>
+                                <div class="series-step-title">Obsidian Daily Notes活用</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="obsidian" data-index="5" data-kicker="STEP 06 / Dataview" data-title="Obsidian Dataviewで情報を可視化" data-desc="Dataviewプラグインで、ノートを動的に一覧・集計します。" data-href="../../blog/ai/obsidian/obsidian-dataview.html">
+                                <div class="series-step-meta"><span class="series-step-badge">Dataview</span><span class="series-step-label">STEP 06</span></div>
+                                <div class="series-step-title">Obsidian Dataviewで情報</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="obsidian" data-index="6" data-kicker="STEP 07 / AI" data-title="Obsidian×AI連携（Copilot/ChatGPTとの組み合わせ）" data-desc="AI連携プラグインで、ノート作成・要約・検索を強化します。" data-href="../../blog/ai/obsidian/obsidian-ai-integration.html">
+                                <div class="series-step-meta"><span class="series-step-badge">AI</span><span class="series-step-label">STEP 07</span></div>
+                                <div class="series-step-title">Obsidian×AI連携</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="obsidian" data-index="7" data-kicker="STEP 08 / タスク" data-title="Obsidianでタスク管理（Todosプラグイン活用）" data-desc="タスク管理機能で、ノートとToDoを一元管理します。" data-href="../../blog/ai/obsidian/obsidian-tasks.html">
+                                <div class="series-step-meta"><span class="series-step-badge">タスク</span><span class="series-step-label">STEP 08</span></div>
+                                <div class="series-step-title">Obsidianでタスク管理</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="obsidian" data-index="8" data-kicker="STEP 09 / 同期" data-title="Obsidian同期・バックアップ（デバイス間の運用）" data-desc="Obsidian Sync/Git/iCloudでマルチデバイス運用を整えます。" data-href="../../blog/ai/obsidian/obsidian-sync.html">
+                                <div class="series-step-meta"><span class="series-step-badge">同期</span><span class="series-step-label">STEP 09</span></div>
+                                <div class="series-step-title">Obsidian同期・バックアップ</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="obsidian" data-index="9" data-kicker="STEP 10 / 総まとめ" data-title="Obsidianマスター編（10ステップ総復習）" data-desc="全ステップの振り返りと、さらなる活用に向けたロードマップです。" data-href="../../blog/ai/obsidian/obsidian-master.html">
+                                <div class="series-step-meta"><span class="series-step-badge">総まとめ</span><span class="series-step-label">STEP 10</span></div>
+                                <div class="series-step-title">Obsidianマスター編</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="superwhisper" data-index="0" data-kicker="STEP 01 / 入門" data-title="Superwhisper入門（音声入力で文章作成を高速化）" data-desc="音声入力でラフ案→整形→最終編集の分業を作り、アウトプット速度を上げます。" data-href="../../blog/ai/superwhisper/superwhisper-basics.html">
+                                <div class="series-step-meta"><span class="series-step-badge">入門</span><span class="series-step-label">STEP 01</span></div>
+                                <div class="series-step-title">Superwhisper入門</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="superwhisper" data-index="1" data-kicker="STEP 02 / 設定" data-title="Superwhisper初期設定（精度を上げる環境構築）" data-desc="マイク設定・言語設定・ショートカットで快適な環境を作ります。" data-href="../../blog/ai/superwhisper/superwhisper-setup.html">
+                                <div class="series-step-meta"><span class="series-step-badge">設定</span><span class="series-step-label">STEP 02</span></div>
+                                <div class="series-step-title">Superwhisper初期設定</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="superwhisper" data-index="2" data-kicker="STEP 03 / 入力" data-title="Superwhisperで効率的に話す（認識精度を上げるコツ）" data-desc="話し方・区切り・修正のコツで認識精度を最大化します。" data-href="../../blog/ai/superwhisper/superwhisper-speaking.html">
+                                <div class="series-step-meta"><span class="series-step-badge">入力</span><span class="series-step-label">STEP 03</span></div>
+                                <div class="series-step-title">Superwhisperで効率的に話す</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="superwhisper" data-index="3" data-kicker="STEP 04 / メモ" data-title="Superwhisper×メモアプリ連携" data-desc="音声入力からメモアプリへの流れを自動化します。" data-href="../../blog/ai/superwhisper/superwhisper-memo.html">
+                                <div class="series-step-meta"><span class="series-step-badge">メモ</span><span class="series-step-label">STEP 04</span></div>
+                                <div class="series-step-title">Superwhisper×メモアプリ連携</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="superwhisper" data-index="4" data-kicker="STEP 05 / 議事録" data-title="Superwhisperで議事録作成" data-desc="会議中の音声入力で、リアルタイムに議事録を作成します。" data-href="../../blog/ai/superwhisper/superwhisper-meeting.html">
+                                <div class="series-step-meta"><span class="series-step-badge">議事録</span><span class="series-step-label">STEP 05</span></div>
+                                <div class="series-step-title">Superwhisperで議事録作成</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="superwhisper" data-index="5" data-kicker="STEP 06 / メール" data-title="Superwhisperでメール下書き" data-desc="メールの返信・作成を音声入力で高速化します。" data-href="../../blog/ai/superwhisper/superwhisper-email.html">
+                                <div class="series-step-meta"><span class="series-step-badge">メール</span><span class="series-step-label">STEP 06</span></div>
+                                <div class="series-step-title">Superwhisperでメール下書き</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="superwhisper" data-index="6" data-kicker="STEP 07 / 執筆" data-title="Superwhisperで長文執筆" data-desc="長文コンテンツを音声入力で効率的に作成します。" data-href="../../blog/ai/superwhisper/superwhisper-writing.html">
+                                <div class="series-step-meta"><span class="series-step-badge">執筆</span><span class="series-step-label">STEP 07</span></div>
+                                <div class="series-step-title">Superwhisperで長文執筆</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="superwhisper" data-index="7" data-kicker="STEP 08 / AI連携" data-title="Superwhisper×AI連携（音声→AI→整形）" data-desc="音声入力した内容をAIで自動整形するワークフローです。" data-href="../../blog/ai/superwhisper/superwhisper-ai.html">
+                                <div class="series-step-meta"><span class="series-step-badge">AI連携</span><span class="series-step-label">STEP 08</span></div>
+                                <div class="series-step-title">Superwhisper×AI連携</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="superwhisper" data-index="8" data-kicker="STEP 09 / ショートカット" data-title="Superwhisper×Macショートカット連携" data-desc="Macのショートカット機能と連携した自動化を構築します。" data-href="../../blog/ai/superwhisper/superwhisper-shortcuts.html">
+                                <div class="series-step-meta"><span class="series-step-badge">ショートカット</span><span class="series-step-label">STEP 09</span></div>
+                                <div class="series-step-title">Superwhisper×Macショート</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="superwhisper" data-index="9" data-kicker="STEP 10 / 総まとめ" data-title="Superwhisperマスター編（10ステップ総復習）" data-desc="全ステップの振り返りと、さらなる活用に向けたロードマップです。" data-href="../../blog/ai/superwhisper/superwhisper-master.html">
+                                <div class="series-step-meta"><span class="series-step-badge">総まとめ</span><span class="series-step-label">STEP 10</span></div>
+                                <div class="series-step-title">Superwhisperマスター編</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="aquavoice" data-index="0" data-kicker="STEP 01 / 入門" data-title="Aqua Voice入門（音声でメモ・文章を作るワークフロー）" data-desc="メモ→整理→清書の運用手順を作り、音声入力を業務に定着させます。" data-href="../../blog/ai/aquavoice/aquavoice-basics.html">
+                                <div class="series-step-meta"><span class="series-step-badge">入門</span><span class="series-step-label">STEP 01</span></div>
+                                <div class="series-step-title">Aqua Voice入門</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="aquavoice" data-index="1" data-kicker="STEP 02 / 設定" data-title="Aqua Voice初期設定（最適な環境を整える）" data-desc="マイク・言語・出力先の設定で快適な環境を作ります。" data-href="../../blog/ai/aquavoice/aquavoice-setup.html">
+                                <div class="series-step-meta"><span class="series-step-badge">設定</span><span class="series-step-label">STEP 02</span></div>
+                                <div class="series-step-title">Aqua Voice初期設定</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="aquavoice" data-index="2" data-kicker="STEP 03 / 入力" data-title="Aqua Voiceで効率的に話す（認識精度を上げるコツ）" data-desc="話し方・ペース・修正のコツで認識精度を最大化します。" data-href="../../blog/ai/aquavoice/aquavoice-speaking.html">
+                                <div class="series-step-meta"><span class="series-step-badge">入力</span><span class="series-step-label">STEP 03</span></div>
+                                <div class="series-step-title">Aqua Voiceで効率的に話す</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="aquavoice" data-index="3" data-kicker="STEP 04 / リアルタイム" data-title="Aqua Voiceリアルタイム入力" data-desc="会議中のリアルタイム入力で、メモ・議事録を作成します。" data-href="../../blog/ai/aquavoice/aquavoice-realtime.html">
+                                <div class="series-step-meta"><span class="series-step-badge">リアルタイム</span><span class="series-step-label">STEP 04</span></div>
+                                <div class="series-step-title">Aqua Voiceリアルタイム入力</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="aquavoice" data-index="4" data-kicker="STEP 05 / メモ" data-title="Aqua Voice×メモアプリ連携（Notion/Obsidianへ）" data-desc="音声入力からメモアプリへの自動転送を設定します。" data-href="../../blog/ai/aquavoice/aquavoice-memo.html">
+                                <div class="series-step-meta"><span class="series-step-badge">メモ</span><span class="series-step-label">STEP 05</span></div>
+                                <div class="series-step-title">Aqua Voice×メモアプリ連携</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="aquavoice" data-index="5" data-kicker="STEP 06 / 議事録" data-title="Aqua Voiceで議事録作成" data-desc="会議の要点・決定事項・ToDoを漏れなく記録します。" data-href="../../blog/ai/aquavoice/aquavoice-meeting.html">
+                                <div class="series-step-meta"><span class="series-step-badge">議事録</span><span class="series-step-label">STEP 06</span></div>
+                                <div class="series-step-title">Aqua Voiceで議事録作成</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="aquavoice" data-index="6" data-kicker="STEP 07 / 執筆" data-title="Aqua Voiceで長文執筆" data-desc="構成を意識した話し方で、長文を効率的に作成します。" data-href="../../blog/ai/aquavoice/aquavoice-writing.html">
+                                <div class="series-step-meta"><span class="series-step-badge">執筆</span><span class="series-step-label">STEP 07</span></div>
+                                <div class="series-step-title">Aqua Voiceで長文執筆</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="aquavoice" data-index="7" data-kicker="STEP 08 / AI連携" data-title="Aqua Voice×AI連携（音声→AI整形）" data-desc="音声入力→AI整形→出力の自動化ワークフローです。" data-href="../../blog/ai/aquavoice/aquavoice-ai.html">
+                                <div class="series-step-meta"><span class="series-step-badge">AI連携</span><span class="series-step-label">STEP 08</span></div>
+                                <div class="series-step-title">Aqua Voice×AI連携</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="aquavoice" data-index="8" data-kicker="STEP 09 / チーム" data-title="Aqua Voiceチーム運用" data-desc="チームで音声入力を活用するためのルール・仕組みです。" data-href="../../blog/ai/aquavoice/aquavoice-team.html">
+                                <div class="series-step-meta"><span class="series-step-badge">チーム</span><span class="series-step-label">STEP 09</span></div>
+                                <div class="series-step-title">Aqua Voiceチーム運用</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="aquavoice" data-index="9" data-kicker="STEP 10 / 総まとめ" data-title="Aqua Voiceマスター編（10ステップ総復習）" data-desc="全ステップの振り返りと、さらなる活用に向けたロードマップです。" data-href="../../blog/ai/aquavoice/aquavoice-master.html">
+                                <div class="series-step-meta"><span class="series-step-badge">総まとめ</span><span class="series-step-label">STEP 10</span></div>
+                                <div class="series-step-title">Aqua Voiceマスター編</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="n8n" data-index="0" data-kicker="STEP 01 / 入門" data-title="n8n入門（ノーコード自動化の第一歩）" data-desc="ノーコード/ローコード自動化ツールn8nの基本と導入方法を学びます。" data-href="../../blog/ai/n8n/n8n-basics.html">
+                                <div class="series-step-meta"><span class="series-step-badge">入門</span><span class="series-step-label">STEP 01</span></div>
+                                <div class="series-step-title">n8n入門</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="n8n" data-index="1" data-kicker="STEP 02 / 設定" data-title="n8n初期設定（セルフホスト vs クラウドの選び方）" data-desc="セルフホスト・クラウド版の違いと、最適な環境構築方法です。" data-href="../../blog/ai/n8n/n8n-setup.html">
+                                <div class="series-step-meta"><span class="series-step-badge">設定</span><span class="series-step-label">STEP 02</span></div>
+                                <div class="series-step-title">n8n初期設定</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="n8n" data-index="2" data-kicker="STEP 03 / ノード" data-title="n8nノードの基本（トリガー・アクション・条件分岐）" data-desc="ワークフローを構成するノードの種類と使い方を学びます。" data-href="../../blog/ai/n8n/n8n-nodes.html">
+                                <div class="series-step-meta"><span class="series-step-badge">ノード</span><span class="series-step-label">STEP 03</span></div>
+                                <div class="series-step-title">n8nノードの基本</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="n8n" data-index="3" data-kicker="STEP 04 / 初級" data-title="n8nで最初の自動化（フォーム→通知を作る）" data-desc="フォーム送信→Slack/メール通知の簡単なワークフローを作ります。" data-href="../../blog/ai/n8n/n8n-first-workflow.html">
+                                <div class="series-step-meta"><span class="series-step-badge">初級</span><span class="series-step-label">STEP 04</span></div>
+                                <div class="series-step-title">n8nで最初の自動化</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="n8n" data-index="4" data-kicker="STEP 05 / データ" data-title="n8nでデータ処理（CSV/JSON/API連携）" data-desc="CSVやJSONデータを処理し、外部APIと連携する方法です。" data-href="../../blog/ai/n8n/n8n-data-processing.html">
+                                <div class="series-step-meta"><span class="series-step-badge">データ</span><span class="series-step-label">STEP 05</span></div>
+                                <div class="series-step-title">n8nでデータ処理</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="n8n" data-index="5" data-kicker="STEP 06 / AI" data-title="n8n×AI連携（ChatGPT/Claudeを組み込む）" data-desc="AIノードを使って、自動化フローにAI処理を組み込みます。" data-href="../../blog/ai/n8n/n8n-ai-integration.html">
+                                <div class="series-step-meta"><span class="series-step-badge">AI</span><span class="series-step-label">STEP 06</span></div>
+                                <div class="series-step-title">n8n×AI連携</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="n8n" data-index="6" data-kicker="STEP 07 / 中級" data-title="n8n実践例（定型業務の自動化5選）" data-desc="実務で使える自動化例を5つ紹介します。" data-href="../../blog/ai/n8n/n8n-practical-examples.html">
+                                <div class="series-step-meta"><span class="series-step-badge">中級</span><span class="series-step-label">STEP 07</span></div>
+                                <div class="series-step-title">n8n実践例</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="n8n" data-index="7" data-kicker="STEP 08 / エラー" data-title="n8nエラーハンドリング" data-desc="エラー発生時の対処・通知・リトライの設計を学びます。" data-href="../../blog/ai/n8n/n8n-error-handling.html">
+                                <div class="series-step-meta"><span class="series-step-badge">エラー</span><span class="series-step-label">STEP 08</span></div>
+                                <div class="series-step-title">n8nエラーハンドリング</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="n8n" data-index="8" data-kicker="STEP 09 / 運用" data-title="n8n運用管理（監視・バックアップ・セキュリティ）" data-desc="本番運用のための監視・バックアップ・セキュリティ設定です。" data-href="../../blog/ai/n8n/n8n-operations.html">
+                                <div class="series-step-meta"><span class="series-step-badge">運用</span><span class="series-step-label">STEP 09</span></div>
+                                <div class="series-step-title">n8n運用管理</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="n8n" data-index="9" data-kicker="STEP 10 / 総まとめ" data-title="n8nマスター編（10ステップ総復習）" data-desc="全ステップの振り返りと、さらなる活用に向けたロードマップです。" data-href="../../blog/ai/n8n/n8n-master.html">
+                                <div class="series-step-meta"><span class="series-step-badge">総まとめ</span><span class="series-step-label">STEP 10</span></div>
+                                <div class="series-step-title">n8nマスター編</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="grok" data-index="0" data-kicker="STEP 01 / 入門" data-title="Grok入門（xAIのチャットAIを始める）" data-desc="xAI製のGrokの特徴と、基本的な使い方を学びます。" data-href="../../blog/ai/grok/grok-basics.html">
+                                <div class="series-step-meta"><span class="series-step-badge">入門</span><span class="series-step-label">STEP 01</span></div>
+                                <div class="series-step-title">Grok入門</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="grok" data-index="1" data-kicker="STEP 02 / 設定" data-title="Grok初期設定（X連携とアクセス方法）" data-desc="Xアカウントとの連携と、Grokへのアクセス方法を整理します。" data-href="../../blog/ai/grok/grok-setup.html">
+                                <div class="series-step-meta"><span class="series-step-badge">設定</span><span class="series-step-label">STEP 02</span></div>
+                                <div class="series-step-title">Grok初期設定</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="grok" data-index="2" data-kicker="STEP 03 / 対話" data-title="Grokとの対話のコツ（ユーモアと情報収集）" data-desc="Grokの特徴を活かした対話のコツを学びます。" data-href="../../blog/ai/grok/grok-conversation.html">
+                                <div class="series-step-meta"><span class="series-step-badge">対話</span><span class="series-step-label">STEP 03</span></div>
+                                <div class="series-step-title">Grokとの対話のコツ</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="grok" data-index="3" data-kicker="STEP 04 / リアルタイム" data-title="Grokでリアルタイム情報を取得" data-desc="X連携を活かした最新情報の取得方法です。" data-href="../../blog/ai/grok/grok-realtime.html">
+                                <div class="series-step-meta"><span class="series-step-badge">リアルタイム</span><span class="series-step-label">STEP 04</span></div>
+                                <div class="series-step-title">Grokでリアルタイム情報を取得</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="grok" data-index="4" data-kicker="STEP 05 / 検索" data-title="Grokで検索・調査（情報の深掘り）" data-desc="検索・調査を効率化するプロンプトと手順です。" data-href="../../blog/ai/grok/grok-search.html">
+                                <div class="series-step-meta"><span class="series-step-badge">検索</span><span class="series-step-label">STEP 05</span></div>
+                                <div class="series-step-title">Grokで検索・調査</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="grok" data-index="5" data-kicker="STEP 06 / 文章" data-title="Grokで文章作成（クリエイティブな出力）" data-desc="文章作成・アイデア出しでの活用方法です。" data-href="../../blog/ai/grok/grok-writing.html">
+                                <div class="series-step-meta"><span class="series-step-badge">文章</span><span class="series-step-label">STEP 06</span></div>
+                                <div class="series-step-title">Grokで文章作成</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="grok" data-index="6" data-kicker="STEP 07 / 分析" data-title="Grokでデータ分析（画像・グラフの読み取り）" data-desc="画像認識・データ分析機能の活用方法です。" data-href="../../blog/ai/grok/grok-analysis.html">
+                                <div class="series-step-meta"><span class="series-step-badge">分析</span><span class="series-step-label">STEP 07</span></div>
+                                <div class="series-step-title">Grokでデータ分析</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="grok" data-index="7" data-kicker="STEP 08 / 比較" data-title="Grokと他AIの使い分け" data-desc="他のAIツールとの違いと、使い分けの指針です。" data-href="../../blog/ai/grok/grok-comparison.html">
+                                <div class="series-step-meta"><span class="series-step-badge">比較</span><span class="series-step-label">STEP 08</span></div>
+                                <div class="series-step-title">Grokと他AIの使い分け</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="grok" data-index="8" data-kicker="STEP 09 / 活用" data-title="Grokビジネス活用（実務での使いどころ）" data-desc="ビジネスシーンでの具体的な活用例です。" data-href="../../blog/ai/grok/grok-business.html">
+                                <div class="series-step-meta"><span class="series-step-badge">活用</span><span class="series-step-label">STEP 09</span></div>
+                                <div class="series-step-title">Grokビジネス活用</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="grok" data-index="9" data-kicker="STEP 10 / 総まとめ" data-title="Grokマスター編（10ステップ総復習）" data-desc="全ステップの振り返りと、さらなる活用に向けたロードマップです。" data-href="../../blog/ai/grok/grok-master.html">
+                                <div class="series-step-meta"><span class="series-step-badge">総まとめ</span><span class="series-step-label">STEP 10</span></div>
+                                <div class="series-step-title">Grokマスター編</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="canva" data-index="0" data-kicker="STEP 01 / 入門" data-title="Canva入門（AIデザインツールで始めるビジュアル作成）" data-desc="ノンデザイナーでもプロ品質のデザインが作れるCanvaの基本を学びます。" data-href="../../blog/ai/canva/canva-basics.html">
+                                <div class="series-step-meta"><span class="series-step-badge">入門</span><span class="series-step-label">STEP 01</span></div>
+                                <div class="series-step-title">Canva入門</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="canva" data-index="1" data-kicker="STEP 02 / 設定" data-title="Canva初期設定（ブランドキット・フォント・カラー）" data-desc="ブランドの統一感を保つための初期設定を行います。" data-href="../../blog/ai/canva/canva-setup.html">
+                                <div class="series-step-meta"><span class="series-step-badge">設定</span><span class="series-step-label">STEP 02</span></div>
+                                <div class="series-step-title">Canva初期設定</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="canva" data-index="2" data-kicker="STEP 03 / テンプレ" data-title="Canvaテンプレート活用（目的別の選び方）" data-desc="プレゼン・SNS・チラシなど、目的に合ったテンプレートの選び方です。" data-href="../../blog/ai/canva/canva-templates.html">
+                                <div class="series-step-meta"><span class="series-step-badge">テンプレ</span><span class="series-step-label">STEP 03</span></div>
+                                <div class="series-step-title">Canvaテンプレート活用</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="canva" data-index="3" data-kicker="STEP 04 / 編集" data-title="Canva基本編集（テキスト・画像・図形の配置）" data-desc="基本的な編集操作をマスターします。" data-href="../../blog/ai/canva/canva-editing.html">
+                                <div class="series-step-meta"><span class="series-step-badge">編集</span><span class="series-step-label">STEP 04</span></div>
+                                <div class="series-step-title">Canva基本編集</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="canva" data-index="4" data-kicker="STEP 05 / AI機能" data-title="Canva AI機能活用（Magic Write/Design/背景削除）" data-desc="AI機能を使った効率的なデザイン作成方法です。" data-href="../../blog/ai/canva/canva-ai-features.html">
+                                <div class="series-step-meta"><span class="series-step-badge">AI機能</span><span class="series-step-label">STEP 05</span></div>
+                                <div class="series-step-title">Canva AI機能活用</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="canva" data-index="5" data-kicker="STEP 06 / SNS" data-title="CanvaでSNS投稿を作成（Instagram/X/LinkedIn）" data-desc="SNS用の画像・動画を効率的に作成します。" data-href="../../blog/ai/canva/canva-social.html">
+                                <div class="series-step-meta"><span class="series-step-badge">SNS</span><span class="series-step-label">STEP 06</span></div>
+                                <div class="series-step-title">CanvaでSNS投稿を作成</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="canva" data-index="6" data-kicker="STEP 07 / プレゼン" data-title="Canvaでプレゼン資料作成" data-desc="インパクトのあるプレゼン資料を作成します。" data-href="../../blog/ai/canva/canva-presentation.html">
+                                <div class="series-step-meta"><span class="series-step-badge">プレゼン</span><span class="series-step-label">STEP 07</span></div>
+                                <div class="series-step-title">Canvaでプレゼン資料作成</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="canva" data-index="7" data-kicker="STEP 08 / 動画" data-title="Canvaで動画編集（ショート動画・リール作成）" data-desc="簡単な動画編集とショート動画の作成方法です。" data-href="../../blog/ai/canva/canva-video.html">
+                                <div class="series-step-meta"><span class="series-step-badge">動画</span><span class="series-step-label">STEP 08</span></div>
+                                <div class="series-step-title">Canvaで動画編集</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="canva" data-index="8" data-kicker="STEP 09 / チーム" data-title="Canva Teams活用（チームでの共同編集）" data-desc="チームでのデザイン共有・管理の仕組みです。" data-href="../../blog/ai/canva/canva-teams.html">
+                                <div class="series-step-meta"><span class="series-step-badge">チーム</span><span class="series-step-label">STEP 09</span></div>
+                                <div class="series-step-title">Canva Teams活用</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="canva" data-index="9" data-kicker="STEP 10 / 総まとめ" data-title="Canvaマスター編（10ステップ総復習）" data-desc="全ステップの振り返りと、さらなる活用に向けたロードマップです。" data-href="../../blog/ai/canva/canva-master.html">
+                                <div class="series-step-meta"><span class="series-step-badge">総まとめ</span><span class="series-step-label">STEP 10</span></div>
+                                <div class="series-step-title">Canvaマスター編</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="manus" data-index="0" data-kicker="STEP 01 / 入門" data-title="Manus AI入門（自律型AIエージェントとは何か）" data-desc="自律型AIエージェントの基本概念と、Manus AIでできることを学びます。" data-href="../../blog/ai/manus/manus-basics.html">
+                                <div class="series-step-meta"><span class="series-step-badge">入門</span><span class="series-step-label">STEP 01</span></div>
+                                <div class="series-step-title">Manus AI入門</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="manus" data-index="1" data-kicker="STEP 02 / 設定" data-title="Manus AI初期設定（アカウント作成と基本操作）" data-desc="アカウント作成から基本的な操作方法までを整理します。" data-href="../../blog/ai/manus/manus-setup.html">
+                                <div class="series-step-meta"><span class="series-step-badge">設定</span><span class="series-step-label">STEP 02</span></div>
+                                <div class="series-step-title">Manus AI初期設定</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="manus" data-index="2" data-kicker="STEP 03 / タスク" data-title="Manus AIでタスクを依頼する（プロンプトの書き方）" data-desc="効果的なタスク依頼の方法と、プロンプトの書き方を学びます。" data-href="../../blog/ai/manus/manus-tasks.html">
+                                <div class="series-step-meta"><span class="series-step-badge">タスク</span><span class="series-step-label">STEP 03</span></div>
+                                <div class="series-step-title">Manus AIでタスクを依頼する</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="manus" data-index="3" data-kicker="STEP 04 / リサーチ" data-title="Manus AIでリサーチを自動化（情報収集の効率化）" data-desc="Web調査・情報収集をManus AIに任せる方法を学びます。" data-href="../../blog/ai/manus/manus-research.html">
+                                <div class="series-step-meta"><span class="series-step-badge">リサーチ</span><span class="series-step-label">STEP 04</span></div>
+                                <div class="series-step-title">Manus AIでリサーチを自動化</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="manus" data-index="4" data-kicker="STEP 05 / 文書作成" data-title="Manus AIで文書作成（レポート・資料の自動生成）" data-desc="レポートや資料をAIエージェントに作成させる手順です。" data-href="../../blog/ai/manus/manus-document.html">
+                                <div class="series-step-meta"><span class="series-step-badge">文書作成</span><span class="series-step-label">STEP 05</span></div>
+                                <div class="series-step-title">Manus AIで文書作成</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="manus" data-index="5" data-kicker="STEP 06 / データ" data-title="Manus AIでデータ処理（分析・整理の自動化）" data-desc="データ分析・整理タスクを自動化する方法を学びます。" data-href="../../blog/ai/manus/manus-data.html">
+                                <div class="series-step-meta"><span class="series-step-badge">データ</span><span class="series-step-label">STEP 06</span></div>
+                                <div class="series-step-title">Manus AIでデータ処理</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="manus" data-index="6" data-kicker="STEP 07 / ワークフロー" data-title="Manus AIで複雑なワークフローを組む" data-desc="複数ステップのタスクを連携させた自動化を構築します。" data-href="../../blog/ai/manus/manus-workflow.html">
+                                <div class="series-step-meta"><span class="series-step-badge">ワークフロー</span><span class="series-step-label">STEP 07</span></div>
+                                <div class="series-step-title">Manus AIで複雑なワークフローを組</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="manus" data-index="7" data-kicker="STEP 08 / 連携" data-title="Manus AI×他ツール連携（ChatGPT/Claudeとの使い分け）" data-desc="他のAIツールとの併用・使い分けの指針を整理します。" data-href="../../blog/ai/manus/manus-integration.html">
+                                <div class="series-step-meta"><span class="series-step-badge">連携</span><span class="series-step-label">STEP 08</span></div>
+                                <div class="series-step-title">Manus AI×他ツール連携</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="manus" data-index="8" data-kicker="STEP 09 / ビジネス" data-title="Manus AIビジネス活用（実務での使いどころ）" data-desc="ビジネスシーンでの具体的な活用例を紹介します。" data-href="../../blog/ai/manus/manus-business.html">
+                                <div class="series-step-meta"><span class="series-step-badge">ビジネス</span><span class="series-step-label">STEP 09</span></div>
+                                <div class="series-step-title">Manus AIビジネス活用</div>
+                            </button>
+                            <button class="series-step" type="button" data-tool="manus" data-index="9" data-kicker="STEP 10 / 総まとめ" data-title="Manus AIマスター編（10ステップ総復習と発展的活用）" data-desc="全ステップの振り返りと、さらなる活用に向けたロードマップです。" data-href="../../blog/ai/manus/manus-master.html">
+                                <div class="series-step-meta"><span class="series-step-badge">総まとめ</span><span class="series-step-label">STEP 10</span></div>
+                                <div class="series-step-title">Manus AIマスター編</div>
+                            </button>
+                        </div>
+
+                        <div class="series-detail" aria-live="polite">
+                            <div class="series-detail-kicker" id="series-kicker">STEP 01 / 入門</div>
+                            <h3 class="series-detail-title" id="series-title">ChatGPT業務活用の始め方（安全ルールと最短の型）</h3>
+                            <p class="series-detail-desc" id="series-desc">業務で安全に使うための最低限ルールと、最短で成果が出る"型"を作ります。</p>
+                            <a class="shop-link" id="series-link" href="../../blog/ai/chatgpt/chatgpt-basics.html">この記事を読む</a>
+                            <div class="series-controls">
+                                <button class="series-nav-btn" type="button" data-nav="prev">前へ</button>
+                                <button class="series-nav-btn" type="button" data-nav="next">次へ</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 28px;">
+                <a href="../../articles/index.html" class="cta-button">全記事一覧を見る</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="content-section cta-section">
+        <div class="container">
+            <p class="section-label">CONTACT</p>
+            <h2 class="section-title">AIツール導入・活用のご相談</h2>
+            <p class="cta-text">「どのツールを選べばいい？」「チームで使いたい」など、お気軽にご相談ください。</p>
+            <p class="cta-phone">📞 090-6262-3842</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="service-footer">
+        <p class="footer-text">© 2026 CUCUL FM LLC. All rights reserved.</p>
+    </footer>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Tabs
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabPanels = document.querySelectorAll('.tab-panel');
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                tabBtns.forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected', 'false'); });
+                tabPanels.forEach(p => p.classList.remove('active'));
+                btn.classList.add('active');
+                btn.setAttribute('aria-selected', 'true');
+                const tabId = 'tab-' + btn.dataset.tab;
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+
+        // Series
+        const toolBtns = document.querySelectorAll('.series-tool-btn');
+        const allSteps = document.querySelectorAll('.series-step');
+        const kicker = document.getElementById('series-kicker');
+        const title = document.getElementById('series-title');
+        const desc = document.getElementById('series-desc');
+        const link = document.getElementById('series-link');
+
+        function showTool(tool) {
+            toolBtns.forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected', 'false'); });
+            document.querySelector(`.series-tool-btn[data-tool="${tool}"]`).classList.add('active');
+            document.querySelector(`.series-tool-btn[data-tool="${tool}"]`).setAttribute('aria-selected', 'true');
+            allSteps.forEach(s => {
+                s.classList.remove('active');
+                s.style.display = s.dataset.tool === tool ? '' : 'none';
+            });
+            const first = document.querySelector(`.series-step[data-tool="${tool}"]`);
+            if (first) { first.classList.add('active'); updateDetail(first); }
+        }
+
+        function updateDetail(step) {
+            kicker.textContent = step.dataset.kicker;
+            title.textContent = step.dataset.title;
+            desc.textContent = step.dataset.desc;
+            link.href = step.dataset.href;
+        }
+
+        toolBtns.forEach(btn => {
+            btn.addEventListener('click', () => showTool(btn.dataset.tool));
+        });
+
+        allSteps.forEach(step => {
+            step.addEventListener('click', () => {
+                allSteps.forEach(s => s.classList.remove('active'));
+                step.classList.add('active');
+                updateDetail(step);
+            });
+        });
+
+        document.querySelectorAll('.series-nav-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const current = document.querySelector('.series-step.active');
+                if (!current) return;
+                const tool = current.dataset.tool;
+                const steps = Array.from(document.querySelectorAll(`.series-step[data-tool="${tool}"]`));
+                const idx = steps.indexOf(current);
+                let next = btn.dataset.nav === 'next' ? idx + 1 : idx - 1;
+                if (next < 0) next = steps.length - 1;
+                if (next >= steps.length) next = 0;
+                steps.forEach(s => s.classList.remove('active'));
+                steps[next].classList.add('active');
+                updateDetail(steps[next]);
+            });
+        });
+
+        showTool('chatgpt');
+    });
+    </script>
+</body>
+</html>

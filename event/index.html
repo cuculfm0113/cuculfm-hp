@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>イベント告知 | CUCUL FM</title>
+    <meta name="description" content="ククルFMのPR資料・イベント告知をご覧いただけます。">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Orbitron:wght@500;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .event-page {
+            padding: clamp(40px, 8vw, 80px) 0;
+            min-height: 80vh;
+        }
+        .event-pdf-container {
+            max-width: 900px;
+            margin: 0 auto;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--color-border);
+            background: #fff;
+        }
+        .event-pdf-container iframe {
+            width: 100%;
+            height: 80vh;
+            min-height: 600px;
+            border: none;
+        }
+        .event-header {
+            text-align: center;
+            margin-bottom: clamp(24px, 4vw, 40px);
+        }
+        .event-header .page-label {
+            font-family: var(--font-display);
+            font-size: clamp(0.65rem, 1.5vw, 0.75rem);
+            letter-spacing: 0.15em;
+            color: var(--color-primary);
+            margin-bottom: 8px;
+        }
+        .event-header h1 {
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            font-weight: 700;
+            color: var(--color-text);
+        }
+        .event-download {
+            text-align: center;
+            margin-top: 24px;
+        }
+        .event-download a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: var(--color-primary);
+            color: var(--color-bg-dark);
+            font-weight: 700;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: opacity 0.2s;
+        }
+        .event-download a:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <!-- ナビゲーション -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <img src="../logo.jpg" alt="CUCUL FM" class="logo-img">
+                <span class="logo-text">CUCUL FM</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="../index.html#business">事業内容</a></li>
+                <li><a href="../index.html#about">About</a></li>
+                <li><a href="../index.html#contact">お問い合わせ</a></li>
+            </ul>
+            <div class="nav-contact">
+                <span class="phone">090-6262-3842</span>
+                <a href="../index.html#contact" class="btn-contact">CONTACT</a>
+            </div>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- イベント告知ページ -->
+    <section class="event-page">
+        <div class="container">
+            <div class="event-header">
+                <p class="page-label">EVENT</p>
+                <h1>イベント告知・PR資料</h1>
+            </div>
+            <div class="event-pdf-container">
+                <iframe src="../documents/v3_0419_PRcucul.pdf" title="CUCUL FM PR資料"></iframe>
+            </div>
+            <div class="event-download">
+                <a href="../documents/v3_0419_PRcucul.pdf" download="CUCUL_FM_PR資料.pdf">
+                    PDFをダウンロード
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="7 10 12 15 17 10"/>
+                        <line x1="12" y1="15" x2="12" y2="3"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <script src="../script.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>実務プロンプトの作り方（型・評価・改善の回し方） | CUCUL FM</title>
+  <meta name="description" content="プロンプトは「呪文」ではなく、AIへの仕様書です。仕様書が雑だと、出力がブレます。">
+  <meta property="og:type" content="article">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:title" content="実務プロンプトの作り方（型・評価・改善の回し方） | CUCUL FM">
+  <meta property="og:description" content="プロンプトは「呪文」ではなく、AIへの仕様書です。仕様書が雑だと、出力がブレます。">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=1200&amp;h=600&amp;fit=crop">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="実務プロンプトの作り方（型・評価・改善の回し方） | CUCUL FM">
+  <meta name="twitter:description" content="プロンプトは「呪文」ではなく、AIへの仕様書です。仕様書が雑だと、出力がブレます。">
+  <meta name="twitter:image" content="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=1200&amp;h=600&amp;fit=crop">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "実務プロンプトの作り方（型・評価・改善の回し方）", "datePublished": "2026-01-02", "dateModified": "2026-01-02", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=1200&h=600&fit=crop"]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+  <header class="blog-header">
+    <div class="header-container">
+      <a href="../../../articles/index.html" class="back-link">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>記事一覧へ戻る</span>
+      </a>
+      <a href="../../../index.html" class="header-logo">CUCUL FM</a>
+    </div>
+  </header>
+
+  <article class="article-container">
+    <header class="article-header">
+      <span class="article-category">AI</span>
+      <h1 class="article-title">実務プロンプトの作り方（型・評価・改善の回し方）</h1>
+      <div class="article-meta">
+        <time class="article-date">2026.01.02</time>
+        <span class="article-author">ククルFM編集部</span>
+      </div>
+    </header>
+
+    <div class="article-featured-image"><img src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=1200&amp;h=600&amp;fit=crop" alt="プロンプト設計" loading="lazy"></div>
+
+    <div class="article-content">
+<h2>はじめに</h2>
+<p>プロンプトは「呪文」ではなく、AIへの<strong>仕様書</strong>です。仕様書が雑だと、出力がブレます。</p>
+<p>本記事では、実務で再現性が出るプロンプトの型と、短いターンで品質を上げる改善方法を整理します。</p>
+<h2>結論：5ブロックでほぼ決まる</h2>
+<ul>
+<li><strong>役割</strong>：あなたは◯◯のプロです</li>
+<li><strong>目的</strong>：何のための出力か</li>
+<li><strong>制約</strong>：文字数、NG、トーン、前提</li>
+<li><strong>入力</strong>：材料（箇条書きが強い）</li>
+<li><strong>出力形式</strong>：見出し・箇条書き・表など</li>
+</ul>
+<h2>コピペで使える「実務プロンプトテンプレ」</h2>
+<ol>
+<li><strong>役割</strong>：あなたは（業務/職種）のプロです。</li>
+<li><strong>目的</strong>：（誰に）（何を）伝えるために（成果物）を作ってください。</li>
+<li><strong>前提</strong>：状況は◯◯です。対象読者は◯◯です。</li>
+<li><strong>制約</strong>：トーンは◯◯。文字数は◯◯。曖昧な表現は禁止。根拠がない断定は避ける。</li>
+<li><strong>出力形式</strong>：以下の見出し構成で、箇条書きを中心に出力してください。</li>
+<li><strong>入力</strong>：材料は以下です（箇条書き）。</li>
+</ol>
+<h2>品質を上げるコツ：評価基準を先に渡す</h2>
+<p>AIは「何が良いか」を定義すると強くなります。</p>
+<ul>
+<li><strong>分かりやすさ</strong>：専門用語は補足、結論先出し</li>
+<li><strong>誤解リスク</strong>：前提を明示、例外に触れる</li>
+<li><strong>実行可能性</strong>：次の一手が書かれている</li>
+</ul>
+<h2>改善ループ（おすすめ3ターン）</h2>
+<h3>ターン1：たたき台</h3>
+<p>80点の下書きを出させる（完璧を狙わない）。</p>
+<h3>ターン2：レビュー</h3>
+<p>「どこが弱いか」を評価基準で指摘させる。</p>
+<h3>ターン3：改善</h3>
+<p>指摘を反映した改善版を出す（必要なら要素を足す）。</p>
+<h2>型の例（すぐ使える）</h2>
+<h3>例1：比較検討（表で出す）</h3>
+<p>「候補A/B/Cを、費用/導入難易度/効果/リスクで表にして。最後におすすめを条件付きで。」</p>
+<h3>例2：企画（制約つきアイデア）</h3>
+<p>「目的は◯◯。予算は◯◯。期間は◯◯。アイデアを10個、実行手順も添えて。」</p>
+<h3>例3：文章の推敲（観点指定）</h3>
+<p>「丁寧さは維持して、冗長さを削って。誤解されやすい表現を指摘して修正案も出して。」</p>
+<h2>まとめ</h2>
+<p>実務でプロンプトを“使える形”にするコツは、<strong>型＋評価基準＋短い改善ループ</strong>です。</p>
+<p>次回は、この型を業務別に落とし込んだワークフロー（メール/議事録/企画/FAQ）をまとめます。</p>
+<h2>ツール情報（公式リンク）</h2>
+<ul>
+<li><a href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPT（OpenAI）</a></li>
+<li><a href="https://platform.openai.com/docs" target="_blank" rel="noopener">OpenAI ドキュメント（開発者向け）</a></li>
+<li><a href="https://openai.com/policies/terms-of-use" target="_blank" rel="noopener">OpenAI 利用規約</a></li>
+<li><a href="https://openai.com/policies/privacy-policy" target="_blank" rel="noopener">OpenAI プライバシーポリシー</a></li>
+</ul>
+<h2>権利表記・引用について</h2>
+<p>ChatGPTはOpenAIの商標または登録商標です。本記事は各社の公式提供ではありません。機能や提供条件は変更される場合があるため、最新情報は公式ページをご確認ください。</p>
+<h2>画像クレジット</h2>
+<p>サムネイル/本文画像はUnsplashの写真を使用しています（ライセンス：<a href="https://unsplash.com/license" target="_blank" rel="noopener">Unsplash License</a>）。</p>
+<h3>お問い合わせ</h3>
+<p>生成AIの業務活用・研修・運用設計のご相談はお気軽にどうぞ</p>
+<p>📞 090-6262-3842</p>
+
+    </div>
+  </article>
+
+  <footer class="blog-footer">
+    <p class="footer-text">© 2026 CUCUL FM LLC. All rights reserved.</p>
+  </footer>
+</body>
+</html>

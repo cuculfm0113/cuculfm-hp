@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>アルバイト募集 | CUCUL FM - 好きを仕事に変えよう</title>
+    <meta name="description" content="ククルFMでは高校生・大学生のアルバイトを募集中！映像制作、Web開発、AI活用など、将来につながるスキルが身につく実践型インターン。">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-primary: #FF6B35;
+            --color-secondary: #4ECDC4;
+            --color-accent: #FFE66D;
+            --color-dark: #1a1a2e;
+            --color-darker: #16162a;
+            --color-text: #ffffff;
+            --color-text-muted: rgba(255,255,255,0.7);
+            --gradient-main: linear-gradient(135deg, #FF6B35 0%, #F7931E 50%, #FFE66D 100%);
+            --gradient-cool: linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%);
+            --font-display: 'Poppins', sans-serif;
+            --font-body: 'Noto Sans JP', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--color-dark);
+            color: var(--color-text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* A4縦長コンテナ */
+        .recruit-page {
+            max-width: 595px; /* A4幅 (210mm ≈ 595px @72dpi) */
+            margin: 0 auto;
+            background: var(--color-darker);
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* ヒーローセクション */
+        .hero {
+            position: relative;
+            padding: 40px 24px 32px;
+            background: var(--gradient-main);
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: var(--color-dark);
+            color: var(--color-accent);
+            font-family: var(--font-display);
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 6px 16px;
+            border-radius: 20px;
+            margin-bottom: 16px;
+            letter-spacing: 0.1em;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-family: var(--font-body);
+            font-size: clamp(1.8rem, 6vw, 2.2rem);
+            font-weight: 900;
+            line-height: 1.3;
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 1;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .hero h1 .highlight {
+            display: block;
+            font-family: var(--font-display);
+            font-size: clamp(2.2rem, 8vw, 2.8rem);
+            background: linear-gradient(90deg, #fff, #FFE66D);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-sub {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.9);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ターゲットセクション */
+        .target-section {
+            padding: 28px 24px;
+            text-align: center;
+            background: var(--color-darker);
+        }
+
+        .target-label {
+            font-size: 0.75rem;
+            color: var(--color-secondary);
+            letter-spacing: 0.15em;
+            margin-bottom: 8px;
+        }
+
+        .target-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .target-tags {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .target-tag {
+            background: rgba(78, 205, 196, 0.15);
+            border: 1px solid var(--color-secondary);
+            color: var(--color-secondary);
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .target-list {
+            margin-top: 20px;
+            text-align: left;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            list-style: none;
+        }
+
+        .target-list li {
+            position: relative;
+            padding-left: 24px;
+            margin-bottom: 10px;
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+            line-height: 1.6;
+        }
+
+        .target-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--color-primary);
+            font-weight: 700;
+        }
+
+        /* 募集職種セクション */
+        .jobs-section {
+            padding: 28px 24px;
+            background: linear-gradient(180deg, var(--color-dark) 0%, var(--color-darker) 100%);
+        }
+
+        .section-title {
+            font-size: 0.7rem;
+            color: var(--color-primary);
+            letter-spacing: 0.2em;
+            margin-bottom: 6px;
+            text-align: center;
+        }
+
+        .section-heading {
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .job-cards {
+            display: grid;
+            gap: 12px;
+        }
+
+        .job-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .job-card:hover {
+            background: rgba(255,107,53,0.1);
+            border-color: var(--color-primary);
+            transform: translateX(4px);
+        }
+
+        .job-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--gradient-main);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .job-icon svg {
+            width: 22px;
+            height: 22px;
+            color: white;
+        }
+
+        .job-info h3 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .job-info p {
+            font-size: 0.75rem;
+            color: var(--color-text-muted);
+        }
+
+        /* 魅力セクション */
+        .appeal-section {
+            padding: 28px 24px;
+            background: var(--color-darker);
+        }
+
+        .appeal-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .appeal-item {
+            background: linear-gradient(135deg, rgba(78,205,196,0.1) 0%, rgba(68,160,141,0.05) 100%);
+            border: 1px solid rgba(78,205,196,0.3);
+            border-radius: 12px;
+            padding: 16px 12px;
+            text-align: center;
+        }
+
+        .appeal-emoji {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+
+        .appeal-item h4 {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--color-secondary);
+            margin-bottom: 4px;
+        }
+
+        .appeal-item p {
+            font-size: 0.7rem;
+            color: var(--color-text-muted);
+            line-height: 1.5;
+        }
+
+        /* 条件セクション */
+        .conditions-section {
+            padding: 28px 24px;
+            background: var(--color-dark);
+        }
+
+        .condition-table {
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .condition-row {
+            display: flex;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .condition-row:last-child {
+            border-bottom: none;
+        }
+
+        .condition-label {
+            width: 90px;
+            padding: 12px 14px;
+            background: rgba(255,107,53,0.1);
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--color-primary);
+            flex-shrink: 0;
+        }
+
+        .condition-value {
+            padding: 12px 14px;
+            font-size: 0.8rem;
+            flex: 1;
+        }
+
+        .condition-value strong {
+            color: var(--color-accent);
+        }
+
+        /* 求人概要ハイライト */
+        .job-overview-highlight {
+            background: linear-gradient(135deg, rgba(255,107,53,0.2) 0%, rgba(255,230,109,0.15) 100%);
+            border: 2px solid var(--color-primary);
+            border-radius: 12px;
+            padding: 18px 20px;
+            margin-bottom: 20px;
+            position: relative;
+            box-shadow: 0 4px 20px rgba(255,107,53,0.2);
+        }
+
+        .job-overview-highlight::before {
+            content: '✨';
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            font-size: 1.2rem;
+        }
+
+        .job-overview-highlight p {
+            font-size: 0.9rem;
+            line-height: 1.7;
+            color: var(--color-text);
+            margin-bottom: 12px;
+        }
+
+        .job-overview-highlight .qualifications {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .job-overview-highlight .qual-badge {
+            background: var(--gradient-main);
+            color: var(--color-dark);
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-radius: 20px;
+        }
+
+        /* CTAセクション */
+        .cta-section {
+            padding: 32px 24px;
+            background: var(--gradient-main);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .cta-text {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-phone {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--color-dark);
+            color: var(--color-text);
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 800;
+            padding: 14px 28px;
+            border-radius: 50px;
+            text-decoration: none;
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 1;
+            transition: transform 0.3s ease;
+        }
+
+        .cta-phone:hover {
+            transform: scale(1.05);
+        }
+
+        .cta-phone svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .cta-note {
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.8);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* フッター */
+        .footer {
+            padding: 20px 24px;
+            background: var(--color-darker);
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .footer-logo {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: 800;
+            color: var(--color-primary);
+            margin-bottom: 6px;
+        }
+
+        .footer-address {
+            font-size: 0.65rem;
+            color: var(--color-text-muted);
+            line-height: 1.6;
+        }
+
+        .footer-link {
+            display: inline-block;
+            margin-top: 12px;
+            font-size: 0.7rem;
+            color: var(--color-secondary);
+            text-decoration: none;
+            border-bottom: 1px solid var(--color-secondary);
+            padding-bottom: 2px;
+        }
+
+        /* レスポンシブ */
+        @media (max-width: 480px) {
+            .recruit-page {
+                max-width: 100%;
+            }
+            
+            .hero {
+                padding: 32px 20px 28px;
+            }
+            
+            .appeal-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="recruit-page">
+        <!-- ヒーロー -->
+        <section class="hero">
+            <span class="hero-badge">🎯 RECRUIT 2026</span>
+            <h1>
+                好きを仕事に<br>変えよう。
+                <span class="highlight">CUCULFMでJOIN US!</span>
+            </h1>
+            <p class="hero-sub">アルバイト募集中</p>
+        </section>
+
+        <!-- ターゲット -->
+        <section class="target-section">
+            <p class="target-label">WHO WE'RE LOOKING FOR</p>
+            <h2 class="target-title">こんな人を探しています！</h2>
+            <div class="target-tags">
+                <span class="target-tag">🎬 映像に興味がある</span>
+                <span class="target-tag">💻 ITスキルを磨きたい</span>
+                <span class="target-tag">🐕 動物が好き</span>
+                <span class="target-tag">🚀 挑戦したい</span>
+            </div>
+            <ul class="target-list">
+                <li>自発的に学べる人</li>
+                <li>結果がすぐ出なくても粘り強く頑張れる人</li>
+                <li>自分に知見のない分野でも、新しい領域に積極的に取り組める人</li>
+            </ul>
+        </section>
+
+        <!-- 募集職種 -->
+        <section class="jobs-section">
+            <p class="section-title">POSITIONS</p>
+            <h2 class="section-heading">募集職種</h2>
+            <div class="job-overview-highlight">
+                <p>YouTube編集や動画撮影、ドローンの操縦、資格取得支援まで行っております。各項目、経験者・資格者が教えますので安心して学べます。</p>
+                <div class="qualifications">
+                    <span class="qual-badge">二等無人航空機操縦士 在籍</span>
+                    <span class="qual-badge">赤外線建物診断技能士 在籍</span>
+                </div>
+            </div>
+            <div class="job-cards">
+                <div class="job-card">
+                    <div class="job-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="4" width="20" height="16" rx="2"/>
+                            <path d="M10 9l5 3-5 3V9z"/>
+                        </svg>
+                    </div>
+                    <div class="job-info">
+                        <h3>映像制作・アシスタント</h3>
+                        <p>撮影・編集のサポート、ドローン撮影補助</p>
+                    </div>
+                </div>
+                <div class="job-card">
+                    <div class="job-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="3" width="20" height="14" rx="2"/>
+                            <path d="M8 21h8M12 17v4"/>
+                        </svg>
+                    </div>
+                    <div class="job-info">
+                        <h3>Web制作・SNS運用</h3>
+                        <p>サイト更新、SNS投稿、デザイン制作</p>
+                    </div>
+                </div>
+                <div class="job-card">
+                    <div class="job-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="3"/>
+                            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+                        </svg>
+                    </div>
+                    <div class="job-info">
+                        <h3>AI活用・データ入力</h3>
+                        <p>AIツール活用、資料作成、リサーチ</p>
+                    </div>
+                </div>
+                <div class="job-card">
+                    <div class="job-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M10 5.172C10 3.782 8.423 2.679 6.5 3c-2.823.47-4.113 6.006-4 7 .08.703 1.725 1.722 3.656 1 1.261-.472 1.96-1.45 2.344-2.5"/>
+                            <path d="M14.267 5.172c0-1.39 1.577-2.493 3.5-2.172 2.823.47 4.113 6.006 4 7-.08.703-1.725 1.722-3.656 1-1.261-.472-1.855-1.45-2.239-2.5"/>
+                            <path d="M8 14v.5M16 14v.5"/>
+                            <path d="M11.25 16.25h1.5L12 17l-.75-.75z"/>
+                            <path d="M4.42 11.247A13.152 13.152 0 0 0 4 14.556C4 18.728 7.582 21 12 21s8-2.272 8-6.444a13.152 13.152 0 0 0-.493-3.309"/>
+                        </svg>
+                    </div>
+                    <div class="job-info">
+                        <h3>犬のお店のスタッフ</h3>
+                        <p>散歩、お世話、グルーミング補助<br><span style="color: #FFE66D; font-size: 0.7rem;">📍 勤務地：群馬県</span></p>
+                    </div>
+                </div>
+                <div class="job-card">
+                    <div class="job-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M16 18l6-6-6-6"/>
+                            <path d="M8 6l-6 6 6 6"/>
+                        </svg>
+                    </div>
+                    <div class="job-info">
+                        <h3>アプリ・システム開発</h3>
+                        <p>Webアプリ、業務システムの開発補助</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 魅力 -->
+        <section class="appeal-section">
+            <p class="section-title">WHY CUCUL FM?</p>
+            <h2 class="section-heading">働くメリット</h2>
+            <div class="appeal-grid">
+                <div class="appeal-item">
+                    <div class="appeal-emoji">📚</div>
+                    <h4>スキルが身につく</h4>
+                    <p>実践を通じて将来役立つスキルを習得</p>
+                </div>
+                <div class="appeal-item">
+                    <div class="appeal-emoji">🕐</div>
+                    <h4>シフト柔軟</h4>
+                    <p>学校優先OK！テスト期間も考慮</p>
+                </div>
+                <div class="appeal-item">
+                    <div class="appeal-emoji">👥</div>
+                    <h4>少人数で丁寧</h4>
+                    <p>マンツーマンで優しく教えます</p>
+                </div>
+                <div class="appeal-item">
+                    <div class="appeal-emoji">🎨</div>
+                    <h4>作品が残る</h4>
+                    <p>ポートフォリオ作りをサポート</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 条件 -->
+        <section class="conditions-section">
+            <p class="section-title">CONDITIONS</p>
+            <h2 class="section-heading">募集要項</h2>
+            <div class="condition-table">
+                <div class="condition-row">
+                    <div class="condition-label">対象</div>
+                    <div class="condition-value">全ての年代の方（現在10〜30代の方が活躍中）</div>
+                </div>
+                <div class="condition-row">
+                    <div class="condition-label">時給</div>
+                    <div class="condition-value"><strong>1,100円〜</strong>（経験・スキルにより優遇）</div>
+                </div>
+                <div class="condition-row">
+                    <div class="condition-label">勤務時間</div>
+                    <div class="condition-value">週1日〜OK / 1日3時間〜</div>
+                </div>
+                <div class="condition-row">
+                    <div class="condition-label">勤務地</div>
+                    <div class="condition-value">川口市戸塚東 / リモート可</div>
+                </div>
+                <div class="condition-row">
+                    <div class="condition-label">交通費</div>
+                    <div class="condition-value">支給（上限あり）</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="cta-section">
+            <p class="cta-text">まずは気軽にお問い合わせください！</p>
+            <a href="tel:090-6262-3842" class="cta-phone">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                </svg>
+                090-6262-3842
+            </a>
+            <p class="cta-note">受付時間: 平日 10:00〜18:00</p>
+        </section>
+
+        <!-- フッター -->
+        <footer class="footer">
+            <div class="footer-logo">CUCUL FM</div>
+            <address class="footer-address">
+                ククルFM合同会社<br>
+                〒333-0802 埼玉県川口市戸塚東4-32-5<br>
+                ITSUZAI community base 1号室
+            </address>
+            <a href="../index.html" class="footer-link">← 会社サイトを見る</a>
+        </footer>
+    </div>
+</body>
+</html>

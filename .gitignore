@@ -1,0 +1,20 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# エディタ/IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ログ・一時ファイル
+*.log
+*.tmp
+.cache/
+
+# 環境変数（機密情報がある場合）
+.env
+.env.local

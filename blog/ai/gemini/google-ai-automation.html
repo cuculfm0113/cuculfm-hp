@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gemini×Googleフォーム/スプレッドシートで業務を自動化する（設計の考え方） | CUCUL FM</title>
+  <meta name="description" content="Googleフォームとスプレッドシートは、簡単に「業務の入口」と「データベース」を作れる組み合わせです。">
+  <meta property="og:type" content="article">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:title" content="Gemini×Googleフォーム/スプレッドシートで業務を自動化する（設計の考え方） | CUCUL FM">
+  <meta property="og:description" content="Googleフォームとスプレッドシートは、簡単に「業務の入口」と「データベース」を作れる組み合わせです。">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1556761175-4b46a572b786?w=1200&amp;h=600&amp;fit=crop">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Gemini×Googleフォーム/スプレッドシートで業務を自動化する（設計の考え方） | CUCUL FM">
+  <meta name="twitter:description" content="Googleフォームとスプレッドシートは、簡単に「業務の入口」と「データベース」を作れる組み合わせです。">
+  <meta name="twitter:image" content="https://images.unsplash.com/photo-1556761175-4b46a572b786?w=1200&amp;h=600&amp;fit=crop">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Gemini×Googleフォーム/スプレッドシートで業務を自動化する（設計の考え方）", "datePublished": "2026-01-16", "dateModified": "2026-01-16", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1556761175-4b46a572b786?w=1200&h=600&fit=crop"]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+  <header class="blog-header">
+    <div class="header-container">
+      <a href="../../../articles/index.html" class="back-link">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>記事一覧へ戻る</span>
+      </a>
+      <a href="../../../index.html" class="header-logo">CUCUL FM</a>
+    </div>
+  </header>
+
+  <article class="article-container">
+    <header class="article-header">
+      <span class="article-category">AI</span>
+      <h1 class="article-title">Gemini×Googleフォーム/スプレッドシートで業務を自動化する（設計の考え方）</h1>
+      <div class="article-meta">
+        <time class="article-date">2026.01.16</time>
+        <span class="article-author">ククルFM編集部</span>
+      </div>
+    </header>
+
+    <div class="article-featured-image"><img src="https://images.unsplash.com/photo-1556761175-4b46a572b786?w=1200&amp;h=600&amp;fit=crop" alt="業務自動化の設計" loading="lazy"></div>
+
+    <div class="article-content">
+<h2>はじめに</h2>
+<p>Googleフォームとスプレッドシートは、簡単に「業務の入口」と「データベース」を作れる組み合わせです。</p>
+<p>ここにGeminiを組み合わせると、入力内容の要約・分類・返信文の下書きなどを“半自動化”しやすくなります。</p>
+<h2>基本の設計：フォーム→シート→処理→通知</h2>
+<ol>
+<li><strong>フォーム</strong>：入力項目を固定（自由記述は最小化）</li>
+<li><strong>シート</strong>：記録（タイムスタンプ、担当、状態）</li>
+<li><strong>処理</strong>：要約/分類/優先度付け（AIの得意領域）</li>
+<li><strong>通知</strong>：メール/Chat/タスク化（運用に乗せる）</li>
+</ol>
+<h2>Geminiに任せると効く処理</h2>
+<ul>
+<li><strong>要約</strong>：長文問い合わせを200字に圧縮</li>
+<li><strong>分類</strong>：カテゴリ（問い合わせ/不具合/要望）に振り分け</li>
+<li><strong>返信下書き</strong>：丁寧文、必要事項の抜けチェック</li>
+</ul>
+<h2>小さく始める（おすすめ手順）</h2>
+<ol>
+<li>まずは“要約”だけを自動化</li>
+<li>次に“分類”を追加</li>
+<li>最後に“返信下書き”を追加（必ず人間が送信）</li>
+</ol>
+<h2>注意点</h2>
+<ul>
+<li><strong>個人情報/顧客情報</strong>の扱い：マスキング・ルール化</li>
+<li><strong>誤分類</strong>：最初は人が修正して学習用ログを残す</li>
+<li><strong>自動送信は避ける</strong>：返信は必ず人間が最終確認</li>
+</ul>
+<h2>まとめ</h2>
+<p>Googleのツール群は「仕組み化」に強く、Geminiは「言語処理」に強い。両方を組み合わせると、業務フローが一段ラクになります。</p>
+<h2>ツール情報（公式リンク）</h2>
+<ul>
+<li><a href="https://gemini.google.com/" target="_blank" rel="noopener">Gemini（Google）</a></li>
+<li><a href="https://www.google.com/forms/about/" target="_blank" rel="noopener">Google フォーム</a></li>
+<li><a href="https://www.google.com/sheets/about/" target="_blank" rel="noopener">Google スプレッドシート</a></li>
+<li><a href="https://developers.google.com/apps-script" target="_blank" rel="noopener">Google Apps Script（開発者ドキュメント）</a></li>
+<li><a href="https://policies.google.com/terms" target="_blank" rel="noopener">Google 利用規約</a></li>
+<li><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google プライバシーポリシー</a></li>
+</ul>
+<h2>権利表記・引用について</h2>
+<p>Google、Gemini、Google Forms、Google Sheets、Google Apps ScriptはGoogle LLCの商標または登録商標です。本記事は各社の公式提供ではありません。機能や提供条件は変更される場合があるため、最新情報は公式ページをご確認ください。</p>
+<h2>画像クレジット</h2>
+<p>サムネイル/本文画像はUnsplashの写真を使用しています（ライセンス：<a href="https://unsplash.com/license" target="_blank" rel="noopener">Unsplash License</a>）。</p>
+<h3>お問い合わせ</h3>
+<p>フォーム/シート/GASを含めた業務自動化設計もお気軽にご相談ください</p>
+<p>📞 090-6262-3842</p>
+
+    </div>
+  </article>
+
+  <footer class="blog-footer">
+    <p class="footer-text">© 2026 CUCUL FM LLC. All rights reserved.</p>
+  </footer>
+</body>
+</html>

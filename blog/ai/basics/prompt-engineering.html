@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>プロンプトエンジニアリング入門 | CUCUL FM</title>
+  <meta name="description" content="「ChatGPTを使ってみたけど、思った通りの回答が出ない」">
+  <meta property="og:type" content="article">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:title" content="プロンプトエンジニアリング入門 | CUCUL FM">
+  <meta property="og:description" content="「ChatGPTを使ってみたけど、思った通りの回答が出ない」">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=1200&amp;h=600&amp;fit=crop">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="プロンプトエンジニアリング入門 | CUCUL FM">
+  <meta name="twitter:description" content="「ChatGPTを使ってみたけど、思った通りの回答が出ない」">
+  <meta name="twitter:image" content="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=1200&amp;h=600&amp;fit=crop">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "プロンプトエンジニアリング入門", "datePublished": "2025-12-17", "dateModified": "2025-12-17", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=1200&h=600&fit=crop"]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+  <header class="blog-header">
+    <div class="header-container">
+      <a href="../../../articles/index.html" class="back-link">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>記事一覧へ戻る</span>
+      </a>
+      <a href="../../../index.html" class="header-logo">CUCUL FM</a>
+    </div>
+  </header>
+
+  <article class="article-container">
+    <header class="article-header">
+      <span class="article-category">AI</span>
+      <h1 class="article-title">プロンプトエンジニアリング入門</h1>
+      <div class="article-meta">
+        <time class="article-date">2025.12.17</time>
+        <span class="article-author">ククルFM編集部</span>
+      </div>
+    </header>
+
+    <div class="article-featured-image"><img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=1200&amp;h=600&amp;fit=crop" alt="プロンプトエンジニアリング" loading="lazy"></div>
+
+    <div class="article-content">
+<h2>はじめに</h2>
+<p>「ChatGPTを使ってみたけど、思った通りの回答が出ない」</p>
+<p>こんな経験はありませんか？</p>
+<p>AIから良い回答を引き出すには「プロンプト」の書き方が重要です。</p>
+<h2>プロンプトとは</h2>
+<p>プロンプトとは、AIに対する「指示」や「質問」のことです。</p>
+<p>同じAIでも、プロンプトの書き方次第で出力の質が大きく変わります。</p>
+<h2>基本テクニック</h2>
+<h3>1. 具体的に指示する</h3>
+<p><strong>悪い例</strong>:</p>
+<p>「記事を書いて」</p>
+<p><strong>良い例</strong>:</p>
+<p>「中小企業経営者向けに、AI導入のメリットについて800文字程度の記事を書いてください。見出しを3つ含めてください。」</p>
+<h3>2. 役割を与える</h3>
+<p><strong>悪い例</strong>:</p>
+<p>「キャッチコピーを考えて」</p>
+<p><strong>良い例</strong>:</p>
+<p>「あなたは大手広告代理店のベテランコピーライターです。20代女性向けの化粧品のキャッチコピーを5案考えてください。」</p>
+<h3>3. 出力形式を指定する</h3>
+<p><strong>悪い例</strong>:</p>
+<p>「AIツールをまとめて」</p>
+<p><strong>良い例</strong>:</p>
+<p>「中小企業向けのAIツールを表形式でまとめてください。列は「ツール名」「用途」「月額費用」「特徴」としてください。」</p>
+<h3>4. ステップバイステップで考えさせる</h3>
+<p>「以下の問題について、ステップバイステップで考えてください」</p>
+<p>複雑な問題では、思考過程を出力させることで精度が向上します。</p>
+<h3>5. 例を示す（Few-shot）</h3>
+<p>望む出力の例を示すと、AIはそれに沿った回答を生成します。</p>
+<h2>応用テクニック</h2>
+<h3>チェーンプロンプト</h3>
+<p>一度に全てを聞くのではなく、段階的に質問を重ねる手法。</p>
+<ol>
+<li>「○○について概要を教えて」</li>
+<li>「その中で△△について詳しく」</li>
+<li>「具体的な事例を3つ挙げて」</li>
+</ol>
+<h3>制約条件の追加</h3>
+<ul>
+<li>「専門用語を使わずに」</li>
+<li>「小学生でもわかるように」</li>
+<li>「300文字以内で」</li>
+</ul>
+<h2>やってはいけないこと</h2>
+<ul>
+<li><strong>曖昧な指示</strong> - 「いい感じに」「かっこよく」</li>
+<li><strong>複数の質問を一度に</strong> - 一つずつ聞く方が精度が高い</li>
+<li><strong>長すぎるプロンプト</strong> - 本当に必要な情報に絞る</li>
+</ul>
+<h2>まとめ</h2>
+<p>プロンプトエンジニアリングは、AIを使いこなすための必須スキルです。</p>
+<ul>
+<li>具体的に指示する</li>
+<li>役割を与える</li>
+<li>出力形式を指定する</li>
+<li>例を示す</li>
+</ul>
+<p>ぜひ実践しながら、自分なりのコツを見つけてください。</p>
+<h3>お問い合わせ</h3>
+<p>AI活用・プロンプト作成のご相談はお気軽にどうぞ</p>
+<p>📞 090-6262-3842</p>
+
+    </div>
+  </article>
+
+  <footer class="blog-footer">
+    <p class="footer-text">© 2026 CUCUL FM LLC. All rights reserved.</p>
+  </footer>
+</body>
+</html>

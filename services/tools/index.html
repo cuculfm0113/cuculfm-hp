@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>専門工具販売 | CUCUL FM</title>
+    <meta name="description" content="ククルFMの専門工具販売事業。建設・インフラ現場のプロフェッショナル向け専門工具を販売。第1弾は東京都型マンホール鍵（自社製品）。">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+JP:wght@300;400;500;700&family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .product-showcase {
+            background: linear-gradient(135deg, var(--color-bg-darker) 0%, var(--color-bg-dark) 100%);
+            border: 1px solid var(--color-border);
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 60px;
+        }
+        .product-badge {
+            display: inline-block;
+            background: var(--color-primary);
+            color: var(--color-bg-dark);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        .product-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+        @media (max-width: 768px) {
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .product-image {
+            background: var(--color-bg-dark);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+        }
+        .product-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        .product-placeholder {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, #333 0%, #1a1a1a 100%);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-text-muted);
+        }
+        .product-placeholder svg {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 16px;
+            stroke: var(--color-primary);
+        }
+        .product-info h3 {
+            font-size: 1.75rem;
+            margin-bottom: 16px;
+            color: var(--color-text);
+        }
+        .product-description {
+            color: var(--color-text-muted);
+            margin-bottom: 24px;
+            line-height: 1.8;
+        }
+        .product-specs {
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+        .product-specs h4 {
+            font-size: 1rem;
+            margin-bottom: 12px;
+            color: var(--color-primary);
+        }
+        .product-specs ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .product-specs li {
+            padding: 8px 0;
+            border-bottom: 1px solid var(--color-border);
+            display: flex;
+            justify-content: space-between;
+            color: var(--color-text-muted);
+        }
+        .product-specs li:last-child {
+            border-bottom: none;
+        }
+        .product-specs li span:first-child {
+            color: var(--color-text);
+        }
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-primary);
+            margin-bottom: 20px;
+        }
+        .product-price small {
+            font-size: 0.875rem;
+            color: var(--color-text-muted);
+            font-weight: 400;
+        }
+        .inquiry-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--color-primary);
+            color: var(--color-bg-dark);
+            padding: 16px 32px;
+            border-radius: 8px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+        .inquiry-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+        }
+        .inquiry-button svg {
+            width: 20px;
+            height: 20px;
+        }
+        .coming-soon-note {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid var(--color-primary);
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin-top: 20px;
+            color: var(--color-text-muted);
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="service-header">
+        <div class="container">
+            <div class="header-content">
+                <a href="../../index.html" class="back-link">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>TOP に戻る</span>
+                </a>
+                <div class="header-logo">CUCUL FM</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="service-hero service-hero--starry">
+        <div class="starry-bg">
+            <div class="stars stars-small"></div>
+            <div class="stars stars-medium"></div>
+            <div class="stars stars-large"></div>
+            <div class="shooting-star"></div>
+            <div class="shooting-star"></div>
+            <div class="shooting-star"></div>
+            <div class="moon"></div>
+        </div>
+        <div class="container">
+            <p class="hero-label">PROFESSIONAL TOOLS</p>
+            <h1 class="hero-title">専門工具販売</h1>
+            <p class="hero-description">
+                建設・インフラ現場のプロフェッショナル向けに<br>
+                専門性の高い工具・機器を自社開発・販売しています。
+            </p>
+        </div>
+    </section>
+
+    <!-- Featured Product -->
+    <section class="content-section">
+        <div class="container">
+            <div class="product-showcase">
+                <span class="product-badge">🎉 第1弾 自社製品</span>
+                <div class="product-grid">
+                    <div class="product-image">
+                        <div class="product-placeholder">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <circle cx="12" cy="12" r="10"/>
+                                <circle cx="12" cy="12" r="6"/>
+                                <circle cx="12" cy="12" r="2"/>
+                                <path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>
+                            </svg>
+                            <span>製品画像準備中</span>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>東京都型マンホール鍵</h3>
+                        <p class="product-description">
+                            東京都規格のマンホール蓋の開閉作業に特化した専門工具。
+                            現場作業員の安全性と作業効率を大幅に向上させる、ククルFMオリジナル製品です。
+                        </p>
+                        <div class="product-specs">
+                            <h4>製品仕様</h4>
+                            <ul>
+                                <li><span>対応規格</span><span>東京都型マンホール蓋</span></li>
+                                <li><span>材質</span><span>高強度スチール</span></li>
+                                <li><span>用途</span><span>マンホール蓋の開閉作業</span></li>
+                                <li><span>製造</span><span>自社製造（日本製）</span></li>
+                            </ul>
+                        </div>
+                        <p class="product-price">価格：お問い合わせください <small>（法人様向け）</small></p>
+                        <a href="../../index.html#contact" class="inquiry-button">
+                            お問い合わせ・見積り依頼
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12H19M19 12L12 5M19 12L12 19"/>
+                            </svg>
+                        </a>
+                        <div class="coming-soon-note">
+                            ※ 詳細仕様・価格は個別にご案内いたします。お気軽にお問い合わせください。
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Categories -->
+    <section class="content-section">
+        <div class="container">
+            <p class="section-label">PRODUCT LINEUP</p>
+            <h2 class="section-title">取扱商品カテゴリ</h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                        <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    <h3 class="feature-title">マンホール関連工具</h3>
+                    <p class="feature-text">マンホール蓋の開閉作業に特化した専門工具</p>
+                </div>
+                <div class="feature-item">
+                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <h3 class="feature-title">インフラ整備工具</h3>
+                    <p class="feature-text">下水道・上水道などインフラ整備に必要な専門工具</p>
+                </div>
+                <div class="feature-item">
+                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2"/>
+                        <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <h3 class="feature-title">安全・保護具</h3>
+                    <p class="feature-text">現場作業員の安全を守る保護具・安全用品</p>
+                </div>
+                <div class="feature-item feature-item--expanded">
+                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20 7H4C2.89543 7 2 7.89543 2 9V19C2 20.1046 2.89543 21 4 21H20C21.1046 21 22 20.1046 22 19V9C22 7.89543 21.1046 7 20 7Z" stroke="currentColor" stroke-width="2"/>
+                        <path d="M16 7V5C16 3.89543 15.1046 3 14 3H10C8.89543 3 8 3.89543 8 5V7" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    <h3 class="feature-title">今後の展開予定</h3>
+                    <p class="feature-text">お客様のニーズに応じて、専門工具のラインナップを順次拡充予定です</p>
+                    <div class="service-tags">
+                        <span class="service-tag">管内カメラ関連</span>
+                        <span class="service-tag">清掃機器</span>
+                        <span class="service-tag">測量機器</span>
+                        <span class="service-tag">特注工具</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog / Articles -->
+    <section class="content-section">
+        <div class="container">
+            <p class="section-label">BLOG & INSIGHTS</p>
+            <h2 class="section-title">関連記事</h2>
+            <div class="articles-grid">
+                <article class="article-card">
+                    <a href="../../blog/tools/power-tools-guide.html">
+                        <div class="article-image">
+                            <img src="https://images.unsplash.com/photo-1504148455328-c376907d081c?w=600&h=400&fit=crop" alt="電動工具">
+                        </div>
+                        <div class="article-content">
+                            <p class="article-date">2026.01.20</p>
+                            <h3 class="article-title">プロが選ぶ電動工具の選び方</h3>
+                            <p class="article-excerpt">現場で長く使える電動工具の選び方のポイントを解説します。</p>
+                        </div>
+                    </a>
+                </article>
+                <article class="article-card">
+                    <a href="../../blog/tools/tool-maintenance.html">
+                        <div class="article-image">
+                            <img src="https://images.unsplash.com/photo-1530124566582-a618bc2615dc?w=600&h=400&fit=crop" alt="工具メンテナンス">
+                        </div>
+                        <div class="article-content">
+                            <p class="article-date">2026.01.15</p>
+                            <h3 class="article-title">工具の寿命を延ばすメンテナンス術</h3>
+                            <p class="article-excerpt">日常のメンテナンスで工具を長持ちさせる方法。</p>
+                        </div>
+                    </a>
+                </article>
+                <article class="article-card">
+                    <a href="../../blog/tools/safety-equipment.html">
+                        <div class="article-image">
+                            <img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=600&h=400&fit=crop" alt="安全用品">
+                        </div>
+                        <div class="article-content">
+                            <p class="article-date">2026.01.10</p>
+                            <h3 class="article-title">現場で必須の安全用品リスト</h3>
+                            <p class="article-excerpt">作業員の安全を守るための必須アイテムを紹介。</p>
+                        </div>
+                    </a>
+                </article>
+                <article class="article-card">
+                    <a href="../../blog/tools/measuring-tools.html">
+                        <div class="article-image">
+                            <img src="https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=600&h=400&fit=crop" alt="測量機器">
+                        </div>
+                        <div class="article-content">
+                            <p class="article-date">2026.01.05</p>
+                            <h3 class="article-title">最新測量機器の活用法</h3>
+                            <p class="article-excerpt">レーザーレベルなど最新測量機器の効果的な使い方。</p>
+                        </div>
+                    </a>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="container">
+            <h2 class="cta-title">製品のお問い合わせ・見積り依頼</h2>
+            <p class="cta-text">東京都型マンホール鍵をはじめ、専門工具についてお気軽にご相談ください</p>
+            <a href="../../index.html#contact" class="cta-button">
+                お問い合わせ
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="service-footer">
+        <div class="container">
+            <p class="footer-text">&copy; 2024 CUCUL FM LLC. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

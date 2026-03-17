@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>犬図鑑 - 犬種大全 | CUCUL FM</title>
+    <meta name="description" content="130以上の犬種を網羅した犬図鑑。犬種ごとの性格・育て方・お手入れ方法を詳しく解説。あなたにぴったりの犬種が見つかります。">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+JP:wght@300;400;500;700&family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="service-header">
+        <div class="container">
+            <div class="header-content">
+                <a href="../index.html" class="back-link">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>犬に携わる業務へ戻る</span>
+                </a>
+                <a href="../../../index.html" class="header-logo">CUCUL FM</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="breeds-hero">
+        <div class="container">
+            <p class="hero-label">DOG BREED ENCYCLOPEDIA</p>
+            <h1 class="hero-title">犬図鑑</h1>
+            <p class="hero-description">
+                FCI（国際畜犬連盟）の10グループに基づき、130以上の犬種を網羅。<br>
+                性格や育て方、お手入れのポイントまで、犬種選びに役立つ情報をお届けします。
+            </p>
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <div class="hero-stat-number" id="totalBreeds">0</div>
+                    <div class="hero-stat-label">収録犬種</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-number">10</div>
+                    <div class="hero-stat-label">FCIグループ</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-number">5</div>
+                    <div class="hero-stat-label">サイズ区分</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search & Filters -->
+    <section class="filter-section">
+        <div class="container">
+            <div class="search-bar">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+                    <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <input type="text" class="search-input" id="searchInput" placeholder="犬種名で検索（日本語・英語）">
+            </div>
+
+            <!-- Size filters -->
+            <div class="filter-row" id="sizeFilters">
+                <span class="filter-group-label">サイズで絞り込み</span>
+                <button class="filter-btn active" data-filter="size" data-value="all">すべて</button>
+                <button class="filter-btn" data-filter="size" data-value="xs">超小型犬</button>
+                <button class="filter-btn" data-filter="size" data-value="s">小型犬</button>
+                <button class="filter-btn" data-filter="size" data-value="m">中型犬</button>
+                <button class="filter-btn" data-filter="size" data-value="l">大型犬</button>
+                <button class="filter-btn" data-filter="size" data-value="xl">超大型犬</button>
+            </div>
+
+            <!-- Group filters -->
+            <div class="filter-row" id="groupFilters">
+                <span class="filter-group-label">FCIグループで絞り込み</span>
+                <button class="filter-btn active" data-filter="group" data-value="all">すべて</button>
+                <button class="filter-btn" data-filter="group" data-value="1">1群 牧羊犬</button>
+                <button class="filter-btn" data-filter="group" data-value="2">2群 使役犬</button>
+                <button class="filter-btn" data-filter="group" data-value="3">3群 テリア</button>
+                <button class="filter-btn" data-filter="group" data-value="4">4群 ダックス</button>
+                <button class="filter-btn" data-filter="group" data-value="5">5群 原始犬</button>
+                <button class="filter-btn" data-filter="group" data-value="6">6群 嗅覚ハウンド</button>
+                <button class="filter-btn" data-filter="group" data-value="7">7群 ポインター</button>
+                <button class="filter-btn" data-filter="group" data-value="8">8群 レトリーバー</button>
+                <button class="filter-btn" data-filter="group" data-value="9">9群 愛玩犬</button>
+                <button class="filter-btn" data-filter="group" data-value="10">10群 視覚ハウンド</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Breeds List -->
+    <section class="container">
+        <div class="results-bar">
+            <p class="results-count"><strong id="resultCount">0</strong> 犬種が見つかりました</p>
+        </div>
+        <div class="breeds-grid" id="breedsGrid">
+            <!-- Cards rendered by JavaScript -->
+        </div>
+    </section>
+
+    <!-- Group Legend -->
+    <section class="group-legend">
+        <div class="container">
+            <h2 class="group-legend-title">FCI GROUP CLASSIFICATION</h2>
+            <div class="group-legend-grid">
+                <div class="group-legend-item"><span class="group-legend-dot" style="background:var(--group-1)"></span>第1群 牧羊犬・牧畜犬</div>
+                <div class="group-legend-item"><span class="group-legend-dot" style="background:var(--group-2)"></span>第2群 使役犬</div>
+                <div class="group-legend-item"><span class="group-legend-dot" style="background:var(--group-3)"></span>第3群 テリア</div>
+                <div class="group-legend-item"><span class="group-legend-dot" style="background:var(--group-4)"></span>第4群 ダックスフンド</div>
+                <div class="group-legend-item"><span class="group-legend-dot" style="background:var(--group-5)"></span>第5群 原始的な犬・スピッツ</div>
+                <div class="group-legend-item"><span class="group-legend-dot" style="background:var(--group-6)"></span>第6群 嗅覚ハウンド</div>
+                <div class="group-legend-item"><span class="group-legend-dot" style="background:var(--group-7)"></span>第7群 ポインター・セター</div>
+                <div class="group-legend-item"><span class="group-legend-dot" style="background:var(--group-8)"></span>第8群 レトリーバー・スパニエル</div>
+                <div class="group-legend-item"><span class="group-legend-dot" style="background:var(--group-9)"></span>第9群 愛玩犬</div>
+                <div class="group-legend-item"><span class="group-legend-dot" style="background:var(--group-10)"></span>第10群 視覚ハウンド</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="service-footer">
+        <div class="container">
+            <p class="footer-text">&copy; 2024 CUCUL FM LLC. All rights reserved.</p>
+        </div>
+    </footer>
+
+<script>
+/* ==========================================================================
+   Dog Breeds Data
+   Format: [id, 名前, English, group, size, 原産国, [特徴], 運動量, 手入れ, しつけ, 説明]
+   size: xs=超小型, s=小型, m=中型, l=大型, xl=超大型
+   ========================================================================== */
+const BREEDS = [
+// --- Group 1: 牧羊犬・牧畜犬 ---
+["border-collie","ボーダーコリー","Border Collie",1,"m","イギリス",["賢い","活発","忠実"],5,3,5,"全犬種で最も知能が高いとされる牧羊犬。運動量が豊富でアジリティが得意。"],
+["shetland-sheepdog","シェットランドシープドッグ","Shetland Sheepdog",1,"s","イギリス",["賢い","温厚","従順"],4,4,5,"美しい被毛を持つ小型牧羊犬。家庭犬としても優秀。"],
+["welsh-corgi-pembroke","ウェルシュ・コーギー・ペンブローク","Welsh Corgi Pembroke",1,"m","イギリス",["陽気","活発","勇敢"],4,3,4,"短い脚と長い胴が特徴の人気犬種。英国王室でも愛される。"],
+["welsh-corgi-cardigan","ウェルシュ・コーギー・カーディガン","Welsh Corgi Cardigan",1,"m","イギリス",["忠実","温厚","順応性"],4,3,4,"ペンブロークより歴史が古い。尾があり、やや落ち着いた性格。"],
+["german-shepherd","ジャーマン・シェパード・ドッグ","German Shepherd Dog",1,"l","ドイツ",["忠実","勇敢","賢い"],5,3,5,"世界中で警察犬・軍用犬として活躍。高い訓練性と忠誠心。"],
+["australian-shepherd","オーストラリアン・シェパード","Australian Shepherd",1,"m","アメリカ",["賢い","活発","献身的"],5,3,5,"多才な牧羊犬。美しいマーブル柄の被毛が特徴。"],
+["rough-collie","ラフ・コリー","Rough Collie",1,"l","イギリス",["優雅","忠実","温厚"],3,4,4,"「名犬ラッシー」で有名。美しく長い被毛と気品ある佇まい。"],
+["smooth-collie","スムース・コリー","Smooth Collie",1,"l","イギリス",["穏やか","賢い","忠実"],3,2,4,"ラフコリーの短毛タイプ。手入れが比較的楽。"],
+["belgian-malinois","ベルジアン・マリノア","Belgian Malinois",1,"l","ベルギー",["活発","忠実","鋭敏"],5,2,5,"軍用犬・警察犬として世界トップクラスの能力を持つ。"],
+["belgian-tervuren","ベルジアン・タービュレン","Belgian Tervuren",1,"l","ベルギー",["活発","知的","警戒心"],5,4,4,"美しい長毛を持つベルギー原産の牧羊犬。"],
+["old-english-sheepdog","オールド・イングリッシュ・シープドッグ","Old English Sheepdog",1,"l","イギリス",["温厚","遊び好き","適応力"],3,5,3,"もこもこの被毛が特徴的な大型牧羊犬。愛嬌ある性格。"],
+["bearded-collie","ビアデッド・コリー","Bearded Collie",1,"m","イギリス",["陽気","活発","愛情深い"],4,4,3,"長い被毛と髭のような顔の毛が特徴。明るく元気な性格。"],
+["briard","ブリアード","Briard",1,"l","フランス",["忠実","勇敢","優しい"],4,4,4,"フランスの大型牧羊犬。長い被毛と高い知性を持つ。"],
+["puli","プーリー","Puli",1,"m","ハンガリー",["活発","賢い","忠実"],4,4,4,"独特のコード状被毛が特徴。敏捷で優秀な牧羊犬。"],
+["australian-kelpie","オーストラリアン・ケルピー","Australian Kelpie",1,"m","オーストラリア",["活発","忠実","独立心"],5,2,4,"驚異的なスタミナを持つ牧羊犬。広大な農場で活躍。"],
+["white-swiss-shepherd","ホワイト・スイス・シェパード","White Swiss Shepherd Dog",1,"l","スイス",["穏やか","賢い","忠実"],4,3,4,"白い被毛が美しいシェパード。温厚で家庭犬向き。"],
+
+// --- Group 2: 使役犬 ---
+["bernese-mountain-dog","バーニーズ・マウンテン・ドッグ","Bernese Mountain Dog",2,"l","スイス",["温厚","忠実","優しい"],3,3,3,"三色の美しい被毛を持つ大型犬。穏やかで家族思い。"],
+["rottweiler","ロットワイラー","Rottweiler",2,"l","ドイツ",["忠実","勇敢","冷静"],4,2,4,"力強く頼もしいガードドッグ。適切なしつけで優秀な家庭犬に。"],
+["great-dane","グレート・デーン","Great Dane",2,"xl","ドイツ",["優しい","友好的","忠実"],3,2,3,"「犬のアポロン」と呼ばれる超大型犬。優しいジェントルジャイアント。"],
+["boxer","ボクサー","Boxer",2,"l","ドイツ",["陽気","活発","勇敢"],4,2,4,"筋肉質で表情豊かな中〜大型犬。家族への愛情が深い。"],
+["dobermann","ドーベルマン","Dobermann",2,"l","ドイツ",["知的","忠実","勇敢"],4,2,5,"エレガントで引き締まった体型。優れた番犬にして家庭犬。"],
+["st-bernard","セント・バーナード","St. Bernard",2,"xl","スイス",["温厚","優しい","忍耐強い"],2,3,3,"アルプスの救助犬として有名。大きな体に優しい心。"],
+["newfoundland","ニューファンドランド","Newfoundland",2,"xl","カナダ",["優しい","忍耐強い","勇敢"],3,4,3,"水難救助犬として知られる超大型犬。泳ぎが得意。"],
+["great-pyrenees","グレート・ピレニーズ","Great Pyrenees",2,"xl","フランス",["穏やか","独立心","忠実"],3,3,3,"白い美しい巨体の山岳犬。護衛本能が強い。"],
+["mastiff","マスティフ","Mastiff",2,"xl","イギリス",["穏やか","勇敢","忠実"],2,2,3,"世界最大級の犬種。温厚な性格だが優秀な番犬。"],
+["bullmastiff","ブルマスティフ","Bullmastiff",2,"l","イギリス",["忠実","勇敢","穏やか"],3,2,3,"マスティフとブルドッグの交配で誕生。静かで信頼性の高い番犬。"],
+["cane-corso","カネ・コルソ","Cane Corso",2,"l","イタリア",["忠実","知的","逞しい"],4,2,4,"イタリアの古代モロッサー犬。引き締まった筋肉質の体。"],
+["leonberger","レオンベルガー","Leonberger",2,"xl","ドイツ",["優しい","遊び好き","忠実"],3,3,3,"ライオンのたてがみを思わせる被毛。家族愛が深い大型犬。"],
+["miniature-schnauzer","ミニチュア・シュナウザー","Miniature Schnauzer",2,"s","ドイツ",["活発","勇敢","忠実"],3,4,4,"特徴的な眉毛と髭。小さな体に大きな勇気。"],
+["standard-schnauzer","スタンダード・シュナウザー","Standard Schnauzer",2,"m","ドイツ",["知的","活発","忠実"],4,3,4,"シュナウザーの原型。バランスの取れた万能犬。"],
+["giant-schnauzer","ジャイアント・シュナウザー","Giant Schnauzer",2,"l","ドイツ",["勇敢","忠実","知的"],4,4,4,"シュナウザー最大の犬種。力強く頼もしい。"],
+["bulldog","ブルドッグ","Bulldog",2,"m","イギリス",["穏やか","忠実","勇敢"],2,2,3,"特徴的なしわのある顔と堂々たる体格。温厚な性格。"],
+["tibetan-mastiff","チベタン・マスティフ","Tibetan Mastiff",2,"xl","チベット",["独立心","勇敢","忠実"],3,3,2,"ヒマラヤの番犬。ライオンのような立派なたてがみ。"],
+["shar-pei","シャー・ペイ","Shar Pei",2,"m","中国",["独立心","忠実","冷静"],3,2,3,"独特のしわのある皮膚。中国古来の番犬。"],
+["dogue-de-bordeaux","ドーグ・ド・ボルドー","Dogue de Bordeaux",2,"l","フランス",["忠実","勇敢","穏やか"],3,2,3,"フランスのマスティフ。赤褐色の被毛と大きな頭が特徴。"],
+["hovawart","ホバワート","Hovawart",2,"l","ドイツ",["忠実","自信","優しい"],4,3,4,"ドイツの古い農場番犬。家族への愛情が深い。"],
+
+// --- Group 3: テリア ---
+["yorkshire-terrier","ヨークシャー・テリア","Yorkshire Terrier",3,"xs","イギリス",["活発","勇敢","愛情深い"],2,4,3,"シルクのような美しい被毛。小さな体に大きな性格。"],
+["jack-russell-terrier","ジャック・ラッセル・テリア","Jack Russell Terrier",3,"s","イギリス",["活発","勇敢","賢い"],5,2,3,"驚異的なエネルギーを持つ小型テリア。冒険好き。"],
+["west-highland-white-terrier","ウエスト・ハイランド・ホワイト・テリア","West Highland White Terrier",3,"s","イギリス",["陽気","自信","愛情深い"],3,3,3,"真っ白な被毛が美しい人気テリア。明るい性格。"],
+["scottish-terrier","スコティッシュ・テリア","Scottish Terrier",3,"s","イギリス",["独立心","勇敢","忠実"],3,3,3,"短い脚と特徴的な顔立ち。威厳のある小型犬。"],
+["airedale-terrier","エアデール・テリア","Airedale Terrier",3,"l","イギリス",["勇敢","知的","活発"],4,3,4,"テリアの王様と呼ばれる最大のテリア。万能犬。"],
+["bull-terrier","ブル・テリア","Bull Terrier",3,"m","イギリス",["遊び好き","活発","愛情深い"],4,1,3,"卵型の頭が特徴的。ユーモラスで愛嬌のある犬種。"],
+["cairn-terrier","ケアーン・テリア","Cairn Terrier",3,"s","イギリス",["活発","勇敢","好奇心旺盛"],3,2,3,"スコットランドの古いテリア。丈夫でたくましい。"],
+["wire-fox-terrier","ワイヤー・フォックス・テリア","Wire Fox Terrier",3,"s","イギリス",["活発","勇敢","賢い"],4,3,4,"針金のような被毛が特徴。優美でエレガント。"],
+["norfolk-terrier","ノーフォーク・テリア","Norfolk Terrier",3,"s","イギリス",["活発","勇敢","愛情深い"],3,2,3,"垂れ耳のかわいい小型テリア。テリアの中では穏やか。"],
+["staffordshire-bull-terrier","スタッフォードシャー・ブル・テリア","Staffordshire Bull Terrier",3,"m","イギリス",["勇敢","愛情深い","活発"],4,1,3,"筋肉質だが愛情深い。子供との相性が良い。"],
+["bedlington-terrier","ベドリントン・テリア","Bedlington Terrier",3,"s","イギリス",["穏やか","活発","忠実"],3,4,3,"羊のような独特の外見。テリアの中では温厚。"],
+["skye-terrier","スカイ・テリア","Skye Terrier",3,"s","イギリス",["忠実","勇敢","気品"],2,3,3,"長い被毛と短い脚が特徴。忠誠心が非常に強い。"],
+["irish-terrier","アイリッシュ・テリア","Irish Terrier",3,"m","アイルランド",["勇敢","活発","愛情深い"],4,2,3,"赤褐色の美しい被毛。テリア気質が強い活発な犬種。"],
+["kerry-blue-terrier","ケリー・ブルー・テリア","Kerry Blue Terrier",3,"m","アイルランド",["活発","知的","忠実"],4,4,3,"青みがかった特徴的な被毛。アイルランドの万能犬。"],
+["miniature-bull-terrier","ミニチュア・ブル・テリア","Miniature Bull Terrier",3,"s","イギリス",["遊び好き","頑固","愛嬌"],3,1,3,"ブルテリアの小型版。ユーモラスで愛嬌たっぷり。"],
+
+// --- Group 4: ダックスフンド ---
+["miniature-dachshund","ミニチュア・ダックスフンド","Miniature Dachshund",4,"s","ドイツ",["好奇心旺盛","勇敢","活発"],3,2,3,"日本で絶大な人気を誇る短脚犬。3種の被毛タイプあり。"],
+["standard-dachshund","スタンダード・ダックスフンド","Standard Dachshund",4,"m","ドイツ",["勇敢","忠実","活発"],3,2,3,"ダックスフンドの原型。アナグマ猟のために作られた。"],
+["kaninchen-dachshund","カニーンヘン・ダックスフンド","Kaninchen Dachshund",4,"xs","ドイツ",["活発","勇敢","甘えん坊"],2,2,3,"最も小さいダックスフンド。ウサギ猟用に作出。"],
+
+// --- Group 5: 原始的な犬・スピッツ ---
+["shiba-inu","柴犬","Shiba Inu",5,"m","日本",["忠実","勇敢","独立心"],4,2,3,"日本を代表する犬種。凛とした佇まいと強い忠誠心。"],
+["akita","秋田犬","Akita",5,"l","日本",["忠実","勇敢","威厳"],4,3,3,"忠犬ハチ公で世界的に有名。堂々とした風格の日本犬。"],
+["japanese-spitz","日本スピッツ","Japanese Spitz",5,"s","日本",["活発","忠実","愛情深い"],3,3,4,"純白の美しい被毛。明るく遊び好きな性格。"],
+["pomeranian","ポメラニアン","Pomeranian",5,"xs","ドイツ",["活発","好奇心旺盛","勇敢"],2,3,3,"ふわふわの被毛と愛くるしい表情で大人気の超小型犬。"],
+["samoyed","サモエド","Samoyed",5,"l","ロシア",["友好的","活発","優しい"],4,4,3,"「サモエドスマイル」と呼ばれる笑顔が特徴。白い美しい被毛。"],
+["siberian-husky","シベリアン・ハスキー","Siberian Husky",5,"l","ロシア",["友好的","活発","独立心"],5,3,3,"美しいブルーの瞳。そり犬として高い持久力を持つ。"],
+["alaskan-malamute","アラスカン・マラミュート","Alaskan Malamute",5,"xl","アメリカ",["忠実","活発","友好的"],5,4,3,"ハスキーより大きい北方犬種。力強く忠実。"],
+["chow-chow","チャウ・チャウ","Chow Chow",5,"m","中国",["独立心","忠実","威厳"],2,4,2,"ライオンのようなたてがみと青い舌が特徴。"],
+["basenji","バセンジー","Basenji",5,"m","コンゴ",["独立心","知的","好奇心旺盛"],4,1,2,"吠えない犬として有名。猫のような性格を持つ原始犬。"],
+["finnish-spitz","フィニッシュ・スピッツ","Finnish Spitz",5,"m","フィンランド",["活発","忠実","勇敢"],4,2,3,"フィンランドの国犬。美しい赤金色の被毛。"],
+["kai-ken","甲斐犬","Kai Ken",5,"m","日本",["忠実","勇敢","警戒心"],4,2,3,"虎毛が特徴の日本犬。一代一主と言われる忠誠心。"],
+["kishu-ken","紀州犬","Kishu Ken",5,"m","日本",["忠実","勇敢","冷静"],4,2,3,"白い被毛が美しい日本犬。イノシシ猟で活躍。"],
+["hokkaido-dog","北海道犬","Hokkaido Dog",5,"m","日本",["勇敢","忠実","野性的"],4,2,3,"アイヌ犬とも呼ばれる。寒さに強く勇敢な日本犬。"],
+["shikoku-dog","四国犬","Shikoku Dog",5,"m","日本",["忠実","活発","野性的"],4,2,3,"四国山地の猟犬。狼に似た精悍な風貌。"],
+["korean-jindo","珍島犬","Korean Jindo",5,"m","韓国",["忠実","勇敢","独立心"],4,2,3,"韓国の天然記念物。帰巣本能が非常に強い。"],
+["eurasier","ユーラシア","Eurasier",5,"m","ドイツ",["穏やか","忠実","冷静"],3,3,4,"チャウチャウとサモエドの交配種。落ち着いた性格。"],
+["norrbottenspets","ノルボッテンスピッツ","Norrbottenspets",5,"s","スウェーデン",["活発","勇敢","愛情深い"],4,1,3,"北欧の小型スピッツ。狩猟犬として優秀。"],
+["thai-ridgeback","タイ・リッジバック","Thai Ridgeback",5,"m","タイ",["独立心","忠実","活発"],4,1,2,"背中のリッジ（逆毛）が特徴。タイの古代犬種。"],
+
+// --- Group 6: 嗅覚ハウンド ---
+["beagle","ビーグル","Beagle",6,"m","イギリス",["陽気","好奇心旺盛","友好的"],4,1,3,"スヌーピーのモデル。優れた嗅覚と明るい性格。"],
+["basset-hound","バセット・ハウンド","Basset Hound",6,"m","フランス",["穏やか","友好的","頑固"],2,2,2,"長い耳と短い脚が特徴。のんびりした性格。"],
+["bloodhound","ブラッドハウンド","Bloodhound",6,"l","ベルギー",["穏やか","忍耐強い","友好的"],3,2,2,"犬の中で最も優れた嗅覚を持つ。追跡犬の王様。"],
+["dalmatian","ダルメシアン","Dalmatian",6,"l","クロアチア",["活発","友好的","エネルギッシュ"],5,2,3,"白地に黒い斑点が特徴的。かつて馬車犬として活躍。"],
+["rhodesian-ridgeback","ローデシアン・リッジバック","Rhodesian Ridgeback",6,"l","南アフリカ",["勇敢","忠実","知的"],4,1,3,"背中のリッジが特徴。ライオン狩りに使われた。"],
+["petit-basset-griffon-vendeen","プチ・バセット・グリフォン・バンデーン","Petit Basset Griffon Vendéen",6,"s","フランス",["陽気","活発","頑固"],3,3,3,"フランスの小型嗅覚ハウンド。粗い被毛が特徴。"],
+["american-foxhound","アメリカン・フォックスハウンド","American Foxhound",6,"l","アメリカ",["友好的","独立心","活発"],5,1,2,"アメリカ最古の犬種の一つ。キツネ猟で活躍。"],
+["harrier","ハリア","Harrier",6,"m","イギリス",["友好的","活発","社交的"],4,1,3,"ビーグルとフォックスハウンドの中間サイズ。"],
+["otterhound","オッターハウンド","Otterhound",6,"l","イギリス",["友好的","活発","独立心"],4,3,2,"カワウソ猟のために作られた珍しい犬種。水が好き。"],
+["plott-hound","プロット・ハウンド","Plott Hound",6,"l","アメリカ",["勇敢","忠実","知的"],4,1,3,"熊猟用に育種されたアメリカのハウンド。"],
+
+// --- Group 7: ポインター・セター ---
+["irish-setter","アイリッシュ・セター","Irish Setter",7,"l","アイルランド",["陽気","活発","愛情深い"],5,3,3,"美しい赤褐色の被毛。エレガントで陽気な性格。"],
+["english-pointer","イングリッシュ・ポインター","English Pointer",7,"l","イギリス",["活発","知的","忠実"],5,1,4,"ポインティングの名手。優美で引き締まった体型。"],
+["weimaraner","ワイマラナー","Weimaraner",7,"l","ドイツ",["活発","知的","忠実"],5,2,4,"「グレーの幽霊」と呼ばれる銀灰色の被毛。"],
+["german-shorthaired-pointer","ジャーマン・ショートヘアード・ポインター","German Shorthaired Pointer",7,"l","ドイツ",["活発","知的","友好的"],5,1,4,"万能猟犬。陸でも水でも優秀な狩猟能力。"],
+["brittany","ブリタニー・スパニエル","Brittany",7,"m","フランス",["活発","愛情深い","知的"],5,2,4,"フランスの万能猟犬。コンパクトで運動能力が高い。"],
+["vizsla","ビズラ","Vizsla",7,"m","ハンガリー",["愛情深い","活発","知的"],5,1,4,"「ベルベットの犬」と呼ばれる美しい被毛。非常に甘えん坊。"],
+["english-setter","イングリッシュ・セター","English Setter",7,"l","イギリス",["優しい","活発","友好的"],4,3,3,"斑点模様の美しい長毛。ジェントルマンな性格。"],
+["gordon-setter","ゴードン・セター","Gordon Setter",7,"l","イギリス",["忠実","知的","自信"],4,3,4,"黒と茶の美しい被毛。セターの中で最も重量級。"],
+["german-wirehaired-pointer","ジャーマン・ワイヤーヘアード・ポインター","German Wirehaired Pointer",7,"l","ドイツ",["活発","忠実","知的"],5,2,4,"粗い針金状の被毛が特徴の万能猟犬。"],
+["italian-spinone","イタリアン・スピノーネ","Italian Spinone",7,"l","イタリア",["穏やか","忠実","従順"],3,3,3,"イタリアの古い猟犬種。温厚で家庭犬に向く。"],
+
+// --- Group 8: レトリーバー・スパニエル・水猟犬 ---
+["golden-retriever","ゴールデン・レトリーバー","Golden Retriever",8,"l","イギリス",["友好的","知的","忠実"],4,3,5,"世界中で愛される万能犬。優しく人懐こい性格。"],
+["labrador-retriever","ラブラドール・レトリーバー","Labrador Retriever",8,"l","カナダ",["友好的","活発","忠実"],4,2,5,"盲導犬・介助犬として最も活躍。世界で最も人気の犬種。"],
+["flat-coated-retriever","フラットコーテッド・レトリーバー","Flat-Coated Retriever",8,"l","イギリス",["陽気","友好的","活発"],4,3,4,"「永遠の子犬」と呼ばれる明るい性格。黒い被毛が美しい。"],
+["american-cocker-spaniel","アメリカン・コッカー・スパニエル","American Cocker Spaniel",8,"s","アメリカ",["陽気","友好的","活発"],3,4,4,"豊かな被毛と大きな瞳が魅力。快活で愛嬌のある性格。"],
+["english-cocker-spaniel","イングリッシュ・コッカー・スパニエル","English Cocker Spaniel",8,"m","イギリス",["陽気","活発","愛情深い"],4,3,4,"常に尾を振るハッピーな犬種。猟犬としても優秀。"],
+["english-springer-spaniel","イングリッシュ・スプリンガー・スパニエル","English Springer Spaniel",8,"m","イギリス",["活発","友好的","従順"],4,3,4,"スパニエルの中で最も脚が長い。家庭犬としても優秀。"],
+["portuguese-water-dog","ポルトガル・ウォーター・ドッグ","Portuguese Water Dog",8,"m","ポルトガル",["活発","知的","忠実"],4,4,4,"漁師の仕事を助けた水猟犬。抜け毛が少ない。"],
+["chesapeake-bay-retriever","チェサピーク・ベイ・レトリーバー","Chesapeake Bay Retriever",8,"l","アメリカ",["忠実","知的","活発"],4,2,4,"アメリカ生まれのレトリーバー。水に強い被毛。"],
+["curly-coated-retriever","カーリーコーテッド・レトリーバー","Curly-Coated Retriever",8,"l","イギリス",["知的","独立心","忠実"],4,2,4,"巻き毛が特徴のレトリーバー。最も古いレトリーバー種。"],
+["clumber-spaniel","クランバー・スパニエル","Clumber Spaniel",8,"m","イギリス",["穏やか","忠実","愛情深い"],2,3,3,"スパニエルの中で最重量。落ち着いた性格。"],
+["irish-water-spaniel","アイリッシュ・ウォーター・スパニエル","Irish Water Spaniel",8,"l","アイルランド",["活発","知的","勇敢"],4,4,3,"巻き毛の被毛とネズミのような尾が特徴。"],
+
+// --- Group 9: 愛玩犬 ---
+["toy-poodle","トイプードル","Toy Poodle",9,"s","フランス",["賢い","活発","愛情深い"],3,5,5,"知性と美しさを兼ね備えた人気No.1犬種。抜け毛が少ない。"],
+["miniature-poodle","ミニチュアプードル","Miniature Poodle",9,"s","フランス",["賢い","活発","忠実"],3,5,5,"トイとスタンダードの中間サイズ。バランスが良い。"],
+["standard-poodle","スタンダードプードル","Standard Poodle",9,"l","フランス",["賢い","優雅","活発"],4,5,5,"プードルの原型。水猟犬の歴史を持つ優美な大型犬。"],
+["chihuahua","チワワ","Chihuahua",9,"xs","メキシコ",["勇敢","活発","甘えん坊"],2,2,3,"世界最小の犬種。大きな瞳と大きな耳が魅力。"],
+["maltese","マルチーズ","Maltese",9,"xs","マルタ",["温厚","活発","甘えん坊"],2,4,3,"純白のシルキーな被毛。古代から愛され続ける愛玩犬。"],
+["papillon","パピヨン","Papillon",9,"xs","フランス",["活発","賢い","友好的"],3,3,4,"蝶のような美しい飾り毛の耳が特徴。小型犬で最も賢い。"],
+["shih-tzu","シー・ズー","Shih Tzu",9,"s","中国",["温厚","社交的","遊び好き"],2,4,3,"中国皇帝に愛された犬種。穏やかで誰とでも仲良く。"],
+["pekingese","ペキニーズ","Pekingese",9,"xs","中国",["独立心","勇敢","気品"],1,4,2,"中国宮廷の愛犬。堂々とした風格を持つ。"],
+["cavalier-king-charles-spaniel","キャバリア・キング・チャールズ・スパニエル","Cavalier King Charles Spaniel",9,"s","イギリス",["優しい","友好的","活発"],3,3,4,"穏やかで愛情深い理想的な家庭犬。どんな環境にも適応。"],
+["pug","パグ","Pug",9,"s","中国",["陽気","社交的","いたずら好き"],2,1,3,"表情豊かなしわのある顔。コメディアンのような性格。"],
+["french-bulldog","フレンチ・ブルドッグ","French Bulldog",9,"s","フランス",["愛嬌","穏やか","遊び好き"],2,1,3,"コウモリ耳が特徴。マンション飼育に最適な人気犬種。"],
+["boston-terrier","ボストン・テリア","Boston Terrier",9,"s","アメリカ",["友好的","活発","賢い"],3,1,4,"タキシードを着たような模様。「アメリカの紳士」。"],
+["bichon-frise","ビション・フリーゼ","Bichon Frise",9,"s","フランス",["陽気","遊び好き","愛情深い"],3,4,4,"真っ白なカーリーヘア。常に笑顔の愛嬌ある犬種。"],
+["havanese","ハバニーズ","Havanese",9,"s","キューバ",["陽気","愛情深い","賢い"],3,3,4,"キューバの国犬。シルキーな被毛と陽気な性格。"],
+["chinese-crested-dog","チャイニーズ・クレステッド・ドッグ","Chinese Crested Dog",9,"xs","中国",["愛情深い","活発","敏感"],2,2,3,"ヘアレスとパウダーパフの2タイプ。個性的な外見。"],
+["coton-de-tulear","コトン・ド・テュレアール","Coton de Tulear",9,"s","マダガスカル",["陽気","愛情深い","遊び好き"],3,3,4,"綿のような白い被毛。マダガスカルの王家に愛された。"],
+["japanese-chin","狆","Japanese Chin",9,"xs","日本",["気品","穏やか","愛情深い"],1,3,3,"日本の皇室に愛された優雅な犬種。猫のような仕草。"],
+["lhasa-apso","ラサ・アプソ","Lhasa Apso",9,"s","チベット",["独立心","忠実","警戒心"],2,4,2,"チベットの僧院で番犬として飼われていた。長い被毛が特徴。"],
+["tibetan-spaniel","チベタン・スパニエル","Tibetan Spaniel",9,"s","チベット",["独立心","知的","愛情深い"],2,2,3,"チベットの僧院犬。小さな体にたくましい精神。"],
+["lowchen","レーヴヘン","Löwchen",9,"s","フランス",["活発","愛情深い","賢い"],3,3,4,"「小さなライオン」の意味を持つ珍しい犬種。"],
+["brussels-griffon","ブリュッセル・グリフォン","Brussels Griffon",9,"xs","ベルギー",["好奇心旺盛","愛情深い","自信"],2,3,3,"人間のような表情豊かな顔。小さな冒険家。"],
+["toy-manchester-terrier","トイ・マンチェスター・テリア","Toy Manchester Terrier",9,"xs","イギリス",["活発","賢い","忠実"],3,1,4,"小さくてスマートなテリア。光沢のある黒と茶の被毛。"],
+["italian-greyhound","イタリアン・グレーハウンド","Italian Greyhound",9,"xs","イタリア",["優雅","愛情深い","敏感"],3,1,3,"グレーハウンドのミニチュア版。優美で繊細。"],
+["bolognese","ボロニーズ","Bolognese",9,"xs","イタリア",["穏やか","愛情深い","忠実"],2,3,3,"イタリアの愛玩犬。白いふわふわの被毛。"],
+["phalene","ファーレン","Phalène",9,"xs","フランス",["愛情深い","賢い","活発"],3,3,4,"パピヨンの垂れ耳タイプ。「蛾」を意味する名前。"],
+["affenpinscher","アーフェンピンシャー","Affenpinscher",9,"xs","ドイツ",["好奇心旺盛","遊び好き","勇敢"],2,3,3,"「猿のようなテリア」の意味。ユーモラスな表情。"],
+["russian-toy","ロシアン・トイ","Russian Toy",9,"xs","ロシア",["活発","愛情深い","勇敢"],2,2,3,"チワワに似た超小型犬。ロングとスムースの2タイプ。"],
+
+// --- Group 10: 視覚ハウンド ---
+["greyhound","グレーハウンド","Greyhound",10,"l","イギリス",["穏やか","優しい","独立心"],3,1,3,"最速の犬種（時速70km超）。引退後は穏やかな家庭犬に。"],
+["whippet","ウィペット","Whippet",10,"m","イギリス",["穏やか","友好的","活発"],4,1,4,"「貧乏人のグレーハウンド」と呼ばれた優美な中型犬。"],
+["borzoi","ボルゾイ","Borzoi",10,"xl","ロシア",["優雅","穏やか","独立心"],3,3,2,"ロシアの貴族に愛された優美な大型犬。"],
+["afghan-hound","アフガン・ハウンド","Afghan Hound",10,"l","アフガニスタン",["独立心","気品","活発"],4,5,2,"長く流れるシルキーな被毛。犬の中の王族。"],
+["saluki","サルーキ","Saluki",10,"l","中東",["優雅","独立心","忠実"],4,2,2,"最古の犬種の一つ。エジプトの王家に愛された。"],
+["irish-wolfhound","アイリッシュ・ウルフハウンド","Irish Wolfhound",10,"xl","アイルランド",["穏やか","友好的","勇敢"],3,2,3,"最も背の高い犬種。優しい巨人。"],
+["scottish-deerhound","スコティッシュ・ディアハウンド","Scottish Deerhound",10,"xl","イギリス",["穏やか","友好的","忠実"],3,2,3,"スコットランドの鹿猟犬。ウルフハウンドに似る。"],
+["azawakh","アザワク","Azawakh",10,"l","西アフリカ",["独立心","忠実","鋭敏"],4,1,2,"サハラ砂漠の遊牧民に飼われてきた古代犬種。"],
+["pharaoh-hound","ファラオ・ハウンド","Pharaoh Hound",10,"m","マルタ",["活発","知的","友好的"],4,1,3,"古代エジプトの犬に似た外見。赤面する珍しい犬種。"],
+["sloughi","スルーギ","Sloughi",10,"l","モロッコ",["忠実","敏感","独立心"],4,1,2,"北アフリカの砂漠で育まれた視覚ハウンド。"]
+];
+
+/* Group names & colors */
+const GROUPS = {
+    1: {name:"牧羊犬・牧畜犬", color:"76,175,80"},
+    2: {name:"使役犬", color:"33,150,243"},
+    3: {name:"テリア", color:"255,152,0"},
+    4: {name:"ダックスフンド", color:"156,39,176"},
+    5: {name:"原始的な犬・スピッツ", color:"244,67,54"},
+    6: {name:"嗅覚ハウンド", color:"0,188,212"},
+    7: {name:"ポインター・セター", color:"139,195,74"},
+    8: {name:"レトリーバー・スパニエル", color:"63,81,181"},
+    9: {name:"愛玩犬", color:"233,30,99"},
+    10:{name:"視覚ハウンド", color:"96,125,139"}
+};
+
+const SIZE_LABELS = {xs:"超小型犬",s:"小型犬",m:"中型犬",l:"大型犬",xl:"超大型犬"};
+
+/* Dog CEO API breed mapping: our ID → API path */
+const DOG_API = {
+"border-collie":"collie/border","shetland-sheepdog":"sheepdog/shetland","welsh-corgi-pembroke":"pembroke","welsh-corgi-cardigan":"corgi/cardigan","german-shepherd":"german/shepherd","australian-shepherd":"australian/shepherd","rough-collie":"rough/collie","belgian-malinois":"malinois","belgian-tervuren":"tervuren","old-english-sheepdog":"sheepdog/english","bearded-collie":"collie/border","briard":"briard","puli":"komondor","australian-kelpie":"australian/kelpie",
+"bernese-mountain-dog":"mountain/bernese","rottweiler":"rottweiler","great-dane":"dane/great","boxer":"boxer","dobermann":"doberman","st-bernard":"stbernard","newfoundland":"newfoundland","great-pyrenees":"pyrenees","mastiff":"mastiff/english","bullmastiff":"mastiff/bull","cane-corso":"mastiff/english","leonberger":"leonberg","miniature-schnauzer":"schnauzer/miniature","standard-schnauzer":"schnauzer/standard","giant-schnauzer":"schnauzer/giant","bulldog":"bulldog/english","tibetan-mastiff":"mastiff/tibetan","shar-pei":"sharpei",
+"yorkshire-terrier":"terrier/yorkshire","jack-russell-terrier":"terrier/russell","west-highland-white-terrier":"terrier/westhighland","scottish-terrier":"terrier/scottish","airedale-terrier":"airedale","bull-terrier":"bullterrier/staffordshire","cairn-terrier":"terrier/cairn","wire-fox-terrier":"terrier/fox","norfolk-terrier":"terrier/norfolk","staffordshire-bull-terrier":"bullterrier/staffordshire","bedlington-terrier":"terrier/bedlington","irish-terrier":"terrier/irish","kerry-blue-terrier":"terrier/kerryblue",
+"miniature-dachshund":"dachshund","standard-dachshund":"dachshund","kaninchen-dachshund":"dachshund",
+"shiba-inu":"shiba","akita":"akita","japanese-spitz":"spitz/japanese","pomeranian":"pomeranian","samoyed":"samoyed","siberian-husky":"husky","alaskan-malamute":"malamute","chow-chow":"chow","basenji":"basenji","finnish-spitz":"finnish/lapphund",
+"beagle":"beagle","basset-hound":"hound/basset","bloodhound":"hound/blood","dalmatian":"dalmatian","rhodesian-ridgeback":"ridgeback/rhodesian","american-foxhound":"hound/english","otterhound":"otterhound","plott-hound":"hound/plott",
+"irish-setter":"setter/irish","weimaraner":"weimaraner","german-shorthaired-pointer":"pointer/german","brittany":"spaniel/brittany","vizsla":"vizsla","english-setter":"setter/english","gordon-setter":"setter/gordon","german-wirehaired-pointer":"pointer/germanlonghair",
+"golden-retriever":"retriever/golden","labrador-retriever":"labrador","flat-coated-retriever":"retriever/flatcoated","american-cocker-spaniel":"spaniel/cocker","english-cocker-spaniel":"spaniel/cocker","english-springer-spaniel":"springer/english","chesapeake-bay-retriever":"retriever/chesapeake","curly-coated-retriever":"retriever/curly","clumber-spaniel":"clumber","irish-water-spaniel":"spaniel/irish",
+"toy-poodle":"poodle/toy","miniature-poodle":"poodle/miniature","standard-poodle":"poodle/standard","chihuahua":"chihuahua","maltese":"maltese","papillon":"papillon","shih-tzu":"shihtzu","pekingese":"pekinese","cavalier-king-charles-spaniel":"spaniel/blenheim","pug":"pug","french-bulldog":"bulldog/french","boston-terrier":"bulldog/boston","bichon-frise":"frise/bichon","havanese":"havanese","chinese-crested-dog":"mexicanhairless","coton-de-tulear":"cotondetulear","japanese-chin":"spaniel/japanese","lhasa-apso":"lhasa","brussels-griffon":"brabancon","italian-greyhound":"greyhound/italian","affenpinscher":"affenpinscher",
+"greyhound":"greyhound/indian","whippet":"whippet","borzoi":"borzoi","afghan-hound":"hound/afghan","saluki":"saluki","irish-wolfhound":"wolfhound/irish","scottish-deerhound":"deerhound/scottish"
+};
+
+/* Image cache to avoid re-fetching */
+const imgCache = {};
+
+function loadBreedImage(id, imgEl) {
+    if (imgCache[id]) { imgEl.src = imgCache[id]; imgEl.style.display = 'block'; return; }
+    const apiPath = DOG_API[id];
+    if (!apiPath) return; /* No API mapping — keep placeholder */
+    fetch(`https://dog.ceo/api/breed/${apiPath}/images/random`)
+        .then(r => r.json())
+        .then(data => {
+            if (data.status === 'success') {
+                imgCache[id] = data.message;
+                imgEl.src = data.message;
+                imgEl.style.display = 'block';
+            }
+        })
+        .catch(() => {}); /* Fail silently — placeholder stays */
+}
+
+/* ---------- State ---------- */
+let activeSize = "all";
+let activeGroup = "all";
+let searchQuery = "";
+
+/* ---------- Render ---------- */
+function renderBreeds() {
+    const grid = document.getElementById("breedsGrid");
+    const filtered = BREEDS.filter(b => {
+        const [id, name, nameEn, group, size] = b;
+        if (activeSize !== "all" && size !== activeSize) return false;
+        if (activeGroup !== "all" && String(group) !== activeGroup) return false;
+        if (searchQuery) {
+            const q = searchQuery.toLowerCase();
+            if (!name.toLowerCase().includes(q) && !nameEn.toLowerCase().includes(q) && !id.includes(q)) return false;
+        }
+        return true;
+    });
+
+    document.getElementById("resultCount").textContent = filtered.length;
+
+    if (filtered.length === 0) {
+        grid.innerHTML = `
+            <div class="breeds-empty">
+                <svg class="breeds-empty-icon" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/><path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                <p class="breeds-empty-title">該当する犬種が見つかりません</p>
+                <p class="breeds-empty-text">検索条件を変更してお試しください</p>
+            </div>`;
+        return;
+    }
+
+    grid.innerHTML = filtered.map(b => {
+        const [id, name, nameEn, group, size, origin, traits, exercise, grooming, trainability, desc] = b;
+        const gc = GROUPS[group].color;
+        const dotsFn = (n) => Array.from({length:5},(_,i)=>`<span class="breed-stat-dot${i<n?' filled':''}"></span>`).join('');
+        return `
+        <div class="breed-card" data-breed-id="${id}">
+            <a href="detail.html?id=${id}">
+                <div class="breed-image">
+                    <div class="breed-placeholder" style="--ph-r:${gc.split(',')[0]};--ph-g:${gc.split(',')[1]};--ph-b:${gc.split(',')[2]}">
+                        <svg class="breed-placeholder-icon" viewBox="0 0 48 48" fill="none"><path d="M18 8c0-2.5-2.5-4.5-5.5-3.5S7 8 7 11s2.5 5.5 5.5 4.5S18 10.5 18 8z" stroke="currentColor" stroke-width="2"/><path d="M30 8c0-2.5 2.5-4.5 5.5-3.5S41 8 41 11s-2.5 5.5-5.5 4.5S30 10.5 30 8z" stroke="currentColor" stroke-width="2"/><path d="M24 40c8 0 14-6 14-12s-6-10-14-10-14 4-14 10 6 12 14 12z" stroke="currentColor" stroke-width="2"/></svg>
+                        <span class="breed-placeholder-label">PHOTO</span>
+                    </div>
+                    <img class="breed-api-img" data-breed="${id}" alt="${name}" style="display:none;position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;">
+                    <span class="breed-size-badge">${SIZE_LABELS[size]}</span>
+                    <span class="breed-group-line" style="background:rgb(${gc})"></span>
+                </div>
+                <div class="breed-info">
+                    <h3 class="breed-name">${name}</h3>
+                    <p class="breed-name-en">${nameEn.toUpperCase()}</p>
+                    <p class="breed-origin"><svg viewBox="0 0 24 24" fill="none"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="2"/></svg>${origin}</p>
+                    <div class="breed-traits">${traits.map(t=>`<span class="breed-trait">${t}</span>`).join('')}</div>
+                    <div class="breed-stats">
+                        <div class="breed-stat"><div class="breed-stat-label">運動量</div><div class="breed-stat-dots">${dotsFn(exercise)}</div></div>
+                        <div class="breed-stat"><div class="breed-stat-label">お手入れ</div><div class="breed-stat-dots">${dotsFn(grooming)}</div></div>
+                        <div class="breed-stat"><div class="breed-stat-label">しつけ</div><div class="breed-stat-dots">${dotsFn(trainability)}</div></div>
+                    </div>
+                    <div class="breed-detail-link">
+                        詳しく見る
+                        <svg viewBox="0 0 24 24" fill="none"><path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </div>
+                </div>
+            </a>
+        </div>`;
+    }).join('');
+
+    /* Load images from API after rendering cards */
+    requestAnimationFrame(() => {
+        document.querySelectorAll('.breed-api-img').forEach(img => {
+            loadBreedImage(img.dataset.breed, img);
+        });
+    });
+}
+
+/* ---------- Events ---------- */
+document.getElementById("searchInput").addEventListener("input", function(e) {
+    searchQuery = e.target.value.trim();
+    renderBreeds();
+});
+
+document.querySelectorAll(".filter-btn").forEach(btn => {
+    btn.addEventListener("click", function() {
+        const filterType = this.dataset.filter;
+        const value = this.dataset.value;
+        const row = this.closest(".filter-row");
+        row.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+        this.classList.add("active");
+        if (filterType === "size") activeSize = value;
+        if (filterType === "group") activeGroup = value;
+        renderBreeds();
+    });
+});
+
+/* ---------- Init ---------- */
+document.getElementById("totalBreeds").textContent = BREEDS.length;
+renderBreeds();
+</script>
+</body>
+</html>
