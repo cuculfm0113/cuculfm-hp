@@ -66,8 +66,15 @@
                     <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                 </svg>
                 <input type="text" class="search-input" id="searchInput" placeholder="犬種名で検索（日本語・英語）">
+                <button class="filter-toggle" id="filterToggle" aria-expanded="false" aria-controls="filterPanel">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3 6h18M7 12h10M10 18h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <span>絞り込み</span>
+                </button>
             </div>
 
+            <div class="filter-panel" id="filterPanel">
             <!-- Size filters -->
             <div class="filter-row" id="sizeFilters">
                 <span class="filter-group-label">サイズで絞り込み</span>
@@ -94,6 +101,7 @@
                 <button class="filter-btn" data-filter="group" data-value="9">9群 愛玩犬</button>
                 <button class="filter-btn" data-filter="group" data-value="10">10群 視覚ハウンド</button>
             </div>
+            </div><!-- /.filter-panel -->
         </div>
     </section>
 
@@ -440,6 +448,27 @@ document.querySelectorAll(".filter-btn").forEach(btn => {
         if (filterType === "size") activeSize = value;
         if (filterType === "group") activeGroup = value;
         renderBreeds();
+    });
+});
+
+/* ---------- Filter Toggle (mobile) ---------- */
+const filterToggle = document.getElementById("filterToggle");
+const filterPanel = document.getElementById("filterPanel");
+
+filterToggle.addEventListener("click", function() {
+    const isOpen = filterPanel.classList.toggle("open");
+    filterToggle.setAttribute("aria-expanded", isOpen);
+    filterToggle.classList.toggle("active", isOpen);
+});
+
+/* Close filter panel when a filter is selected (mobile UX) */
+document.querySelectorAll(".filter-panel .filter-btn").forEach(btn => {
+    btn.addEventListener("click", function() {
+        if (window.innerWidth <= 768) {
+            filterPanel.classList.remove("open");
+            filterToggle.setAttribute("aria-expanded", "false");
+            filterToggle.classList.remove("active");
+        }
     });
 });
 

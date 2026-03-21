@@ -18,3 +18,6 @@
 # 環境変数（機密情報がある場合）
 .env
 .env.local
+
+# Local Netlify folder
+.netlify
