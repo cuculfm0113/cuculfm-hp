@@ -980,6 +980,19 @@ img {
     text-align: center;
 }
 
+a.feature-item--link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+    transition: var(--transition-medium);
+}
+
+a.feature-item--link:hover {
+    border-color: var(--color-border-hover);
+    background: var(--color-bg-card-hover);
+    box-shadow: 0 0 24px rgba(245, 233, 0, 0.08);
+}
+
 .feature-icon {
     width: 48px;
     height: 48px;
