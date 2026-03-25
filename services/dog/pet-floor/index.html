@@ -152,7 +152,7 @@
         <div class="container">
             <p class="section-label">CASE STUDIES</p>
             <h2 class="section-title">ペットの床の効果</h2>
-            <p class="section-description pet-floor-cases-intro">施工後の廊下の様子を動画でご覧ください。※自動再生が効かない場合は再生ボタンを押してください。</p>
+            <p class="section-description pet-floor-cases-intro">施工後の廊下の様子を動画でご覧ください。音声なし・自動でループ再生します。</p>
 
             <div class="pet-floor-cases pet-floor-cases--single">
                 <article class="pet-floor-case pet-floor-case--video">
@@ -160,6 +160,7 @@
                         <video
                             id="pet-floor-case-video"
                             class="pet-floor-case__video"
+                            autoplay
                             muted
                             loop
                             playsinline
@@ -170,19 +171,13 @@
                             <source src="images/case-video.mp4" type="video/mp4">
                             <source src="images/case-video.mov" type="video/quicktime">
                         </video>
-                        <button type="button" class="pet-floor-case__play-btn" id="pet-floor-play-btn" hidden aria-label="動画を再生">
-                            <svg class="pet-floor-case__play-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                <path d="M8 5v14l11-7L8 5z" fill="currentColor"/>
-                            </svg>
-                            <span>再生</span>
-                        </button>
                     </div>
                     <div class="pet-floor-case__body">
                         <p class="pet-floor-case__meta"><span class="pet-floor-case__area">廊下</span><span class="pet-floor-case__date">紹介動画</span></p>
                         <h3 class="pet-floor-case__title">光が流れる廊下で、毎日の足取りをサポート</h3>
                         <div class="pet-floor-case__text">
-                            <p>動画では、コーティング後のフローリングが天井照明や愛犬の姿を艶やかに映し込む様子がわかります。ナチュラルな木目に透明感のある仕上がりは、掃き掃除や拭き取りのしやすさにもつながり、ペットと暮らす廊下の印象を明るく整えます。</p>
-                            <p>小型犬の足元に配慮したグリップ感により、長い廊下の行き来でも安心感のある歩きやすさを目指した施工です。自社ブランドのペットの床ならではの、暮らしに溶け込む質感をぜひご覧ください。</p>
+                            <p>透明感のある仕上がりは、掃き掃除や拭き取りのしやすさにもつながり、ペットと暮らす廊下の印象を明るく整えます。</p>
+                            <p>小型犬の足元に配慮したグリップ感により、長い廊下の行き来でも安心感のある歩きやすさを目指した施工です。【ペットの床】ならではの、暮らしに溶け込む質感をぜひご覧ください。</p>
                         </div>
                     </div>
                 </article>
@@ -334,12 +329,10 @@
     (function () {
         var wrap = document.getElementById('pet-floor-video-wrap');
         var video = document.getElementById('pet-floor-case-video');
-        var btn = document.getElementById('pet-floor-play-btn');
         if (!wrap || !video) return;
 
         function posterOnly() {
             wrap.classList.add('pet-floor-case__video-wrap--poster-only');
-            if (btn) btn.hidden = true;
         }
 
         video.muted = true;
@@ -352,13 +345,7 @@
         function tryPlay() {
             if (wrap.classList.contains('pet-floor-case__video-wrap--poster-only')) return;
             var p = video.play();
-            if (p !== undefined && typeof p.then === 'function') {
-                p.then(function () {
-                    if (btn) btn.hidden = true;
-                }).catch(function () {
-                    if (btn) btn.hidden = false;
-                });
-            }
+            if (p !== undefined && typeof p.catch === 'function') p.catch(function () {});
         }
 
         video.addEventListener('error', posterOnly);
@@ -367,12 +354,6 @@
             tryPlay();
             video.removeEventListener('canplay', onCanPlay);
         }, { once: true });
-
-        if (btn) {
-            btn.addEventListener('click', function () {
-                tryPlay();
-            });
-        }
 
         if ('IntersectionObserver' in window) {
             var io = new IntersectionObserver(function (entries) {

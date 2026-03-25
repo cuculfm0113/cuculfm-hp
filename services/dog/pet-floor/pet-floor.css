@@ -165,38 +165,6 @@
     object-fit: cover;
 }
 
-.pet-floor-case__play-btn {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 2;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 14px 22px;
-    font-family: var(--font-display);
-    font-size: 0.8rem;
-    letter-spacing: 0.12em;
-    color: var(--color-bg-dark);
-    background: var(--color-primary);
-    border: none;
-    border-radius: 999px;
-    cursor: pointer;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
-    transition: var(--transition-fast);
-}
-
-.pet-floor-case__play-btn:hover {
-    filter: brightness(1.05);
-    box-shadow: 0 0 24px var(--color-primary-glow);
-}
-
-.pet-floor-case__play-icon {
-    width: 20px;
-    height: 20px;
-}
-
 .pet-floor-case__video-wrap--poster-only .pet-floor-case__video {
     display: none;
 }
