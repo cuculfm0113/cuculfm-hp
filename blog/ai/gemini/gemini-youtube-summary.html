@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gemini×YouTube要約（動画内容を5分で把握） | CUCUL FM</title>
-  <meta name="description" content="この記事は「Gemini学習シリーズ」のSTEP 07（YouTube）です。">
+  <meta name="description" content="この記事は「Gemini学習シリーズ」のSTEP 07（YouTube）です。長尺動画から要点・論点・次アクションを素早く抜き出すためのGemini活用手順をまとめます。モデルが動画に直接アクセスできるか、字幕やリンクのみかは環境とア…">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="ja_JP">
   <meta property="og:title" content="Gemini×YouTube要約（動画内容を5分で把握） | CUCUL FM">
-  <meta property="og:description" content="この記事は「Gemini学習シリーズ」のSTEP 07（YouTube）です。">
+  <meta property="og:description" content="この記事は「Gemini学習シリーズ」のSTEP 07（YouTube）です。長尺動画から要点・論点・次アクションを素早く抜き出すためのGemini活用手順をまとめます。モデルが動画に直接アクセスできるか、字幕やリンクのみかは環境とア…">
   <meta property="og:image" content="https://images.unsplash.com/photo-1573804633927-bfcbcd909acd?w=1200&amp;h=600&amp;fit=crop">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Gemini×YouTube要約（動画内容を5分で把握） | CUCUL FM">
-  <meta name="twitter:description" content="この記事は「Gemini学習シリーズ」のSTEP 07（YouTube）です。">
+  <meta name="twitter:description" content="この記事は「Gemini学習シリーズ」のSTEP 07（YouTube）です。長尺動画から要点・論点・次アクションを素早く抜き出すためのGemini活用手順をまとめます。モデルが動画に直接アクセスできるか、字幕やリンクのみかは環境とア…">
   <meta name="twitter:image" content="https://images.unsplash.com/photo-1573804633927-bfcbcd909acd?w=1200&amp;h=600&amp;fit=crop">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Gemini×YouTube要約（動画内容を5分で把握）", "datePublished": "2026-01-01", "dateModified": "2026-01-01", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1573804633927-bfcbcd909acd?w=1200&h=600&fit=crop"]}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -45,46 +45,78 @@
 
     <div class="article-content">
 <h2>はじめに</h2>
-<p>この記事は「Gemini学習シリーズ」の<strong>STEP 07（YouTube）</strong>です。</p>
-<p>長時間動画の要点抽出・タイムスタンプ付き要約を作成します。</p>
-<h2>Geminiとは</h2>
-<p>Google製AI。Google Workspaceとの連携が強み。</p>
-<h2>このステップで学ぶこと</h2>
+<p>この記事は「Gemini学習シリーズ」の<strong>STEP 07（YouTube）</strong>です。長尺動画から要点・論点・次アクションを素早く抜き出すための<strong>Gemini</strong>活用手順をまとめます。モデルが動画に直接アクセスできるか、字幕やリンクのみかは環境とアップデートで異なるため、公式の利用方法を必ず確認してください。引用や数値は原動画・公式資料で裏取りします。</p>
+<h2>要約依頼の型</h2>
 <ol>
-<li>YouTubeの基本概念</li>
-<li>実践的な使い方</li>
-<li>業務での活用例</li>
-<li>よくある失敗と回避策</li>
+<li><strong>動画URL</strong>（公開動画のみ、社内限定は配慮）</li>
+<li><strong>目的</strong>：企画メモ／議事メモ／学習ノートなど</li>
+<li><strong>出力</strong>：箇条書き＋タイムスタンプ列＋「要確認」フラグ</li>
+<li><strong>言語</strong>：日本語で統一、固有名詞は原文表記を残す</li>
+<p>字幕がない動画は精度が落ちる前提で、重要部分だけ手動スキップしながらメモを切ります。</p>
 </ol>
-<h2>実践ステップ</h2>
-<h3>ステップ1：準備</h3>
-<p>まずはGeminiにアクセスし、基本的な操作を確認しましょう。</p>
-<h3>ステップ2：基本操作</h3>
-<p>YouTubeに関連する基本操作を一通り試してみます。</p>
-<h3>ステップ3：応用</h3>
-<p>実際の業務シーンを想定して、より実践的な使い方を学びます。</p>
-<h2>業務での活用例</h2>
+<h2>タイムスタンプ付きメモのコツ</h2>
+<p>「重要そうな見出し語＋おおよその分:ss」を並べてから、Geminiに整形させると追いやすいです。最初から秒単位の厳密さを求めず、レビュー時に公式プレーヤーで修正します。社外共有は要約文に「出典：動画タイトル・チャンネル名・アクセス日」を添えます。</p>
+<h2>著作権・利用配慮</h2>
+<p>要約文をそのまま記事化して公開する場合は、引用の範囲・画像の利用・チャンネルポリシーを確認します。教育利用でも、全文の実質的な転載に近づかないよう再構成と自分の考察を混ぜます。</p>
+<p>ポッドキャスト動画のようにチャプターがない場合は、まず目次らしきキーワードを自分で10個書き出し、Geminiには「このキーワードに沿って要約せよ」と渡すとブレが減ります。</p>
+<h2>アクセシビリティ配慮</h2>
+<p>聴覚過敏や字幕必須の参加者がいる場合は、要約テキストを先に配布し、動画再生は任意にします。スライド化する際はコントラスト比とフォントサイズをチェックし、英語と日本語が混在するときは言語切り替え用の色分けを入れると読みやすくなります。</p>
+<h2>社内勉強会での使い方</h2>
+<p>勉強会では動画1本につき「視聴目標」「要約」「気づき3つ」「明日から試す行動1つ」の4ブロックをテンプレ化し、参加者が同じフォーマットでSlackに投稿するとナレッジが揃います。司会はGeminiの要約を読み上げるのではなく、あくまで自分の言葉で要約したあとにAI案と差分比較する流れにすると批判的思考が鍛えられます。</p>
+<h2>学習向け（手順・演習・用語・確認・トラブル向け）</h2>
+<h3>実践ステップ</h3>
+<h4>ステップ1：10分尺の公開講義で試す</h4>
+<p>技術解説などナレーション中心の動画を1本選び、見出し5個・各1行説明・タイムスタンプ粗めで依頼します。</p>
+<h4>ステップ2：ファクトチェック列を足す</h4>
+<p>要約表に「確認方法」列を追加し、公式ドキュメントや論文へのリンクを自分で入れます。</p>
+<h4>ステップ3：2倍速視聴とのハイブリッド</h4>
+<p>AI要約をイヤホン視聴の目次にし、重要章だけ原音声で聞く運用を試します。</p>
+<h3>演習課題</h3>
+<ol>
+<li>同じ動画で「200字要約」と「詳細箇条書き20行」の2モードを出し、会議共有に適する方を選ぶ。</li>
+<li>英語動画を日本語要約させ、専門用語が正しいか公式用語集で1語ずつ確認する。</li>
+<li>ライブ配信アーカイブでコメント欄の論点も含めるよう指示し、ノイズが多すぎる場合の切り方を考える。</li>
+<li>自動生成字幕の誤変換が多いジャンル（速い英語講義など）では、誤訳を拾うチェック列を増やす。</li>
+</ol>
+<h3>用語ミニ辞典</h3>
 <ul>
-<li><strong>例1</strong>: 日々の定型作業を効率化</li>
-<li><strong>例2</strong>: チームでの情報共有に活用</li>
-<li><strong>例3</strong>: 品質向上のためのチェックに使用</li>
+<li><strong>字幕トラック</strong>：音声のテキスト化。<strong>Gemini</strong>が参照する主材料のことがあります。</li>
+<li><strong>タイムスタンプ</strong>：動画内位置。プレーヤーによって表示形式が違います。</li>
+<li><strong>要約バイアス</strong>：モデルが重要と誤認した論点。必ず人間が原尺を確認します。</li>
+<li><strong>YouTube利用規約</strong>：動画の二次利用や埋め込みに関するルール。<a href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a>のヘルプを参照します。</li>
 </ul>
-<h2>よくある質問</h2>
-<p><strong>Q: 初心者でも使えますか？</strong> A: はい、このステップは基礎から解説しているので、初めての方でも安心して取り組めます。</p>
-<p><strong>Q: 他のツールとの違いは？</strong> A: GeminiはGoogle製AIという特徴があります。</p>
+<h3>セルフチェック</h3>
+<ul>
+<li>[ ] 要約を社内ポータルに貼る場合の権限区分（公開／限定）を確認した</li>
+<li>[ ] 社外秘や顧客限定動画を入れていない</li>
+<li>[ ] 要約をそのまま契約書・報告書の断定根拠にしていない</li>
+<li>[ ] チャンネル側の再利用ポリシーを見た</li>
+<li>[ ] タイムスタンプを最低3箇所は自分で再生して確認した</li>
+</ul>
+<h3>トラブルシューティング</h3>
+<table>
+<thead><tr><th>状況</th><th>対処のヒント</th></tr></thead>
+<tbody>
+<tr><td>リンクを読み込めない</td><td>公式の対応状況を確認し、字幕テキストを別途貼る</td></tr>
+<tr><td>論点がズレる</td><td>最初に「知りたい問い3つ」を明示し、それ以外は無視させる</td></tr>
+<tr><td>タイムスタンプが曖昧</td><td>章立てを先に自分で書き、補完だけAIに任せる</td></tr>
+<tr><td>長尺で途中から崩れる</td><td>パート別（前編/後編）に分割して要約する</td></tr>
+</tbody>
+</table>
+<p><strong>実務ワンポイント</strong>：社外研修のレポートに要約を載せるときは、動画IDと視聴版（2026年3月時点など）を脚注に残し、後からリンク切れが起きても追えるようにします。</p>
 <h2>まとめ</h2>
-<p>このステップではYouTubeについて学びました。次のステップでは、さらに発展的な内容に進みます。</p>
-<hr>
-<h2>ツール情報</h2>
+<p>YouTube要約は「視聴の地図」として使うと効果が出ます。動画本文の一次理解は人間が持ち、Geminiは整形と初期ラベリングに使うと安全です。</p>
+<h2>ツール情報（公式リンク）</h2>
 <ul>
-<li><strong>公式サイト</strong>: <a href="https://gemini.google.com/" target="_blank" rel="noopener">Gemini</a></li>
-<li><strong>ツール概要</strong>: Google製AI。Google Workspaceとの連携が強み。</li>
+<li><a href="https://gemini.google.com/" target="_blank" rel="noopener">Gemini（Google）</a></li>
+<li><a href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a></li>
+<li><a href="https://policies.google.com/terms" target="_blank" rel="noopener">Google 利用規約</a></li>
+<li><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google プライバシーポリシー</a></li>
 </ul>
-<h2>権利表記</h2>
-<p>Geminiは各社の商標または登録商標です。本記事は公式提供ではなく、一般的な情報提供を目的としています。</p>
+<h2>権利表記・引用について</h2>
+<p>Google、Gemini、YouTubeはGoogle LLCの商標または登録商標です。本記事は各社の公式提供ではありません。機能や提供条件は変更される場合があるため、最新情報は公式ページをご確認ください。</p>
 <h2>画像クレジット</h2>
-<p>サムネイル画像は<a href="https://unsplash.com/" target="_blank" rel="noopener">Unsplash</a>のライセンスに基づき使用しています。</p>
-<hr>
+<p>サムネイル/本文画像はUnsplashの写真を使用しています（ライセンス：<a href="https://unsplash.com/license" target="_blank" rel="noopener">Unsplash License</a>）。</p>
 <h3>お問い合わせ</h3>
 <p>AIツールの導入・活用支援のご相談はお気軽にどうぞ</p>
 <p>📞 090-6262-3842</p>

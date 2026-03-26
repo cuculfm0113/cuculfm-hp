@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>n8nでデータ処理（CSV/JSON/API連携） | CUCUL FM</title>
-  <meta name="description" content="この記事は「n8n学習シリーズ」のSTEP 05（データ）です。">
+  <meta name="description" content="この記事は「n8n学習シリーズ」のSTEP 05（データ）です。ファイルとHTTP APIから入ってきたデータを、集計・変換・フィルタする典型パターンを学びます。">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="ja_JP">
   <meta property="og:title" content="n8nでデータ処理（CSV/JSON/API連携） | CUCUL FM">
-  <meta property="og:description" content="この記事は「n8n学習シリーズ」のSTEP 05（データ）です。">
+  <meta property="og:description" content="この記事は「n8n学習シリーズ」のSTEP 05（データ）です。ファイルとHTTP APIから入ってきたデータを、集計・変換・フィルタする典型パターンを学びます。">
   <meta property="og:image" content="https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?w=1200&amp;h=600&amp;fit=crop">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="n8nでデータ処理（CSV/JSON/API連携） | CUCUL FM">
-  <meta name="twitter:description" content="この記事は「n8n学習シリーズ」のSTEP 05（データ）です。">
+  <meta name="twitter:description" content="この記事は「n8n学習シリーズ」のSTEP 05（データ）です。ファイルとHTTP APIから入ってきたデータを、集計・変換・フィルタする典型パターンを学びます。">
   <meta name="twitter:image" content="https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?w=1200&amp;h=600&amp;fit=crop">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "n8nでデータ処理（CSV/JSON/API連携）", "datePublished": "2026-01-01", "dateModified": "2026-01-01", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?w=1200&h=600&fit=crop"]}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -45,41 +45,78 @@
 
     <div class="article-content">
 <h2>はじめに</h2>
-<p>この記事は「n8n学習シリーズ」の<strong>STEP 05（データ）</strong>です。</p>
-<p>CSVやJSONデータを処理し、外部APIと連携する方法です。</p>
-<h2>n8nとは</h2>
-<p>ノーコード/ローコード自動化ツール。ワークフローを視覚的に構築。</p>
-<h2>このステップで学ぶこと</h2>
-<ol>
-<li>データの基本概念</li>
-<li>実践的な使い方</li>
-<li>業務での活用例</li>
-<li>よくある失敗と回避策</li>
-</ol>
-<h2>実践ステップ</h2>
-<h3>ステップ1：準備</h3>
-<p>まずはn8nにアクセスし、基本的な操作を確認しましょう。</p>
-<h3>ステップ2：基本操作</h3>
-<p>データに関連する基本操作を一通り試してみます。</p>
-<h3>ステップ3：応用</h3>
-<p>実際の業務シーンを想定して、より実践的な使い方を学びます。</p>
-<h2>業務での活用例</h2>
+<p>この記事は「n8n学習シリーズ」の<strong>STEP 05（データ）</strong>です。ファイルとHTTP APIから入ってきたデータを、集計・変換・フィルタする典型パターンを学びます。</p>
+<h2>学習の目標</h2>
 <ul>
-<li><strong>例1</strong>: 日々の定型作業を効率化</li>
-<li><strong>例2</strong>: チームでの情報共有に活用</li>
-<li><strong>例3</strong>: 品質向上のためのチェックに使用</li>
+<li>CSV/JSONをアイテム列に展開し、必要列だけ残せる</li>
+<li>HTTP Requestノードで認証ヘッダとページネーションの考え方を説明できる</li>
+<li>欠損や型ゆれに耐えるミニバリデーションを入れられる</li>
 </ul>
-<h2>よくある質問</h2>
-<p><strong>Q: 初心者でも使えますか？</strong> A: はい、このステップは基礎から解説しているので、初めての方でも安心して取り組めます。</p>
-<p><strong>Q: 他のツールとの違いは？</strong> A: n8nはノーコード/ローコード自動化ツールという特徴があります。</p>
-<h2>まとめ</h2>
-<p>このステップではデータについて学びました。次のステップでは、さらに発展的な内容に進みます。</p>
-<hr>
+<h2>前提知識</h2>
+<ul>
+<li>STEP 03〜04（ノードと最小フロー）</li>
+<li>RESTのGET/POSTとJSONのキー構造を辞書レベルで理解していること</li>
+</ul>
+<h2>用語ミニ辞典</h2>
+<ul>
+<li><strong>ページネーション</strong>: 大量データを複数リクエストに分割して取得する方式</li>
+<li><strong>スキーマ</strong>: 期待するキー名・型・必須／任意</li>
+<li><strong>バッチ</strong>: まとめて処理する単位（件数／時間窓）</li>
+</ul>
+<h2>ステップバイステップで進める</h2>
+<ol>
+<li>取り込み元（ファイルアップロード、定期取得URL、S3等）を1つに絞る</li>
+<li>Spreadsheet／Extract From Fileなどで行に分解し、ヘッダ名を確認する</li>
+<li>SetまたはCodeで型整形（日付パース、数値へのキャスト）を入れる</li>
+<li>HTTP Requestで外部APIへ送る場合はレート制限とタイムアウトを設定する</li>
+<li>失敗行を別ストアに逃がすか、エラー通知へ渡す分岐を用意する</li>
+</ol>
+<h2>ミニ課題</h2>
+<p>10行のCSV（名前・数量・単価）を用意し、総額列を追加してから、8000円以上のみ次ノードへ通すフローを組んでください。欠損行は <code>errors</code> 配列に溜める設計メモも書きます。</p>
+<h2>理解度チェックリスト</h2>
+<ul>
+<li>[ ] 入力行と出力行の対応が追える</li>
+<li>[ ] APIの401/429が起きたときの行動方針がある</li>
+<li>[ ] 一時ファイルやキャッシュの扱いを説明できる</li>
+</ul>
+<h2>よくある落とし穴</h2>
+<ul>
+<li><strong>文字コードと区切り</strong>: Shift-JISやタブ区切りでパースが静かに失敗する</li>
+<li><strong>巨大JSON</strong>: メモリとログが膨らみ実行が不安定になる</li>
+<li><strong>本番データを検証フローへ</strong>: 誤送信や誤更新の原因になる</li>
+</ul>
+<h2>もう一歩掘り下げる</h2>
+<p>データ処理は<strong>観測可能性</strong>が生命線です。サンプル件数・処理時間・失敗件数を通知やメトリクスに載せると、夜間バッチでも安心です。冪等性（同じ入力で二重実行しても壊れないか）も、API連携では早めに検討してください。</p>
+<h2>学びを固める（追補）</h2>
+<p>データ連携は「正しい1件」より<strong>壊れた1件の扱い</strong>が運用品質を決めます。ページネーションや429は実装の必須話題なので、公式ドキュメントのレート制限を読み、スリープや分割件数を最初から入れておくと夜間ジョブが安定します。</p>
+<h2>シナリオ演習（20分）</h2>
+<p>APIレスポンスを擬似JSONで用意し、欠損キー・型不一致を混ぜます。どのキーを必須検証にするかリスト化し、失敗行の通知文面を草案します。</p>
+<h2>今日の振り返り（3問）</h2>
+<ul>
+<li>文字コードと区切り文字は確認したか。</li>
+<li>再実行時の冪等性は意識できているか。</li>
+<li>一時ファイルやキャッシュの寿命は決まっているか。</li>
+</ul>
+<h2>深読みメモ（現場向け）</h2>
+<p>CSVは文字コードとクォートで静かに壊れます。取り込み時に<strong>ヘッダー行の正規化</strong>（前後空白削除、重複回避）を入れると下流が楽です。APIの429は「待てば直る」ではなく設計問題のサインでもあり、バッチ分割と指数バックオフをセットが実戦解です。データ検証は全部を厳密にしないでよく、<strong>ビジネスクリティカル列だけ必須</strong>に絞ると運用が続きます。</p>
+<h2>自習リフレクション（読了後5分）</h2>
+<p>手元のCSVサンプルで文字コードをfileコマンドやエディタ表示で確認し、n8n側の設定と一致させます。APIの429を意図的に起こしにくいので、公式のレート記載をコピペしてメモしてください。欠損行の扱いをビジネスオーナーに1問確認し、回答をRunbookに残します。</p>
+<h2>クイック参照（紙に写す用）</h2>
+<p>文字コードと区切りを最初に確認。429は分割＋バックオフ。スキーマは重要列だけ必須。件数ログを毎回。冪等性を疑う。ページネーションは公式に従う。失敗行を別ストアへ。</p>
+<h2>読了後の一行メモ</h2>
+<p>この回の学びを140字以内で要約し、翌週の業務で一度だけ実践してみてください。音声メモに3分解説を録音し、未来の自分への手紙として残すと抜けが見えます。勉強会に使う場合はチェックリストを印刷して自己採点してから終えると定着します。公式ドキュメント・料金・UIは更新されるため、手順と数値は必ず最新情報で再確認してください。改善アクションは<strong>1つに絞る</strong>と実行率がもっとも高くなります。</p>
+<p>連載を順に進めるときは「前章のチェックリストが緑になるまで次へ進まない」ペースが安全です。分からない用語はその場で検索せず、一度記録だけして後で3語に圧縮すると記憶に残ります。業務と学習の境目で迷ったら、公開情報とダミーデータだけで試すセーフティゾーンを先に決めてから触れてください。</p>
+<h2>次にやること</h2>
+<ul>
+<li>STEP 06でAIノードを挟み、整形後テキストを生成する</li>
+<li>外部APIのスキーマ変更検知（契約テスト的なサンプル）を1本入れる</li>
+</ul>
 <h2>ツール情報</h2>
 <ul>
 <li><strong>公式サイト</strong>: <a href="https://n8n.io/" target="_blank" rel="noopener">n8n</a></li>
-<li><strong>ツール概要</strong>: ノーコード/ローコード自動化ツール。ワークフローを視覚的に構築。</li>
+<li><strong>ツール概要</strong>: HTTPとファイル系ノードの組み合わせでETL風処理を構築しやすい</li>
 </ul>
+<hr>
 <h2>権利表記</h2>
 <p>n8nは各社の商標または登録商標です。本記事は公式提供ではなく、一般的な情報提供を目的としています。</p>
 <h2>画像クレジット</h2>

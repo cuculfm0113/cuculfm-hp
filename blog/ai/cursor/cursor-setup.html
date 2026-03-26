@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cursor導入ガイド（初期設定と安全な進め方） | CUCUL FM</title>
-  <meta name="description" content="Cursorは、AIと会話しながらコードや文章を編集できるエディタです。便利な反面、使い方を間違えると変更が大きくなりすぎて戻れなくなることもあります。">
+  <meta name="description" content="ショートカットや拡張の思想がVS Code由来のため、キーバインドやコマンドパレットに慣れると操作速度が上がります。最初はマウス中心でも問題ありません。">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="ja_JP">
   <meta property="og:title" content="Cursor導入ガイド（初期設定と安全な進め方） | CUCUL FM">
-  <meta property="og:description" content="Cursorは、AIと会話しながらコードや文章を編集できるエディタです。便利な反面、使い方を間違えると変更が大きくなりすぎて戻れなくなることもあります。">
+  <meta property="og:description" content="ショートカットや拡張の思想がVS Code由来のため、キーバインドやコマンドパレットに慣れると操作速度が上がります。最初はマウス中心でも問題ありません。">
   <meta property="og:image" content="https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=1200&amp;h=600&amp;fit=crop">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Cursor導入ガイド（初期設定と安全な進め方） | CUCUL FM">
-  <meta name="twitter:description" content="Cursorは、AIと会話しながらコードや文章を編集できるエディタです。便利な反面、使い方を間違えると変更が大きくなりすぎて戻れなくなることもあります。">
+  <meta name="twitter:description" content="ショートカットや拡張の思想がVS Code由来のため、キーバインドやコマンドパレットに慣れると操作速度が上がります。最初はマウス中心でも問題ありません。">
   <meta name="twitter:image" content="https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=1200&amp;h=600&amp;fit=crop">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Cursor導入ガイド（初期設定と安全な進め方）", "datePublished": "2026-01-08", "dateModified": "2026-01-08", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=1200&h=600&fit=crop"]}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,30 +44,63 @@
     <div class="article-featured-image"><img src="https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=1200&amp;h=600&amp;fit=crop" alt="AIエディタCursor" loading="lazy"></div>
 
     <div class="article-content">
-<h2>はじめに</h2>
-<p>Cursorは、AIと会話しながらコードや文章を編集できるエディタです。便利な反面、使い方を間違えると変更が大きくなりすぎて戻れなくなることもあります。</p>
-<p>本記事では、導入直後に押さえるべき概念と、<strong>安全に成果を出す進め方</strong>を解説します。</p>
-<h2>最初に押さえる3つの概念</h2>
+<h2>学習ゴール</h2>
 <ul>
-<li><strong>プロジェクト（フォルダ）単位</strong>：どの範囲を対象にするか</li>
-<li><strong>コンテキスト</strong>：AIに見せる情報（ファイル/選択範囲/指示）</li>
-<li><strong>差分レビュー</strong>：変更点を確認してから受け入れる</li>
+<li>Cursorを「プロジェクト＝フォルダ」として開き、コンテキストと差分レビューの考え方を説明できる。</li>
+<li>初日から実施できる安全手順（目的1行・範囲指定・小さな変更）で、事故なく1ファイル修正を完了できる。</li>
 </ul>
-<h2>安全な手順（これだけ守る）</h2>
+<h2>前提知識</h2>
+<ul>
+<li>PCにエディタをインストールしてフォルダを開いた経験があること（VS Code経験があると親和性が高い）。</li>
+<li>Gitをまだ知らなくても読み進められますが、バックアップ意識はあると安心です。</li>
+</ul>
+<h2>キーコンセプトと用語</h2>
+<ul>
+<li><strong>ワークスペース</strong>：Cursorで開いたプロジェクトフォルダ。AIが参照する範囲の土台。</li>
+<li><strong>コンテキスト</strong>：選択範囲、開いているファイル、指示文など、AIに渡す材料。</li>
+<li><strong>差分（diff）</strong>：変更前後の比較。意図しない改変を見つける主戦場。</li>
+<li><strong>適用（Accept）</strong>：AI提案を確定させる操作。必ず内容確認の後に行う。</li>
+</ul>
+<h2>手順（ステップバイステップ）</h2>
 <ol>
-<li><strong>目的を1行で書く</strong>（例：記事一覧ページのリンクを修正したい）</li>
-<li><strong>変更範囲を最小化</strong>（ファイル/行/対象セクションを指定）</li>
-<li><strong>差分を見る</strong>（意図と違う変更は戻す）</li>
-<li><strong>小さく反映</strong>（大きい変更は分割して適用）</li>
+<li><strong>公式サイトからインストール</strong>し、アカウント連携する。</li>
+<li><strong>リポジトリまたはサイトフォルダを開く</strong>（ルートが正しいか確認）。</li>
+<li><strong>設定をざっと確認</strong>：テーマ、フォント、AIモデル選択は後回しでよいが、プライバシー設定は読む。</li>
+<li><strong>秘密情報ルール</strong>：<code>.env</code> や鍵ファイルをチャットに貼らない、をメモ。</li>
+<li><strong>初回タスク</strong>：目的を1行でチャットに書き、対象ファイル名を明示する。</li>
+<li><strong>変更は小さく</strong>：1ファイルまたは1関数に分割依頼。</li>
+<li><strong>差分確認</strong>してから適用し、画面で動作または表示確認。</li>
 </ol>
-<h2>初期設定チェックリスト</h2>
+<h2>実践ミニ演習</h2>
 <ul>
-<li>プロジェクトを正しいフォルダで開く</li>
-<li>コミット/バックアップの運用（最低でも差分で確認）</li>
-<li>秘密情報（APIキー等）が混入しないルール</li>
+<li><strong>演習1</strong>：<code>README.md</code> の見出し1つだけ修正依頼し、差分に他の行が混ざっていないか確認。</li>
+<li><strong>演習2</strong>：意図的に曖昧な依頼を出し、AIが曖昧さを指摘したら、ファイル名つきで再依頼。</li>
+<li><strong>演習3</strong>：誤った変更を入れ、Undoまたは差分から戻す手順を体で覚える。</li>
 </ul>
-<h2>まとめ</h2>
-<p>Cursorで最初に効くのは「魔法の指示」ではなく、<strong>安全な進め方</strong>です。次回は非エンジニアでも回せる改善（文言修正/ページ追加/軽い自動化）を紹介します。</p>
+<h2>セルフチェックリスト</h2>
+<ul>
+<li>[ ] 開いているフォルダが正しいプロジェクトか確認した</li>
+<li>[ ] APIキーや個人情報をチャットに入れていない</li>
+<li>[ ] 変更前にバックアップまたはコミット方針を決めた</li>
+<li>[ ] 差分で不要な整形が混ざっていないか見た</li>
+<li>[ ] 修正後に表示・リンクを目視確認した</li>
+</ul>
+<h2>つまずきポイントと対処</h2>
+<ul>
+<li><strong>変更が広がりすぎ</strong> → 「この関数だけ」「このセクションだけ」と範囲を引用。</li>
+<li><strong>意図と違うコード</strong> → 参考にしてほしい既存コードを指定。例示行を渡す。</li>
+<li><strong>戻し方がわからない</strong> → Undo、ファイル単位の巻き戻し、Gitの discard を順に試す。</li>
+</ul>
+<h2>深掘り：VS Code文化との親和性</h2>
+<p>ショートカットや拡張の思想がVS Code由来のため、キーバインドやコマンドパレットに慣れると操作速度が上がります。最初はマウス中心でも問題ありません。</p>
+<h2>非エンジニアへ橋渡し</h2>
+<p>HTMLやMarkdownの軽微更新から入ると心理的ハードルが下がります。次は <a href="./cursor-for-non-engineers.html">非エンジニア向け記事</a> で安全な更新ラインを固めます。</p>
+<h2>運用ノート：導入初週のステークホルダー調整</h2>
+<p>情シスには「オフライン作業可否」「アップデート方針」、経営には「どの業務を優先的に速くするか」を一文で揃えます。個人利用からチーム利用へ移る際は、<strong>秘密保持と退出時のフォルダ持ち出し</strong>ルールを先に決めないとトラブル化します。ヘルプデスクへは「よくある質問：プロジェクトを間違えたときの出し方」など具体例付きで1枚渡せば反応が速くなります。小さな成功体験を金曜午前に共有する短いリズムを作ると、翌週の利用率が上がりやすいです。</p>
+<p>（学習の定着）</p>
+<p>組織学習の観点では、週次15分の振り返りをカレンダーに固定し、うまくいった依頼文や依頼テンプレは共有ドライブへコピーして資産化します。四半期ごとに公式の利用規約と社内ポリシーを突き合わせ、差分があれば短いチケットで追記してください。個人メモでも「日付・用途・入力の要点・出力の使い道」を1セットで残すと検索性が上がり、異動時の引き継ぎもスムーズです。ステークホルダー別の典型的な懸念（経営はROI、情シスは漏洩、現場は手間と心理的負担）を箇条書きで持っておくと、同じ学びを説明する場面でも言い換え疲れが減ります。公開可否が曖昧な資料はそもそもAIに入力しない、と自分で宣言しておく線引きメモがあると、日々の判断が速くなります。</p>
+<h2>まとめ：次に何をするか</h2>
+<p>今日中に「1ファイル・1目的」の修正を完了し、得た教訓を3行でメモしてください。複数ファイルに進む前に <a href="./cursor-composer.html">Composer活用</a> を読むと並行編集のリスク管理に役立ちます。</p>
 <h2>ツール情報（公式リンク）</h2>
 <ul>
 <li><a href="https://cursor.com/" target="_blank" rel="noopener">Cursor（公式）</a></li>

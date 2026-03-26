@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NotebookLMで複数資料を比較分析（共通点・相違点を抽出） | CUCUL FM</title>
-  <meta name="description" content="この記事は「NotebookLM学習シリーズ」のSTEP 03（比較）です。">
+  <meta name="description" content="比較分析のボトルネックはAIではなく軸と版の管理です。NotebookLMは引用付きの差分表ドラフトを一気に出し、人間は定義合わせと優先順位付けに時間を使えばよい。比較後はノートブックをアーカイブし、次に持ち越さない。">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="ja_JP">
   <meta property="og:title" content="NotebookLMで複数資料を比較分析（共通点・相違点を抽出） | CUCUL FM">
-  <meta property="og:description" content="この記事は「NotebookLM学習シリーズ」のSTEP 03（比較）です。">
+  <meta property="og:description" content="比較分析のボトルネックはAIではなく軸と版の管理です。NotebookLMは引用付きの差分表ドラフトを一気に出し、人間は定義合わせと優先順位付けに時間を使えばよい。比較後はノートブックをアーカイブし、次に持ち越さない。">
   <meta property="og:image" content="https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=1200&amp;h=600&amp;fit=crop">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="NotebookLMで複数資料を比較分析（共通点・相違点を抽出） | CUCUL FM">
-  <meta name="twitter:description" content="この記事は「NotebookLM学習シリーズ」のSTEP 03（比較）です。">
+  <meta name="twitter:description" content="比較分析のボトルネックはAIではなく軸と版の管理です。NotebookLMは引用付きの差分表ドラフトを一気に出し、人間は定義合わせと優先順位付けに時間を使えばよい。比較後はノートブックをアーカイブし、次に持ち越さない。">
   <meta name="twitter:image" content="https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=1200&amp;h=600&amp;fit=crop">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "NotebookLMで複数資料を比較分析（共通点・相違点を抽出）", "datePublished": "2026-01-01", "dateModified": "2026-01-01", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=1200&h=600&fit=crop"]}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,42 +44,76 @@
     <div class="article-featured-image"><img src="https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=1200&amp;h=600&amp;fit=crop" alt="NotebookLMの活用" loading="lazy"></div>
 
     <div class="article-content">
-<h2>はじめに</h2>
-<p>この記事は「NotebookLM学習シリーズ」の<strong>STEP 03（比較）</strong>です。</p>
-<p>複数のPDF/ドキュメントを横断して比較・分析する手順です。</p>
-<h2>NotebookLMとは</h2>
-<p>Google製の資料読解AI。PDF/ドキュメントの要約・質問応答が得意。</p>
-<h2>このステップで学ぶこと</h2>
+<h2>学習の目標</h2>
+<ul>
+<li>同一テーマの複数資料から、<strong>共通点・相違点・矛盾候補・用語のズレ</strong>を一画面の表に整理できる。</li>
+<li>比較質問を「立場要約→軸ごとの値→矛盾」の三連に定型化できる。</li>
+<li>比較後の<strong>確認ToDo</strong>（誰が・何を・いつまで）まで文章化できる。</li>
+</ul>
+<h2>前提条件</h2>
+<ul>
+<li>1ノートブックに複数ソースを入れた経験がある。</li>
+<li>比較対象が同じ意思決定（契約比較、ベンダー様式比較、学説対比など）に関わる。</li>
+<li>ファイル名かメタデータで版・日付が追える。</li>
+</ul>
+<h2>キーコンセプト</h2>
+<ul>
+<li><strong>軸先行</strong>: 「費用」「納期」「IP」「データ所在」「解約」など、意思決定に直結する軸だけを3〜7個。多すぎる表はレビュー不能。</li>
+<li><strong>マトリクス思考</strong>: 行を資料、列を軸にすると、会議画面共有がしやすい。</li>
+<li><strong>矛盾の再定義</strong>: 真の矛盾か、用語違いか、版違いかを明確に分ける。最初は三種同時に起きうる。</li>
+<li><strong>引用は比較の証拠</strong>: セルごとにソース段落が無い表は、ただの生成物。</li>
+</ul>
+<h2>手順（実践ステップ）</h2>
 <ol>
-<li>比較の基本概念</li>
-<li>実践的な使い方</li>
-<li>業務での活用例</li>
-<li>よくある失敗と回避策</li>
+<li><strong>比較目的の1文</strong>（例：「2026年度どのプランを採用するかを、費用と退出条件だけで決める」）で曖昧さを捨てる。</li>
+<li><strong>ソースの同じ土俵</strong>: 異なる年度のフォーマットなら、「読み替えルール」を人手で先にメモする。</li>
+<li><strong>軸宣言リスト</strong>を自分で箇条書きし、チャット冒頭に貼る。</li>
+<li><strong>質問三連打</strong>: A)各資料の一文要約と立場 B)軸×資料の表案 C)矛盾・グレー・要確認（引用付き）。</li>
+<li><strong>表の人体検</strong>: 金額・日付・法的キーワードのセルは必ず原文照合。まずは2セルから。</li>
+<li><strong>用語のゆらぎ狩り</strong>: 「同義だが表記が違う語」を列挙させ、チーム用語集の1行を作る。</li>
+<li><strong>ToDo生成</strong>: 「法務確認」「相手先に質問」等をタグ付きで書き、会議アジェンダへ。</li>
 </ol>
-<h2>実践ステップ</h2>
-<h3>ステップ1：準備</h3>
-<p>まずはNotebookLMにアクセスし、基本的な操作を確認しましょう。</p>
-<h3>ステップ2：基本操作</h3>
-<p>比較に関連する基本操作を一通り試してみます。</p>
-<h3>ステップ3：応用</h3>
-<p>実際の業務シーンを想定して、より実践的な使い方を学びます。</p>
-<h2>業務での活用例</h2>
+<h2>演習課題</h2>
 <ul>
-<li><strong>例1</strong>: 日々の定型作業を効率化</li>
-<li><strong>例2</strong>: チームでの情報共有に活用</li>
-<li><strong>例3</strong>: 品質向上のためのチェックに使用</li>
+<li>仕様書または見積書2点で5軸表を作り、<strong>ランダムに選んだ3セル</strong>の引用を別画面で突合せよ。</li>
+<li>古い版のPDFを意図的に混ぜ、矛盾出力を得たうえで「版の問題だった」と切り分けられる説明を200字で書け。</li>
 </ul>
-<h2>よくある質問</h2>
-<p><strong>Q: 初心者でも使えますか？</strong> A: はい、このステップは基礎から解説しているので、初めての方でも安心して取り組めます。</p>
-<p><strong>Q: 他のツールとの違いは？</strong> A: NotebookLMはGoogle製の資料読解AIという特徴があります。</p>
+<h2>自己チェックリスト</h2>
+<ul>
+<li>[ ] 比較目的が一文で共有されている</li>
+<li>[ ] 軸が7個以内</li>
+<li>[ ] 重要セルについて原文を開いた</li>
+<li>[ ] 用語ゆらぎリストが残った</li>
+<li>[ ] 確認ToDoが担当に紐づく</li>
+<li>[ ] 不要ソースを別ノートブックに移した</li>
+<li>[ ] 共有時の機密レベルを確認した</li>
+</ul>
+<h2>つまずきポイント（避けたい落とし穴）</h2>
+<ul>
+<li><strong>テーマ混在</strong>: 比較対象が増えるほど「どの文書の話か」がぼやける。</li>
+<li><strong>結論だけ欲しい症候群</strong>: 表を経由しないと定義のずれに気づけない。</li>
+<li><strong>引用なき表</strong>: 会議で突っ込まれたときに防げない。</li>
+<li><strong>全員招待</strong>: 比較途中の仮説表の広い共有は誤解の元。</li>
+</ul>
 <h2>まとめ</h2>
-<p>このステップでは比較について学びました。次のステップでは、さらに発展的な内容に進みます。</p>
-<hr>
-<h2>ツール情報</h2>
+<p>比較分析のボトルネックはAIではなく<strong>軸と版の管理</strong>です。NotebookLMは引用付きの差分表ドラフトを一気に出し、人間は定義合わせと優先順位付けに時間を使えばよい。比較後はノートブックをアーカイブし、次に持ち越さない。</p>
+<h2>振り返りの問い（任意）</h2>
 <ul>
-<li><strong>公式サイト</strong>: <a href="https://notebooklm.google/" target="_blank" rel="noopener">NotebookLM</a></li>
-<li><strong>ツール概要</strong>: Google製の資料読解AI。PDF/ドキュメントの要約・質問応答が得意。</li>
+<li>今回の表で意思決定に効いた軸はどれか。次回削る軸はあるか。</li>
+<li>矛盾と判断したが実は用語問題だったケースはあったか。</li>
+<li>来月同じ比較をするとしたら最初に揃える資料リストは何か。</li>
 </ul>
+<h2>ミニレクチャー（15分）</h2>
+<p>想定シナリオは「ベンダーA/Bの提案書比較」。まずチャット冒頭に比較目的と軸5個を貼り、AIには表だけを求めない。立場要約→表→矛盾の順で聞くと、唐突な表より筋が通る。表が返ったら、金額・SLA・解除条件の3セルだけをピックアップし、PDFを左右に開いて照合する。ここでずれたら、質問ではなく<strong>用語集1行</strong>を先に更新する。会議では表全体ではなく「差分が出た3行だけ」を投影すると討議が速い。終了後、ノートブック名に <code>_compare_done_YYYYMMDD</code> を付け、Driveに表のスクリーンショットとToDoを残す習慣を付けると、後任が迷わない。</p>
+<p>仕上げの心得は三つ。<strong>軸は人が決める</strong>。<strong>表は引用が実体</strong>。<strong>矛盾はまず版と用語を疑う</strong>。この三つを口癖にすると、比較会議のファシリテーションが楽になる。</p>
+<p>さらに踏み込むなら、<strong>重み付け行列</strong>を人手で1枚作り、各軸に重要度1〜5を振ってからAIの表と突き合わせる。AIは重要度を知らないため、経営会議で刺さる行が下の方に沈むことがある。重み付け後に「上位3軸だけ再表示」と依頼するとスクリーンが締まる。比較が周期性業務なら、四半期ごとにテンプレ質問を1行だけ更新し、季節要因（年度末契約更新など）を冒頭メモに足す。</p>
+<h2>ツール・参考リンク</h2>
+<ul>
+<li><a href="https://notebooklm.google/" target="_blank" rel="noopener">NotebookLM</a></li>
+<li><a href="https://policies.google.com/terms" target="_blank" rel="noopener">Google 利用規約</a></li>
+<li><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google プライバシーポリシー</a></li>
+</ul>
+<hr>
 <h2>権利表記</h2>
 <p>NotebookLMは各社の商標または登録商標です。本記事は公式提供ではなく、一般的な情報提供を目的としています。</p>
 <h2>画像クレジット</h2>

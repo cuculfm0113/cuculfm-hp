@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NotebookLM×他ツール連携（Drive/Docs/Slidesとの組み合わせ） | CUCUL FM</title>
-  <meta name="description" content="この記事は「NotebookLM学習シリーズ」のSTEP 08（連携）です。">
+  <meta name="description" content="Drive連携はツール設定よりフォルダと権限の設計です。入力元を限定し、還流を人の編集に必ず通すと、NotebookLMは安全に回ります。">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="ja_JP">
   <meta property="og:title" content="NotebookLM×他ツール連携（Drive/Docs/Slidesとの組み合わせ） | CUCUL FM">
-  <meta property="og:description" content="この記事は「NotebookLM学習シリーズ」のSTEP 08（連携）です。">
+  <meta property="og:description" content="Drive連携はツール設定よりフォルダと権限の設計です。入力元を限定し、還流を人の編集に必ず通すと、NotebookLMは安全に回ります。">
   <meta property="og:image" content="https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=1200&amp;h=600&amp;fit=crop">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="NotebookLM×他ツール連携（Drive/Docs/Slidesとの組み合わせ） | CUCUL FM">
-  <meta name="twitter:description" content="この記事は「NotebookLM学習シリーズ」のSTEP 08（連携）です。">
+  <meta name="twitter:description" content="Drive連携はツール設定よりフォルダと権限の設計です。入力元を限定し、還流を人の編集に必ず通すと、NotebookLMは安全に回ります。">
   <meta name="twitter:image" content="https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=1200&amp;h=600&amp;fit=crop">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "NotebookLM×他ツール連携（Drive/Docs/Slidesとの組み合わせ）", "datePublished": "2026-01-01", "dateModified": "2026-01-01", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=1200&h=600&fit=crop"]}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,42 +44,74 @@
     <div class="article-featured-image"><img src="https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=1200&amp;h=600&amp;fit=crop" alt="NotebookLMの活用" loading="lazy"></div>
 
     <div class="article-content">
-<h2>はじめに</h2>
-<p>この記事は「NotebookLM学習シリーズ」の<strong>STEP 08（連携）</strong>です。</p>
-<p>Google製品との連携で、資料管理を効率化します。</p>
-<h2>NotebookLMとは</h2>
-<p>Google製の資料読解AI。PDF/ドキュメントの要約・質問応答が得意。</p>
-<h2>このステップで学ぶこと</h2>
+<h2>学習の目標</h2>
+<ul>
+<li>Drive上の<strong>正本フォルダ</strong>からNotebookLMへソースを取り込む手順をドキュメント化できる。</li>
+<li>Docs・スライド・PDFの<strong>更新と再取り込み</strong>の運用リズムをチームで合意できる。</li>
+<li>「編集＝Workspace」「対話と引用確認＝NotebookLM」の二層モデルを説明できる。</li>
+</ul>
+<h2>前提条件</h2>
+<ul>
+<li>Google Drive・Docs・スライドを開ける。</li>
+<li>NotebookLMのソース追加画面にアクセスできる。</li>
+<li>共有リンクの公開範囲の違いを概ね理解している。</li>
+</ul>
+<h2>キーコンセプト</h2>
+<ul>
+<li><strong>Single Source of Truth</strong>: ファイル名の乱舞より、フォルダと「FINAL」命名規則。</li>
+<li><strong>権限は資産</strong>: 緩い共有と機密資料の組み合わせは最悪。ノートブック化の前にDrive側を締める。</li>
+<li><strong>一方向の還流</strong>: 生成物を公式Docsに貼るときは<strong>コピペ＋人の翻案</strong>がデフォルト。</li>
+<li><strong>プレゼンと詳細の分離</strong>: スライドだけだと脚注が足りない。補足Docをセットで入れる。</li>
+</ul>
+<h2>手順（実践ステップ）</h2>
 <ol>
-<li>連携の基本概念</li>
-<li>実践的な使い方</li>
-<li>業務での活用例</li>
-<li>よくある失敗と回避策</li>
+<li><strong>Drive掃除</strong>: プロジェクト直下を粗く分類し、「このフォルダだけがNotebookLM入力可」と決める。</li>
+<li><strong>正本の固定</strong>: メイン仕様はDocs、顧客説明はスライド、法務確認済みはPDF、のように媒体の意味を揃える。</li>
+<li><strong>取り込み</strong>: 追加→表示確認→1テスト質問の三点をルーティン化（UIは変わりうる）。</li>
+<li><strong>媒体別の聞き方</strong>: Slidesはストーリー、Docsは条件分岐・例外・定義。</li>
+<li><strong>還流</strong>: 新規Docsに見出し＝生成案、本文は人が短文化。AI由来は色や注記で明示。</li>
+<li><strong>更新時</strong>: Driveで版が上がったらソース再同期または差し替え。全体再要約より差分章の再質問が速い場合も。</li>
+<li><strong>権限監査</strong>: 週1、共有相手一覧を見て退職者・外部協力者を整理。</li>
 </ol>
-<h2>実践ステップ</h2>
-<h3>ステップ1：準備</h3>
-<p>まずはNotebookLMにアクセスし、基本的な操作を確認しましょう。</p>
-<h3>ステップ2：基本操作</h3>
-<p>連携に関連する基本操作を一通り試してみます。</p>
-<h3>ステップ3：応用</h3>
-<p>実際の業務シーンを想定して、より実践的な使い方を学びます。</p>
-<h2>業務での活用例</h2>
+<h2>演習課題</h2>
 <ul>
-<li><strong>例1</strong>: 日々の定型作業を効率化</li>
-<li><strong>例2</strong>: チームでの情報共有に活用</li>
-<li><strong>例3</strong>: 品質向上のためのチェックに使用</li>
+<li>1本のDocsで「見出し一覧」「未確定リスト」「決定事項ドラフト」を連続生成し、Docsコメントに貼り、<strong>1件は必ず人がリライト</strong>せよ。</li>
+<li>スライドのみ／スライド＋補足Docの2パターンで同一質問し、回答の具体性の差を5行で比較せよ。</li>
 </ul>
-<h2>よくある質問</h2>
-<p><strong>Q: 初心者でも使えますか？</strong> A: はい、このステップは基礎から解説しているので、初めての方でも安心して取り組めます。</p>
-<p><strong>Q: 他のツールとの違いは？</strong> A: NotebookLMはGoogle製の資料読解AIという特徴があります。</p>
+<h2>自己チェックリスト</h2>
+<ul>
+<li>[ ] 入力許可フォルダがチーム定義された</li>
+<li>[ ] 正本ファイル名が一意</li>
+<li>[ ] 追加直後にテスト質問した</li>
+<li>[ ] 生成物に監修者が付いた</li>
+<li>[ ] 版更新手順がREADME1枚にある</li>
+<li>[ ] 週次で共有設定を見直した</li>
+<li>[ ] 外部秘以上の扱いを再確認した</li>
+</ul>
+<h2>つまずきポイント（避けたい落とし穴）</h2>
+<ul>
+<li><strong>最終版ファイル名の乱数化</strong>: 日付接尾辞規則で救う。</li>
+<li><strong>権限の見えない失敗</strong>: テスト質問必須。</li>
+<li><strong>生成物の鵜呑み貼付</strong>: 公式記録は必ず人間編集。</li>
+</ul>
 <h2>まとめ</h2>
-<p>このステップでは連携について学びました。次のステップでは、さらに発展的な内容に進みます。</p>
-<hr>
-<h2>ツール情報</h2>
+<p>Drive連携はツール設定より<strong>フォルダと権限の設計</strong>です。入力元を限定し、還流を人の編集に必ず通すと、NotebookLMは安全に回ります。</p>
+<h2>振り返りの問い（任意）</h2>
 <ul>
-<li><strong>公式サイト</strong>: <a href="https://notebooklm.google/" target="_blank" rel="noopener">NotebookLM</a></li>
-<li><strong>ツール概要</strong>: Google製の資料読解AI。PDF/ドキュメントの要約・質問応答が得意。</li>
+<li>「正本がどれか」と新人に聞かれたら即答できるか。</li>
+<li>権限でNotebookLMに入れなかった資料の代替はあるか。</li>
+<li>生成Q&amp;Aをわざわざ保存しなかった理由は何か。</li>
 </ul>
+<h2>ミニレクチャー（15分）</h2>
+<p>「企画書Docs＋提案スライド」の二点を想定する。Driveではフォルダ名を短く保ち、<code>README_link_only.txt</code> にNotebookLM運用リンクを置く。NotebookLMへ取り込んだ直後、必ず「見出し一覧」と「決定に効く数字はどこか」を1問ずつ投げ、表示崩れがないか確認する。スライドだけだと脚注が足りないので、補足のGoogleドキュメントを1本用意し、<strong>セットで入れるとFAQ精度が伸びる</strong>。生成結果を公式Docsへ還流するときは、コピペ後に段落ID相当の見出しを人手で振り直し、AI段落には薄いハイライトを。週次の権限レビューはカレンダーリマインダに乗せ、退職者アカウントの残骸を潰す。これだけで「連携できない」トラブルの8割は防げる。</p>
+<p>大所帯チームでは、<strong>変更容易性</strong>を上げるために「NotebookLM用Driveフォルダ」を本番フォルダのショートカット集約にし、実体は移さない構成も有効。ショートカット切れ検知を月1回。Docsの「提案モード」で整備した段落をソースにする場合、提案が未承認のまま取り込まないルールをREADMEに明文化する。生成物のコメントには <code>@メンション</code> を含めず、承認後に追記する二段にすると通知地獄を避けられる。</p>
+<h2>ツール・参考リンク</h2>
+<ul>
+<li><a href="https://notebooklm.google/" target="_blank" rel="noopener">NotebookLM</a></li>
+<li><a href="https://drive.google.com/" target="_blank" rel="noopener">Google Drive</a></li>
+<li><a href="https://policies.google.com/terms" target="_blank" rel="noopener">Google 利用規約</a></li>
+</ul>
+<hr>
 <h2>権利表記</h2>
 <p>NotebookLMは各社の商標または登録商標です。本記事は公式提供ではなく、一般的な情報提供を目的としています。</p>
 <h2>画像クレジット</h2>

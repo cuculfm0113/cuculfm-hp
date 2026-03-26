@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Obsidian Dataviewで情報を可視化（クエリの基本） | CUCUL FM</title>
-  <meta name="description" content="この記事は「Obsidian学習シリーズ」のSTEP 06（Dataview）です。">
+  <meta name="description" content="Dataviewはメタデータの鏡です。きれいな入力規約があればダッシュボードは自然に育ち、無ければクエリだけが錯綜します。">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="ja_JP">
   <meta property="og:title" content="Obsidian Dataviewで情報を可視化（クエリの基本） | CUCUL FM">
-  <meta property="og:description" content="この記事は「Obsidian学習シリーズ」のSTEP 06（Dataview）です。">
+  <meta property="og:description" content="Dataviewはメタデータの鏡です。きれいな入力規約があればダッシュボードは自然に育ち、無ければクエリだけが錯綜します。">
   <meta property="og:image" content="https://images.unsplash.com/photo-1517842645767-c639042777db?w=1200&amp;h=600&amp;fit=crop">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Obsidian Dataviewで情報を可視化（クエリの基本） | CUCUL FM">
-  <meta name="twitter:description" content="この記事は「Obsidian学習シリーズ」のSTEP 06（Dataview）です。">
+  <meta name="twitter:description" content="Dataviewはメタデータの鏡です。きれいな入力規約があればダッシュボードは自然に育ち、無ければクエリだけが錯綜します。">
   <meta name="twitter:image" content="https://images.unsplash.com/photo-1517842645767-c639042777db?w=1200&amp;h=600&amp;fit=crop">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Obsidian Dataviewで情報を可視化（クエリの基本）", "datePublished": "2026-01-01", "dateModified": "2026-01-01", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1517842645767-c639042777db?w=1200&h=600&fit=crop"]}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,42 +44,61 @@
     <div class="article-featured-image"><img src="https://images.unsplash.com/photo-1517842645767-c639042777db?w=1200&amp;h=600&amp;fit=crop" alt="Obsidianの活用" loading="lazy"></div>
 
     <div class="article-content">
-<h2>はじめに</h2>
-<p>この記事は「Obsidian学習シリーズ」の<strong>STEP 06（Dataview）</strong>です。</p>
-<p>Dataviewプラグインで、ノートを動的に一覧・集計します。</p>
-<h2>Obsidianとは</h2>
-<p>ローカル動作の知識管理ツール。ノート間のリンクで思考を整理。</p>
-<h2>このステップで学ぶこと</h2>
+<h2>学習の目標</h2>
+<ul>
+<li>Dataviewで<strong>LIST / TABLE / TASK</strong>のいずれかを実務向けに1枚書ける。</li>
+<li>フロントマター（<code>key: value</code>）を揃え、一覧を安定させられる。</li>
+<li>クエリより<strong>データ設計が先</strong>だと説明できる。</li>
+</ul>
+<h2>前提条件</h2>
+<ul>
+<li>コミュニティプラグイン「Dataview」をインストール可能。</li>
+<li>対象ノートにYAMLフロントマターまたはインライン fields を付けられる。</li>
+<li>Markdownコードブロック ```dataview の入力に慣れている。</li>
+</ul>
+<h2>キーコンセプト</h2>
+<ul>
+<li><strong>スキーマの単純さ</strong>: <code>status</code>, <code>due</code>, <code>project</code>, <code>type</code> 程度から。</li>
+<li><strong>段階学習</strong>: まずLISTで集約、次にTABLE、最後にJSは不要なら避ける。</li>
+<li><strong>パフォーマンス</strong>: 巨大ボールトでは絞り込み条件を明示。</li>
+</ul>
+<h2>手順（実践ステップ）</h2>
 <ol>
-<li>Dataviewの基本概念</li>
-<li>実践的な使い方</li>
-<li>業務での活用例</li>
-<li>よくある失敗と回避策</li>
+<li><strong>フィールド設計</strong>: チームまたは自分用に4キー以内で決める。</li>
+<li><strong>サンプル5ノート</strong>: フロントマターをテンプレに埋め込む。</li>
+<li><strong>LISTクエリ</strong>: <code>where type = &quot;task&quot;</code> のように単条件から。</li>
+<li><strong>TABLE化</strong>: 列に日付・プロジェクトを出し、並べ替え。</li>
+<li><strong>ダッシュボード</strong>: MOCノート1枚に集約ブロックを置く。</li>
 </ol>
-<h2>実践ステップ</h2>
-<h3>ステップ1：準備</h3>
-<p>まずはObsidianにアクセスし、基本的な操作を確認しましょう。</p>
-<h3>ステップ2：基本操作</h3>
-<p>Dataviewに関連する基本操作を一通り試してみます。</p>
-<h3>ステップ3：応用</h3>
-<p>実際の業務シーンを想定して、より実践的な使い方を学びます。</p>
-<h2>業務での活用例</h2>
+<h2>演習課題</h2>
+<p>| - <code>status: idea | active | done</code> を導入し、<strong>activeだけのTABLE</strong>を1枚作れ。 |</p>
 <ul>
-<li><strong>例1</strong>: 日々の定型作業を効率化</li>
-<li><strong>例2</strong>: チームでの情報共有に活用</li>
-<li><strong>例3</strong>: 品質向上のためのチェックに使用</li>
+<li>既存10ノートに遡及適用し、<strong>欠損キーを赤字メモ</strong>で可視化せよ。</li>
 </ul>
-<h2>よくある質問</h2>
-<p><strong>Q: 初心者でも使えますか？</strong> A: はい、このステップは基礎から解説しているので、初めての方でも安心して取り組めます。</p>
-<p><strong>Q: 他のツールとの違いは？</strong> A: Obsidianはローカル動作の知識管理ツールという特徴があります。</p>
+<h2>自己チェックリスト</h2>
+<ul>
+<li>[ ] テンプレに必須キーが埋め込まれている</li>
+<li>[ ] クエリ断片をスニペットまたは1枚にコピーしている</li>
+<li>[ ] 遅いクエリを分割・フィルタした</li>
+<li>[ ] 復職時にフィールド意味をREADMEに書いた</li>
+</ul>
+<h2>つまずきポイント（避けたい落とし穴）</h2>
+<ul>
+<li><strong>キー乱立</strong>: 人が入力しないフィールドは死ぬ。</li>
+<li><strong>JSに直行</strong>: まず宣言的クエリで足りる。</li>
+<li><strong>日付形式ブレ</strong>: ISO推奨。文字列ソート地獄を防ぐ。</li>
+</ul>
 <h2>まとめ</h2>
-<p>このステップではDataviewについて学びました。次のステップでは、さらに発展的な内容に進みます。</p>
-<hr>
-<h2>ツール情報</h2>
+<p>Dataviewは<strong>メタデータの鏡</strong>です。きれいな入力規約があればダッシュボードは自然に育ち、無ければクエリだけが錯綜します。</p>
+<h2>ミニレクチャー（25分）</h2>
+<p>テスト用に5ノートへ YAML <code>type</code>, <code>status</code>, <code>due</code> を手で入れる。まず <code>LIST FROM &quot;&quot; WHERE status = &quot;open&quot;</code> のような単純クエリをダッシュボードに1枚。動いたら <code>TABLE</code> に昇格。日付は <code>2026-03-26</code> のISO形式で統一。動かないときはフロントマターのインデントとコロン後スペースを疑う。JSクエリは使わずに週次を過ごし、足りなければ翌週検討。パフォーマンスが落ちたら <code>WHERE contains(file.folder,&quot;Projects/xxx&quot;)</code> で絞る。</p>
+<p>ダッシュボードを複数作るより、1枚にセクション見出しでクエリを並べるとメンテが楽。集計結果を他ノートへ自動転記したくなった時点で、APIや外部スクリプトより「週次の手コピー5分」を選ぶことも賢明。属性が増えすぎたら凍結リストを作り、新規キー追加を四半期レビューに延期する。</p>
+<h2>ツール・参考リンク</h2>
 <ul>
-<li><strong>公式サイト</strong>: <a href="https://obsidian.md/" target="_blank" rel="noopener">Obsidian</a></li>
-<li><strong>ツール概要</strong>: ローカル動作の知識管理ツール。ノート間のリンクで思考を整理。</li>
+<li><a href="https://obsidian.md/" target="_blank" rel="noopener">Obsidian</a></li>
+<li><a href="https://github.com/blacksmithgu/obsidian-dataview" target="_blank" rel="noopener">Dataview GitHub</a>（仕様・例）</li>
 </ul>
+<hr>
 <h2>権利表記</h2>
 <p>Obsidianは各社の商標または登録商標です。本記事は公式提供ではなく、一般的な情報提供を目的としています。</p>
 <h2>画像クレジット</h2>

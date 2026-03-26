@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Perplexity API入門（自動リサーチの仕組み化） | CUCUL FM</title>
-  <meta name="description" content="この記事は「Perplexity学習シリーズ」のSTEP 08（API）です。">
+  <meta name="description" content="APIは「同じ型の調査を何度も回す」ほど効いてきます。日次レポート、価格監視、論点メモの自動化など、プロンプトと入出力形式が安定している業務が候補です。ここでは導入前に押さえる考え方と、安全に試す手順をまとめます（仕様・料金は公式ドキ…">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="ja_JP">
   <meta property="og:title" content="Perplexity API入門（自動リサーチの仕組み化） | CUCUL FM">
-  <meta property="og:description" content="この記事は「Perplexity学習シリーズ」のSTEP 08（API）です。">
+  <meta property="og:description" content="APIは「同じ型の調査を何度も回す」ほど効いてきます。日次レポート、価格監視、論点メモの自動化など、プロンプトと入出力形式が安定している業務が候補です。ここでは導入前に押さえる考え方と、安全に試す手順をまとめます（仕様・料金は公式ドキ…">
   <meta property="og:image" content="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=1200&amp;h=600&amp;fit=crop">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Perplexity API入門（自動リサーチの仕組み化） | CUCUL FM">
-  <meta name="twitter:description" content="この記事は「Perplexity学習シリーズ」のSTEP 08（API）です。">
+  <meta name="twitter:description" content="APIは「同じ型の調査を何度も回す」ほど効いてきます。日次レポート、価格監視、論点メモの自動化など、プロンプトと入出力形式が安定している業務が候補です。ここでは導入前に押さえる考え方と、安全に試す手順をまとめます（仕様・料金は公式ドキ…">
   <meta name="twitter:image" content="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=1200&amp;h=600&amp;fit=crop">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Perplexity API入門（自動リサーチの仕組み化）", "datePublished": "2026-01-01", "dateModified": "2026-01-01", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=1200&h=600&fit=crop"]}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -45,40 +45,62 @@
 
     <div class="article-content">
 <h2>はじめに</h2>
-<p>この記事は「Perplexity学習シリーズ」の<strong>STEP 08（API）</strong>です。</p>
-<p>APIを使ってリサーチを自動化する基本を学びます。</p>
-<h2>Perplexityとは</h2>
-<p>AI検索エンジン。出典付きで根拠が追えるリサーチに最適。</p>
-<h2>このステップで学ぶこと</h2>
-<ol>
-<li>APIの基本概念</li>
-<li>実践的な使い方</li>
-<li>業務での活用例</li>
-<li>よくある失敗と回避策</li>
-</ol>
-<h2>実践ステップ</h2>
-<h3>ステップ1：準備</h3>
-<p>まずはPerplexityにアクセスし、基本的な操作を確認しましょう。</p>
-<h3>ステップ2：基本操作</h3>
-<p>APIに関連する基本操作を一通り試してみます。</p>
-<h3>ステップ3：応用</h3>
-<p>実際の業務シーンを想定して、より実践的な使い方を学びます。</p>
-<h2>業務での活用例</h2>
+<p>APIは「同じ型の調査を何度も回す」ほど効いてきます。日次レポート、価格監視、論点メモの自動化など、<strong>プロンプトと入出力形式が安定</strong>している業務が候補です。ここでは導入前に押さえる考え方と、安全に試す手順をまとめます（仕様・料金は公式ドキュメントの最新版を必ず確認してください）。</p>
+<h2>学習向け</h2>
+<h3>学習ゴール</h3>
 <ul>
-<li><strong>例1</strong>: 日々の定型作業を効率化</li>
-<li><strong>例2</strong>: チームでの情報共有に活用</li>
-<li><strong>例3</strong>: 品質向上のためのチェックに使用</li>
+<li>UI操作とAPI化で<strong>何が変わるか</strong>（再現性・ログ・コスト）を説明できる</li>
+<li>自動化に向く／向かないタスクを<strong>リスク観点</strong>で仕分けできる</li>
+<li>最小プロトタイプ（疑似でも可）の<strong>要件リスト</strong>を書ける</li>
 </ul>
-<h2>よくある質問</h2>
-<p><strong>Q: 初心者でも使えますか？</strong> A: はい、このステップは基礎から解説しているので、初めての方でも安心して取り組めます。</p>
-<p><strong>Q: 他のツールとの違いは？</strong> A: PerplexityはAI検索エンジンという特徴があります。</p>
-<h2>まとめ</h2>
-<p>このステップではAPIについて学びました。次のステップでは、さらに発展的な内容に進みます。</p>
-<hr>
-<h2>ツール情報</h2>
+<h3>前提知識</h3>
 <ul>
-<li><strong>公式サイト</strong>: <a href="https://www.perplexity.ai/" target="_blank" rel="noopener">Perplexity</a></li>
-<li><strong>ツール概要</strong>: AI検索エンジン。出典付きで根拠が追えるリサーチに最適。</li>
+<li>RESTやAPIキー、<code>curl</code>や簡単なスクリプトのイメージ</li>
+<li>会社の<strong>情報セキュリティ規程</strong>（外部APIへのデータ送信可否）</li>
+<li>Perplexityの通常UIでのプロンプト設計経験</li>
+</ul>
+<h3>キーコンセプト</h3>
+<ul>
+<li><strong>秘密情報</strong>：キーは環境変数管理。リポジトリに直書きしない</li>
+<li><strong>入力の境界</strong>：送信してよいデータ／ダメなデータを明文化</li>
+<li><strong>レスポンス検証</strong>：JSONスキーマや必須フィールドで機械的にチェック</li>
+</ul>
+<h3>手順</h3>
+<ol>
+<li>UIで同じ調査を10回試し、<strong>ブレる箇所</strong>を洗い出す。</li>
+<li>プロンプトをテンプレ化（変数は明示：<code>{topic}</code>, <code>{region}</code> 等）。</li>
+<li>期待する出力を<strong>JSON例</strong>で固定（要約・URL配列・信頼度メモ等）。</li>
+<li>サンドボックスで小さなスクリプトから叩き、<strong>ログとコスト</strong>を計測。</li>
+<li>本番前に<strong>人間レビュー关卡</strong>を1つ挟む（自動化の最後に必ず人）。</li>
+</ol>
+<h3>ミニ演習</h3>
+<p>コード不要の紙面上でよいので、「毎朝9時に業界3キーワードを要約してSlackへ」の<strong>データフロー図</strong>と、送信禁止データの例を5つ書き出す。</p>
+<h3>チェックリスト</h3>
+<ul>
+<li>[ ] APIキーの保管方法を決めた</li>
+<li>[ ] 送信データ分類（公開可／社外秘／禁止）を書いた</li>
+<li>[ ] レート制限・タイムアウト・リトライ方針を決めた</li>
+<li>[ ] 失敗時のフォールバック（人に戻す）を決めた</li>
+</ul>
+<h3>つまずき</h3>
+<ul>
+<li><strong>いきなり全自動</strong>：誤回答が連鎖する。週次レビューでテンプレを直すサイクルを先に。</li>
+<li><strong>ログなし運用</strong>：後追い不能。入力・出力・モデル名・時刻は残す。</li>
+<li><strong>コスト見積もり甘め</strong>：探索が深いほどトークンが伸びる前提で設計する。</li>
+</ul>
+<h3>拡張コンテンツ</h3>
+<p>中規模以上では<strong>オーケストレーション</strong>（n8n、独自バッチ）と<strong>観測</strong>（ログ基盤）がセットです。出力は「人が読むMarkdown」と「機械が読むJSON」の二段にすると、ダッシュボード連携が楽になります。法務承認では「学習利用オプトアウト」「データ所在地」をFAQ化しておくと審査が速いことが多いです。</p>
+<p>業務で実際に使う場面を1つ書き留め、<strong>誰にどう説明するか</strong>まで想像してください。上司への報告では「根拠リンク3点セット」、顧客向けでは「要確認ラベル付き草案」など、読者別にトーンを変えると翻訳ミスが減ります。週次で見返し、プロンプトのどこがブレたかを1行だけ付記する癖をつけると、3ヶ月でテンプレ精度が目に見えて上がります。外部ツールに貼るときは、社内の情報分類（公開／社外秘／極秘）を先に判定し、極秘はそもそも入力しない運用が安全です。最後に、同じ調査を6ヶ月後に繰り返す前提で「保存場所」と「ファイル命名規則」を決めておくと、過去の自分に感謝することになります。</p>
+<p>実際の画面を開いた状態で、<strong>入力→確認→記録</strong>まで一通り触れてください。迷ったら止まってよいので、「どの画面で」「どの判断で止まったか」を箇条書きに残すことが目的です。振り返りでは、ブレーキをかけた判断が正しかったケース／過剰だったケースを1つずつ挙げ、翌週のルール改定案を1行だけ書きます。パートナーや部下がいれば、同じテンプレを読んでもらい「ここが曖昧」と指摘された箇所を太字でメモしておくと、文章の弱点が可視化されます。このドリルを月2回続けると、マニュアル不要の暗黙知が減り、引き継ぎコストが下がりやすいです。</p>
+<p>同じ手順を半年後に再現できるよう、<strong>フォルダ名・ファイル名・検索キーワード</strong>をルール化しておくと安心です。例：「YYYYMMDD_ツール名_テーマ_ドラフト」のように先頭に日付を置き、検索で時系列が追えるようにする。社内Wikiに載せる場合は、スクリーンショットより<strong>テキスト手順優先</strong>にすると更新が楽になります。これらは本文の理解を深めるための任意メモです。</p>
+<p>自習の締め：本文を読み終えたら、明日使う場面を1つだけ選び、カレンダーに15分ブロックを置いてから席を立ってください。小さなコミットが習慣化の燃</p>
+<h3>まとめ</h3>
+<p>APIは省力化ツールである前に<strong>リスク管理の延長</strong>です。型の固まった調査から始め、ログと人の関所で信頼を積み上げましょう。</p>
+<h3>ツール情報</h3>
+<ul>
+<li><strong>公式サイト</strong>：<a href="https://www.perplexity.ai/" target="_blank" rel="noopener">Perplexity</a>（開発者向けドキュメントは公式から遷移）</li>
+<li><strong>概要</strong>：プログラムから検索・生成系機能を利用する場合の入口。提供範囲は変更されうる。</li>
+<li><strong>注意</strong>：契約・利用規約・料金は必ず公式情報で確認すること。</li>
 </ul>
 <h2>権利表記</h2>
 <p>Perplexityは各社の商標または登録商標です。本記事は公式提供ではなく、一般的な情報提供を目的としています。</p>

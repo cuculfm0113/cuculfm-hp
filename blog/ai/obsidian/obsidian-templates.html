@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Obsidianテンプレート活用（入力を効率化） | CUCUL FM</title>
-  <meta name="description" content="この記事は「Obsidian学習シリーズ」のSTEP 04（テンプレ）です。">
+  <meta name="description" content="テンプレは思考のレールであり檻ではありません。よく繰り返す型だけ自動化し、残りはリンクと本文で柔らかく保つのが長続きのコツです。">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="ja_JP">
   <meta property="og:title" content="Obsidianテンプレート活用（入力を効率化） | CUCUL FM">
-  <meta property="og:description" content="この記事は「Obsidian学習シリーズ」のSTEP 04（テンプレ）です。">
+  <meta property="og:description" content="テンプレは思考のレールであり檻ではありません。よく繰り返す型だけ自動化し、残りはリンクと本文で柔らかく保つのが長続きのコツです。">
   <meta property="og:image" content="https://images.unsplash.com/photo-1517842645767-c639042777db?w=1200&amp;h=600&amp;fit=crop">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Obsidianテンプレート活用（入力を効率化） | CUCUL FM">
-  <meta name="twitter:description" content="この記事は「Obsidian学習シリーズ」のSTEP 04（テンプレ）です。">
+  <meta name="twitter:description" content="テンプレは思考のレールであり檻ではありません。よく繰り返す型だけ自動化し、残りはリンクと本文で柔らかく保つのが長続きのコツです。">
   <meta name="twitter:image" content="https://images.unsplash.com/photo-1517842645767-c639042777db?w=1200&amp;h=600&amp;fit=crop">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Obsidianテンプレート活用（入力を効率化）", "datePublished": "2026-01-01", "dateModified": "2026-01-01", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1517842645767-c639042777db?w=1200&h=600&fit=crop"]}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,42 +44,61 @@
     <div class="article-featured-image"><img src="https://images.unsplash.com/photo-1517842645767-c639042777db?w=1200&amp;h=600&amp;fit=crop" alt="Obsidianの活用" loading="lazy"></div>
 
     <div class="article-content">
-<h2>はじめに</h2>
-<p>この記事は「Obsidian学習シリーズ」の<strong>STEP 04（テンプレ）</strong>です。</p>
-<p>定型的なノートをテンプレ化し、入力の手間を減らします。</p>
-<h2>Obsidianとは</h2>
-<p>ローカル動作の知識管理ツール。ノート間のリンクで思考を整理。</p>
-<h2>このステップで学ぶこと</h2>
+<h2>学習の目標</h2>
+<ul>
+<li>頻出ノート（議事録・読書・調査）に<strong>テンプレート挿入フロー</strong>を実装できる。</li>
+<li>プレースホルダとデフォルト値で迷いを減らせる。</li>
+<li>テンプレ肥大化を避け、<strong>85点の再現性</strong>を優先できる。</li>
+</ul>
+<h2>前提条件</h2>
+<ul>
+<li>コアプラグイン「Templates」またはコミュニティのTemplaterのいずれかを検討できる環境。</li>
+<li><code>Templates/</code> フォルダが存在する。</li>
+<li>週に2回以上、同型のノートを書く実務または学習がある。</li>
+</ul>
+<h2>キーコンセプト</h2>
+<ul>
+<li><strong>摩擦の局所化</strong>: 埋めるべき欄だけ目立たせ、あとは自由記述。</li>
+<li><strong>メタデータの最小</strong>: タイトル・日付・タグ・目的の4点から始める。</li>
+<li><strong>バージョン</strong>: テンプレ変更は日付コメントで痕跡を残す。</li>
+</ul>
+<h2>手順（実践ステップ）</h2>
 <ol>
-<li>テンプレの基本概念</li>
-<li>実践的な使い方</li>
-<li>業務での活用例</li>
-<li>よくある失敗と回避策</li>
+<li><strong>頻度集計</strong>: 直近2週間で3回以上の形式をリストアップ。</li>
+<li><strong>スケルトン</strong>: 見出しだけの素体を作り、初版で実使用。</li>
+<li><strong>フィードバック</strong>: 毎回空欄になった欄を削る／必須化。</li>
+<li><strong>自動化検討</strong>: 日付挿入などはTemplater等で（必要なら）。</li>
+<li><strong>共有</strong>: チームならテンプレ倉庫を1箇所に。</li>
 </ol>
-<h2>実践ステップ</h2>
-<h3>ステップ1：準備</h3>
-<p>まずはObsidianにアクセスし、基本的な操作を確認しましょう。</p>
-<h3>ステップ2：基本操作</h3>
-<p>テンプレに関連する基本操作を一通り試してみます。</p>
-<h3>ステップ3：応用</h3>
-<p>実際の業務シーンを想定して、より実践的な使い方を学びます。</p>
-<h2>業務での活用例</h2>
+<h2>演習課題</h2>
 <ul>
-<li><strong>例1</strong>: 日々の定型作業を効率化</li>
-<li><strong>例2</strong>: チームでの情報共有に活用</li>
-<li><strong>例3</strong>: 品質向上のためのチェックに使用</li>
+<li>議事録テンプレを作り、<strong>実会議1回分</strong>を埋めてから「無駄欄」を削れ。</li>
+<li>読書メモテンプレで「一行結論」「疑問3つ」「関連リンク」のみ残す版に絞れ。</li>
 </ul>
-<h2>よくある質問</h2>
-<p><strong>Q: 初心者でも使えますか？</strong> A: はい、このステップは基礎から解説しているので、初めての方でも安心して取り組めます。</p>
-<p><strong>Q: 他のツールとの違いは？</strong> A: Obsidianはローカル動作の知識管理ツールという特徴があります。</p>
+<h2>自己チェックリスト</h2>
+<ul>
+<li>[ ] 挿入ショートカットが手に馴染んだ</li>
+<li>[ ] テンプレが50行を超えていない（超えるなら分割）</li>
+<li>[ ] 新メンバーが欄の意味を読んで理解できる</li>
+<li>[ ] 旧版テンプレがアーカイブされている</li>
+</ul>
+<h2>つまずきポイント（避けたい落とし穴）</h2>
+<ul>
+<li><strong>全部入りテンプレ</strong>: 書く気が失せる。欄は削る勇気を。</li>
+<li><strong>自動化の早すぎ</strong>: まず手作業で型を固める。</li>
+<li><strong>命名ブレ</strong>: テンプレファイル名は一覧で意味が分かる語に。</li>
+</ul>
 <h2>まとめ</h2>
-<p>このステップではテンプレについて学びました。次のステップでは、さらに発展的な内容に進みます。</p>
-<hr>
-<h2>ツール情報</h2>
+<p>テンプレは<strong>思考のレール</strong>であり檻ではありません。よく繰り返す型だけ自動化し、残りはリンクと本文で柔らかく保つのが長続きのコツです。</p>
+<h2>ミニレクチャー（20分）</h2>
+<p>週次で3回以上書く形式を1つだけ選び、見出し5個以内のテンプレにする。プレースホルダは <code>&lt;% tp.file.title %&gt;</code> など最小限（Templaterを使う場合）。挿入ショートカットを肌肉記憶するまで同じ形式だけ書く。1週間後、空欄率が高い見出しを削除し、必須欄が空ならノートを完成とみなさないルールを決める。テンプレが40行を超えたら分割し、「会議用」「読書用」の2枚に。チーム利用ならGitまたは共有Driveに <code>templates/</code> だけ同期する。</p>
+<p>テンプレに「所要時間目安」を書くと、自分の見積もり精度が上がる。チームテンプレでは日付・案件コード用プレースホルダを必須にし、空欄のまま保存できないフックをTemplaterで掛ける（慣れるまで面倒だが後で効く）。バージョンが増えたら <code>templates/archive/</code> へ退避し、一覧表に必要だから残す理由を1行。</p>
+<h2>ツール・参考リンク</h2>
 <ul>
-<li><strong>公式サイト</strong>: <a href="https://obsidian.md/" target="_blank" rel="noopener">Obsidian</a></li>
-<li><strong>ツール概要</strong>: ローカル動作の知識管理ツール。ノート間のリンクで思考を整理。</li>
+<li><a href="https://obsidian.md/" target="_blank" rel="noopener">Obsidian</a></li>
+<li><a href="https://help.obsidian.md/Plugins/Templates" target="_blank" rel="noopener">Obsidian Help - Templates</a></li>
 </ul>
+<hr>
 <h2>権利表記</h2>
 <p>Obsidianは各社の商標または登録商標です。本記事は公式提供ではなく、一般的な情報提供を目的としています。</p>
 <h2>画像クレジット</h2>

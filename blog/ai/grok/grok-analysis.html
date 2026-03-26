@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Grokでデータ分析（画像・グラフの読み取り） | CUCUL FM</title>
-  <meta name="description" content="この記事は「Grok学習シリーズ」のSTEP 07（分析）です。">
+  <title>Grokでデータ分析・図表の読み取り（画像・アップロード前提の注意から) | CUCUL FM</title>
+  <meta name="description" content="スクリーンショットや公開グラフを題材に、Grokに 「読み取れる範囲」と「推測になる範囲」 を区別させ、自分は 数値の取り直し・単位確認・再計算 を行えること。機微情報を画像でアップロードするリスクを説明し、社内ルールに沿った代替手順…">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="ja_JP">
-  <meta property="og:title" content="Grokでデータ分析（画像・グラフの読み取り） | CUCUL FM">
-  <meta property="og:description" content="この記事は「Grok学習シリーズ」のSTEP 07（分析）です。">
+  <meta property="og:title" content="Grokでデータ分析・図表の読み取り（画像・アップロード前提の注意から) | CUCUL FM">
+  <meta property="og:description" content="スクリーンショットや公開グラフを題材に、Grokに 「読み取れる範囲」と「推測になる範囲」 を区別させ、自分は 数値の取り直し・単位確認・再計算 を行えること。機微情報を画像でアップロードするリスクを説明し、社内ルールに沿った代替手順…">
   <meta property="og:image" content="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=1200&amp;h=600&amp;fit=crop">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Grokでデータ分析（画像・グラフの読み取り） | CUCUL FM">
-  <meta name="twitter:description" content="この記事は「Grok学習シリーズ」のSTEP 07（分析）です。">
+  <meta name="twitter:title" content="Grokでデータ分析・図表の読み取り（画像・アップロード前提の注意から) | CUCUL FM">
+  <meta name="twitter:description" content="スクリーンショットや公開グラフを題材に、Grokに 「読み取れる範囲」と「推測になる範囲」 を区別させ、自分は 数値の取り直し・単位確認・再計算 を行えること。機微情報を画像でアップロードするリスクを説明し、社内ルールに沿った代替手順…">
   <meta name="twitter:image" content="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=1200&amp;h=600&amp;fit=crop">
-  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Grokでデータ分析（画像・グラフの読み取り）", "datePublished": "2026-01-01", "dateModified": "2026-01-01", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=1200&h=600&fit=crop"]}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Grokでデータ分析・図表の読み取り（画像・アップロード前提の注意から)", "datePublished": "2026-01-01", "dateModified": "2026-01-01", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=1200&h=600&fit=crop"]}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
@@ -34,7 +34,7 @@
   <article class="article-container">
     <header class="article-header">
       <span class="article-category">AI</span>
-      <h1 class="article-title">Grokでデータ分析（画像・グラフの読み取り）</h1>
+      <h1 class="article-title">Grokでデータ分析・図表の読み取り（画像・アップロード前提の注意から)</h1>
       <div class="article-meta">
         <time class="article-date">2026.01.01</time>
         <span class="article-author">ククルFM編集部</span>
@@ -44,46 +44,69 @@
     <div class="article-featured-image"><img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=1200&amp;h=600&amp;fit=crop" alt="Grokの活用" loading="lazy"></div>
 
     <div class="article-content">
-<h2>はじめに</h2>
-<p>この記事は「Grok学習シリーズ」の<strong>STEP 07（分析）</strong>です。</p>
-<p>画像認識・データ分析機能の活用方法です。</p>
-<h2>Grokとは</h2>
-<p>xAI製の大規模言語モデル。リアルタイム情報とユーモアが特徴。</p>
-<h2>このステップで学ぶこと</h2>
-<ol>
-<li>分析の基本概念</li>
-<li>実践的な使い方</li>
-<li>業務での活用例</li>
-<li>よくある失敗と回避策</li>
-</ol>
-<h2>実践ステップ</h2>
-<h3>ステップ1：準備</h3>
-<p>まずはGrokにアクセスし、基本的な操作を確認しましょう。</p>
-<h3>ステップ2：基本操作</h3>
-<p>分析に関連する基本操作を一通り試してみます。</p>
-<h3>ステップ3：応用</h3>
-<p>実際の業務シーンを想定して、より実践的な使い方を学びます。</p>
-<h2>業務での活用例</h2>
+<h2>この記事の学習ゴール</h2>
+<p>スクリーンショットや公開グラフを題材に、Grokに <strong>「読み取れる範囲」と「推測になる範囲」</strong> を区別させ、自分は <strong>数値の取り直し・単位確認・再計算</strong> を行えること。機微情報を画像でアップロードするリスクを説明し、<strong>社内ルールに沿った代替手順</strong>（匿名化・サンプルデータ）を選べること。</p>
+<h2>前提知識・向いている人</h2>
+<p><a href="./grok-writing.html">文章作成</a> まで進み、<strong>チャットへのファイル投入はポリシー対象</strong>だと理解している方。ダッシュボードの説明文案、投資資料の素読み、論文図の要約など。<strong>確定数値の最終責任は人間とスプレッドシート／BI</strong> です。</p>
+<h2>キーコンセプトと用語</h2>
 <ul>
-<li><strong>例1</strong>: 日々の定型作業を効率化</li>
-<li><strong>例2</strong>: チームでの情報共有に活用</li>
-<li><strong>例3</strong>: 品質向上のためのチェックに使用</li>
+<li><strong>視覚モデルの限界</strong>: 画像内の小数・軸ラベル・凡例は誤読されやすい。<strong>OCR的な抜き出しは必ず人間が抽检</strong>。</li>
+<li><strong>推測ラベル</strong>: 「グラフから見える傾向」は仮説。因果までは飛躍しないようプロンプトで制約する。</li>
+<li><strong>データ最小化</strong>: 実データのフルスクリーンショットより、<strong>軸だけ切り出したダミー</strong>でパターンを学ぶ。</li>
+<li><strong>監査証跡</strong>: 重要な意思決定に使う数字は、Grokの返答ログではなく <strong>元ファイルと式</strong> を残す。</li>
 </ul>
-<h2>よくある質問</h2>
-<p><strong>Q: 初心者でも使えますか？</strong> A: はい、このステップは基礎から解説しているので、初めての方でも安心して取り組めます。</p>
-<p><strong>Q: 他のツールとの違いは？</strong> A: GrokはxAI製の大規模言語モデルという特徴があります。</p>
-<h2>まとめ</h2>
-<p>このステップでは分析について学びました。次のステップでは、さらに発展的な内容に進みます。</p>
+<h2>手順（ステップバイステップ）</h2>
+<h3>ステップ1：アップロード可否を確認する</h3>
+<p>契約・情シス・顧客NDAで <strong>画面キャプチャのクラウドAI投入が禁止</strong> の場合があるなら、本記事の手法は使わず、<strong>ローカルツールのみ</strong>で行う。</p>
+<h3>ステップ2：画像に「質問の型」を書き添える</h3>
+<p>良い例：</p>
+<ul>
+<li>軸ラベルと単位を転記してください（不明は「不明」）</li>
+<li>約◯年◯月〜◯月の範囲で、<strong>読み取れる数値のみ</strong>表にしてください</li>
+<li>傾向の説明は<strong>仮説</strong>として1段落、断定語は使わない</li>
+</ul>
+<h3>ステップ3：出力表をスプレッドシートに手入力で照合</h3>
+<p>「モデルが読んだ数値」と「自分の目」で1セルずつ確認。ズレがあれば <strong>画像解像度・色・フォント</strong> が原因の可能性。</p>
+<h3>ステップ4：統計・結論は別工程</h3>
+<p>平均・分散・検定は <strong>Excel / Python / BI</strong> で。Grokは「読み取り補助」と割り切る。</p>
+<h3>ステップ5：次へ</h3>
+<p>ツールの使い分けは <a href="./grok-comparison.html">比較</a> 、<a href="./grok-business.html">実務全体像</a>。</p>
+<h2>よくある用途と注意</h2>
+<ul>
+<li><strong>売上グラフの説明文</strong>: 数字そのまま載せず、<strong>四捨五いのルール</strong>を揃える。</li>
+<li><strong>エクスポートできない他社BI</strong>: スクショ依存では再現性が壊れる。<strong>エクスポート手続き</strong>を先に探す。</li>
+<li><strong>医療・安全・法規グラフ</strong>: 誤読が致命傷。専門家レビュー必須。</li>
+</ul>
+<h2>実践ミニ演習（20分）</h2>
+<ol>
+<li>公開されている統計グラフ（政府オープンデータ等）で、Grokに表を作らせ、<strong>公式CSVと突き合わせ</strong>る。</li>
+<li>意図的に小さい字のキャプチャを渡し、<strong>誤読ポイント</strong>をメモする（リスク教育）。</li>
+<li>自社のダミーデータで「傾向3つ・保留2つ」の構成だけGrokに書かせ、数値は自分が埋める運用を試す。</li>
+</ol>
+<h2>セルフチェックリスト</h2>
+<ul>
+<li>[ ] アップロードポリシーを確認した。</li>
+<li>[ ] 数値を二次確認した。</li>
+<li>[ ] 因果断定をプロンプトで禁じた、または削除した。</li>
+<li>[ ] 監査用に元データ経路を残した。</li>
+</ul>
+<h2>つまずきポイントと対処</h2>
+<ul>
+<li><strong>グラフの年がズレる</strong> → 画像に四角で囲んだうえで「この枠内のみ」と指示。</li>
+<li><strong>パーセントとポイント混乱</strong> → 列名を「変化率%」「pt」で固定。</li>
+<li><strong>画像が多ページ</strong> → 1枚ずつ。長いPDF丸投げは機微リスクとコストの両面で非推奨。</li>
+</ul>
+<h2>まとめ：次に何をするか</h2>
+<p>分析系は <strong>「読む」→「数える」→「結論の断定は人が持つ」</strong> が安全です。次は <a href="./grok-comparison.html">Grokと他AIの比較</a> で得意領域を整理し、<a href="./grok-business.html">ビジネス活用</a> でチーム運用に展開してください。</p>
 <hr>
 <h2>ツール情報</h2>
 <ul>
 <li><strong>公式サイト</strong>: <a href="https://grok.x.ai/" target="_blank" rel="noopener">Grok</a></li>
-<li><strong>ツール概要</strong>: xAI製の大規模言語モデル。リアルタイム情報とユーモアが特徴。</li>
 </ul>
 <h2>権利表記</h2>
 <p>Grokは各社の商標または登録商標です。本記事は公式提供ではなく、一般的な情報提供を目的としています。</p>
 <h2>画像クレジット</h2>
-<p>サムネイル画像は<a href="https://unsplash.com/" target="_blank" rel="noopener">Unsplash</a>のライセンスに基づき使用しています。</p>
+<p>サムネイル画像は <a href="https://unsplash.com/" target="_blank" rel="noopener">Unsplash</a> のライセンスに基づき使用しています。</p>
 <hr>
 <h3>お問い合わせ</h3>
 <p>AIツールの導入・活用支援のご相談はお気軽にどうぞ</p>

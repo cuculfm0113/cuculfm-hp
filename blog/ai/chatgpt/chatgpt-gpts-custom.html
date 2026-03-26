@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>GPTs（カスタムGPT）で専用AIを作る | CUCUL FM</title>
-  <meta name="description" content="この記事は「ChatGPT学習シリーズ」のSTEP 08（GPTs）です。">
+  <meta name="description" content="共通の「核指示」を情報システムがホストし、各部門は差分だけをローカルGPTsに持つのが運用しやすいです。全員がフルコピーするとドリフトします。">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="ja_JP">
   <meta property="og:title" content="GPTs（カスタムGPT）で専用AIを作る | CUCUL FM">
-  <meta property="og:description" content="この記事は「ChatGPT学習シリーズ」のSTEP 08（GPTs）です。">
+  <meta property="og:description" content="共通の「核指示」を情報システムがホストし、各部門は差分だけをローカルGPTsに持つのが運用しやすいです。全員がフルコピーするとドリフトします。">
   <meta property="og:image" content="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&amp;h=600&amp;fit=crop">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="GPTs（カスタムGPT）で専用AIを作る | CUCUL FM">
-  <meta name="twitter:description" content="この記事は「ChatGPT学習シリーズ」のSTEP 08（GPTs）です。">
+  <meta name="twitter:description" content="共通の「核指示」を情報システムがホストし、各部門は差分だけをローカルGPTsに持つのが運用しやすいです。全員がフルコピーするとドリフトします。">
   <meta name="twitter:image" content="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&amp;h=600&amp;fit=crop">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "GPTs（カスタムGPT）で専用AIを作る", "datePublished": "2026-01-01", "dateModified": "2026-01-01", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&h=600&fit=crop"]}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,47 +44,73 @@
     <div class="article-featured-image"><img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&amp;h=600&amp;fit=crop" alt="ChatGPTの活用" loading="lazy"></div>
 
     <div class="article-content">
-<h2>はじめに</h2>
-<p>この記事は「ChatGPT学習シリーズ」の<strong>STEP 08（GPTs）</strong>です。</p>
-<p>業務に特化したGPTsを作成し、チームで共有する方法を学びます。</p>
-<h2>ChatGPTとは</h2>
-<p>OpenAIの対話型AI。質問応答・文章生成・アイデア出しなど幅広く対応。</p>
-<h2>このステップで学ぶこと</h2>
+<h2>学習ゴール</h2>
+<ul>
+<li>GPTsの設定画面で「指示・アップロード知識・公開範囲」を説明できる。</li>
+<li>部門向けに再現性の高いカスタムGPT v0.1を設計し、禁止事項と出力形式を盛り込める。</li>
+</ul>
+<h2>前提知識</h2>
+<ul>
+<li>通常のChatGPTで5ブロック程度のプロンプトを書いた経験があること。</li>
+<li>アップロードするドキュメントの著作権・社内規程を確認できること。</li>
+</ul>
+<h2>キーコンセプトと用語</h2>
+<ul>
+<li><strong>システム指示</strong>：カスタムGPTに常に効かせるルール。短く具体的が強い。</li>
+<li><strong>知識ファイル</strong>：PDF/MDなどを添付し、検索させる。機密注意。</li>
+<li><strong>公開スコープ</strong>：自分のみ／リンク共有／ストア公開など。既定を誤るとリスク。</li>
+<li><strong>ツール連携</strong>：ブラウジングやコード実行の有無をプランレベルで確認。</li>
+</ul>
+<h2>手順（ステップバイステップ）</h2>
 <ol>
-<li>GPTsの基本概念</li>
-<li>実践的な使い方</li>
-<li>業務での活用例</li>
-<li>よくある失敗と回避策</li>
+<li><strong>目的を1行</strong>：例）「採用広報の下書きをトーン統一で」。</li>
+<li><strong>ペルソナと禁止</strong>：想定ユーザ、言ってはいけないこと、事例の出し方。</li>
+<li><strong>出力フォーマット</strong>：見出し、箇条書き上限、必須フッター（免責文案など）。</li>
+<li><strong>知識の選定</strong>：最新情報は公式URL参照を指示。丸投げPDFは最小限に。</li>
+<li><strong>テストクエリ10本</strong>：境界案例（無茶振り、越権依頼、言語切替）を含める。</li>
+<li><strong>版管理</strong>：指示文をリポジトリやドキュメントにコピーし、日付を入れる。</li>
+<li><strong>公開判定</strong>：外部公開が必要か、案内リンクだけに留めるか決める。</li>
 </ol>
-<h2>実践ステップ</h2>
-<h3>ステップ1：準備</h3>
-<p>まずはChatGPTにアクセスし、基本的な操作を確認しましょう。</p>
-<h3>ステップ2：基本操作</h3>
-<p>GPTsに関連する基本操作を一通り試してみます。</p>
-<h3>ステップ3：応用</h3>
-<p>実際の業務シーンを想定して、より実践的な使い方を学びます。</p>
-<h2>業務での活用例</h2>
+<h2>実践ミニ演習</h2>
 <ul>
-<li><strong>例1</strong>: 日々の定型作業を効率化</li>
-<li><strong>例2</strong>: チームでの情報共有に活用</li>
-<li><strong>例3</strong>: 品質向上のためのチェックに使用</li>
+<li><strong>演習1</strong>：既存プロンプトをシステム指示に圧縮し、500字以内に収める。</li>
+<li><strong>演習2</strong>：同じ質問をカスタム／汎用ChatGPTで比較し、ブレの差を記録。</li>
+<li><strong>演習3</strong>：「だめな依頼」3つを列挙し、GPTが拒否・代替案を返すか確認。</li>
 </ul>
-<h2>よくある質問</h2>
-<p><strong>Q: 初心者でも使えますか？</strong> A: はい、このステップは基礎から解説しているので、初めての方でも安心して取り組めます。</p>
-<p><strong>Q: 他のツールとの違いは？</strong> A: ChatGPTはOpenAIの対話型AIという特徴があります。</p>
-<h2>まとめ</h2>
-<p>このステップではGPTsについて学びました。次のステップでは、さらに発展的な内容に進みます。</p>
-<hr>
-<h2>ツール情報</h2>
+<h2>セルフチェックリスト</h2>
 <ul>
-<li><strong>公式サイト</strong>: <a href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPT</a></li>
-<li><strong>ツール概要</strong>: OpenAIの対話型AI。質問応答・文章生成・アイデア出しなど幅広く対応。</li>
+<li>[ ] 機密文書を無闇にアップしていない</li>
+<li>[ ] 公開範囲が意図通り</li>
+<li>[ ] 公式情報の参照ルールが書かれた</li>
+<li>[ ] 失敗例に対するフォールバック応答がある</li>
+<li>[ ] オーナーとバックアップ担当が決まった</li>
 </ul>
-<h2>権利表記</h2>
-<p>ChatGPTは各社の商標または登録商標です。本記事は公式提供ではなく、一般的な情報提供を目的としています。</p>
+<h2>つまずきポイントと対処</h2>
+<ul>
+<li><strong>古い知識が混ざる</strong> → 「不明は不明」「最新は公式URL確認」を明記。知識ファイル更新日をフッターに。</li>
+<li><strong>他部署が流用できない</strong> → 汎用核＋差し替えモジュール方式で指示を分割。</li>
+<li><strong>コンプライアンス懸念</strong> → 法務レビュー。PIIを含むQ&amp;Aを学習させない。</li>
+</ul>
+<h2>深掘り：チーム展開の型</h2>
+<p>共通の「核指示」を情報システムがホストし、各部門は差分だけをローカルGPTsに持つのが運用しやすいです。全員がフルコピーするとドリフトします。</p>
+<h2>ビジネス活用のアイデア</h2>
+<p>営業トークスクリプト、カスタマーサクセスの定期文面、社内ヘルプデスクの一次応答など、<strong>最終確認人がいるライン</strong>向きです。</p>
+<h2>運用ノート：カスタムGPTのライフサイクル</h2>
+<p>公開リンクは便利ですが、退職者アカウントに紐づくと停止リスクがあります。<strong>オーナーと副オーナー</strong>、バックアップのシステム指示テキストを必ずペアで管理してください。知識ファイルは版管理対象にし、古いFAQが残らないよう四半期棚卸し。顧客別にGPTを増やすより、汎用核＋差分指示を分けたほうがメンテ負荷が下がるケースが多いです。利用ログを分析し、質問の50%を占めるパターンだけ次バージョンに取り込むと改善が継続します。</p>
+<p>（学習の定着）</p>
+<p>組織学習の観点では、週次15分の振り返りをカレンダーに固定し、うまくいった依頼文や依頼テンプレは共有ドライブへコピーして資産化します。四半期ごとに公式の利用規約と社内ポリシーを突き合わせ、差分があれば短いチケットで追記してください。個人メモでも「日付・用途・入力の要点・出力の使い道」を1セットで残すと検索性が上がり、異動時の引き継ぎもスムーズです。ステークホルダー別の典型的な懸念（経営はROI、情シスは漏洩、現場は手間と心理的負担）を箇条書きで持っておくと、同じ学びを説明する場面でも言い換え疲れが減ります。公開可否が曖昧な資料はそもそもAIに入力しない、と自分で宣言しておく線引きメモがあると、日々の判断が速くなります。</p>
+<h2>まとめ：次に何をするか</h2>
+<p>用途1件について v0.1 のシステム指示を書き、テストクエリ10本をスプレッドシートに記録してください。組織運用に進むなら <a href="./chatgpt-team-operations.html">チーム運用</a>、プロンプト基礎は <a href="./chatgpt-prompts-practical.html">実務プロンプトの作り方</a> を併読します。</p>
+<h2>ツール情報（公式リンク）</h2>
+<ul>
+<li><a href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPT（OpenAI）</a></li>
+<li><a href="https://openai.com/policies/terms-of-use" target="_blank" rel="noopener">OpenAI 利用規約</a></li>
+<li><a href="https://openai.com/policies/privacy-policy" target="_blank" rel="noopener">OpenAI プライバシーポリシー</a></li>
+</ul>
+<h2>権利表記・引用について</h2>
+<p>ChatGPTはOpenAIの商標または登録商標です。本記事は各社の公式提供ではなく、一般的な情報提供を目的としています。機能や提供条件は変更される場合があるため、最新情報は公式ページをご確認ください。</p>
 <h2>画像クレジット</h2>
-<p>サムネイル画像は<a href="https://unsplash.com/" target="_blank" rel="noopener">Unsplash</a>のライセンスに基づき使用しています。</p>
-<hr>
+<p>サムネイル/本文画像はUnsplashの写真を使用しています（ライセンス：<a href="https://unsplash.com/license" target="_blank" rel="noopener">Unsplash License</a>）。</p>
 <h3>お問い合わせ</h3>
 <p>AIツールの導入・活用支援のご相談はお気軽にどうぞ</p>
 <p>📞 090-6262-3842</p>

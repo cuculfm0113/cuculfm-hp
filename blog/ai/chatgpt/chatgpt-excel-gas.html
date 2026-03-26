@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>スプレッドシート×ChatGPTで業務を自動化する（関数/GASの作り方） | CUCUL FM</title>
-  <meta name="description" content="「スプレッドシートで集計して、メールして、転記して…」という定型作業は、AIと相性が良い領域です。">
+  <meta name="description" content="目的、シート名と列、判定条件、実行頻度、メール本文テンプレ、エラー時の通知先、停止の仕方。ここまで揃うとレビュー可能なコードが返りやすくなります。">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="ja_JP">
   <meta property="og:title" content="スプレッドシート×ChatGPTで業務を自動化する（関数/GASの作り方） | CUCUL FM">
-  <meta property="og:description" content="「スプレッドシートで集計して、メールして、転記して…」という定型作業は、AIと相性が良い領域です。">
+  <meta property="og:description" content="目的、シート名と列、判定条件、実行頻度、メール本文テンプレ、エラー時の通知先、停止の仕方。ここまで揃うとレビュー可能なコードが返りやすくなります。">
   <meta property="og:image" content="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&amp;h=600&amp;fit=crop">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="スプレッドシート×ChatGPTで業務を自動化する（関数/GASの作り方） | CUCUL FM">
-  <meta name="twitter:description" content="「スプレッドシートで集計して、メールして、転記して…」という定型作業は、AIと相性が良い領域です。">
+  <meta name="twitter:description" content="目的、シート名と列、判定条件、実行頻度、メール本文テンプレ、エラー時の通知先、停止の仕方。ここまで揃うとレビュー可能なコードが返りやすくなります。">
   <meta name="twitter:image" content="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&amp;h=600&amp;fit=crop">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "スプレッドシート×ChatGPTで業務を自動化する（関数/GASの作り方）", "datePublished": "2026-01-04", "dateModified": "2026-01-04", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=600&fit=crop"]}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,47 +44,63 @@
     <div class="article-featured-image"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&amp;h=600&amp;fit=crop" alt="スプレッドシートの自動化" loading="lazy"></div>
 
     <div class="article-content">
-<h2>はじめに</h2>
-<p>「スプレッドシートで集計して、メールして、転記して…」という定型作業は、AIと相性が良い領域です。</p>
-<p>ここではChatGPTを使って、<strong>関数</strong>や<strong>GAS（Google Apps Script）</strong>の作成を加速する方法を紹介します（※最終チェックは必ず人間が行います）。</p>
-<h2>まず押さえる：AIに任せるのは“設計”と“叩き台”</h2>
+<h2>学習ゴール</h2>
 <ul>
-<li><strong>手順の分解</strong>：何を自動化するかを工程に分ける</li>
-<li><strong>関数/正規表現</strong>：要件→式→テストケース</li>
-<li><strong>GASの叩き台</strong>：要件→コード→権限→運用</li>
+<li>ChatGPTに「要件・入力例・期待結果・環境」を渡してスプレッドシート関数のたたき台を得られる。</li>
+<li>GASの依頼では、トリガー・権限・ログ・誤送信対策まで仕様に含められる。</li>
 </ul>
-<h2>例1：関数を作る（要件→式→テスト）</h2>
-<p><strong>良い依頼の出し方</strong>は「要件」と「入力例」を渡すことです。</p>
+<h2>前提知識</h2>
 <ul>
-<li>やりたいこと：A列のメールアドレスからドメインだけ取り出す</li>
-<li>入力例：example@cucul-fm.com → cucul-fm.com</li>
-<li>環境：Googleスプレッドシート</li>
+<li>GoogleスプレッドシートまたはExcelの基本的なセル操作ができること。</li>
+<li>APIキーや個人メールの一括送信など、<strong>誤操作で損害が出うる作業はステージングで試す</strong>前提です。</li>
 </ul>
-<p>AIから出た式は、必ず複数パターンでテストします（空欄、エラー、想定外フォーマット）。</p>
-<h2>例2：GASで自動通知（要件→権限→運用）</h2>
-<p>GASは「動けばOK」ではなく、<strong>運用が崩れない設計</strong>が重要です。</p>
-<h3>依頼テンプレ（コピペ用）</h3>
+<h2>キーコンセプトと用語</h2>
 <ul>
-<li>目的：スプレッドシートの期限が近い行を、毎朝メールで通知したい</li>
-<li>トリガー：平日9時</li>
-<li>条件：期限が3日以内、未完了のもの</li>
-<li>送信先：自分のメール（最初はテスト）</li>
-<li>ログ：送信した内容を別シートに記録</li>
+<li><strong>関数プロトタイプ</strong>：AIが出した式は必ず複数ケースで手計算・再計算検証する。</li>
+<li><strong>GAS</strong>：Googleスプレッドシート上で動くスクリプト。トリガーと権限の説明が必須。</li>
+<li><strong>テストケース</strong>：空欄・異常値・境界日付などを列挙した検証リスト。</li>
+<li><strong>運用設計</strong>：ログ、再実行禁止フラグ、停止手順まで書いたもの。</li>
 </ul>
-<h3>チェック観点</h3>
+<h2>手順（ステップバイステップ）</h2>
+<ol>
+<li><strong>自動化対象を一文で定義</strong>：例）「期限3日前の未完了行を平日9時に自分宛てメール」。</li>
+<li><strong>列構造をテキスト化</strong>：列名とサンプル行を3行分書き出す。</li>
+<li><strong>関数の場合</strong>：やりたい変換を入力例と期待出力で3組示し、環境（Google/Excel）を明記。</li>
+<li><strong>GASの場合</strong>：トリガー、条件、送信先、ログ出力先、失敗時の挙動を箇条書き。</li>
+<li><strong>AIに叩き台を依頼</strong>：コードや式を貼り戻し、まずはコピー用テストシートで実行。</li>
+<li><strong>テスト</strong>：想定外の空欄や日付フォーマットで壊れないか確認。</li>
+<li><strong>本番移行</strong>：送信系はテストアドレスのみ→限定配信→本番の順で拡大。</li>
+</ol>
+<h2>実践ミニ演習</h2>
 <ul>
-<li>誤送信しない（テスト送信→限定配信→本番）</li>
-<li>二重送信しない（送信済みフラグ/ログ）</li>
-<li>権限の説明がある（誰が実行できるか）</li>
+<li><strong>演習1</strong>：メールアドレス列からドメイン抽出の式をAIに作らせ、空セルと誤フォーマット行で試す。</li>
+<li><strong>演習2</strong>：GAS依頼メモに「ログシート名」「送信済みフラグ列」を足してから再依頼し、差分を比較。</li>
+<li><strong>演習3</strong>：同じ要件でプロンプトを短／長の2パターン試し、どちらが壊れにくいか記録する。</li>
 </ul>
-<h2>よくある失敗</h2>
+<h2>セルフチェックリスト</h2>
 <ul>
-<li><strong>要件が曖昧</strong>：対象範囲、条件、例外を先に決める</li>
-<li><strong>テストがない</strong>：入力例/期待結果を3〜5ケース用意する</li>
-<li><strong>運用を考えない</strong>：ログ・権限・停止手順を用意する</li>
+<li>[ ] 要件に例外処理（空欄・エラー）が含まれている</li>
+<li>[ ] テストケースが3件以上ある</li>
+<li>[ ] 送信・外部連携は段階的に開放した</li>
+<li>[ ] ログまたはフラグで二重実行を防いだ</li>
+<li>[ ] コード・式の最終責任は人にあると理解している</li>
 </ul>
-<h2>まとめ</h2>
-<p>ChatGPTは、スプレッドシート業務の自動化を「一気に楽にする」道具です。ポイントは、AIに丸投げせず、<strong>要件→テスト→運用</strong>の順に固めることです。</p>
+<h2>つまずきポイントと対処</h2>
+<ul>
+<li><strong>式が環境依存で動かない</strong> → <code>ARRAYFORMULA</code> 等、使う関数空間（Google/Excel）を最初に固定。</li>
+<li><strong>GASが権限エラー</strong> → 実行アカウント・スプレッドシートの共有範囲を確認し、公式ドキュメントの権限説明を自分で読む。</li>
+<li><strong>誤送信</strong> → 最初は <code>Logger.log</code> や下書きのみ、送信先を自分限定にする。</li>
+</ul>
+<h2>深掘り：プロンプトに入れるべきGAS仕様リスト</h2>
+<p>目的、シート名と列、判定条件、実行頻度、メール本文テンプレ、エラー時の通知先、停止の仕方。ここまで揃うとレビュー可能なコードが返りやすくなります。</p>
+<h2>連携の次の一歩</h2>
+<p>定型通知が回ったら、Slackやメールの文面をテンプレ化し、同じ仕様書型でAPI連携記事へ進むと横展開しやすいです。</p>
+<h2>運用ノート：情シス・法務への説明の仕方</h2>
+<p>自動化は便利ですが「誰の権限でメールを送るか」「ログに何が残るか」が懸念になります。説明では<strong>データの最小化</strong>（宛先はテストのみ→段階展開）、<strong>停止手順</strong>（トリガー削除手順のURL）、<strong>再現テスト結果</strong>を1枚にまとめます。Excelマクロと違いGASはWeb連携が容易なので、外向き送信ほど承認ゲートを厚くするのが実務的です。ChatGPTに書かせたコードでも、最終的な責任と運用ドキュメントは人が持つ前提で話すと齟齬が減ります。</p>
+<p>（学習の定着）</p>
+<p>組織学習の観点では、週次15分の振り返りをカレンダーに固定し、うまくいった依頼文や依頼テンプレは共有ドライブへコピーして資産化します。四半期ごとに公式の利用規約と社内ポリシーを突き合わせ、差分があれば短いチケットで追記してください。個人メモでも「日付・用途・入力の要点・出力の使い道」を1セットで残すと検索性が上がり、異動時の引き継ぎもスムーズです。ステークホルダー別の典型的な懸念（経営はROI、情シスは漏洩、現場は手間と心理的負担）を箇条書きで持っておくと、同じ学びを説明する場面でも言い換え疲れが減ります。公開可否が曖昧な資料はそもそもAIに入力しない、と自分で宣言しておく線引きメモがあると、日々の判断が速くなります。</p>
+<h2>まとめ：次に何をするか</h2>
+<p>関数1本とGASメモ1枚を「要件→テスト→運用」の順でフォルダに保存し、来週の定例で使い回してください。APIや連携基盤へ進む場合は <a href="./chatgpt-api-basics.html">API入門</a> を参照します。</p>
 <h2>ツール情報（公式リンク）</h2>
 <ul>
 <li><a href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPT（OpenAI）</a></li>

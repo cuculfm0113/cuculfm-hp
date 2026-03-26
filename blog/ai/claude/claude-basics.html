@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Claudeの使い分け入門（長文に強い理由と安全な運用） | CUCUL FM</title>
-  <meta name="description" content="Claudeは、文章作成・編集・要約などの「長文」タスクで強みが出やすいAIです。ChatGPTと比べて、構成を崩さず整える用途で評価されることが多いです。">
+  <meta name="description" content="生成AIを業務で1回以上使った方。提案書・メール・ブログ・社内規程など「読ませる文章」を扱うビジネスユーザー。機能・モデル名は更新されうるため、の画面表示を正としてください。">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="ja_JP">
   <meta property="og:title" content="Claudeの使い分け入門（長文に強い理由と安全な運用） | CUCUL FM">
-  <meta property="og:description" content="Claudeは、文章作成・編集・要約などの「長文」タスクで強みが出やすいAIです。ChatGPTと比べて、構成を崩さず整える用途で評価されることが多いです。">
+  <meta property="og:description" content="生成AIを業務で1回以上使った方。提案書・メール・ブログ・社内規程など「読ませる文章」を扱うビジネスユーザー。機能・モデル名は更新されうるため、の画面表示を正としてください。">
   <meta property="og:image" content="https://images.unsplash.com/photo-1526379095098-d400fd0bf935?w=1200&amp;h=600&amp;fit=crop">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Claudeの使い分け入門（長文に強い理由と安全な運用） | CUCUL FM">
-  <meta name="twitter:description" content="Claudeは、文章作成・編集・要約などの「長文」タスクで強みが出やすいAIです。ChatGPTと比べて、構成を崩さず整える用途で評価されることが多いです。">
+  <meta name="twitter:description" content="生成AIを業務で1回以上使った方。提案書・メール・ブログ・社内規程など「読ませる文章」を扱うビジネスユーザー。機能・モデル名は更新されうるため、の画面表示を正としてください。">
   <meta name="twitter:image" content="https://images.unsplash.com/photo-1526379095098-d400fd0bf935?w=1200&amp;h=600&amp;fit=crop">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Claudeの使い分け入門（長文に強い理由と安全な運用）", "datePublished": "2026-01-05", "dateModified": "2026-01-05", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1526379095098-d400fd0bf935?w=1200&h=600&fit=crop"]}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,46 +44,67 @@
     <div class="article-featured-image"><img src="https://images.unsplash.com/photo-1526379095098-d400fd0bf935?w=1200&amp;h=600&amp;fit=crop" alt="長文の編集" loading="lazy"></div>
 
     <div class="article-content">
-<h2>はじめに</h2>
-<p>Claudeは、文章作成・編集・要約などの「長文」タスクで強みが出やすいAIです。ChatGPTと比べて、<strong>構成を崩さず整える</strong>用途で評価されることが多いです。</p>
-<h2>Claudeが向く作業 / 向かない作業</h2>
-<h3>向く作業（おすすめ）</h3>
+<h2>この記事の学習ゴール</h2>
 <ul>
-<li><strong>長文の構成</strong>：提案書、記事、社内文書の骨組みづくり</li>
-<li><strong>推敲・添削</strong>：読みやすさ、トーン統一、冗長削減</li>
-<li><strong>要約</strong>：長い資料から要点・論点を抜き出す</li>
+<li>Claudeが「長文の構成・推敲・要約」で強みを発揮する理由を、業務文脈で説明できる</li>
+<li>ChatGPT等との<strong>役割分担</strong>を自分のワークフローに落とし込める</li>
+<li>機密・個人情報を入れない入力ルールと、公開前の人間確認ゲートを設計できる</li>
 </ul>
-<h3>向きにくい作業</h3>
+<h2>前提知識・向いている人</h2>
+<p>生成AIを業務で1回以上使った方。提案書・メール・ブログ・社内規程など「読ませる文章」を扱うビジネスユーザー。機能・モデル名は更新されうるため、<a href="https://claude.ai/" target="_blank" rel="noopener">Claude</a>の画面表示を正としてください。</p>
+<h2>キーコンセプトと用語</h2>
 <ul>
-<li>正確な最新情報が必須の調査（出典確認が必要）</li>
-<li>個人情報・機密を含む内容をそのまま入れる運用</li>
+<li><strong>コンテキストウィンドウ</strong>: 一度に参照できるテキスト量。長文読解や一括推敲で設計が変わる</li>
+<li><strong>トーン</strong>: 敬体/常体、堅さ、顧客向けか社内向けかといった文体の温度感</li>
+<li><strong>ハルシネーション</strong>: もっともらしいが誤った事実。公開文・数値・法務表現は人間が必ず確認</li>
 </ul>
-<h2>ChatGPTとの“併用”が最強</h2>
-<ul>
-<li><strong>アイデアの量産</strong>：ChatGPT</li>
-<li><strong>文章の整形・推敲</strong>：Claude</li>
-<li><strong>資料読解</strong>：NotebookLMも候補</li>
-</ul>
-<h2>安全運用の基本</h2>
-<p>どのAIでも共通ですが、業務では入力ルールが重要です。</p>
-<ul>
-<li>個人情報・顧客情報・契約書などは入力しない（抽象化/伏字）</li>
-<li>外部公開文は、必ず人間が最終確認（事実・数値・法務）</li>
-</ul>
-<h2>実務テンプレ（構成→下書き→推敲）</h2>
+<h2>手順（ステップバイステップ）</h2>
 <ol>
-<li><strong>構成案</strong>：目的/読者/見出しを作る</li>
-<li><strong>下書き</strong>：各見出しに箇条書き→文章化</li>
-<li><strong>推敲</strong>：観点指定（分かりやすさ/誤解リスク/冗長）</li>
+<li>タスクを分類する：<strong>骨子づくり</strong>／<strong>下書き</strong>／<strong>推敲</strong>／<strong>要約</strong>のどれか</li>
+<li>目的・読者・禁止事項（例: 固有名詞を変えない、500字以内）をプロンプト先頭に書く</li>
+<li>いきなり全文を求めず、<strong>見出し案→各節</strong>の順で埋める（長文ほど効く）</li>
+<li>出力を受け取り、事実・数値・出典が必要な箇所に印をつけ、別途検証</li>
+<li>外部公開前に、コンプラ・法務・当事者のレビューをゲートとして固定</li>
+<li>うまくいったプロンプトを社内テンプレにコピーし、再利用する</li>
 </ol>
-<h2>まとめ</h2>
-<p>Claudeは「長文を崩さず整える」用途で真価を発揮します。次回は、長文を破綻させないための<strong>分割→統合</strong>の手順を、実例付きで解説します。</p>
-<h2>ツール情報（公式リンク）</h2>
+<h2>プロンプトの「型」を1つだけ持つ</h2>
+<p>忙しい業務では長文指示が続きません。「目的／読者／トーン／禁止／出力形式」をコピペ用に10行以内へ圧縮したスニペットをメモ帳に1つ。毎回ここから始めると、担当者が変わっても品質のバラつきが抑えられます。</p>
+<h2>Claudeが向く／向きにくい業務</h2>
+<p><strong>向く</strong>: 構成、冗長削減、論理のつながりチェック、長文からの要点抽出。<strong>向きにくい（単独では危険）</strong>: 最新ニュースの正確な調査、個人名・契約情報そのものの入力、医学・法解釈の最終判断。</p>
+<h2>変化への備え</h2>
+<p>モデルやUIは更新されます。社内テンプレには「最終動作確認日」を明記し、半年ごとに10分だけプロンプトを再検証するリズムをつくると、急な仕様変更にも慌てにくいです。</p>
+<h2>実践ミニ演習</h2>
+<p>手元の報告書ドラフトを<strong>1ページだけ</strong>貼り、「分かりやすさ」「誤解リスク」の2観点で具体的な修正案を出させる。修正案は3つまで採用し、理由をメモする。</p>
+<h2>メンターがいないとき</h2>
+<p>上司に見せるのは完成品ではなく「プロンプト＋AI出力＋自分の修正」をセットにすると助言がもらいやすいです。セキュリティ上問題なければ、架空案件でデモ用を作るのも手です。</p>
+<h2>セルフチェックリスト</h2>
+<ul>
+<li>[ ] 機密は抽象化・伏字にした</li>
+<li>[ ] 目的・読者・トーンを指示に含めた</li>
+<li>[ ] 事実確認が必要な文にマーカーを付けた</li>
+<li>[ ] 最終稿の責任者（人間）が決まっている</li>
+</ul>
+<h2>セキュリティを破らないコツ</h2>
+<p>迷ったら貼らない。社外秘は要約して伏字化し、出典が必要な数値はプロンプトではなく表で渡す——の二択を徹底すると安定します。</p>
+<h2>つまずきポイントと対処</h2>
+<ul>
+<li><strong>文体がチームと合わない</strong>: 参考文を短く貼り「この距離感に合わせて」と指定</li>
+<li><strong>長文が破綻する</strong>: 章単位で生成→統合のワークフローへ切り替え（詳しくは長文ライティング記事）</li>
+<li><strong>安易に任せる</strong>: 「たたき台まで」という上限をプロンプトに明記</li>
+</ul>
+<h2>週次の自己点検</h2>
+<p>金曜5分で「今週貼ってよかったプロンプト／貼ってはいけなかった入力」を1行ずつメモするだけで、来週のミスが減ります。</p>
+<h2>まとめ：次に何をするか</h2>
+<p>長文を一気に生成しない運用が身についたら、「Claudeで長文を破綻させない（分割→統合）」へ進み、設計図→章ごと作成→統合の型を実装してください。</p>
+<h2>学習の仕上げ（3分）</h2>
+<p>この記事の「手順」を声に出して1回読み、<strong>セルフチェックリスト</strong>をすべて見たうえで1項目だけ明日試すことを決めてください。完璧に全部やらず、一項目の成功体験を積むほうが定着率は高いです。迷ったら「実践ミニ演習」だけでも再実行してください。</p>
+<h2>ツール情報</h2>
 <ul>
 <li><a href="https://claude.ai/" target="_blank" rel="noopener">Claude（Anthropic）</a></li>
 <li><a href="https://www.anthropic.com/claude" target="_blank" rel="noopener">Claude（公式紹介）</a></li>
 <li><a href="https://www.anthropic.com/legal/terms" target="_blank" rel="noopener">Anthropic 利用規約</a></li>
 <li><a href="https://www.anthropic.com/legal/privacy" target="_blank" rel="noopener">Anthropic プライバシーポリシー</a></li>
+<li><a href="https://docs.anthropic.com/" target="_blank" rel="noopener">Anthropic API ドキュメント</a>（連携開発時の参照用）</li>
 </ul>
 <h2>権利表記・引用について</h2>
 <p>ClaudeはAnthropicの商標または登録商標です。本記事は各社の公式提供ではありません。機能や提供条件は変更される場合があるため、最新情報は公式ページをご確認ください。</p>

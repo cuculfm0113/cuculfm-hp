@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Superwhisper初期設定（精度を上げる環境構築） | CUCUL FM</title>
-  <meta name="description" content="この記事は「Superwhisper学習シリーズ」のSTEP 02（設定）です。">
+  <meta name="description" content="音声入力の精度はソフトだけでなくマイク、部屋の反射、入力ゲイン、ショートカットに左右されます。初期設定で差がつく項目を優先順位付きで押さえ、すぐ試せるチェックリストにまとめます。">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="ja_JP">
   <meta property="og:title" content="Superwhisper初期設定（精度を上げる環境構築） | CUCUL FM">
-  <meta property="og:description" content="この記事は「Superwhisper学習シリーズ」のSTEP 02（設定）です。">
+  <meta property="og:description" content="音声入力の精度はソフトだけでなくマイク、部屋の反射、入力ゲイン、ショートカットに左右されます。初期設定で差がつく項目を優先順位付きで押さえ、すぐ試せるチェックリストにまとめます。">
   <meta property="og:image" content="https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=1200&amp;h=600&amp;fit=crop">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Superwhisper初期設定（精度を上げる環境構築） | CUCUL FM">
-  <meta name="twitter:description" content="この記事は「Superwhisper学習シリーズ」のSTEP 02（設定）です。">
+  <meta name="twitter:description" content="音声入力の精度はソフトだけでなくマイク、部屋の反射、入力ゲイン、ショートカットに左右されます。初期設定で差がつく項目を優先順位付きで押さえ、すぐ試せるチェックリストにまとめます。">
   <meta name="twitter:image" content="https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=1200&amp;h=600&amp;fit=crop">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Superwhisper初期設定（精度を上げる環境構築）", "datePublished": "2026-01-01", "dateModified": "2026-01-01", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=1200&h=600&fit=crop"]}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -45,41 +45,63 @@
 
     <div class="article-content">
 <h2>はじめに</h2>
-<p>この記事は「Superwhisper学習シリーズ」の<strong>STEP 02（設定）</strong>です。</p>
-<p>マイク設定・言語設定・ショートカットで快適な環境を作ります。</p>
-<h2>Superwhisperとは</h2>
-<p>AI音声入力ツール。オフラインで高精度な音声認識が可能。</p>
-<h2>このステップで学ぶこと</h2>
+<p>音声入力の精度はソフトだけでなく<strong>マイク、部屋の反射、入力ゲイン、ショートカット</strong>に左右されます。初期設定で差がつく項目を優先順位付きで押さえ、すぐ試せるチェックリストにまとめます。</p>
+<h2>学習向け</h2>
+<h3>学習ゴール</h3>
+<ul>
+<li>自分の環境で<strong>安定して再現できる</strong>入力セットアップを説明できる</li>
+<li>OSの権限とアプリ権限の<strong>確認手順</strong>を踏める</li>
+<li>誤認識時の切り分け（環境／設定／話し方）ができる</li>
+</ul>
+<h3>前提知識</h3>
+<ul>
+<li>macOSの「システム設定」でマイク権限を確認できる</li>
+<li>使用マイクの型番と接続方式（USB／3.5mm／BT）</li>
+</ul>
+<h3>キーコンセプト</h3>
+<ul>
+<li><strong>SN比</strong>：背景ノイズが勝つと認識が落ちる</li>
+<li><strong>一貫性</strong>：日によってデバイスを替えないほど学習コストが下がる</li>
+<li><strong>遅延</strong>：Bluetoothは環境次第。重要業務は有線を検討</li>
+</ul>
+<h3>手順</h3>
 <ol>
-<li>設定の基本概念</li>
-<li>実践的な使い方</li>
-<li>業務での活用例</li>
-<li>よくある失敗と回避策</li>
+<li><strong>マイクテスト</strong>：同じ文を5回読み、波形と認識結果を眺める。</li>
+<li><strong>権限確認</strong>：アクセシビリティ・マイク・必要なら画面録画の範囲を見直す。</li>
+<li><strong>ホットキー</strong>：誤爆しないキーを選び、競合アプリと干渉しないか確認。</li>
+<li><strong>辞書／置換</strong>：社名・製品名・略語を登録（可能なら）。</li>
+<li><strong>ログ</strong>：1週間、誤認識top3だけメモし、設定変更の影響を比較。</li>
 </ol>
-<h2>実践ステップ</h2>
-<h3>ステップ1：準備</h3>
-<p>まずはSuperwhisperにアクセスし、基本的な操作を確認しましょう。</p>
-<h3>ステップ2：基本操作</h3>
-<p>設定に関連する基本操作を一通り試してみます。</p>
-<h3>ステップ3：応用</h3>
-<p>実際の業務シーンを想定して、より実践的な使い方を学びます。</p>
-<h2>業務での活用例</h2>
+<h3>ミニ演習</h3>
+<p>同じ100字を①静かな部屋②換気扇オン③カフェ程度の雑音の3条件で入力し、<strong>認識率の体感差</strong>と対策案を箇条書きで書く。</p>
+<h3>チェックリスト</h3>
 <ul>
-<li><strong>例1</strong>: 日々の定型作業を効率化</li>
-<li><strong>例2</strong>: チームでの情報共有に活用</li>
-<li><strong>例3</strong>: 品質向上のためのチェックに使用</li>
+<li>[ ] 入力デバイスがOSで正しく選択されている</li>
+<li>[ ] マイクが他アプリに専有されていない</li>
+<li>[ ] ショートカットが他ツールと衝突していない</li>
+<li>[ ] 入力言語・モデル設定が用途に合っている</li>
 </ul>
-<h2>よくある質問</h2>
-<p><strong>Q: 初心者でも使えますか？</strong> A: はい、このステップは基礎から解説しているので、初めての方でも安心して取り組めます。</p>
-<p><strong>Q: 他のツールとの違いは？</strong> A: SuperwhisperはAI音声入力ツールという特徴があります。</p>
-<h2>まとめ</h2>
-<p>このステップでは設定について学びました。次のステップでは、さらに発展的な内容に進みます。</p>
-<hr>
-<h2>ツール情報</h2>
+<h3>つまずき</h3>
 <ul>
-<li><strong>公式サイト</strong>: <a href="https://superwhisper.com/" target="_blank" rel="noopener">Superwhisper</a></li>
-<li><strong>ツール概要</strong>: AI音声入力ツール。オフラインで高精度な音声認識が可能。</li>
+<li><strong>権限ダイアログをスキップ</strong>：後から効かない原因の定番。最初に全部通す。</li>
+<li><strong>距離ブレ</strong>：口とマイクの距離が毎回違うと精度が落ちる。</li>
+<li><strong>ゲイン過大</strong>：息飛びで破裂音。入力レベルを下げる。</li>
 </ul>
+<h3>拡張コンテンツ</h3>
+<p>複数端末を使う人は<strong>プロファイル</strong>（仕事用マイク／外出用イヤホン）を分けると設定迷子が減ります。チーム展開では「推奨マイクリスト」と「不可リスト（ノイキャンが弱い某機種等）」を用意し、ヘルプデスク負荷を下げられます。在宅ではカーペットやカーテンで反響を減らすだけでも改善することがあります。</p>
+<p>週次レビューでは、<strong>録音→貼り付け→整形</strong>までの所要時間と、後編集で直したおおよその文字量をメモし、ボトルネックだけを次週の改善テーマに絞り込みます。チーム導入なら、推奨マイク・入力ゲインの目安・ホットキー一覧を1枚にまとめるとオンボーディングが速くなります。クラウドに下書きを置く場合も、顧客名や契約番号など機密が録音ログや一時ファイルに残らないよう、保存先と削除タイミングを先に決めておくと安全です。</p>
+<p>実際の画面を開いた状態で、<strong>入力→確認→記録</strong>まで一通り触れてください。迷ったら止まってよいので、「どの画面で」「どの判断で止まったか」を箇条書きに残すことが目的です。振り返りでは、ブレーキをかけた判断が正しかったケース／過剰だったケースを1つずつ挙げ、翌週のルール改定案を1行だけ書きます。パートナーや部下がいれば、同じテンプレを読んでもらい「ここが曖昧」と指摘された箇所を太字でメモしておくと、文章の弱点が可視化されます。このドリルを月2回続けると、マニュアル不要の暗黙知が減り、引き継ぎコストが下がりやすいです。</p>
+<p>同じ手順を半年後に再現できるよう、<strong>フォルダ名・ファイル名・検索キーワード</strong>をルール化しておくと安心です。例：「YYYYMMDD_ツール名_テーマ_ドラフト」のように先頭に日付を置き、検索で時系列が追えるようにする。社内Wikiに載せる場合は、スクリーンショットより<strong>テキスト手順優先</strong>にすると更新が楽になります。これらは本文の理解を深めるための任意メモです。</p>
+<p>自習メモ：読了直後に試した操作と所要時間（分）をスクラップに残すと、次回の立ち上がりが速くなります。最後に、学習ログは共有ドライブよりまず自分専用の1ファイルに蓄積し、月1回だけチームに開示する形だと心理的負担が少なく続きやすいです。 初週は「速度」より<strong>同じ手順を毎日繰り返す</strong>ことを優先し、2週目以降で誤変換辞書やショートカットを足す二段構えにすると挫折しにくいです。体調や会議密度で失敗日が出ても、ノート1行に原因（寝不足・マイク奪い合い等）を書くだけで次回の再発防止に使えます。</p>
+<h3>まとめ</h3>
+<p>設定は高級### ツール情報</p>
+<ul>
+<li><strong>公式サイト</strong>：<a href="https://superwhisper.com/" target="_blank" rel="noopener">Superwhisper</a></li>
+<li><strong>概要</strong>：ローカル音声認識ツール。設定項目はアップデートで変わりうる。</li>
+<li><strong>注意</strong>：公式ドキュメントの推奨環境を確認すること。</li>
+</ul>
+<p><strong>自習の締め</strong>：本文を読み終えたら、明日使う場面を1つだけ選び、カレンダーに15分ブロックを置いてから席を立ってください。小さなコミットが習慣化の燃料になります。</p>
+<h2>権利表記：読了直後に試した操作と所要時間（分）をスクラップに残すと、次回の立ち上がりが速くなります。</h2>
 <h2>権利表記</h2>
 <p>Superwhisperは各社の商標または登録商標です。本記事は公式提供ではなく、一般的な情報提供を目的としています。</p>
 <h2>画像クレジット</h2>

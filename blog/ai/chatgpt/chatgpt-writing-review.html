@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ChatGPTで文章校正・リライト（品質を上げる実践テクニック） | CUCUL FM</title>
-  <meta name="description" content="この記事は「ChatGPT学習シリーズ」のSTEP 06（文章校正）です。">
+  <meta name="description" content="「編集長として、Structure・Clarity・Toneの3軸で採点し、最大のボトルネック1つだけ深掘り」など、役割を編集系に寄せるとコメント品質が上がります。">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="ja_JP">
   <meta property="og:title" content="ChatGPTで文章校正・リライト（品質を上げる実践テクニック） | CUCUL FM">
-  <meta property="og:description" content="この記事は「ChatGPT学習シリーズ」のSTEP 06（文章校正）です。">
+  <meta property="og:description" content="「編集長として、Structure・Clarity・Toneの3軸で採点し、最大のボトルネック1つだけ深掘り」など、役割を編集系に寄せるとコメント品質が上がります。">
   <meta property="og:image" content="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&amp;h=600&amp;fit=crop">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="ChatGPTで文章校正・リライト（品質を上げる実践テクニック） | CUCUL FM">
-  <meta name="twitter:description" content="この記事は「ChatGPT学習シリーズ」のSTEP 06（文章校正）です。">
+  <meta name="twitter:description" content="「編集長として、Structure・Clarity・Toneの3軸で採点し、最大のボトルネック1つだけ深掘り」など、役割を編集系に寄せるとコメント品質が上がります。">
   <meta name="twitter:image" content="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&amp;h=600&amp;fit=crop">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "ChatGPTで文章校正・リライト（品質を上げる実践テクニック）", "datePublished": "2026-01-01", "dateModified": "2026-01-01", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&h=600&fit=crop"]}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,47 +44,73 @@
     <div class="article-featured-image"><img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&amp;h=600&amp;fit=crop" alt="ChatGPTの活用" loading="lazy"></div>
 
     <div class="article-content">
-<h2>はじめに</h2>
-<p>この記事は「ChatGPT学習シリーズ」の<strong>STEP 06（文章校正）</strong>です。</p>
-<p>文章の誤字脱字・読みやすさ・トーン統一をAIで効率化します。</p>
-<h2>ChatGPTとは</h2>
-<p>OpenAIの対話型AI。質問応答・文章生成・アイデア出しなど幅広く対応。</p>
-<h2>このステップで学ぶこと</h2>
+<h2>学習ゴール</h2>
+<ul>
+<li>誤字脱字・読みやすさ・トーン統一の校正を、観点別プロンプトで再現できる。</li>
+<li>AIに「批評→修正案→最終稿」を段階分けさせ、手元のスタイルガイドと矛盾しない仕上がりに近づけられる。</li>
+</ul>
+<h2>前提知識</h2>
+<ul>
+<li>ChatGPTへの貼り付けは社外秘以上をマスキングした状態で行うこと。</li>
+<li>社内向けの文体ルール（敬語レベル、です／ます、箇条書き記号）がわかっていると効果大。</li>
+</ul>
+<h2>キーコンセプトと用語</h2>
+<ul>
+<li><strong>段階校正</strong>：一度に全部直させず、観点を分けてターンを刻む。</li>
+<li><strong>トーンガイド</strong>：想定読者と禁止表現、推奨語彙のセット。</li>
+<li><strong>リライト</strong>：意味は保ちつつ構造や語順を変える作業。</li>
+<li><strong>ファクトガード</strong>：数値・固有名詞はAIの改変から除外するルール。</li>
+</ul>
+<h2>手順（ステップバイステップ）</h2>
 <ol>
-<li>文章校正の基本概念</li>
-<li>実践的な使い方</li>
-<li>業務での活用例</li>
-<li>よくある失敗と回避策</li>
+<li><strong>素材準備</strong>：校正対象を貼る前に、秘匿箇所を伏せ字にする。</li>
+<li><strong>観点を宣言</strong>：誤字、冗長、論理飛躍、トーン、体裁のどれを優先するか並べる。</li>
+<li><strong>第1ターン</strong>：問題点リストのみ出力させ、まだ改稿させない。</li>
+<li><strong>第2ターン</strong>：指摘ごとに修正案を提示させる。</li>
+<li><strong>第3ターン</strong>：承認した修正のみ統合した全文を出力させる。</li>
+<li><strong>人の最終読み</strong>：数字・引用・リンクは必ず人が目視。</li>
 </ol>
-<h2>実践ステップ</h2>
-<h3>ステップ1：準備</h3>
-<p>まずはChatGPTにアクセスし、基本的な操作を確認しましょう。</p>
-<h3>ステップ2：基本操作</h3>
-<p>文章校正に関連する基本操作を一通り試してみます。</p>
-<h3>ステップ3：応用</h3>
-<p>実際の業務シーンを想定して、より実践的な使い方を学びます。</p>
-<h2>業務での活用例</h2>
+<h2>実践ミニ演習</h2>
 <ul>
-<li><strong>例1</strong>: 日々の定型作業を効率化</li>
-<li><strong>例2</strong>: チームでの情報共有に活用</li>
-<li><strong>例3</strong>: 品質向上のためのチェックに使用</li>
+<li><strong>演習1</strong>：同じ段落で「1ターン全修正」と「3ターン分割」を比較し、好みの手応えをメモ。</li>
+<li><strong>演習2</strong>：社内禁止語リストを渡し、ヒット箇所を表形式で返させる。</li>
+<li><strong>演習3</strong>：英日二言語でトーンを揃えたい場合、それぞれ別チャットで処理してから人が整える。</li>
 </ul>
-<h2>よくある質問</h2>
-<p><strong>Q: 初心者でも使えますか？</strong> A: はい、このステップは基礎から解説しているので、初めての方でも安心して取り組めます。</p>
-<p><strong>Q: 他のツールとの違いは？</strong> A: ChatGPTはOpenAIの対話型AIという特徴があります。</p>
-<h2>まとめ</h2>
-<p>このステップでは文章校正について学びました。次のステップでは、さらに発展的な内容に進みます。</p>
-<hr>
-<h2>ツール情報</h2>
+<h2>セルフチェックリスト</h2>
 <ul>
-<li><strong>公式サイト</strong>: <a href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPT</a></li>
-<li><strong>ツール概要</strong>: OpenAIの対話型AI。質問応答・文章生成・アイデア出しなど幅広く対応。</li>
+<li>[ ] 観点が3つ以内に絞られている</li>
+<li>[ ] ファクト部分に手を入れさせていない</li>
+<li>[ ] 最終稿の責任者が自分または上司である</li>
+<li>[ ] スタイルガイドの版番号をプロンプトに書いた</li>
+<li>[ ] 外部公開前にリーガルチェックが済んだ</li>
 </ul>
-<h2>権利表記</h2>
-<p>ChatGPTは各社の商標または登録商標です。本記事は公式提供ではなく、一般的な情報提供を目的としています。</p>
+<h2>つまずきポイントと対処</h2>
+<ul>
+<li><strong>文章が薄くなる</strong> → 「事実追加禁止」「あいまい語禁止」を明記。</li>
+<li><strong>敬語が不自然</strong> → 公式の手本段落を少し例示。</li>
+<li><strong>長文化</strong> → 1文の最大文字数や段落数を指定。</li>
+</ul>
+<h2>深掘り：編集者視点のプロンプト</h2>
+<p>「編集長として、Structure・Clarity・Toneの3軸で採点し、最大のボトルネック1つだけ深掘り」など、役割を編集系に寄せるとコメント品質が上がります。</p>
+<h2>ビジネス文書別のコツ</h2>
+<p>プレスリリースは事実列挙優先、提案書は論理つながり、チャットは短文。用途ごとに第1ターンの指示をテンプレ化しておくと速いです。</p>
+<h2>運用ノート：ブランドと法務のすみ分け</h2>
+<p>外発文書では、トーン＆マナー以上に<strong>禁止表現リスト</strong>と<strong>免責文言の必須欄</strong>が効きます。AIに「競合比較」「医療効果」「確約表現」を書かせないルールは、プロンプトではなく社内ガイドの章立てに寄せておくと更新が早いです。校正は編集者・法務・事業責任者でゲートを分け、AIは最前段の下書きと網羅チェックに寄せると役割がぶつかりません。多言語展開では右から左へのレビューではなく、<strong>ネイティブ確認</strong>のバッファ日数を必ず取ってください。</p>
+<p>（学習の定着）</p>
+<p>組織学習の観点では、週次15分の振り返りをカレンダーに固定し、うまくいった依頼文や依頼テンプレは共有ドライブへコピーして資産化します。四半期ごとに公式の利用規約と社内ポリシーを突き合わせ、差分があれば短いチケットで追記してください。個人メモでも「日付・用途・入力の要点・出力の使い道」を1セットで残すと検索性が上がり、異動時の引き継ぎもスムーズです。ステークホルダー別の典型的な懸念（経営はROI、情シスは漏洩、現場は手間と心理的負担）を箇条書きで持っておくと、同じ学びを説明する場面でも言い換え疲れが減ります。公開可否が曖昧な資料はそもそもAIに入力しない、と自分で宣言しておく線引きメモがあると、日々の判断が速くなります。</p>
+<p>なお学習効率を上げるには、「読む→15分で演習→翌週に同じ手順でもう一度」をカレンダーに3連続で置き、忘却曲線を意識するのがコツです。複数人で進めるときは教え合うペアと日時を先に仮押さえし、片方が欠席しても演習PDFだけで進められるようにリンク集を1枚添えておくと属人化が進みにくくなります。最後に、成果が出た週は短いログ（良かった依頼1行）を残し、出なかった週は「阻害要因」を1語だけメモして次週の設計に回すと改善が続きます。</p>
+<h2>まとめ：次に何をするか</h2>
+<p>手元のドラフト1本で3ターン校正を試し、プロンプトをメモ帳に保存してください。プロンプト設計の型は <a href="./chatgpt-prompts-practical.html">実務プロンプトの作り方</a> で発展させられます。</p>
+<h2>ツール情報（公式リンク）</h2>
+<ul>
+<li><a href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPT（OpenAI）</a></li>
+<li><a href="https://openai.com/policies/terms-of-use" target="_blank" rel="noopener">OpenAI 利用規約</a></li>
+<li><a href="https://openai.com/policies/privacy-policy" target="_blank" rel="noopener">OpenAI プライバシーポリシー</a></li>
+</ul>
+<h2>権利表記・引用について</h2>
+<p>ChatGPTはOpenAIの商標または登録商標です。本記事は各社の公式提供ではなく、一般的な情報提供を目的としています。機能や提供条件は変更される場合があるため、最新情報は公式ページをご確認ください。</p>
 <h2>画像クレジット</h2>
-<p>サムネイル画像は<a href="https://unsplash.com/" target="_blank" rel="noopener">Unsplash</a>のライセンスに基づき使用しています。</p>
-<hr>
+<p>サムネイル/本文画像はUnsplashの写真を使用しています（ライセンス：<a href="https://unsplash.com/license" target="_blank" rel="noopener">Unsplash License</a>）。</p>
 <h3>お問い合わせ</h3>
 <p>AIツールの導入・活用支援のご相談はお気軽にどうぞ</p>
 <p>📞 090-6262-3842</p>

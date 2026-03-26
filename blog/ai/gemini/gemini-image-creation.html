@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Geminiで画像生成・編集（Imagen活用術） | CUCUL FM</title>
-  <meta name="description" content="この記事は「Gemini学習シリーズ」のSTEP 06（画像）です。">
+  <meta name="description" content="この記事は「Gemini学習シリーズ」のSTEP 06（画像）業務向けの導入です。Geminiで画像を生成・編集する流れと、著作権・肖像・ブランドガイドラインを踏まえた安全な運用をまとめます。提供モデル名やUIはアップデートで変わるた…">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="ja_JP">
   <meta property="og:title" content="Geminiで画像生成・編集（Imagen活用術） | CUCUL FM">
-  <meta property="og:description" content="この記事は「Gemini学習シリーズ」のSTEP 06（画像）です。">
+  <meta property="og:description" content="この記事は「Gemini学習シリーズ」のSTEP 06（画像）業務向けの導入です。Geminiで画像を生成・編集する流れと、著作権・肖像・ブランドガイドラインを踏まえた安全な運用をまとめます。提供モデル名やUIはアップデートで変わるた…">
   <meta property="og:image" content="https://images.unsplash.com/photo-1573804633927-bfcbcd909acd?w=1200&amp;h=600&amp;fit=crop">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Geminiで画像生成・編集（Imagen活用術） | CUCUL FM">
-  <meta name="twitter:description" content="この記事は「Gemini学習シリーズ」のSTEP 06（画像）です。">
+  <meta name="twitter:description" content="この記事は「Gemini学習シリーズ」のSTEP 06（画像）業務向けの導入です。Geminiで画像を生成・編集する流れと、著作権・肖像・ブランドガイドラインを踏まえた安全な運用をまとめます。提供モデル名やUIはアップデートで変わるた…">
   <meta name="twitter:image" content="https://images.unsplash.com/photo-1573804633927-bfcbcd909acd?w=1200&amp;h=600&amp;fit=crop">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Geminiで画像生成・編集（Imagen活用術）", "datePublished": "2026-01-01", "dateModified": "2026-01-01", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1573804633927-bfcbcd909acd?w=1200&h=600&fit=crop"]}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -45,46 +45,79 @@
 
     <div class="article-content">
 <h2>はじめに</h2>
-<p>この記事は「Gemini学習シリーズ」の<strong>STEP 06（画像）</strong>です。</p>
-<p>画像生成・編集機能を使ったビジュアルコンテンツ作成を学びます。</p>
-<h2>Geminiとは</h2>
-<p>Google製AI。Google Workspaceとの連携が強み。</p>
-<h2>このステップで学ぶこと</h2>
+<p>この記事は「Gemini学習シリーズ」の<strong>STEP 06（画像）</strong>業務向けの導入です。<strong>Gemini</strong>で画像を生成・編集する流れと、著作権・肖像・ブランドガイドラインを踏まえた安全な運用をまとめます。提供モデル名やUIはアップデートで変わるため、実行前に必ず公式の説明を確認してください。</p>
+<h2>プロンプト設計の骨格</h2>
 <ol>
-<li>画像の基本概念</li>
-<li>実践的な使い方</li>
-<li>業務での活用例</li>
-<li>よくある失敗と回避策</li>
+<li><strong>主題</strong>：何を中央に置くか（人物/モノ/風景は実在名を避ける）</li>
+<li><strong>スタイル</strong>：写実、アイコン風、線画など</li>
+<li><strong>構図・照明</strong>：俯瞰、逆光、余白の大きさ</li>
+<li><strong>禁止</strong>：ロゴ、特定キャラ、実在の有名人の名前</li>
+<p>業務利用では「社外公開／社内限定」を先に決め、公開なら法務確認のフローを通します。</p>
 </ol>
-<h2>実践ステップ</h2>
-<h3>ステップ1：準備</h3>
-<p>まずはGeminiにアクセスし、基本的な操作を確認しましょう。</p>
-<h3>ステップ2：基本操作</h3>
-<p>画像に関連する基本操作を一通り試してみます。</p>
-<h3>ステップ3：応用</h3>
-<p>実際の業務シーンを想定して、より実践的な使い方を学びます。</p>
-<h2>業務での活用例</h2>
+<h2>商用と権利の最低限チェック</h2>
+<p>生成画像を配布・販売・広告に使う場合は、利用規約のライセンス条項と第三者の商標・著作物の混同リスクを別途確認します。クライアントワークでは「AI出力であること」と「版権クリアは別途」の一文を見積書に添えるとトラブルが減ります。</p>
+<h2>編集・反復の型</h2>
+<p>1枚目で方向性だけ合わせ、2枚目以降で「背景だけ」「配色だけ」など変える範囲を限定します。「全部やり直し」より局所修正の指示が安定しやすいです。解像度やアスペクト比は用途（SNS/スライド/印刷）に合わせて最初に宣言します。</p>
+<p>社内スライドなら余白を広めに取り、テキストは後からPowerPointやGoogleスライドで載せる前提にすると読みやすさが安定します。写真風の生成は人物の手元や背景細部で破綻しやすいので、キービジュアルに人を置かないレイアウトも検討してください。</p>
+<h2>バージョン管理のおすすめ</h2>
+<p>生成物は「日付_用途_v01」のようにファイル名規則を決め、採用プロンプトはスニペットツールや社内Wikiに貼ります。細かな再現性が必要な案件は、ラフスケッチを別途添付してから指示するとブレが減ります。不要になった試作は定期削除し、ストレージと検索性の両方を守ります。</p>
+<h2>レビュー会議で見る観点（5分版）</h2>
+<p>採択前に「ブランドに馴染むか」「誤認につながらないか」「印刷／暗い投影でも潰れないか」「細部の破綻が目立たないか」「別案と並べたとき一貫性があるか」の5項目だけをチェックします。全員が自由感想だと時間が溶けるので、採点は○△×の3値に揃えます。採用しなかった案もプロンプト断片をログに残すと、次回の再挑戦が速くなります。</p>
+<h2>学習向け（手順・演習・用語・確認・トラブル向け）</h2>
+<h3>実践ステップ</h3>
+<h4>ステップ1：架空ブランドで3パターン試す</h4>
+<p>実在ロゴを使わず、色（例：紺＋オレンジ）と業種だけ指定して3案出しします。似すぎた案はプロンプトで「形状を変える」と明示します。</p>
+<h4>ステップ2：社内ガイド1枚を書く</h4>
+<p>「公開可／要確認／禁止」の3区分と、肖像・顧客資料の扱いを箇条書き5行で自分用にまとめます。</p>
+<h4>ステップ3：レビュー観点を固定</h4>
+<p>「誤認につながる要素」「読みやすさ」「ブランドトーン」をチェックリスト化し、改善プロンプトを2ターンまでに制限します。</p>
+<h3>演習課題</h3>
+<ol>
+<li>社内研修チラシのヘッダー画像を16:9で3案作成し、文字載せ予測エリアに余白があるか比較する。</li>
+<li>同じ構図で「写真風」「フラットイラスト」を切り替え、用途適性をメモする。</li>
+<li>生成画像に不要なロゴっぽい模様が入った場合、ネガティブ指定や構図変更で消せるか試す。</li>
+<li>同じ指示でシードやバリエーション機能がある場合は2案比較し、採用理由を1行でログに残す（環境により未対応のことあり）。</li>
+</ol>
+<h3>用語ミニ辞典</h3>
 <ul>
-<li><strong>例1</strong>: 日々の定型作業を効率化</li>
-<li><strong>例2</strong>: チームでの情報共有に活用</li>
-<li><strong>例3</strong>: 品質向上のためのチェックに使用</li>
+<li><strong>Imagen</strong>：画像生成を担うGoogleのモデルファミリー名です（提供形態は変更され得ます）。</li>
+<li><strong>アスペクト比</strong>：横縦の比率。SNSごとの推奨値に合わせて指定します。</li>
+<li><strong>ネガティブプロンプト</strong>：入れたくない要素を避ける指示。効き方はモデル依存です。</li>
+<li><strong>ワークフォー・ヘルス</strong>：商用利用時の審査・社内承認の流れ。</li>
 </ul>
-<h2>よくある質問</h2>
-<p><strong>Q: 初心者でも使えますか？</strong> A: はい、このステップは基礎から解説しているので、初めての方でも安心して取り組めます。</p>
-<p><strong>Q: 他のツールとの違いは？</strong> A: GeminiはGoogle製AIという特徴があります。</p>
+<h3>セルフチェック</h3>
+<ul>
+<li>[ ] 最終納品形式（PNG/SVG/PDF）と解像度を先に決めた</li>
+<li>[ ] 実在のロゴ・キャラ名・有名人名を入れていない</li>
+<li>[ ] クライアント素材の権利を確認した（第三者案件）</li>
+<li>[ ] 公開範囲とクレジット表記方針が決まっている</li>
+<li>[ ] 高リスク用途（医療効果表現など）を避けている</li>
+</ul>
+<h3>トラブルシューティング</h3>
+<table>
+<thead><tr><th>状況</th><th>対処のヒント</th></tr></thead>
+<tbody>
+<tr><td>文字が崩れる</td><td>画像内テキストに頼らず、後工程でドキュメントに載せる</td></tr>
+<tr><td>手や指が不自然</td><td>構図を胸上に変える、人物を少なめにするなど画角を調整</td></tr>
+<tr><td>意図と違う写実度</td><td>スタイル語を明示し、参照ワードを1つに絞る</td></tr>
+<tr><td>利用可否が不明</td><td>公式の利用条件を読み、法務にチケットを切る</td></tr>
+<tr><td>色味がブランドと合わない</td><td>パレットを16進コードで指定し、参照画像は使わず言語だけで調整</td></tr>
+</tbody>
+</table>
+<p><strong>実務ワンポイント</strong>：外部パートナーへ渡す際は、生成プロセス（AI利用）と最終修正者名をメール1行で明記し、著作権クレームの連絡先を決めておくと安心です。</p>
 <h2>まとめ</h2>
-<p>このステップでは画像について学びました。次のステップでは、さらに発展的な内容に進みます。</p>
-<hr>
-<h2>ツール情報</h2>
+<p>画像生成は「プロンプトの設計」と「権利確認」のセットで初めて業務に載ります。このSTEPのテンプレを1枚残しておくと、次の拡張機能や検索系のSTEPでも一貫したガバナンスを保てます。</p>
+<h2>ツール情報（公式リンク）</h2>
 <ul>
-<li><strong>公式サイト</strong>: <a href="https://gemini.google.com/" target="_blank" rel="noopener">Gemini</a></li>
-<li><strong>ツール概要</strong>: Google製AI。Google Workspaceとの連携が強み。</li>
+<li><a href="https://gemini.google.com/" target="_blank" rel="noopener">Gemini（Google）</a></li>
+<li><a href="https://ai.google/" target="_blank" rel="noopener">Google AI</a></li>
+<li><a href="https://policies.google.com/terms" target="_blank" rel="noopener">Google 利用規約</a></li>
+<li><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google プライバシーポリシー</a></li>
 </ul>
-<h2>権利表記</h2>
-<p>Geminiは各社の商標または登録商標です。本記事は公式提供ではなく、一般的な情報提供を目的としています。</p>
+<h2>権利表記・引用について</h2>
+<p>Google、GeminiはGoogle LLCの商標または登録商標です。本記事は各社の公式提供ではありません。機能や提供条件は変更される場合があるため、最新情報は公式ページをご確認ください。</p>
 <h2>画像クレジット</h2>
-<p>サムネイル画像は<a href="https://unsplash.com/" target="_blank" rel="noopener">Unsplash</a>のライセンスに基づき使用しています。</p>
-<hr>
+<p>サムネイル/本文画像はUnsplashの写真を使用しています（ライセンス：<a href="https://unsplash.com/license" target="_blank" rel="noopener">Unsplash License</a>）。</p>
 <h3>お問い合わせ</h3>
 <p>AIツールの導入・活用支援のご相談はお気軽にどうぞ</p>
 <p>📞 090-6262-3842</p>

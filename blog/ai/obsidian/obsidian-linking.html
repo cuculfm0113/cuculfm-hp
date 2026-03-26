@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Obsidianでノートをリンク（ナレッジグラフの作り方） | CUCUL FM</title>
-  <meta name="description" content="この記事は「Obsidian学習シリーズ」のSTEP 03（リンク）です。">
+  <meta name="description" content="リンクはフォルダの代替ではなく意味のネットワークです。小さな習慣で張り巡らせると、検索を使わずに発見が起きます。">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="ja_JP">
   <meta property="og:title" content="Obsidianでノートをリンク（ナレッジグラフの作り方） | CUCUL FM">
-  <meta property="og:description" content="この記事は「Obsidian学習シリーズ」のSTEP 03（リンク）です。">
+  <meta property="og:description" content="リンクはフォルダの代替ではなく意味のネットワークです。小さな習慣で張り巡らせると、検索を使わずに発見が起きます。">
   <meta property="og:image" content="https://images.unsplash.com/photo-1517842645767-c639042777db?w=1200&amp;h=600&amp;fit=crop">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Obsidianでノートをリンク（ナレッジグラフの作り方） | CUCUL FM">
-  <meta name="twitter:description" content="この記事は「Obsidian学習シリーズ」のSTEP 03（リンク）です。">
+  <meta name="twitter:description" content="リンクはフォルダの代替ではなく意味のネットワークです。小さな習慣で張り巡らせると、検索を使わずに発見が起きます。">
   <meta name="twitter:image" content="https://images.unsplash.com/photo-1517842645767-c639042777db?w=1200&amp;h=600&amp;fit=crop">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Obsidianでノートをリンク（ナレッジグラフの作り方）", "datePublished": "2026-01-01", "dateModified": "2026-01-01", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1517842645767-c639042777db?w=1200&h=600&fit=crop"]}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,42 +44,60 @@
     <div class="article-featured-image"><img src="https://images.unsplash.com/photo-1517842645767-c639042777db?w=1200&amp;h=600&amp;fit=crop" alt="Obsidianの活用" loading="lazy"></div>
 
     <div class="article-content">
-<h2>はじめに</h2>
-<p>この記事は「Obsidian学習シリーズ」の<strong>STEP 03（リンク）</strong>です。</p>
-<p>ノート間のリンクで知識を繋ぎ、発見を促すグラフを構築します。</p>
-<h2>Obsidianとは</h2>
-<p>ローカル動作の知識管理ツール。ノート間のリンクで思考を整理。</p>
-<h2>このステップで学ぶこと</h2>
+<h2>学習の目標</h2>
+<ul>
+<li>Wikiリンクとマークダウンリンクを<strong>用途別</strong>に使い分けられる。</li>
+<li>バックリンクとグラフビューで<strong>思考の抜け</strong>を発見できる。</li>
+<li>MOC（Map of Content）でフォルダ無しでも迷子にならない導線を作れる。</li>
+</ul>
+<h2>前提条件</h2>
+<ul>
+<li>最低10本のノートがある、またはこれから1週間で増える見込み。</li>
+<li><code>[[ノート名]]</code> の入力に慣れている。</li>
+</ul>
+<h2>キーコンセプト</h2>
+<ul>
+<li><strong>リンクは関係の宣言</strong>: 「参照」「反論」「具体例」を意識すると後で価値が出る。</li>
+<li><strong>双向性</strong>: バックリンクで「どこから呼ばれたか」が見える。</li>
+<li><strong>粒度</strong>: 1ノート1アイデアに近いほどリンクが効く。</li>
+</ul>
+<h2>手順（実践ステップ）</h2>
 <ol>
-<li>リンクの基本概念</li>
-<li>実践的な使い方</li>
-<li>業務での活用例</li>
-<li>よくある失敗と回避策</li>
+<li><strong>命名規約</strong>: 短く一意。日付ノートと混ざらないように。</li>
+<li><strong>初回リンク</strong>: 新ノート末尾に「関連」を3つまで貼る習慣。</li>
+<li><strong>バックリンク巡回</strong>: 週1、未リンクの孤立ノートを1つ接続。</li>
+<li><strong>MOC作成</strong>: 大テーマ1つに索引ノートを作り、子リンクを並べる。</li>
+<li><strong>整理</strong>: フォルダは粗く、細部はリンクで。</li>
 </ol>
-<h2>実践ステップ</h2>
-<h3>ステップ1：準備</h3>
-<p>まずはObsidianにアクセスし、基本的な操作を確認しましょう。</p>
-<h3>ステップ2：基本操作</h3>
-<p>リンクに関連する基本操作を一通り試してみます。</p>
-<h3>ステップ3：応用</h3>
-<p>実際の業務シーンを想定して、より実践的な使い方を学びます。</p>
-<h2>業務での活用例</h2>
+<h2>演習課題</h2>
 <ul>
-<li><strong>例1</strong>: 日々の定型作業を効率化</li>
-<li><strong>例2</strong>: チームでの情報共有に活用</li>
-<li><strong>例3</strong>: 品質向上のためのチェックに使用</li>
+<li>既存ノートから<strong>孤立ノートを3つ</strong>見つけ、それぞれに入口リンクを1本ずつ付けよ。</li>
+<li>任意テーマでMOCを1枚作り、<strong>5本の子</strong>と相互リンクの意図を1行コメントせよ。</li>
 </ul>
-<h2>よくある質問</h2>
-<p><strong>Q: 初心者でも使えますか？</strong> A: はい、このステップは基礎から解説しているので、初めての方でも安心して取り組めます。</p>
-<p><strong>Q: 他のツールとの違いは？</strong> A: Obsidianはローカル動作の知識管理ツールという特徴があります。</p>
+<h2>自己チェックリスト</h2>
+<ul>
+<li>[ ] 主要概念ノートが3本以上リンクされている</li>
+<li>[ ] 壊れたリンクを直す時間を週に確保</li>
+<li>[ ] グラフが「毛玉すぎ」なら分割を検討した</li>
+<li>[ ] 外部URLと内部リンクの境界が汚くない</li>
+</ul>
+<h2>つまずきポイント（避けたい落とし穴）</h2>
+<ul>
+<li><strong>リンク貼り忘れの山</strong>: ルールより習慣。テンプレに「関連3つ」を入れる。</li>
+<li><strong>同名事故</strong>: 衝突しやすいタイトルはプレフィックスを。</li>
+<li><strong>MOCの肥大化</strong>: 100本超えたら階層を増やす。</li>
+</ul>
 <h2>まとめ</h2>
-<p>このステップではリンクについて学びました。次のステップでは、さらに発展的な内容に進みます。</p>
-<hr>
-<h2>ツール情報</h2>
+<p>リンクはフォルダの代替ではなく<strong>意味のネットワーク</strong>です。小さな習慣で張り巡らせると、検索を使わずに発見が起きます。</p>
+<h2>ミニレクチャー（20分）</h2>
+<p>10本の既存ノートからランダムに3本選び、各ノート末尾に「関連」見出しを付け <code>[[...]]</code> を2本ずつ張る。グラフビューでクラスタができたか確認。次に、大テーマ1つについて <code>MOC_◯◯</code> ノートを作り、子リンク5本と「まだ読んでない」.stub を1本置く。1週間後、stubを埋められたら削除。リンク先が無い赤文字が出たら、その日のうちにファイル作成 or リンク削除。<strong>リンクは量より生存率</strong>を優先する。</p>
+<p>外部URLはインラインより脚注または参照ノートに隔離し、リンク切れ検知を楽にする。PDFはノートに直リンクせず、Drive IDやローカル相対パスのどちらか一方に統一。将来の自分へのメッセージは <code>[[2026-Q2-リサーチ]]</code> のような時系列ノートへバックリンクさせると振り返りやすい。</p>
+<h2>ツール・参考リンク</h2>
 <ul>
-<li><strong>公式サイト</strong>: <a href="https://obsidian.md/" target="_blank" rel="noopener">Obsidian</a></li>
-<li><strong>ツール概要</strong>: ローカル動作の知識管理ツール。ノート間のリンクで思考を整理。</li>
+<li><a href="https://obsidian.md/" target="_blank" rel="noopener">Obsidian</a></li>
+<li><a href="https://help.obsidian.md/How+to/Internal+links" target="_blank" rel="noopener">Obsidian Help - Links</a></li>
 </ul>
+<hr>
 <h2>権利表記</h2>
 <p>Obsidianは各社の商標または登録商標です。本記事は公式提供ではなく、一般的な情報提供を目的としています。</p>
 <h2>画像クレジット</h2>

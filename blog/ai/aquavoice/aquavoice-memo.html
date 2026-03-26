@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Aqua Voice×メモアプリ連携（Notion/Obsidianへ自動転送） | CUCUL FM</title>
-  <meta name="description" content="この記事は「Aqua Voice学習シリーズ」のSTEP 05（メモ）です。">
+  <meta name="description" content="音声入力から Notion・Obsidian 等のメモ基盤へ、摩擦なく蓄積する までの導線を設計できること。コピペ一本、ショートカット、OS自動化、公式連携のいずれかを選び、自分の「受け皿ノート」の命名規則を決められること。">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="ja_JP">
   <meta property="og:title" content="Aqua Voice×メモアプリ連携（Notion/Obsidianへ自動転送） | CUCUL FM">
-  <meta property="og:description" content="この記事は「Aqua Voice学習シリーズ」のSTEP 05（メモ）です。">
+  <meta property="og:description" content="音声入力から Notion・Obsidian 等のメモ基盤へ、摩擦なく蓄積する までの導線を設計できること。コピペ一本、ショートカット、OS自動化、公式連携のいずれかを選び、自分の「受け皿ノート」の命名規則を決められること。">
   <meta property="og:image" content="https://images.unsplash.com/photo-1589903308904-1010c2294adc?w=1200&amp;h=600&amp;fit=crop">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Aqua Voice×メモアプリ連携（Notion/Obsidianへ自動転送） | CUCUL FM">
-  <meta name="twitter:description" content="この記事は「Aqua Voice学習シリーズ」のSTEP 05（メモ）です。">
+  <meta name="twitter:description" content="音声入力から Notion・Obsidian 等のメモ基盤へ、摩擦なく蓄積する までの導線を設計できること。コピペ一本、ショートカット、OS自動化、公式連携のいずれかを選び、自分の「受け皿ノート」の命名規則を決められること。">
   <meta name="twitter:image" content="https://images.unsplash.com/photo-1589903308904-1010c2294adc?w=1200&amp;h=600&amp;fit=crop">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Aqua Voice×メモアプリ連携（Notion/Obsidianへ自動転送）", "datePublished": "2026-01-01", "dateModified": "2026-01-01", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1589903308904-1010c2294adc?w=1200&h=600&fit=crop"]}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,50 +44,69 @@
     <div class="article-featured-image"><img src="https://images.unsplash.com/photo-1589903308904-1010c2294adc?w=1200&amp;h=600&amp;fit=crop" alt="Aqua Voiceの活用" loading="lazy"></div>
 
     <div class="article-content">
-<h2>はじめに</h2>
-<p>この記事は「Aqua Voice学習シリーズ」の<strong>STEP 05（メモ）</strong>です。</p>
-<p>音声入力からメモアプリへの自動転送を設定します。</p>
-<h2>Aqua Voiceとは</h2>
-<p>リアルタイム音声入力AI。高速処理で議事録・メモ作成に最適。</p>
-<h2>このステップで学ぶこと</h2>
-<ol>
-<li>メモの基本概念</li>
-<li>実践的な使い方</li>
-<li>業務での活用例</li>
-<li>よくある失敗と回避策</li>
-</ol>
-<h2>実践ステップ</h2>
-<h3>ステップ1：準備</h3>
-<p>まずはAqua Voiceにアクセスし、基本的な操作を確認しましょう。</p>
-<h3>ステップ2：基本操作</h3>
-<p>メモに関連する基本操作を一通り試してみます。</p>
-<h3>ステップ3：応用</h3>
-<p>実際の業務シーンを想定して、より実践的な使い方を学びます。</p>
-<h2>業務での活用例</h2>
+<h2>この記事の学習ゴール</h2>
+<p>音声入力から <strong>Notion・Obsidian 等のメモ基盤へ、摩擦なく蓄積する</strong> までの導線を設計できること。コピペ一本、ショートカット、OS自動化、公式連携のいずれかを選び、<strong>自分の「受け皿ノート」の命名規則</strong>を決められること。</p>
+<h2>前提知識・向いている人</h2>
+<p><strong>STEP 05（メモ）</strong>。Aqua Voiceでテキストは取れているが、<strong>どこにSaveすれば後で検索できるか</strong>が定まっていない方。情報がチャットやスプレッドシートに散らばるのが気になるナレッジワーカー向け。</p>
+<h2>キーコンセプトと用語</h2>
 <ul>
-<li><strong>例1</strong>: 日々の定型作業を効率化</li>
-<li><strong>例2</strong>: チームでの情報共有に活用</li>
-<li><strong>例3</strong>: 品質向上のためのチェックに使用</li>
+<li><strong>受け皿（Inbox）ノート</strong>: すべての生メモを一度受ける場所。日付または連番でページを切り、<strong>週1回の整理タイム</strong>で振り分ける。</li>
+<li><strong>PARAやZKの抜き取り</strong>: 厳密なメソッド丸暗記より、まず<strong>Inbox → プロジェクト／参考</strong>の2段で十分なことが多いです。</li>
+<li><strong>貼り付け戦略</strong>: リッチテキスト、Markdownプレーン、API——<strong>アプリが許す形式</strong>に合わせ、スタイル崩れを見極める。</li>
+<li><strong>メタデータ最小主義</strong>: タグ乱発より、<strong>タイトル規則</strong>（<code>YYYY-MM-DD 打合せ ACME</code>）のほうが後から検索しやすい場合があります。</li>
 </ul>
-<h2>よくある質問</h2>
-<p><strong>Q: 初心者でも使えますか？</strong> A: はい、このステップは基礎から解説しているので、初めての方でも安心して取り組めます。</p>
-<p><strong>Q: 他のツールとの違いは？</strong> A: Aqua Voiceはリアルタイム音声入力AIという特徴があります。</p>
-<h2>まとめ</h2>
-<p>このステップではメモについて学びました。次のステップでは、さらに発展的な内容に進みます。</p>
+<h2>手順（ステップバイステップ）</h2>
+<h3>ステップ1：受け皿を1カ所に固定する</h3>
+<p>NotionならDB1つ、Obsidianなら<code>Inbox</code>フォルダ。他ツールを併用しているなら<strong>「音声メモは必ずここ」</strong>をルール化。</p>
+<h3>ステップ2：Aqua Voiceからの到達経路を選ぶ</h3>
+<p>(1) 手動ペースト、(2) グローバルショートカットで前面化＋ペースト、(3) macOS Shortcuts 等の自動化、(4) 公式・ベータの連携機能。まずは<strong>(1)(2)で確実</strong>に回してから高度化。</p>
+<h3>ステップ3：テンプレを差し込む</h3>
+<p>ページ先頭に「出典／次アクション／関連プロジェクト」の見出しだけ置いたテンプレを用意し、<strong>貼り付け直後に1クリック</strong>で複製。</p>
+<h3>ステップ4：モバイルとPCの二本立て</h3>
+<p>外回りはスマホ音声→共有メモ→晩にPCで統合、など<strong>デバイス切替の連絡図</strong>を書く。同期遅延に慣れる。</p>
+<h3>ステップ5：週次レビュー15分</h3>
+<p>Inboxを空に近づけ、未処理を0または意図的な保留リストへ。<strong>レビューをカレンダー登録</strong>しないと破綻しやすいです。</p>
+<h2>Notion / Obsidian を使い分ける視点（学習用）</h2>
+<p>Notionは<strong>共同編集・データベース</strong>に強く、チームのナレッジハブ向き。Obsidianは<strong>ローカルMarkdown・リンク思考</strong>に強く、個人の知的生産に向きます。どちらも公式に独自のエコシステムがあるため、<strong>セキュリティポリシー</strong>（クラウド可否）で初期候補が決まることが多いです。</p>
+<ul>
+<li><a href="https://www.notion.so/" target="_blank" rel="noopener">Notion 公式</a>（公式サイトのURLは変更される場合があります）</li>
+<li><a href="https://obsidian.md/" target="_blank" rel="noopener">Obsidian 公式</a>（公式サイトのURLは変更される場合があります）</li>
+</ul>
+<p>モバイルから投げたメモがPCのInboxに重複して溜まる場合は、<strong>「未処理」フラグ</strong>だけを同期し、本文は一方に寄せるルールが安定します。Aqua Voiceの出力がリッチ不要なら、プレーンテキスト前提のエディタを受け皿にすると、他アプリへのコピーでスタイルが壊れにくいです。チームでテンプレを配布するときは、<strong>プロパティ名と値の例</strong>までセットにすると、誰が使っても列が空になりません。</p>
+<h2>実践ミニ演習</h2>
+<ol>
+<li>Inboxページを作成し、今日の音声メモを3件流し込み、タイトル規則だけ統一する。</li>
+<li>貼り付け後の改行崩れを1パターン特定し、設定または話し方で修正策を1つ決める。</li>
+<li>「週次レビュー」カレンダー予定を実際に入れる（15分）。</li>
+</ol>
+<h2>セルフチェックリスト</h2>
+<ul>
+<li>[ ] 受け皿が1カ所に決まった。</li>
+<li>[ ] 最低限の貼り付け手順が文章化された。</li>
+<li>[ ] テンプレを1枚用意した。</li>
+<li>[ ] 週次レビューの予定が入った。</li>
+</ul>
+<h2>つまずきポイントと対処</h2>
+<ul>
+<li><strong>二重登録</strong> → 同じメモをチャットとNotionに残さないルール。どちらが正本か決める。</li>
+<li><strong>検索しない</strong> → タイトル規則より、全文検索ワードを本文に1つ入れる（クライアント名など）。</li>
+<li><strong>共同編集で壊す</strong> → リアルタイム共同編集中のページではなく、<strong>自分専用ドラフト</strong>へ先に入れる。</li>
+</ul>
+<h2>まとめ：次に何をするか</h2>
+<p>メモ連携の本質はツールではなく <strong>「受け皿→整理のリズム」</strong> です。次は STEP 06 で議事録体裁へ繋ぎ、STEP 07 で長文化する前に構造化の型を入れてください。</p>
+<h3>お問い合わせ</h3>
+<p>AIツールの導入・活用支援のご相談はお気軽にどうぞ</p>
+<p>📞 090-6262-3842</p>
 <hr>
 <h2>ツール情報</h2>
 <ul>
-<li><strong>公式サイト</strong>: <a href="https://withaqua.com/" target="_blank" rel="noopener">Aqua Voice</a></li>
-<li><strong>ツール概要</strong>: リアルタイム音声入力AI。高速処理で議事録・メモ作成に最適。</li>
+<li><strong>Aqua Voice 公式</strong>: <a href="https://withaqua.com/" target="_blank" rel="noopener">https://withaqua.com/</a>（公式サイトのURLは変更される場合があります）</li>
+<li><strong>メモアプリ</strong>: <a href="https://www.notion.so/" target="_blank" rel="noopener">Notion</a>、<a href="https://obsidian.md/" target="_blank" rel="noopener">Obsidian</a> など。連携方法は各公式ドキュメントとAqua Voiceの最新ガイドを確認してください。</li>
 </ul>
 <h2>権利表記</h2>
 <p>Aqua Voiceは各社の商標または登録商標です。本記事は公式提供ではなく、一般的な情報提供を目的としています。</p>
 <h2>画像クレジット</h2>
-<p>サムネイル画像は<a href="https://unsplash.com/" target="_blank" rel="noopener">Unsplash</a>のライセンスに基づき使用しています。</p>
-<hr>
-<h3>お問い合わせ</h3>
-<p>AIツールの導入・活用支援のご相談はお気軽にどうぞ</p>
-<p>📞 090-6262-3842</p>
+<p>サムネイル画像は <a href="https://unsplash.com/" target="_blank" rel="noopener">Unsplash</a> のライセンスに基づき使用しています。</p>
 
     </div>
   </article>

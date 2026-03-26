@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NotebookLM×会議資料（議事録・決定事項の整理） | CUCUL FM</title>
-  <meta name="description" content="この記事は「NotebookLM学習シリーズ」のSTEP 05（会議）です。">
+  <meta name="description" content="会議後の価値は決定と実行可能タスクの明確さに比例します。NotebookLMはドラフトと抜け検知、確定は人の仕事です。">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="ja_JP">
   <meta property="og:title" content="NotebookLM×会議資料（議事録・決定事項の整理） | CUCUL FM">
-  <meta property="og:description" content="この記事は「NotebookLM学習シリーズ」のSTEP 05（会議）です。">
+  <meta property="og:description" content="会議後の価値は決定と実行可能タスクの明確さに比例します。NotebookLMはドラフトと抜け検知、確定は人の仕事です。">
   <meta property="og:image" content="https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=1200&amp;h=600&amp;fit=crop">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="NotebookLM×会議資料（議事録・決定事項の整理） | CUCUL FM">
-  <meta name="twitter:description" content="この記事は「NotebookLM学習シリーズ」のSTEP 05（会議）です。">
+  <meta name="twitter:description" content="会議後の価値は決定と実行可能タスクの明確さに比例します。NotebookLMはドラフトと抜け検知、確定は人の仕事です。">
   <meta name="twitter:image" content="https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=1200&amp;h=600&amp;fit=crop">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "NotebookLM×会議資料（議事録・決定事項の整理）", "datePublished": "2026-01-01", "dateModified": "2026-01-01", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=1200&h=600&fit=crop"]}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,42 +44,74 @@
     <div class="article-featured-image"><img src="https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=1200&amp;h=600&amp;fit=crop" alt="NotebookLMの活用" loading="lazy"></div>
 
     <div class="article-content">
-<h2>はじめに</h2>
-<p>この記事は「NotebookLM学習シリーズ」の<strong>STEP 05（会議）</strong>です。</p>
-<p>会議資料から論点・決定事項・ToDoを自動抽出します。</p>
-<h2>NotebookLMとは</h2>
-<p>Google製の資料読解AI。PDF/ドキュメントの要約・質問応答が得意。</p>
-<h2>このステップで学ぶこと</h2>
+<h2>学習の目標</h2>
+<ul>
+<li>事前資料・テキスト議事録・スライドから<strong>決定／保留／ToDo／次アジェンダ</strong>を一貫フォーマットで抽出できる。</li>
+<li>「誰が・何を・いつまで」の不足を<strong>明示的に欠損として可視化</strong>できる。</li>
+<li>会議タイプ（承認・創造・進捗）に応じてノイズになる要約を減らせる。</li>
+</ul>
+<h2>前提条件</h2>
+<ul>
+<li>会議の目的がステークホルダー間で共有されている。</li>
+<li>参照資料がテキスト化または選択コピー可能。</li>
+<li>公式議事録の体裁（日付・参加者・決定番号等）が分かっている。</li>
+</ul>
+<h2>キーコンセプト</h2>
+<ul>
+<li><strong>タイプ別テンプレ</strong>: 承認会＝決裁と条件、ブレスト＝論点とNG、進捗＝遅延理由とエスカレーション。</li>
+<li><strong>動詞始まりタスク</strong>: 「検討」は禁止がち。次の物理アクションまで落とす。</li>
+<li><strong>保留の構造化</strong>: 情報不足・権限不足・依存待ちを分類。</li>
+<li><strong>決定と雰囲気の分離</strong>: 「なんとなくOK」は決定に書かない。</li>
+</ul>
+<h2>手順（実践ステップ）</h2>
 <ol>
-<li>会議の基本概念</li>
-<li>実践的な使い方</li>
-<li>業務での活用例</li>
-<li>よくある失敗と回避策</li>
+<li><strong>スコープ</strong>: その会議の資料だけ入れる。前週の残りはリンクのみ。</li>
+<li><strong>冒頭1行目的</strong>: チャットに貼り、生成迷路を防ぐ。</li>
+<li><strong>4ブロック抽出</strong>: 決定／保留（理由付き）／ToDo（担当・期限・欠損フラグ）／次回アジェンダ。</li>
+<li><strong>クロスチェック</strong>: 録音・スライド数字・チャットログがあれば重要決定だけ突合。</li>
+<li><strong>圧縮</strong>: ToDoは10件上限目安。分割・辞退を人が判断。</li>
+<li><strong>公式記録へ</strong>: Googleドキュメント等に転記、版と承認者を明記。</li>
+<li><strong>振り返り</strong>: 次回テンプレに「今回抜けた視点」を1行足す。</li>
 </ol>
-<h2>実践ステップ</h2>
-<h3>ステップ1：準備</h3>
-<p>まずはNotebookLMにアクセスし、基本的な操作を確認しましょう。</p>
-<h3>ステップ2：基本操作</h3>
-<p>会議に関連する基本操作を一通り試してみます。</p>
-<h3>ステップ3：応用</h3>
-<p>実際の業務シーンを想定して、より実践的な使い方を学びます。</p>
-<h2>業務での活用例</h2>
+<h2>演習課題</h2>
 <ul>
-<li><strong>例1</strong>: 日々の定型作業を効率化</li>
-<li><strong>例2</strong>: チームでの情報共有に活用</li>
-<li><strong>例3</strong>: 品質向上のためのチェックに使用</li>
+<li>過去議事で4ブロック生成し、実決定と<strong>1行でもズレがあれば</strong>根因をコメント。</li>
+<li>ToDo10件超なら、削除・委譲・遅延許容をコメントで割り振れ。</li>
 </ul>
-<h2>よくある質問</h2>
-<p><strong>Q: 初心者でも使えますか？</strong> A: はい、このステップは基礎から解説しているので、初めての方でも安心して取り組めます。</p>
-<p><strong>Q: 他のツールとの違いは？</strong> A: NotebookLMはGoogle製の資料読解AIという特徴があります。</p>
+<h2>自己チェックリスト</h2>
+<ul>
+<li>[ ] 決定と意見が分離されている</li>
+<li>[ ] ToDoの期限欠損が見える</li>
+<li>[ ] リスク・前提が一文ある</li>
+<li>[ ] 公式記録担当がレビューした</li>
+<li>[ ] 機密区分を確認した</li>
+<li>[ ] 次回会議の入力資料リストが残った</li>
+<li>[ ] アクションの動詞が具体</li>
+</ul>
+<h2>つまずきポイント（避けたい落とし穴）</h2>
+<ul>
+<li><strong>複数会議混在</strong>: 誰の決定か不明に。</li>
+<li><strong>保留の決定昇格</strong>: 危険。色で分ける等の工夫を。</li>
+<li><strong>URL野放図</strong>: 権限のない人への共有ミス。</li>
+</ul>
 <h2>まとめ</h2>
-<p>このステップでは会議について学びました。次のステップでは、さらに発展的な内容に進みます。</p>
-<hr>
-<h2>ツール情報</h2>
+<p>会議後の価値は<strong>決定と実行可能タスクの明確さ</strong>に比例します。NotebookLMはドラフトと抜け検知、確定は人の仕事です。</p>
+<h2>振り返りの問い（任意）</h2>
 <ul>
-<li><strong>公式サイト</strong>: <a href="https://notebooklm.google/" target="_blank" rel="noopener">NotebookLM</a></li>
-<li><strong>ツール概要</strong>: Google製の資料読解AI。PDF/ドキュメントの要約・質問応答が得意。</li>
+<li>今日の会議で本当に決まったことは何か。1行で言えるか。</li>
+<li>期限なしToDoを放置していないか。</li>
+<li>次回アジェンダは参加者全員が納得する粒度か。</li>
 </ul>
+<h2>ミニレクチャー（15分）</h2>
+<p>資料4本＋前回議事録を1ノートブックに入れる（<strong>他案件は入れない</strong>）。チャット1発目に「会議タイプ：承認／ブレスト／進捗」と「期待アウトプット」を書く。抽出結果で「決定」に見えたが実際は「検討中」の行を黄マーカーし、司会に確認。ToDoは10件キャップを決め、溢れたものは「次四半期バックログ」ノートへ移す。公式議事録担当へ渡す前に、決定番号（D-20260326-01 のように）を人間が振ると追跡が楽。終了後ノートブックは読取アーカイブにして、次週の資料だけ新規作成する。</p>
+<p>ハイブリッド会議では、チャットQAをソースにする場合<strong>個人名とメールを除去</strong>したログだけを投入する。録画がある場合でも字幕全文は冗長なので、「決定シーンの5分」だけテキスト化して添えると精度が上がる。大型プログラムでは議事録テンプレにRACI列を追加し、NotebookLM出力をその列に貼る運用が定着しやすい。</p>
+<h2>ツール・参考リンク</h2>
+<ul>
+<li><a href="https://notebooklm.google/" target="_blank" rel="noopener">NotebookLM</a></li>
+<li><a href="https://policies.google.com/terms" target="_blank" rel="noopener">Google 利用規約</a></li>
+<li><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google プライバシーポリシー</a></li>
+</ul>
+<hr>
 <h2>権利表記</h2>
 <p>NotebookLMは各社の商標または登録商標です。本記事は公式提供ではなく、一般的な情報提供を目的としています。</p>
 <h2>画像クレジット</h2>

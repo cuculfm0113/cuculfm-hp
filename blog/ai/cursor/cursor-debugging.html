@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cursorでデバッグ（エラー解決を高速化） | CUCUL FM</title>
-  <meta name="description" content="この記事は「Cursor学習シリーズ」のSTEP 05（デバッグ）です。">
+  <meta name="description" content="「現象」「再現手順」「すでに試したこと」「仮説」「関連ファイルパス」を枠付きで書くと、推測のノイズが減ります。">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="ja_JP">
   <meta property="og:title" content="Cursorでデバッグ（エラー解決を高速化） | CUCUL FM">
-  <meta property="og:description" content="この記事は「Cursor学習シリーズ」のSTEP 05（デバッグ）です。">
+  <meta property="og:description" content="「現象」「再現手順」「すでに試したこと」「仮説」「関連ファイルパス」を枠付きで書くと、推測のノイズが減ります。">
   <meta property="og:image" content="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&amp;h=600&amp;fit=crop">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Cursorでデバッグ（エラー解決を高速化） | CUCUL FM">
-  <meta name="twitter:description" content="この記事は「Cursor学習シリーズ」のSTEP 05（デバッグ）です。">
+  <meta name="twitter:description" content="「現象」「再現手順」「すでに試したこと」「仮説」「関連ファイルパス」を枠付きで書くと、推測のノイズが減ります。">
   <meta name="twitter:image" content="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&amp;h=600&amp;fit=crop">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Cursorでデバッグ（エラー解決を高速化）", "datePublished": "2026-01-01", "dateModified": "2026-01-01", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&h=600&fit=crop"]}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,47 +44,72 @@
     <div class="article-featured-image"><img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&amp;h=600&amp;fit=crop" alt="Cursorの活用" loading="lazy"></div>
 
     <div class="article-content">
-<h2>はじめに</h2>
-<p>この記事は「Cursor学習シリーズ」の<strong>STEP 05（デバッグ）</strong>です。</p>
-<p>エラーメッセージの読み方から、AIに聞く際のコツまでを学びます。</p>
-<h2>Cursorとは</h2>
-<p>AI搭載コードエディタ。プログラミング支援とコード生成に特化。</p>
-<h2>このステップで学ぶこと</h2>
+<h2>学習ゴール</h2>
+<ul>
+<li>スタックトレースとログをAIに渡す際の「最小再現セット」を自作できる。</li>
+<li>「仮説→検証→修正」の短いループで、闇雲な全ファイル生成を避けられる。</li>
+</ul>
+<h2>前提知識</h2>
+<ul>
+<li>ターミナルまたはIDEのコンソールでエラーをコピーできること。</li>
+<li>言語固有のビルド/テストコマンド（<code>npm test</code> 等）を1つは知っていると早い。</li>
+</ul>
+<h2>キーコンセプトと用語</h2>
+<ul>
+<li><strong>再現手順</strong>：何をしたら必ず壊れるかの箇条書き。</li>
+<li><strong>MRE（最小再現例）</strong>：問題だけを切り出した小さなコード。</li>
+<li><strong>二分探索</strong>：コミットやコード範囲を半分ずつ絞るデバッグ。</li>
+<li><strong>ログレベル</strong>：info/warn/errorのどこを見るか。</li>
+</ul>
+<h2>手順（ステップバイステップ）</h2>
 <ol>
-<li>デバッグの基本概念</li>
-<li>実践的な使い方</li>
-<li>業務での活用例</li>
-<li>よくある失敗と回避策</li>
+<li><strong>エラーメッセージ全文</strong>をテキストで取得（画像ではなく）。</li>
+<li><strong>直前の変更</strong>をdiffで一覧。疑わしい順に3つメモ。</li>
+<li><strong>仮説1行</strong>：例）「null参照は◯◯が未定義のときだけ」。</li>
+<li><strong>AIに依頼</strong>：再現手順、期待値、実際の値、環境（OS/Node版）を添える。</li>
+<li><strong>提案パッチを部分適用</strong>：広いリファクタは断る。</li>
+<li><strong>テスト/再実行</strong>：直ったか、別の失敗に化けていないか。</li>
+<li><strong>学びを1行</strong>：「次からこのログを最初に見る」と残す。</li>
 </ol>
-<h2>実践ステップ</h2>
-<h3>ステップ1：準備</h3>
-<p>まずはCursorにアクセスし、基本的な操作を確認しましょう。</p>
-<h3>ステップ2：基本操作</h3>
-<p>デバッグに関連する基本操作を一通り試してみます。</p>
-<h3>ステップ3：応用</h3>
-<p>実際の業務シーンを想定して、より実践的な使い方を学びます。</p>
-<h2>業務での活用例</h2>
+<h2>実践ミニ演習</h2>
 <ul>
-<li><strong>例1</strong>: 日々の定型作業を効率化</li>
-<li><strong>例2</strong>: チームでの情報共有に活用</li>
-<li><strong>例3</strong>: 品質向上のためのチェックに使用</li>
+<li><strong>演習1</strong>：わざとタイポを入れ、AIに原因箇所の当てをさせ、自分の読みと比較。</li>
+<li><strong>演習2</strong>：同じバグで「ログなし依頼」と「ログ付き依頼」の回答精度を比較。</li>
+<li><strong>演習3</strong>：修正後に回帰テストを1本だけ追加する依頼を出す。</li>
 </ul>
-<h2>よくある質問</h2>
-<p><strong>Q: 初心者でも使えますか？</strong> A: はい、このステップは基礎から解説しているので、初めての方でも安心して取り組めます。</p>
-<p><strong>Q: 他のツールとの違いは？</strong> A: CursorはAI搭載コードエディタという特徴があります。</p>
-<h2>まとめ</h2>
-<p>このステップではデバッグについて学びました。次のステップでは、さらに発展的な内容に進みます。</p>
-<hr>
-<h2>ツール情報</h2>
+<h2>セルフチェックリスト</h2>
 <ul>
-<li><strong>公式サイト</strong>: <a href="https://cursor.sh/" target="_blank" rel="noopener">Cursor</a></li>
-<li><strong>ツール概要</strong>: AI搭載コードエディタ。プログラミング支援とコード生成に特化。</li>
+<li>[ ] エラー全文を貼れた</li>
+<li>[ ] バージョン情報を含めた</li>
+<li>[ ] 再現手順が第三者に通る</li>
+<li>[ ] パッチを全部受け入れず部分適用した</li>
+<li>[ ] テストで緑を確認した</li>
 </ul>
-<h2>権利表記</h2>
-<p>Cursorは各社の商標または登録商標です。本記事は公式提供ではなく、一般的な情報提供を目的としています。</p>
+<h2>つまずきポイントと対処</h2>
+<ul>
+<li><strong>原因が散らばる</strong> → 二分探索でコミット特定。長いリファクタ提案は却下。</li>
+<li><strong>環境依存</strong> → Docker/CIログを同梱。ローカルだけで再現するか確認。</li>
+<li><strong>セキュリティログ</strong> → マスクしてから貼る。</li>
+</ul>
+<h2>深掘り：うまくいくプロンプト構造</h2>
+<p>「現象」「再現手順」「すでに試したこと」「仮説」「関連ファイルパス」を枠付きで書くと、推測のノイズが減ります。</p>
+<h2>関連</h2>
+<p>右記と併用すると安全です：<a href="./cursor-git-workflow.html">Git連携</a>、<a href="./cursor-composer.html">Composer</a>。</p>
+<h2>運用ノート：オンコールとインシデント学習</h2>
+<p>本番障害のパッチをAIに急造させるときほど、<strong>変更理由とロールバック手順</strong>をPR本文に残してください。ポストモーテムでは「AI提案のどの行が有効だったか」を具体コードで記録し、次回の類似障害に備えます。オンコール当番中は推測よりログを共有し、睡眠時間を削らないための<strong>タイムボックス</strong>（調査2時間でエスカレーション）もルール化。週次で再発パターンをタグ付けし、FAQ化すると新人育成にも効きます。</p>
+<p>（学習の定着）</p>
+<p>組織学習の観点では、週次15分の振り返りをカレンダーに固定し、うまくいった依頼文や依頼テンプレは共有ドライブへコピーして資産化します。四半期ごとに公式の利用規約と社内ポリシーを突き合わせ、差分があれば短いチケットで追記してください。個人メモでも「日付・用途・入力の要点・出力の使い道」を1セットで残すと検索性が上がり、異動時の引き継ぎもスムーズです。ステークホルダー別の典型的な懸念（経営はROI、情シスは漏洩、現場は手間と心理的負担）を箇条書きで持っておくと、同じ学びを説明する場面でも言い換え疲れが減ります。公開可否が曖昧な資料はそもそもAIに入力しない、と自分で宣言しておく線引きメモがあると、日々の判断が速くなります。</p>
+<p>なお学習効率を上げるには、「読む→15分で演習→翌週に同じ手順でもう一度」をカレンダーに3連続で置き、忘却曲線を意識するのがコツです。複数人で進めるときは教え合うペアと日時を先に仮押さえし、片方が欠席しても演習PDFだけで進められるようにリンク集を1枚添えておくと属人化が進みにくくなります。最後に、成果が出た週は短いログ（良かった依頼1行）を残し、出なかった週は「阻害要因」を1語だけメモして次週の設計に回すと改善が続きます。ログを残せない現場では、スクリーンショット1枚＋3行メモでも十分です。また、ベテランに頼る前に「再現手順だけ」共有すると、相手の時間も節約できます。焦るほど曖昧な依頼になりやすいので、タイマーを置いて一度立ち止まるのも有効です。</p>
+<h2>まとめ：次に何をするか</h2>
+<p>今週遭遇したバグ1件についてテンプレ化した依頼文を保存し、次回からコピペしてください。</p>
+<h2>ツール情報（公式リンク）</h2>
+<ul>
+<li><a href="https://cursor.com/" target="_blank" rel="noopener">Cursor（公式）</a></li>
+</ul>
+<h2>権利表記・引用について</h2>
+<p>Cursorは各社の商標または登録商標です。本記事は各社の公式提供ではなく、一般的な情報提供を目的としています。機能や提供条件は変更される場合があるため、最新情報は公式ページをご確認ください。</p>
 <h2>画像クレジット</h2>
-<p>サムネイル画像は<a href="https://unsplash.com/" target="_blank" rel="noopener">Unsplash</a>のライセンスに基づき使用しています。</p>
-<hr>
+<p>サムネイル/本文画像はUnsplashの写真を使用しています（ライセンス：<a href="https://unsplash.com/license" target="_blank" rel="noopener">Unsplash License</a>）。</p>
 <h3>お問い合わせ</h3>
 <p>AIツールの導入・活用支援のご相談はお気軽にどうぞ</p>
 <p>📞 090-6262-3842</p>

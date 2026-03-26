@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cursor×Git連携（差分管理とレビューのコツ） | CUCUL FM</title>
-  <meta name="description" content="この記事は「Cursor学習シリーズ」のSTEP 07（Git）です。">
+  <meta name="description" content="「意図」「リスク」「テスト手順」の3点をコメントテンプレにすると、AI協働チームでも非同期レビューが速くなります。">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="ja_JP">
   <meta property="og:title" content="Cursor×Git連携（差分管理とレビューのコツ） | CUCUL FM">
-  <meta property="og:description" content="この記事は「Cursor学習シリーズ」のSTEP 07（Git）です。">
+  <meta property="og:description" content="「意図」「リスク」「テスト手順」の3点をコメントテンプレにすると、AI協働チームでも非同期レビューが速くなります。">
   <meta property="og:image" content="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&amp;h=600&amp;fit=crop">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Cursor×Git連携（差分管理とレビューのコツ） | CUCUL FM">
-  <meta name="twitter:description" content="この記事は「Cursor学習シリーズ」のSTEP 07（Git）です。">
+  <meta name="twitter:description" content="「意図」「リスク」「テスト手順」の3点をコメントテンプレにすると、AI協働チームでも非同期レビューが速くなります。">
   <meta name="twitter:image" content="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&amp;h=600&amp;fit=crop">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Cursor×Git連携（差分管理とレビューのコツ）", "datePublished": "2026-01-01", "dateModified": "2026-01-01", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&h=600&fit=crop"]}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,47 +44,73 @@
     <div class="article-featured-image"><img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&amp;h=600&amp;fit=crop" alt="Cursorの活用" loading="lazy"></div>
 
     <div class="article-content">
-<h2>はじめに</h2>
-<p>この記事は「Cursor学習シリーズ」の<strong>STEP 07（Git）</strong>です。</p>
-<p>Git差分を活用した安全なレビュー・ロールバックの手順です。</p>
-<h2>Cursorとは</h2>
-<p>AI搭載コードエディタ。プログラミング支援とコード生成に特化。</p>
-<h2>このステップで学ぶこと</h2>
+<h2>学習ゴール</h2>
+<ul>
+<li>ブランチ→小コミット→PR→レビューの流れをCursor上で回し、AI生成diffを安全に取り込める。</li>
+<li><code>git diff</code> でノイズ（整形だけ）を検知し、レビュー観点をチームと共有できる。</li>
+</ul>
+<h2>前提知識</h2>
+<ul>
+<li><code>git clone</code>, <code>checkout -b</code>, <code>commit</code>, <code>push</code> がターミナルまたはGUIで実行できること。</li>
+<li>リモート（GitHub/GitLab等）へのPR体験があるとスムーズです。</li>
+</ul>
+<h2>キーコンセプトと用語</h2>
+<ul>
+<li><strong>フィーチャーブランチ</strong>：本線を汚さない作業用ライン。</li>
+<li><strong>アトミックコミット</strong>：論理単位が一つにまとまったコミット。</li>
+<li><strong>PRサイズ</strong>：小さいほどレビュー容易。AIほど大きなdiffに注意。</li>
+<li><strong>blame/履歴</strong>：いつ誰がどの行を変えたかを追う。</li>
+</ul>
+<h2>手順（ステップバイステップ）</h2>
 <ol>
-<li>Gitの基本概念</li>
-<li>実践的な使い方</li>
-<li>業務での活用例</li>
-<li>よくある失敗と回避策</li>
+<li><strong>最新mainを取得</strong>し、ブランチを切る。</li>
+<li><strong>AI変更前に現状コミット</strong>（WIPでも可）し、安心のロールバック地点を作る。</li>
+<li><strong>小さく編集</strong>：Composerでもファイル単位で区切る。</li>
+<li><strong>こまめに <code>git diff</code></strong>：意図しないファイルが増えていないか。</li>
+<li><strong>コミットメッセージ</strong>：Whyを1行、必要なら本文にWhat。</li>
+<li><strong>自己レビュー</strong>：diffを音声読み上げ気分で読むとミスに気づきやすい。</li>
+<li><strong>PR作成</strong>：スクリーンショットまたは確認手順をdescriptionに。</li>
 </ol>
-<h2>実践ステップ</h2>
-<h3>ステップ1：準備</h3>
-<p>まずはCursorにアクセスし、基本的な操作を確認しましょう。</p>
-<h3>ステップ2：基本操作</h3>
-<p>Gitに関連する基本操作を一通り試してみます。</p>
-<h3>ステップ3：応用</h3>
-<p>実際の業務シーンを想定して、より実践的な使い方を学びます。</p>
-<h2>業務での活用例</h2>
+<h2>実践ミニ演習</h2>
 <ul>
-<li><strong>例1</strong>: 日々の定型作業を効率化</li>
-<li><strong>例2</strong>: チームでの情報共有に活用</li>
-<li><strong>例3</strong>: 品質向上のためのチェックに使用</li>
+<li><strong>演習1</strong>：わざと2ファイル変更し、1ファイルだけをステージして部分コミット。</li>
+<li><strong>演習2</strong>：formatterのノイズdiffを1回作り、<code>--stat</code> で視覚確認。</li>
+<li><strong>演習3</strong>： revert コミットを1回行い、手順をメモに残す。</li>
 </ul>
-<h2>よくある質問</h2>
-<p><strong>Q: 初心者でも使えますか？</strong> A: はい、このステップは基礎から解説しているので、初めての方でも安心して取り組めます。</p>
-<p><strong>Q: 他のツールとの違いは？</strong> A: CursorはAI搭載コードエディタという特徴があります。</p>
-<h2>まとめ</h2>
-<p>このステップではGitについて学びました。次のステップでは、さらに発展的な内容に進みます。</p>
-<hr>
-<h2>ツール情報</h2>
+<h2>セルフチェックリスト</h2>
 <ul>
-<li><strong>公式サイト</strong>: <a href="https://cursor.sh/" target="_blank" rel="noopener">Cursor</a></li>
-<li><strong>ツール概要</strong>: AI搭載コードエディタ。プログラミング支援とコード生成に特化。</li>
+<li>[ ] 機能ブランチで作業している</li>
+<li>[ ] 秘密ファイルがコミットに含まれていない</li>
+<li>[ ] diffがレビュアーに説明できる大きさ</li>
+<li>[ ] CI（あれば）が緑</li>
+<li>[ ] マージ後のデプロイ手順を書いた</li>
 </ul>
-<h2>権利表記</h2>
-<p>Cursorは各社の商標または登録商標です。本記事は公式提供ではなく、一般的な情報提供を目的としています。</p>
+<h2>つまずきポイントと対処</h2>
+<ul>
+<li><strong>コンフリクト地獄</strong> → 長命ブランチをやめ、日次でmain取り込み。</li>
+<li><strong>巨大diff</strong> → AIに「分割PR計画」を先に書かせる。</li>
+<li><strong>誤コミット</strong> → <code>git reset</code> の型をチートシート化（共有リポでは禁止操作に注意）。</li>
+</ul>
+<h2>深掘り：レビューコメントの型</h2>
+<p>「意図」「リスク」「テスト手順」の3点をコメントテンプレにすると、AI協働チームでも非同期レビューが速くなります。</p>
+<h2>次のステップ</h2>
+<p>複数人でCursorを使うなら <a href="./cursor-team-operations.html">チーム運用</a> で責任分界とLintポリシーを固定します。</p>
+<h2>運用ノート：マルチリポジトリとモノレポ</h2>
+<p>サービスが分離していると、Composerの変更が別repoへ波及しやすくなります。<strong>契約テスト</strong>やスタブを先に置くと安全。モノレポではパッケージ境界でPRサイズを制御し、CI時間増と引き換えにレビュー負荷を下げます。リリースブランチ運用では、AI生成コミットでもタグとリリースノートのルールを破らないことを徹底。深夜マージは人のレビューが薄れるので、原則禁止かダブルチェックを敷く。</p>
+<p>（学習の定着）</p>
+<p>組織学習の観点では、週次15分の振り返りをカレンダーに固定し、うまくいった依頼文や依頼テンプレは共有ドライブへコピーして資産化します。四半期ごとに公式の利用規約と社内ポリシーを突き合わせ、差分があれば短いチケットで追記してください。個人メモでも「日付・用途・入力の要点・出力の使い道」を1セットで残すと検索性が上がり、異動時の引き継ぎもスムーズです。ステークホルダー別の典型的な懸念（経営はROI、情シスは漏洩、現場は手間と心理的負担）を箇条書きで持っておくと、同じ学びを説明する場面でも言い換え疲れが減ります。公開可否が曖昧な資料はそもそもAIに入力しない、と自分で宣言しておく線引きメモがあると、日々の判断が速くなります。</p>
+<p>なお学習効率を上げるには、「読む→15分で演習→翌週に同じ手順でもう一度」をカレンダーに3連続で置き、忘却曲線を意識するのがコツです。複数人で進めるときは教え合うペアと日時を先に仮押さえし、片方が欠席しても演習PDFだけで進められるようにリンク集を1枚添えておくと属人化が進みにくくなります。最後に、成果が出た週は短いログ（良かった依頼1行）を残し、出なかった週は「阻害要因」を1語だけメモして次週の設計に回すと改善が続きます。</p>
+<h2>まとめ：次に何をするか</h2>
+<p>明日から1週間、「コミットは1日最大3つまで」ルールでAI改修を試し、diffの読みやすさを比較してください。</p>
+<h2>ツール情報（公式リンク）</h2>
+<ul>
+<li><a href="https://cursor.com/" target="_blank" rel="noopener">Cursor（公式）</a></li>
+<li><a href="https://git-scm.com/" target="_blank" rel="noopener">Git 公式</a></li>
+</ul>
+<h2>権利表記・引用について</h2>
+<p>Cursorは各社の商標または登録商標です。本記事は各社の公式提供ではなく、一般的な情報提供を目的としています。機能や提供条件は変更される場合があるため、最新情報は公式ページをご確認ください。</p>
 <h2>画像クレジット</h2>
-<p>サムネイル画像は<a href="https://unsplash.com/" target="_blank" rel="noopener">Unsplash</a>のライセンスに基づき使用しています。</p>
-<hr>
+<p>サムネイル/本文画像はUnsplashの写真を使用しています（ライセンス：<a href="https://unsplash.com/license" target="_blank" rel="noopener">Unsplash License</a>）。</p>
 <h3>お問い合わせ</h3>
 <p>AIツールの導入・活用支援のご相談はお気軽にどうぞ</p>
 <p>📞 090-6262-3842</p>

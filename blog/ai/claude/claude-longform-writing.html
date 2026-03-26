@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Claudeで長文を破綻させない（分割→統合の手順） | CUCUL FM</title>
-  <meta name="description" content="長文をAIで作ると「途中で論点がズレる」「前提が崩れる」「同じ話が繰り返される」などが起きがちです。">
+  <meta name="description" content="Claudeでの下書き経験がある方。ホワイトペーパー、提案書、調報レポートなど5,000字超の文書をAIと共同で仕上げたい knowledge worker 向け。">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="ja_JP">
   <meta property="og:title" content="Claudeで長文を破綻させない（分割→統合の手順） | CUCUL FM">
-  <meta property="og:description" content="長文をAIで作ると「途中で論点がズレる」「前提が崩れる」「同じ話が繰り返される」などが起きがちです。">
+  <meta property="og:description" content="Claudeでの下書き経験がある方。ホワイトペーパー、提案書、調報レポートなど5,000字超の文書をAIと共同で仕上げたい knowledge worker 向け。">
   <meta property="og:image" content="https://images.unsplash.com/photo-1455390582262-044cdead277a?w=1200&amp;h=600&amp;fit=crop">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Claudeで長文を破綻させない（分割→統合の手順） | CUCUL FM">
-  <meta name="twitter:description" content="長文をAIで作ると「途中で論点がズレる」「前提が崩れる」「同じ話が繰り返される」などが起きがちです。">
+  <meta name="twitter:description" content="Claudeでの下書き経験がある方。ホワイトペーパー、提案書、調報レポートなど5,000字超の文書をAIと共同で仕上げたい knowledge worker 向け。">
   <meta name="twitter:image" content="https://images.unsplash.com/photo-1455390582262-044cdead277a?w=1200&amp;h=600&amp;fit=crop">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Claudeで長文を破綻させない（分割→統合の手順）", "datePublished": "2026-01-06", "dateModified": "2026-01-06", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1455390582262-044cdead277a?w=1200&h=600&fit=crop"]}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,42 +44,75 @@
     <div class="article-featured-image"><img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?w=1200&amp;h=600&amp;fit=crop" alt="長文ライティング" loading="lazy"></div>
 
     <div class="article-content">
-<h2>はじめに</h2>
-<p>長文をAIで作ると「途中で論点がズレる」「前提が崩れる」「同じ話が繰り返される」などが起きがちです。</p>
-<p>回避策はシンプルで、<strong>分割→統合→推敲</strong>の順で進めることです。</p>
-<h2>手順1：最初に“設計図”を作る</h2>
+<h2>この記事の学習ゴール</h2>
 <ul>
-<li>目的（何のための文書か）</li>
-<li>読者（誰が読むか）</li>
-<li>結論（先に1〜3行）</li>
-<li>見出し構成（章立て）</li>
+<li>長文生成で起きやすい「論点ズレ・前提崩壊・重複」を予測できる</li>
+<li><strong>設計図→章分割→統合→推敲</strong>の4段パイプラインを自分の案件に適用できる</li>
+<li>推敲依頼で「観点指定」により、レビュー精度を上げられる</li>
 </ul>
-<h2>手順2：章ごとに分割して書く</h2>
-<p>いきなり全文を出させず、<strong>1章ずつ</strong>書かせます。章ごとに「前提」「禁止事項」「文字数」を固定するとブレが減ります。</p>
-<h2>手順3：統合して“つながり”を整える</h2>
-<p>章が揃ったら、全体を通して以下を整えます。</p>
+<h2>前提知識・向いている人</h2>
+<p>Claudeでの下書き経験がある方。ホワイトペーパー、提案書、調報レポートなど5,000字超の文書をAIと共同で仕上げたい knowledge worker 向け。</p>
+<h2>キーコンセプトと用語</h2>
 <ul>
-<li>重複の削除</li>
-<li>用語・表記の統一</li>
-<li>導入と結論の整合</li>
-<li>読み手の次アクション（CTA）の明確化</li>
+<li><strong>設計図</strong>: 目的・読者・結論（1〜3行）・見出し案を先に固定したもの</li>
+<li><strong>章単位生成</strong>: 1セクションずつ出力させ、都度前提と禁止事項を再掲する手法</li>
+<li><strong>統合</strong>: 重複削除、用語統一、導入と結論の整合、CTAの一本化</li>
 </ul>
-<h2>添削依頼テンプレ（観点指定）</h2>
-<p>推敲は「良くして」ではなく、観点を指定します。</p>
+<h2>手順（ステップバイステップ）</h2>
+<ol>
+<li><strong>設計図</strong>を作る：目的／読者／最初に言う結論／章立て／各章の文字数上限</li>
+<li><strong>章ごとに</strong>プロンプトを送る。毎回「この文書全体の前提」「禁止：新たな主張の捏造」を添える</li>
+<li>全章がそろったら、<strong>統合プロンプト</strong>で「重複削減、用語統一、CTA明確化」を依頼</li>
+<li>人間が通読し、ファクト・数値・引用を検証。表や図の説明が本文と矛盾していないか確認</li>
+<li><strong>推敲</strong>は観点指定：分かりやすさ、誤解リスク、論理、トーンの4枠が実務で使いやすい</li>
+<li>最終稿をテンプレ化（見出し構造・禁則・良いプロンプト）し、次回の出発点にする</li>
+</ol>
+<h2>統合後に必ず人間が見る「3箇所」</h2>
+<p>冒頭の約束事（読者へのベネフィット）、中盤の数値・固有名詞、末尾のCTAです。AIはここで齟齬を起こしやすいので、統合プロンプトのあとに必ず印刷して線を引くくらいの姿勢が安全側です。</p>
+<h2>設計図テンプレ（コピペ用）</h2>
 <ul>
-<li>分かりやすさ（結論先出し、1文を短く）</li>
-<li>誤解リスク（前提不足、断定表現、例外）</li>
-<li>論理（飛躍、根拠不足、主張と事実の混同）</li>
-<li>トーン（丁寧さ、温度感、ブランド）</li>
+<li>文書の目的：（1行）</li>
+<li>読者と前提知識：（1行）</li>
+<li>結論（先に言うこと）：(1〜3行）</li>
+<li>章立て：1. … 2. … 3. …</li>
+<li>禁止：出典なしの数値、誇大表現、未確認の固有名詞</li>
 </ul>
-<h2>まとめ</h2>
-<p>長文は「まとめて作る」のではなく、「設計→分割→統合→推敲」で作ると破綻しません。次回は、Artifactsを使って成果物をテンプレ化し、再利用できる状態にする方法を解説します。</p>
-<h2>ツール情報（公式リンク）</h2>
+<h2>共同編集者がいる場合</h2>
+<p>章担当が分かれているときは、設計図を共有ドキュメントの1画面に固定し、Claudeへの指示も同じ画面にコピペ用で置きます。統合担当が「用語一覧」を持つと、章のつなぎ目のブレが減ります。</p>
+<h2>実践ミニ演習</h2>
+<p>3,000字の仮レポートを想定し、<strong>設計図だけ</strong>Claudeに作らせる。自分が手書きした設計図と差分を比較し、読者・結論のズレを1つ直す。</p>
+<h2>締切が迫っている日の最小手順</h2>
+<p>設計図だけは5分で書く→最重要の2章だけ生成→残りは箇条書きで埋めて後日統合。全体失敗より、一部未完成のほうがリスクが低い場面があります。</p>
+<h2>セルフチェックリスト</h2>
+<ul>
+<li>[ ] 結論が序盤に書かれている</li>
+<li>[ ] 章ごとに字数・禁止事項を揃えた</li>
+<li>[ ] 重複段落が残っていない</li>
+<li>[ ] CTA（次に読者が取る行動）が最後で明示されている</li>
+</ul>
+<h2>推敲担当を分ける</h2>
+<p>統合前の章レビューと、統合後の全文レビューは別人にすると見落としが減ることがあります。少人数チームでも「翌日もう一度自分で読む」で代用可能です。</p>
+<h2>つまずきポイントと対処</h2>
+<ul>
+<li><strong>章のトーンがバラバラ</strong>: 各章プロンプトに「章1の文体サンプルを貼る」</li>
+<li><strong>唐突な専門用語</strong>: 用語集を先に渡し、統合段で「初出定義」をチェック</li>
+<li><strong>長すぎて読めない</strong>: まず<strong>要約→復元</strong>で骨格を確認してから本文密度を上げる</li>
+</ul>
+<h2>執筆とレビューのバッファ</h2>
+<p>締切2日前までに統合稿を置くルールにすると、人間レビューの質が上がります。AIは遅くとも締切3日前までに初稿を出す前提が無難です。</p>
+<h2>まとめ：次に何をするか</h2>
+<p>成果物を再利用可能にするには「Artifacts活用」記事でテンプレ化し、チームに<strong>同じ設計図</strong>を共有すると再現性が上がります。</p>
+<h2>学習の仕上げ（3分）</h2>
+<p>この記事の「手順」を声に出して1回読み、<strong>セルフチェックリスト</strong>をすべて見たうえで1項目だけ明日試すことを決めてください。完璧に全部やらず、一項目の成功体験を積むほうが定着率は高いです。迷ったら「実践ミニ演習」だけでも再実行してください。</p>
+<h2>今日の一行アクション</h2>
+<p>この記事を閉じる前に、カレンダーに15分の予定を1つ入れてください。内容は「手順のステップ1だけ試す」「ミニ演習を繰り返す」「チェックリストを印刷する」のいずれかで構いません。小さな予定の可視化が、業務での再現率を一番押し上げます。</p>
+<h2>ツール情報</h2>
 <ul>
 <li><a href="https://claude.ai/" target="_blank" rel="noopener">Claude（Anthropic）</a></li>
 <li><a href="https://www.anthropic.com/claude" target="_blank" rel="noopener">Claude（公式紹介）</a></li>
 <li><a href="https://www.anthropic.com/legal/terms" target="_blank" rel="noopener">Anthropic 利用規約</a></li>
 <li><a href="https://www.anthropic.com/legal/privacy" target="_blank" rel="noopener">Anthropic プライバシーポリシー</a></li>
+<li><a href="https://docs.anthropic.com/" target="_blank" rel="noopener">Anthropic API ドキュメント</a></li>
 </ul>
 <h2>権利表記・引用について</h2>
 <p>ClaudeはAnthropicの商標または登録商標です。本記事は各社の公式提供ではありません。機能や提供条件は変更される場合があるため、最新情報は公式ページをご確認ください。</p>

@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NotebookLMでFAQ作成（資料からQ&amp;Aを自動生成） | CUCUL FM</title>
-  <meta name="description" content="この記事は「NotebookLM学習シリーズ」のSTEP 07（FAQ）です。">
+  <meta name="description" content="FAQは文章生成より問いの設計と根拠の見せ方が価値の核です。NotebookLMは初稿を短時間で出し、人は優先度・リスク・文体を仕上げます。">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="ja_JP">
   <meta property="og:title" content="NotebookLMでFAQ作成（資料からQ&amp;Aを自動生成） | CUCUL FM">
-  <meta property="og:description" content="この記事は「NotebookLM学習シリーズ」のSTEP 07（FAQ）です。">
+  <meta property="og:description" content="FAQは文章生成より問いの設計と根拠の見せ方が価値の核です。NotebookLMは初稿を短時間で出し、人は優先度・リスク・文体を仕上げます。">
   <meta property="og:image" content="https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=1200&amp;h=600&amp;fit=crop">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="NotebookLMでFAQ作成（資料からQ&amp;Aを自動生成） | CUCUL FM">
-  <meta name="twitter:description" content="この記事は「NotebookLM学習シリーズ」のSTEP 07（FAQ）です。">
+  <meta name="twitter:description" content="FAQは文章生成より問いの設計と根拠の見せ方が価値の核です。NotebookLMは初稿を短時間で出し、人は優先度・リスク・文体を仕上げます。">
   <meta name="twitter:image" content="https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=1200&amp;h=600&amp;fit=crop">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "NotebookLMでFAQ作成（資料からQ&Aを自動生成）", "datePublished": "2026-01-01", "dateModified": "2026-01-01", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=1200&h=600&fit=crop"]}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,42 +44,74 @@
     <div class="article-featured-image"><img src="https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=1200&amp;h=600&amp;fit=crop" alt="NotebookLMの活用" loading="lazy"></div>
 
     <div class="article-content">
-<h2>はじめに</h2>
-<p>この記事は「NotebookLM学習シリーズ」の<strong>STEP 07（FAQ）</strong>です。</p>
-<p>資料をソースにしたFAQの自動生成手順です。</p>
-<h2>NotebookLMとは</h2>
-<p>Google製の資料読解AI。PDF/ドキュメントの要約・質問応答が得意。</p>
-<h2>このステップで学ぶこと</h2>
+<h2>学習の目標</h2>
+<ul>
+<li>マニュアル・規程・仕様から<strong>自己解決型FAQの初稿</strong>をカテゴリ付きで得られる。</li>
+<li>「想定読者」「避けるべき断定」「例外ケース」をプロンプトに埋め込み、抜けを減らせる。</li>
+<li>公開前の<strong>サンプリング検証</strong>と<strong>版管理</strong>の型を回せる。</li>
+</ul>
+<h2>前提条件</h2>
+<ul>
+<li>一次ソースがPDFまたはテキストで揃い、旧版と混ざらない。</li>
+<li>対象読者のリテラシー（社内向け／顧客向け）が決まっている。</li>
+<li>レビューを依頼できる担当（プロダクト・法務・サポート等）が机上にいる。</li>
+</ul>
+<h2>キーコンセプト</h2>
+<ul>
+<li><strong>読者レイヤー</strong>: 専門語には必ず「一言＋例」をセット。略語の初出ルールをAIにも明示。</li>
+<li><strong>優先度＞網羅</strong>: 全問平等に丁寧にしない。問い合せログがあれば頻度順を先に取る。</li>
+<li><strong>例外の型</strong>: 「If 条件 → Then 手順 → Else 窓口」の三段をテンプレ化。</li>
+<li><strong>出典の見える化</strong>: 回答末尾に「根拠段落の要約＋参照」が無いFAQは外部公開しない。</li>
+</ul>
+<h2>手順（実践ステップ）</h2>
 <ol>
-<li>FAQの基本概念</li>
-<li>実践的な使い方</li>
-<li>業務での活用例</li>
-<li>よくある失敗と回避策</li>
+<li><strong>冒頭ブロック</strong>: 読者1行・禁止表現・トーン（です／ます等）を毎回貼る。</li>
+<li><strong>ソース絞り込み</strong>: ノートブックに迷子資料を入れない。FAQ専用に分ける。</li>
+<li><strong>骨格</strong>: カテゴリ案 → 各カテゴリ上位10問 → 例外ブロックの順で生成。</li>
+<li><strong>整形指示</strong>: 「各Aに出典引用」「不明時は○○窓口へ」と必ず付ける。</li>
+<li><strong>リスクフラグ</strong>: 返金・契約・医療・法解釈などは別表で人手高優先。</li>
+<li><strong>サンプリング検証</strong>: 設問15なら最低5問を原文照合。ランダム抽出推奨。</li>
+<li><strong>公開フロー</strong>: Confluenceやヘルプセンターへ載せる場合、改訂日と責任者をヘッダに。</li>
 </ol>
-<h2>実践ステップ</h2>
-<h3>ステップ1：準備</h3>
-<p>まずはNotebookLMにアクセスし、基本的な操作を確認しましょう。</p>
-<h3>ステップ2：基本操作</h3>
-<p>FAQに関連する基本操作を一通り試してみます。</p>
-<h3>ステップ3：応用</h3>
-<p>実際の業務シーンを想定して、より実践的な使い方を学びます。</p>
-<h2>業務での活用例</h2>
+<h2>演習課題</h2>
 <ul>
-<li><strong>例1</strong>: 日々の定型作業を効率化</li>
-<li><strong>例2</strong>: チームでの情報共有に活用</li>
-<li><strong>例3</strong>: 品質向上のためのチェックに使用</li>
+<li>15問ドラフトから5問を無作為抽出し原文照合。<strong>1問でも齟齬があれば</strong>プロンプトのどこを直すかメモせよ。</li>
+<li>「誤解されやすい用語」を3つ選び、公式定義との差分を自分の言葉で1行ずつ修正せよ。</li>
 </ul>
-<h2>よくある質問</h2>
-<p><strong>Q: 初心者でも使えますか？</strong> A: はい、このステップは基礎から解説しているので、初めての方でも安心して取り組めます。</p>
-<p><strong>Q: 他のツールとの違いは？</strong> A: NotebookLMはGoogle製の資料読解AIという特徴があります。</p>
+<h2>自己チェックリスト</h2>
+<ul>
+<li>[ ] 各回答にソース根拠がある</li>
+<li>[ ] 不明点の逃げ道が書かれた</li>
+<li>[ ] 高リスク項目が別表化された</li>
+<li>[ ] 公開先と権限が決まった</li>
+<li>[ ] 旧版FAQとの差分が分かる</li>
+<li>[ ] 画像・スクリーンショット要否が決まった</li>
+<li>[ ] SLA（回答レビュー日数）が設定された</li>
+</ul>
+<h2>つまずきポイント（避けたい落とし穴）</h2>
+<ul>
+<li><strong>資料不足で捏造</strong>: 足りないならFAQではなく「仕様追記タスク」。</li>
+<li><strong>混ぜ物一次情報</strong>: ブログと公式版が混在するとユーザーが犠牲。</li>
+<li><strong>ゼロレビュー公開</strong>: クレームの元。</li>
+</ul>
 <h2>まとめ</h2>
-<p>このステップではFAQについて学びました。次のステップでは、さらに発展的な内容に進みます。</p>
-<hr>
-<h2>ツール情報</h2>
+<p>FAQは文章生成より<strong>問いの設計と根拠の見せ方</strong>が価値の核です。NotebookLMは初稿を短時間で出し、人は優先度・リスク・文体を仕上げます。</p>
+<h2>振り返りの問い（任意）</h2>
 <ul>
-<li><strong>公式サイト</strong>: <a href="https://notebooklm.google/" target="_blank" rel="noopener">NotebookLM</a></li>
-<li><strong>ツール概要</strong>: Google製の資料読解AI。PDF/ドキュメントの要約・質問応答が得意。</li>
+<li>今回のFAQで、実際の問い合わせログとズレている問いはなかったか。</li>
+<li>「不明」と書くべきところを無理に埋めていないか。</li>
+<li>次の版で必ず追記したいソースは何か。</li>
 </ul>
+<h2>ミニレクチャー（20分）</h2>
+<p>サポート向けFAQを想定する。最初に「読者スキル」「禁止断定」「誤答時のエスカレーション先」を3行で貼る。資料はマニュアル本体とリリースノートだけに絞り、ブログは捨てる。生成後、ランダム5問について<strong>リンク付きで公式段落を開き</strong>、回答の動詞が強すぎないかをチェック。「〜できません」など否定形は法務と相談。公開前にステージング環境へ貼り、検索クエリでヒットするかだけテストする。最後に改訂履歴テーブルへ日付と担当を1行追加する。FAQは生き物なので、NotebookLMノートブック自体にも <code>source_version</code> メモを残し、次回差分が追えるようにする。</p>
+<p>公開チャネルが複数（ヘルプセンター・アプリ内・営業資料）にある場合、<strong>同一回答の重複管理表</strong>を別スプレッドシートに置き、NotebookLMにはその表をソースとして追加する方法もある。ユーザーからのスクショ付き問い合わせをFAQ化するときは個人情報をマスキングした別ファイルだけ投入し、原本は保持しない。大型アップデート前後は、旧FAQノートブックを読み取り専用アーカイブに切り離し、新マニュアルだけの清浄ノートを作ると取り違えが減る。</p>
+<h2>ツール・参考リンク</h2>
+<ul>
+<li><a href="https://notebooklm.google/" target="_blank" rel="noopener">NotebookLM</a></li>
+<li><a href="https://policies.google.com/terms" target="_blank" rel="noopener">Google 利用規約</a></li>
+<li><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google プライバシーポリシー</a></li>
+</ul>
+<hr>
 <h2>権利表記</h2>
 <p>NotebookLMは各社の商標または登録商標です。本記事は公式提供ではなく、一般的な情報提供を目的としています。</p>
 <h2>画像クレジット</h2>

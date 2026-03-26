@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Aqua Voiceチーム運用（共有・連携のルール） | CUCUL FM</title>
-  <meta name="description" content="この記事は「Aqua Voice学習シリーズ」のSTEP 09（チーム）です。">
+  <meta name="description" content="チームで音声入力ツールを使うときに必要な 「データの扱い・テンプレ共有・レビュー責任」 を1枚のチートシートに落とし込めること。オンボーディング（新メンバーが初週にやること）をチェックリスト化できること。">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="ja_JP">
   <meta property="og:title" content="Aqua Voiceチーム運用（共有・連携のルール） | CUCUL FM">
-  <meta property="og:description" content="この記事は「Aqua Voice学習シリーズ」のSTEP 09（チーム）です。">
+  <meta property="og:description" content="チームで音声入力ツールを使うときに必要な 「データの扱い・テンプレ共有・レビュー責任」 を1枚のチートシートに落とし込めること。オンボーディング（新メンバーが初週にやること）をチェックリスト化できること。">
   <meta property="og:image" content="https://images.unsplash.com/photo-1589903308904-1010c2294adc?w=1200&amp;h=600&amp;fit=crop">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Aqua Voiceチーム運用（共有・連携のルール） | CUCUL FM">
-  <meta name="twitter:description" content="この記事は「Aqua Voice学習シリーズ」のSTEP 09（チーム）です。">
+  <meta name="twitter:description" content="チームで音声入力ツールを使うときに必要な 「データの扱い・テンプレ共有・レビュー責任」 を1枚のチートシートに落とし込めること。オンボーディング（新メンバーが初週にやること）をチェックリスト化できること。">
   <meta name="twitter:image" content="https://images.unsplash.com/photo-1589903308904-1010c2294adc?w=1200&amp;h=600&amp;fit=crop">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Aqua Voiceチーム運用（共有・連携のルール）", "datePublished": "2026-01-01", "dateModified": "2026-01-01", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1589903308904-1010c2294adc?w=1200&h=600&fit=crop"]}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,50 +44,67 @@
     <div class="article-featured-image"><img src="https://images.unsplash.com/photo-1589903308904-1010c2294adc?w=1200&amp;h=600&amp;fit=crop" alt="Aqua Voiceの活用" loading="lazy"></div>
 
     <div class="article-content">
-<h2>はじめに</h2>
-<p>この記事は「Aqua Voice学習シリーズ」の<strong>STEP 09（チーム）</strong>です。</p>
-<p>チームで音声入力を活用するためのルール・仕組みです。</p>
-<h2>Aqua Voiceとは</h2>
-<p>リアルタイム音声入力AI。高速処理で議事録・メモ作成に最適。</p>
-<h2>このステップで学ぶこと</h2>
-<ol>
-<li>チームの基本概念</li>
-<li>実践的な使い方</li>
-<li>業務での活用例</li>
-<li>よくある失敗と回避策</li>
-</ol>
-<h2>実践ステップ</h2>
-<h3>ステップ1：準備</h3>
-<p>まずはAqua Voiceにアクセスし、基本的な操作を確認しましょう。</p>
-<h3>ステップ2：基本操作</h3>
-<p>チームに関連する基本操作を一通り試してみます。</p>
-<h3>ステップ3：応用</h3>
-<p>実際の業務シーンを想定して、より実践的な使い方を学びます。</p>
-<h2>業務での活用例</h2>
+<h2>この記事の学習ゴール</h2>
+<p>チームで音声入力ツールを使うときに必要な <strong>「データの扱い・テンプレ共有・レビュー責任」</strong> を1枚のチートシートに落とし込めること。オンボーディング（新メンバーが初週にやること）を<strong>チェックリスト化</strong>できること。</p>
+<h2>前提知識・向いている人</h2>
+<p><strong>STEP 09（チーム）</strong>。個人利用は回っているが、<strong>席やデバイスがバラバラ</strong>で品質にムラがある。情報漏えいが怖くて共有メモが進まない——といった<strong>マネジメント／PM／チームリード</strong>向けです。</p>
+<h2>キーコンセプトと用語</h2>
 <ul>
-<li><strong>例1</strong>: 日々の定型作業を効率化</li>
-<li><strong>例2</strong>: チームでの情報共有に活用</li>
-<li><strong>例3</strong>: 品質向上のためのチェックに使用</li>
+<li><strong>Tieredデータ分類</strong>: 「公開可／社外秘／極秘」などに分け、<strong>どのTierまで音声→クラウドに入れてよいか</strong>を明文化。</li>
+<li><strong>プロンプト／読み上げ辞書のバージョン管理</strong>: GitやNotionで版を残し、「v1.2から敬語テンプレ変更」のように<strong>変迁が追える</strong>状態に。</li>
+<li><strong>レビューゲート</strong>: AI整形文を配布する前に、<strong>第二人が必ず読む</strong>工程をどこに置くか。</li>
+<li><strong>デバイス標準化</strong>: 必須ではない程度に、推奨マイク・ヘッドセットを決めるとサポートコストが下がります。</li>
 </ul>
-<h2>よくある質問</h2>
-<p><strong>Q: 初心者でも使えますか？</strong> A: はい、このステップは基礎から解説しているので、初めての方でも安心して取り組めます。</p>
-<p><strong>Q: 他のツールとの違いは？</strong> A: Aqua Voiceはリアルタイム音声入力AIという特徴があります。</p>
-<h2>まとめ</h2>
-<p>このステップではチームについて学びました。次のステップでは、さらに発展的な内容に進みます。</p>
+<h2>手順（ステップバイステップ）</h2>
+<h3>ステップ1：ステークホルダーを洗う</h3>
+<p>利用者、レビュアー、情シス、法務。誰がルールにサインオフするか決定。</p>
+<h3>ステップ2：Tier表と禁止例を10個</h3>
+<p>「顧客の未公開価格」「個人電話」など、<strong>具体例ベース</strong>が伝わりやすいです。</p>
+<h3>ステップ3：テンプレ倉庫を1カ所に</h3>
+<p>議事録、日報、障害対応ログなど、<strong>チームが週1以上使う型</strong>だけ置く。多すぎると誰も見ません。</p>
+<h3>ステップ4：オンボーディング1週間プログラム</h3>
+<p>Day1セットアップ、Day3ペアレビュー、Day5振り返り。Buddyを1名指名。</p>
+<h3>ステップ5：月次の15分ふりかえり</h3>
+<p>「誤入力パターンTop3」「ルール改正提案」を共有。<strong>違反ではなくプロセス欠陥</strong>として扱う。</p>
+<h2>チーム文化の観点</h2>
+<p>音声入力は聞こえ方で「サボり」に見えやすい。<strong>成果物の安定納期</strong>で評価軸を補うと納得感が出ます。また、障害対応では深夜に声が出しづらい——など<strong>例外シナリオ</strong>もルールに書いておくと揉めません。</p>
+<p>シェアするテンプレートは、<strong>権限設定</strong>まで含めて設計します。全員編集可にすると誤削除のリスクが上がり、コメントのみにすると現場の改善が停滞します。現実的には「オーナー1名が版を上げる／他は提案コメント」という二層にすることが多いです。リモートメンバーと時差がある場合は、<strong>音声ではなくテキストが正本</strong>の時間帯を決め、Aqua Voiceはローカルタイムの業務時間に限定する、といった運用も検討に値します。ツールのライセンスがシート単位か名前単位かで<strong>コスト構造</strong>が変わるため、採用前に試算表を共有しておくと、後からの不満を防げます。</p>
+<p><strong>異動・退職時の引き継ぎ</strong>も、チェックリストに含めます。個人アカウントに紐づく設定やバックアップ、共有テンプレのオーナー移譲、AI連携用APIキーの失効——抜けがちな項目をテンプレ化しておくと、知識が消えずに済みます。コンプライアンス研修とセットで「音声入力で禁止される情報」を年1回リマインドするのも有効です。</p>
+<p>SlackやTeamsなどの短いテキスト文化と、<strong>音声メモの長さ</strong>のミスマッチで混乱が生じることがあります。どのチャンネルに貼るか、要約を誰が書くか、を早めに決めると、情報の洪水を防げます。</p>
+<h2>実践ミニ演習</h2>
+<ol>
+<li>Tier表（3段）を白紙から作り、自部門の実データ例を1つずつ割り当てる。</li>
+<li>オンボーディングチェックを5項目に要約する。</li>
+<li>「AI整形を許可する／しない」の境界を一文で書く。</li>
+</ol>
+<h2>セルフチェックリスト</h2>
+<ul>
+<li>[ ] Tier表がレビューされた。</li>
+<li>[ ] テンプレがURLまたはリポジトリで共有されている。</li>
+<li>[ ] レビューゲートの担当が決まった。</li>
+<li>[ ] 月次ふりかえりのカレンダー登録があった。</li>
+</ul>
+<h2>つまずきポイントと対処</h2>
+<ul>
+<li><strong>メンバー差で品質がバラバラ</strong> → 話し方ワークショップ（STEP 03）を30分で実施。</li>
+<li><strong>セキュリティが心配</strong> → ゼロから作らず、既存の情報分類規程に結びつける。</li>
+<li><strong>テンプレが形骸化</strong> → 使われた回数を月次で可視化し、使用率最低の1つを削除または統合。</li>
+</ul>
+<h2>まとめ：次に何をするか</h2>
+<p>チーム運用の要は <strong>明文化とバージョン</strong> です。次は STEP 10 でシリーズ全体を俯瞰し、各自のロールに合わせた学習パスを確定してください。プロンプトやAIツール選定はサイトの基礎記事と突合すると説得力が増します。</p>
+<h3>お問い合わせ</h3>
+<p>AIツールの導入・活用支援のご相談はお気軽にどうぞ</p>
+<p>📞 090-6262-3842</p>
 <hr>
 <h2>ツール情報</h2>
 <ul>
-<li><strong>公式サイト</strong>: <a href="https://withaqua.com/" target="_blank" rel="noopener">Aqua Voice</a></li>
-<li><strong>ツール概要</strong>: リアルタイム音声入力AI。高速処理で議事録・メモ作成に最適。</li>
+<li><strong>Aqua Voice</strong>: <a href="https://withaqua.com/" target="_blank" rel="noopener">https://withaqua.com/</a>（公式サイトのURLは変更される場合があります）</li>
+<li><strong>ツール概要</strong>: 音声入力。チーム利用時は席次契約・セキュリティ設定・アカウント管理を別途設計してください。</li>
 </ul>
 <h2>権利表記</h2>
 <p>Aqua Voiceは各社の商標または登録商標です。本記事は公式提供ではなく、一般的な情報提供を目的としています。</p>
 <h2>画像クレジット</h2>
-<p>サムネイル画像は<a href="https://unsplash.com/" target="_blank" rel="noopener">Unsplash</a>のライセンスに基づき使用しています。</p>
-<hr>
-<h3>お問い合わせ</h3>
-<p>AIツールの導入・活用支援のご相談はお気軽にどうぞ</p>
-<p>📞 090-6262-3842</p>
+<p>サムネイル画像は <a href="https://unsplash.com/" target="_blank" rel="noopener">Unsplash</a> のライセンスに基づき使用しています。</p>
 
     </div>
   </article>

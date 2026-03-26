@@ -9,6 +9,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Orbitron:wght@500;700&family=Bebas+Neue&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <!-- AI記事・カテゴリボタンは整備中のため一時非表示（再開時はこの style ブロックを削除） -->
+    <style>
+        .filter-btn[data-filter="ai"],
+        .article-card[data-category="ai"] {
+            display: none !important;
+        }
+    </style>
 </head>
 <body>
     <!-- ナビゲーション -->

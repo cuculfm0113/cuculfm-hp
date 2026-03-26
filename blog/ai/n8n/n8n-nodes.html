@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>n8nノードの基本（トリガー・アクション・条件分岐） | CUCUL FM</title>
-  <meta name="description" content="この記事は「n8n学習シリーズ」のSTEP 03（ノード）です。">
+  <meta name="description" content="この記事は「n8n学習シリーズ」のSTEP 03（ノード）です。フローを組むための部品選びと、データの流れの読み方を身につけます。">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="ja_JP">
   <meta property="og:title" content="n8nノードの基本（トリガー・アクション・条件分岐） | CUCUL FM">
-  <meta property="og:description" content="この記事は「n8n学習シリーズ」のSTEP 03（ノード）です。">
+  <meta property="og:description" content="この記事は「n8n学習シリーズ」のSTEP 03（ノード）です。フローを組むための部品選びと、データの流れの読み方を身につけます。">
   <meta property="og:image" content="https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?w=1200&amp;h=600&amp;fit=crop">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="n8nノードの基本（トリガー・アクション・条件分岐） | CUCUL FM">
-  <meta name="twitter:description" content="この記事は「n8n学習シリーズ」のSTEP 03（ノード）です。">
+  <meta name="twitter:description" content="この記事は「n8n学習シリーズ」のSTEP 03（ノード）です。フローを組むための部品選びと、データの流れの読み方を身につけます。">
   <meta name="twitter:image" content="https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?w=1200&amp;h=600&amp;fit=crop">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "n8nノードの基本（トリガー・アクション・条件分岐）", "datePublished": "2026-01-01", "dateModified": "2026-01-01", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?w=1200&h=600&fit=crop"]}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -45,41 +45,78 @@
 
     <div class="article-content">
 <h2>はじめに</h2>
-<p>この記事は「n8n学習シリーズ」の<strong>STEP 03（ノード）</strong>です。</p>
-<p>ワークフローを構成するノードの種類と使い方を学びます。</p>
-<h2>n8nとは</h2>
-<p>ノーコード/ローコード自動化ツール。ワークフローを視覚的に構築。</p>
-<h2>このステップで学ぶこと</h2>
-<ol>
-<li>ノードの基本概念</li>
-<li>実践的な使い方</li>
-<li>業務での活用例</li>
-<li>よくある失敗と回避策</li>
-</ol>
-<h2>実践ステップ</h2>
-<h3>ステップ1：準備</h3>
-<p>まずはn8nにアクセスし、基本的な操作を確認しましょう。</p>
-<h3>ステップ2：基本操作</h3>
-<p>ノードに関連する基本操作を一通り試してみます。</p>
-<h3>ステップ3：応用</h3>
-<p>実際の業務シーンを想定して、より実践的な使い方を学びます。</p>
-<h2>業務での活用例</h2>
+<p>この記事は「n8n学習シリーズ」の<strong>STEP 03（ノード）</strong>です。フローを組むための部品選びと、データの流れの読み方を身につけます。</p>
+<h2>学習の目標</h2>
 <ul>
-<li><strong>例1</strong>: 日々の定型作業を効率化</li>
-<li><strong>例2</strong>: チームでの情報共有に活用</li>
-<li><strong>例3</strong>: 品質向上のためのチェックに使用</li>
+<li>トリガー、通常ノード、エラー分岐の役割を区別できる</li>
+<li>JSONの入出力を前提に、フィールドの参照イメージを持てる</li>
+<li>IF／Switchで読みやすい分岐にできる</li>
 </ul>
-<h2>よくある質問</h2>
-<p><strong>Q: 初心者でも使えますか？</strong> A: はい、このステップは基礎から解説しているので、初めての方でも安心して取り組めます。</p>
-<p><strong>Q: 他のツールとの違いは？</strong> A: n8nはノーコード/ローコード自動化ツールという特徴があります。</p>
-<h2>まとめ</h2>
-<p>このステップではノードについて学びました。次のステップでは、さらに発展的な内容に進みます。</p>
-<hr>
+<h2>前提知識</h2>
+<ul>
+<li>STEP 01〜02（概念と環境）</li>
+<li>「キー・値」の辞書形式に馴染みがあること</li>
+</ul>
+<h2>用語ミニ辞典</h2>
+<ul>
+<li><strong>アイテム</strong>: ノード間で渡される1件分のデータ（多くはJSON）</li>
+<li><strong>Expression</strong>: <code>{{ }}</code> で前段の値を参照する記法</li>
+<li><strong>バイナリデータ</strong>: 画像やPDFなど非テキストの添付扱い</li>
+</ul>
+<h2>ステップバイステップで進める</h2>
+<ol>
+<li>新規ワークフローでトリガーを1つ置き、テストデータを手動実行で流す</li>
+<li>Set／Code／Item Listsなどでフィールド名を自分で定義し、一覧表にする</li>
+<li>IFノードで閾値比較を1つ入れ、true/falseの行き先を分ける</li>
+<li>エラー出力またはError Triggerで失敗を別ルートに逃がす案をメモする</li>
+<li>ノード名を「動詞＋対象」にリネームし、6ヶ月後の自分が読めるようにする</li>
+</ol>
+<h2>ミニ課題</h2>
+<p>ダミーデータで <code>status</code> フィールドを持つ3件を用意し、<code>status=ok</code> の件だけ後段へ通すフローを組んでください。失敗時は固定文でSlackやメールのスタブ（送信先はテスト用）へ飛ばす設計まで書きます。</p>
+<h2>理解度チェックリスト</h2>
+<ul>
+<li>[ ] トリガー直後のデータ形が説明できる</li>
+<li>[ ] 式で参照しているパスを口頭で言える</li>
+<li>[ ] 分岐が増えすぎたときにSwitchへ寄せる判断ができる</li>
+</ul>
+<h2>よくある落とし穴</h2>
+<ul>
+<li><strong>巨大な式</strong>: 1ノードに詰め込み過ぎてデバッグ不能になる</li>
+<li><strong>型の誤解</strong>: 文字列の「123」と数値123を比較し、想定外の分岐になる</li>
+<li><strong>命名デフォルトのまま</strong>: フローが読めず、引き継ぎで破綻する</li>
+</ul>
+<h2>もう一歩掘り下げる</h2>
+<p>ノード設計はプログラムの関数分割に似ています。<strong>1ノード＝1責務</strong>に近づけるほど、テストと再利用が楽になります。共通化したい塊はサブワークフロー化やテンプレ化を検討すると、長期運用が楽です。</p>
+<h2>学びを固める（追補）</h2>
+<p>式の可読性は将来の自分への親切です。ネストが深い式はSplitノードやCodeへ逃がし、<strong>名前付き中間フィールド</strong>を増やすとデバッグが速くなります。分岐が3個以上ならIFの積み上げよりSwitch検討がコスパ良いことが多いです。</p>
+<h2>シナリオ演習（15分）</h2>
+<p>同じ判定をIF版とSwitch版で書き、行数と読みやすさを比較。チームに配るならどちらを選ぶか1行で宣言します。</p>
+<h2>今日の振り返り（3問）</h2>
+<ul>
+<li>式のパスを紙に書いて迷わないか。</li>
+<li>バイナリとJSONを混ぜていないか。</li>
+<li>ノード名だけで障害箇所を特定できるか。</li>
+</ul>
+<h2>深読みメモ（現場向け）</h2>
+<p>式のデバッグは「Pin Data」や実行ログの1件表示が命綱です。巨大な配列を式でいじるより、<strong>一度Setでフラット化</strong>した方が読めるケースが多いです。ノード名の命名規則はチームで3分だけ合意すると、障害時のチャットが静かになります。IFのネストが4層を超えるなら設計を疑うサインです。</p>
+<h2>自習リフレクション（読了後5分）</h2>
+<p>式参照で迷ったJSONパスを3つ書き出し、それぞれSetノードでフラット化した代替案を描きます。IFのネストが気になるフローを1つ選び、Switch版のラフスケッチを作成してください。チームメンバーにノード命名ルールを1分説明し、フィードバックを1つもらいます。</p>
+<h2>クイック参照（紙に写す用）</h2>
+<p>式が迷路ならSetでフラット化。IF4層超ならSwitch。ノード名は動詞＋対象。Pin Dataで一件デバッグ。型変換を明示。バイナリとJSON混線注意。コメントノードで意図残す。</p>
+<h2>読了後の一行メモ</h2>
+<p>この回の学びを140字以内で要約し、翌週の業務で一度だけ実践してみてください。音声メモに3分解説を録音し、未来の自分への手紙として残すと抜けが見えます。勉強会に使う場合はチェックリストを印刷して自己採点してから終えると定着します。公式ドキュメント・料金・UIは更新されるため、手順と数値は必ず最新情報で再確認してください。改善アクションは<strong>1つに絞る</strong>と実行率がもっとも高くなります。</p>
+<p>連載を順に進めるときは「前章のチェックリストが緑になるまで次へ進まない」ペースが安全です。分からない用語はその場で検索せず、一度記録だけして後で3語に圧縮すると記憶に残ります。業務と学習の境目で迷ったら、公開情報とダミーデータだけで試すセーフティゾーンを先に決めてから触れてください。</p>
+<h2>次にやること</h2>
+<ul>
+<li>STEP 04で実際の「フォーム→通知」を最後まで通す</li>
+<li>常用フィールド命名規約（プレフィックス付けなど）をチームで決める</li>
+</ul>
 <h2>ツール情報</h2>
 <ul>
 <li><strong>公式サイト</strong>: <a href="https://n8n.io/" target="_blank" rel="noopener">n8n</a></li>
-<li><strong>ツール概要</strong>: ノーコード/ローコード自動化ツール。ワークフローを視覚的に構築。</li>
+<li><strong>ツール概要</strong>: 豊富な統合ノードと式による変換が中核（式の練習ほど伸びる）</li>
 </ul>
+<hr>
 <h2>権利表記</h2>
 <p>n8nは各社の商標または登録商標です。本記事は公式提供ではなく、一般的な情報提供を目的としています。</p>
 <h2>画像クレジット</h2>

@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gemini拡張機能フル活用（Flights/Hotels/Maps連携） | CUCUL FM</title>
-  <meta name="description" content="この記事は「Gemini学習シリーズ」のSTEP 08（拡張機能）です。">
+  <meta name="description" content="この記事は「Gemini学習シリーズ」のSTEP 08（拡張機能）です。Geminiの拡張（旅行・地図・予約検索など）を使うとき、出力をそのまま信じずに「公式サイトで再確認」する姿勢が重要です。メニュー名称や対応リージョンは更新が早い…">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="ja_JP">
   <meta property="og:title" content="Gemini拡張機能フル活用（Flights/Hotels/Maps連携） | CUCUL FM">
-  <meta property="og:description" content="この記事は「Gemini学習シリーズ」のSTEP 08（拡張機能）です。">
+  <meta property="og:description" content="この記事は「Gemini学習シリーズ」のSTEP 08（拡張機能）です。Geminiの拡張（旅行・地図・予約検索など）を使うとき、出力をそのまま信じずに「公式サイトで再確認」する姿勢が重要です。メニュー名称や対応リージョンは更新が早い…">
   <meta property="og:image" content="https://images.unsplash.com/photo-1573804633927-bfcbcd909acd?w=1200&amp;h=600&amp;fit=crop">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Gemini拡張機能フル活用（Flights/Hotels/Maps連携） | CUCUL FM">
-  <meta name="twitter:description" content="この記事は「Gemini学習シリーズ」のSTEP 08（拡張機能）です。">
+  <meta name="twitter:description" content="この記事は「Gemini学習シリーズ」のSTEP 08（拡張機能）です。Geminiの拡張（旅行・地図・予約検索など）を使うとき、出力をそのまま信じずに「公式サイトで再確認」する姿勢が重要です。メニュー名称や対応リージョンは更新が早い…">
   <meta name="twitter:image" content="https://images.unsplash.com/photo-1573804633927-bfcbcd909acd?w=1200&amp;h=600&amp;fit=crop">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Gemini拡張機能フル活用（Flights/Hotels/Maps連携）", "datePublished": "2026-01-01", "dateModified": "2026-01-01", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1573804633927-bfcbcd909acd?w=1200&h=600&fit=crop"]}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -45,46 +45,80 @@
 
     <div class="article-content">
 <h2>はじめに</h2>
-<p>この記事は「Gemini学習シリーズ」の<strong>STEP 08（拡張機能）</strong>です。</p>
-<p>旅行計画・店舗検索など、拡張機能を使った実用例を学びます。</p>
-<h2>Geminiとは</h2>
-<p>Google製AI。Google Workspaceとの連携が強み。</p>
-<h2>このステップで学ぶこと</h2>
+<p>この記事は「Gemini学習シリーズ」の<strong>STEP 08（拡張機能）</strong>です。<strong>Gemini</strong>の拡張（旅行・地図・予約検索など）を使うとき、出力をそのまま信じずに「公式サイトで再確認」する姿勢が重要です。メニュー名称や対応リージョンは更新が早いので、この記事は思考の枠組みと学習課題にフォーカスします。オフライン環境や社内プロキシ下では拡張が制限されることもあるため、その場合の手動手順もセットで用意しておくと安心です。</p>
+<h2>うまく聞くためのプロンプト型</h2>
 <ol>
-<li>拡張機能の基本概念</li>
-<li>実践的な使い方</li>
-<li>業務での活用例</li>
-<li>よくある失敗と回避策</li>
+<li><strong>地点・日付・人数・制約</strong>（キャンセル可、直行のみなど）を表形式で渡す</li>
+<li><strong>比較軸</strong>を宣言（価格/時間/移動負荷）</li>
+<li><strong>出力</strong>：表＋前提＋「要再確認」欄</li>
+<p>拡張機能がオンでも、最終決済・予約確定は公式サイト側で行う運用にします。</p>
 </ol>
-<h2>実践ステップ</h2>
-<h3>ステップ1：準備</h3>
-<p>まずはGeminiにアクセスし、基本的な操作を確認しましょう。</p>
-<h3>ステップ2：基本操作</h3>
-<p>拡張機能に関連する基本操作を一通り試してみます。</p>
-<h3>ステップ3：応用</h3>
-<p>実際の業務シーンを想定して、より実践的な使い方を学びます。</p>
-<h2>業務での活用例</h2>
+<h2>旅行・移動の典型ワークフロー</h2>
+<p>候補地点を2〜3に絞り、移動手段と宿を別ターンで聞くと表が崩れにくいです。一度に10目的地を処理させるより、短いステップに分けた方が実務では追いやすいです。</p>
+<h2>Maps／ローカル検索の注意</h2>
+<p>営業時間・定休日・電話番号は変更が起きやすい情報です。Geminiの案内をメモとして使い、電話または公式ページで確定させます。顧客への連絡文にそのまま貼らないルールを決めておくと安全です。</p>
+<p>出張手配は宿泊税や早朝タクシー規制などローカルルールが絡みます。AIの文章は「たたき台行程」止まりにし、必ず社内出張オペレーションと突き合わせてください。</p>
+<h2>予約系プロンプトのテンプレ</h2>
+<pre><code>目的：◯月◯日〜◯泊／出発地：◯／人数：◯
+制約：直行便優先／朝8時以降のみ／LCCは除外
+出力：①交通候補3つ ②宿候補3つ（料金は参考値）③各候補の確認URL欄</code></pre>
+<p>金額列には必ず「参考（要公式確認）」と入れ、予約ボタンを押すのは人間だけ、というルールをテンプレ冒頭に書いておくと誤操作を防げます。</p>
+<h2>セキュリティとプライバシー</h2>
+<p>拡張機能に行程や顧客訪問先を細かく書き込むほどログリスクが上がります。社外秘の案件コードは使わず、「A都市・B業界」のような抽象度に落としてから依頼し、確定後に机密情報は別シートで管理します。共有チャットに貼った旅程は期日付きで消す、URLは必要最小限にする、といった運用ルールをチームで事前に決めておきましょう。</p>
+<h2>学習向け（手順・演習・用語・確認・トラブル向け）</h2>
+<h3>実践ステップ</h3>
+<h4>ステップ1：拡張のON/OFFを理解する</h4>
+<p>利用環境でどの拡張が使えるか公式ヘルプを開き、使えないときの代替（手動検索の手順）をメモします。</p>
+<h4>ステップ2：ダミー旅程で表を2枚作る</h4>
+<p>架空の出張（東京→大阪・1泊）で、「交通」「宿」「食堂」の3表に分割して生成させます。</p>
+<h4>ステップ3：誤りシミュレーション</h4>
+<p>意図的に日付を矛盾させ、モデルがどう検知するか観察し、人手チェックポイントを洗い出します。</p>
+<h3>演習課題</h3>
+<ol>
+<li>同一条件で「最安優先」「時間優先」の2パターンの表を出し、評価軸の違いを説明できるようにする。</li>
+<li>地図連携を使う場合と使わない場合で、回答の根拠の書き方がどう変わるか比較する。</li>
+<li>チーム向けに「拡張利用時の確認5項目」を自作し、Slackに貼る。</li>
+<li>オフライン出張とオンライン会議が混在する行程で、移動バッファをAIに盛り込ませすぎないよう手動で1時間余白を足す。</li>
+</ol>
+<h3>用語ミニ辞典</h3>
 <ul>
-<li><strong>例1</strong>: 日々の定型作業を効率化</li>
-<li><strong>例2</strong>: チームでの情報共有に活用</li>
-<li><strong>例3</strong>: 品質向上のためのチェックに使用</li>
+<li><strong>拡張機能（Extensions）</strong>：Geminiが外部ツールや検索結果を参照する仕組み。名称はUI変更があり得ます。</li>
+<li><strong>グラウンディング</strong>：回答を実データに結び付けること。万能ではありません。</li>
+<li><strong>コンプライアンス</strong>：出張規程、予算承認、個人旅行との境界など社内ルール。</li>
+<li><strong>根拠URL</strong>：公式予約サイトや航空会社サイトなど、人間が辿るべきリンク。</li>
+<li><strong>リージョン</strong>：サービス提供国・言語。回答品質に影響することがあります。</li>
 </ul>
-<h2>よくある質問</h2>
-<p><strong>Q: 初心者でも使えますか？</strong> A: はい、このステップは基礎から解説しているので、初めての方でも安心して取り組めます。</p>
-<p><strong>Q: 他のツールとの違いは？</strong> A: GeminiはGoogle製AIという特徴があります。</p>
+<h3>セルフチェック</h3>
+<ul>
+<li>[ ] 日程・空港コード・締切を自分でダブルチェックした</li>
+<li>[ ] 顧客や同乗者の個人情報を漫无駄に入れていない</li>
+<li>[ ] 予約確定は必ず公式導線で行うルールを守っている</li>
+<li>[ ] 拡張オフ時の手動手順を1行メモしている</li>
+</ul>
+<h3>トラブルシューティング</h3>
+<table>
+<thead><tr><th>状況</th><th>対処のヒント</th></tr></thead>
+<tbody>
+<tr><td>価格が現実と合わない</td><td>公式の当日レートで再検索し、Gemini出力は捨てる</td></tr>
+<tr><td>ルートが非現実的</td><td>中継・最終電車を自前で地図アプリに入力して検証</td></tr>
+<tr><td>メニューが見つからない</td><td>ブラウザ言語・リージョン・アカウント種別を確認</td></tr>
+<tr><td>表が壊れる</td><td>列定義を短くし、分割して再質問する</td></tr>
+</tbody>
+</table>
+<p><strong>実務ワンポイント</strong>：出張報告書にはAI生成の行程表ではなく「確定予約番号・eチケット控え」の欄を別付けし、Gemini出力は参考メモ欄にとどめると監査にも通りやすいです。</p>
 <h2>まとめ</h2>
-<p>このステップでは拡張機能について学びました。次のステップでは、さらに発展的な内容に進みます。</p>
-<hr>
-<h2>ツール情報</h2>
+<p>拡張機能は「下調べの加速器」であり「最終判断者」ではあります。STEP09以降のチーム運用でも、確認責任の所在を曖昧にしないことが成功の鍵です。</p>
+<h2>ツール情報（公式リンク）</h2>
 <ul>
-<li><strong>公式サイト</strong>: <a href="https://gemini.google.com/" target="_blank" rel="noopener">Gemini</a></li>
-<li><strong>ツール概要</strong>: Google製AI。Google Workspaceとの連携が強み。</li>
+<li><a href="https://gemini.google.com/" target="_blank" rel="noopener">Gemini（Google）</a></li>
+<li><a href="https://www.google.com/maps" target="_blank" rel="noopener">Google Maps</a></li>
+<li><a href="https://policies.google.com/terms" target="_blank" rel="noopener">Google 利用規約</a></li>
+<li><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google プライバシーポリシー</a></li>
 </ul>
-<h2>権利表記</h2>
-<p>Geminiは各社の商標または登録商標です。本記事は公式提供ではなく、一般的な情報提供を目的としています。</p>
+<h2>権利表記・引用について</h2>
+<p>Google、Gemini、Google MapsはGoogle LLCの商標または登録商標です。本記事は各社の公式提供ではありません。機能や提供条件は変更される場合があるため、最新情報は公式ページをご確認ください。</p>
 <h2>画像クレジット</h2>
-<p>サムネイル画像は<a href="https://unsplash.com/" target="_blank" rel="noopener">Unsplash</a>のライセンスに基づき使用しています。</p>
-<hr>
+<p>サムネイル/本文画像はUnsplashの写真を使用しています（ライセンス：<a href="https://unsplash.com/license" target="_blank" rel="noopener">Unsplash License</a>）。</p>
 <h3>お問い合わせ</h3>
 <p>AIツールの導入・活用支援のご相談はお気軽にどうぞ</p>
 <p>📞 090-6262-3842</p>

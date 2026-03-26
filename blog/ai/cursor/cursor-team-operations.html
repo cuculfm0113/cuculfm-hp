@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cursorチーム運用（コードレビューと品質管理） | CUCUL FM</title>
-  <meta name="description" content="この記事は「Cursor学習シリーズ」のSTEP 09（チーム）です。">
+  <meta name="description" content="デザイナー・PM・エンジニアが混ざる場合、触ってよいディレクトリ acl を決めると衝突が激減します。">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="ja_JP">
   <meta property="og:title" content="Cursorチーム運用（コードレビューと品質管理） | CUCUL FM">
-  <meta property="og:description" content="この記事は「Cursor学習シリーズ」のSTEP 09（チーム）です。">
+  <meta property="og:description" content="デザイナー・PM・エンジニアが混ざる場合、触ってよいディレクトリ acl を決めると衝突が激減します。">
   <meta property="og:image" content="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&amp;h=600&amp;fit=crop">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Cursorチーム運用（コードレビューと品質管理） | CUCUL FM">
-  <meta name="twitter:description" content="この記事は「Cursor学習シリーズ」のSTEP 09（チーム）です。">
+  <meta name="twitter:description" content="デザイナー・PM・エンジニアが混ざる場合、触ってよいディレクトリ acl を決めると衝突が激減します。">
   <meta name="twitter:image" content="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&amp;h=600&amp;fit=crop">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Cursorチーム運用（コードレビューと品質管理）", "datePublished": "2026-01-01", "dateModified": "2026-01-01", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&h=600&fit=crop"]}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,47 +44,71 @@
     <div class="article-featured-image"><img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&amp;h=600&amp;fit=crop" alt="Cursorの活用" loading="lazy"></div>
 
     <div class="article-content">
-<h2>はじめに</h2>
-<p>この記事は「Cursor学習シリーズ」の<strong>STEP 09（チーム）</strong>です。</p>
-<p>チームでの運用ルール・レビュー手順・教育の仕組みを作ります。</p>
-<h2>Cursorとは</h2>
-<p>AI搭載コードエディタ。プログラミング支援とコード生成に特化。</p>
-<h2>このステップで学ぶこと</h2>
+<h2>学習ゴール</h2>
+<ul>
+<li>AIアシスト開発におけるレビュー責任、ブランチ方針、Lint/formatter、秘密管理の最低ラインを定義できる。</li>
+<li>週次の振り返りテンプレで「良い依頼文・危ないdiff」をチーム資産化できる。</li>
+</ul>
+<h2>前提知識</h2>
+<ul>
+<li>GitとPRフローがチームである程度定着していること。</li>
+<li>Cursorを複数人で使う場合、契約プランとデータ取り扱いを公式で確認してください。</li>
+</ul>
+<h2>キーコンセプトと用語</h2>
+<ul>
+<li><strong>人間オーナーシップ</strong>：マージ承認者が品質責任を持つ。</li>
+<li><strong>チェックリストレビュー</strong>：観点を固定化し、抜け漏れを防ぐ。</li>
+<li><strong>AI出力ラベル</strong>：どのコミットが主にAI生成かをメモ（任意だが監査に効く）。</li>
+<li><strong>ドリフト防止</strong>：ルールとLintを同期させ、環境差を減らす。</li>
+</ul>
+<h2>手順（ステップバイステップ）</h2>
 <ol>
-<li>チームの基本概念</li>
-<li>実践的な使い方</li>
-<li>業務での活用例</li>
-<li>よくある失敗と回避策</li>
+<li><strong>ポリシー文1枚</strong>：顧客コード/本番DBをチャットに入れない等、禁止と代替手段。</li>
+<li><strong>ルールとLint</strong>：<code>.cursor/rules</code> とESLint/Prettier等を両方そろえる。</li>
+<li><strong>PRテンプレ</strong>：テスト手順、スクショ、リスク、AI利用の有無。</li>
+<li><strong>レビューSLA</strong>：1ビジネス日以内の一次返信など現実的な数字。</li>
+<li><strong>週次15分</strong>：良いプロンプト共有1本、インシデント共有1本。</li>
+<li><strong>四半期</strong>：ツールと契約の更新確認。</li>
 </ol>
-<h2>実践ステップ</h2>
-<h3>ステップ1：準備</h3>
-<p>まずはCursorにアクセスし、基本的な操作を確認しましょう。</p>
-<h3>ステップ2：基本操作</h3>
-<p>チームに関連する基本操作を一通り試してみます。</p>
-<h3>ステップ3：応用</h3>
-<p>実際の業務シーンを想定して、より実践的な使い方を学びます。</p>
-<h2>業務での活用例</h2>
+<h2>実践ミニ演習</h2>
 <ul>
-<li><strong>例1</strong>: 日々の定型作業を効率化</li>
-<li><strong>例2</strong>: チームでの情報共有に活用</li>
-<li><strong>例3</strong>: 品質向上のためのチェックに使用</li>
+<li><strong>演習1</strong>：PRテンプレ草案を自分で書き、フィールド数を5個以内に圧縮。</li>
+<li><strong>演習2</strong>：過去の「危ないマージ」を匿名化ケーススタディにする。</li>
+<li><strong>演習3</strong>：ペアでAI diffレビューを15分実施し、見落としパターンを列挙。</li>
 </ul>
-<h2>よくある質問</h2>
-<p><strong>Q: 初心者でも使えますか？</strong> A: はい、このステップは基礎から解説しているので、初めての方でも安心して取り組めます。</p>
-<p><strong>Q: 他のツールとの違いは？</strong> A: CursorはAI搭載コードエディタという特徴があります。</p>
-<h2>まとめ</h2>
-<p>このステップではチームについて学びました。次のステップでは、さらに発展的な内容に進みます。</p>
-<hr>
-<h2>ツール情報</h2>
+<h2>セルフチェックリスト</h2>
 <ul>
-<li><strong>公式サイト</strong>: <a href="https://cursor.sh/" target="_blank" rel="noopener">Cursor</a></li>
-<li><strong>ツール概要</strong>: AI搭載コードエディタ。プログラミング支援とコード生成に特化。</li>
+<li>[ ] 禁止事項が全員に周知された</li>
+<li>[ ] レビュー観点がREADMEにある</li>
+<li>[ ] CIまたは最低限の自動テストがある</li>
+<li>[ ] インシデントの連絡経路が決まった</li>
+<li>[ ] ルールファイルにオーナーがいる</li>
 </ul>
-<h2>権利表記</h2>
-<p>Cursorは各社の商標または登録商標です。本記事は公式提供ではなく、一般的な情報提供を目的としています。</p>
+<h2>つまずきポイントと対処</h2>
+<ul>
+<li><strong>レビューが形骸化</strong> → 観点を3つに減らす。LGTMだけを禁止してコメント1行必須に。</li>
+<li><strong>秘密漏洩</strong> → pre-commitフックで鍵スキャン。教育を三半期で繰り返す。</li>
+<li><strong>速度低下</strong> → 小さなPRと自動フォーマットで人間の差分読解量を減らす。</li>
+</ul>
+<h2>深掘り：多職種混在チーム</h2>
+<p>デザイナー・PM・エンジニアが混ざる場合、<strong>触ってよいディレクトリ acl</strong> を決めると衝突が激減します。</p>
+<h2>関連記事</h2>
+<p>Git実務は <a href="./cursor-git-workflow.html">Git連携</a>、ルールの書き方は <a href="./cursor-rules.html">Rules</a>。</p>
+<h2>運用ノート：ハイブリッド勤務と可観測性</h2>
+<p>リモート中心のチームでは「口頭で伝えたルール」が蒸発します。NotionやGitの<code>CONTRIBUTING.md</code>に集約し、Slackは通知専用に。可観測性では、本番ログへAI由来の変更IDを付与できると障害解析が速いです。多国籍チームでは英語テンプレと日本語テンプレをペアで保管。コンプライアンス要求がある業界では、AI利用ログの保存期限とアクセス権を人事労務と合意しておくと後段が楽です。</p>
+<p>（学習の定着）</p>
+<p>組織学習の観点では、週次15分の振り返りをカレンダーに固定し、うまくいった依頼文や依頼テンプレは共有ドライブへコピーして資産化します。四半期ごとに公式の利用規約と社内ポリシーを突き合わせ、差分があれば短いチケットで追記してください。個人メモでも「日付・用途・入力の要点・出力の使い道」を1セットで残すと検索性が上がり、異動時の引き継ぎもスムーズです。ステークホルダー別の典型的な懸念（経営はROI、情シスは漏洩、現場は手間と心理的負担）を箇条書きで持っておくと、同じ学びを説明する場面でも言い換え疲れが減ります。公開可否が曖昧な資料はそもそもAIに入力しない、と自分で宣言しておく線引きメモがあると、日々の判断が速くなります。</p>
+<p>なお学習効率を上げるには、「読む→15分で演習→翌週に同じ手順でもう一度」をカレンダーに3連続で置き、忘却曲線を意識するのがコツです。複数人で進めるときは教え合うペアと日時を先に仮押さえし、片方が欠席しても演習PDFだけで進められるようにリンク集を1枚添えておくと属人化が進みにくくなります。最後に、成果が出た週は短いログ（良かった依頼1行）を残し、出なかった週は「阻害要因」を1語だけメモして次週の設計に回すと改善が続きます。チーム合同レビューは資料なし口頭でも15分で回せます。議事は「決めたこと1行」と「次回までの宿題1行」だけ残せば十分なことが多いです。</p>
+<h2>まとめ：次に何をするか</h2>
+<p>来週までにポリシーv0.1とPRテンプレをリポジトリに置き、初回のAI生成PRで実地検証してください。</p>
+<h2>ツール情報（公式リンク）</h2>
+<ul>
+<li><a href="https://cursor.com/" target="_blank" rel="noopener">Cursor（公式）</a></li>
+</ul>
+<h2>権利表記・引用について</h2>
+<p>Cursorは各社の商標または登録商標です。本記事は各社の公式提供ではなく、一般的な情報提供を目的としています。機能や提供条件は変更される場合があるため、最新情報は公式ページをご確認ください。</p>
 <h2>画像クレジット</h2>
-<p>サムネイル画像は<a href="https://unsplash.com/" target="_blank" rel="noopener">Unsplash</a>のライセンスに基づき使用しています。</p>
-<hr>
+<p>サムネイル/本文画像はUnsplashの写真を使用しています（ライセンス：<a href="https://unsplash.com/license" target="_blank" rel="noopener">Unsplash License</a>）。</p>
 <h3>お問い合わせ</h3>
 <p>AIツールの導入・活用支援のご相談はお気軽にどうぞ</p>
 <p>📞 090-6262-3842</p>

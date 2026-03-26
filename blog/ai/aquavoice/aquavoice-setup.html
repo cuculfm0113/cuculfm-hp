@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Aqua Voice初期設定（最適な環境を整える） | CUCUL FM</title>
-  <meta name="description" content="この記事は「Aqua Voice学習シリーズ」のSTEP 02（設定）です。">
+  <meta name="description" content="Aqua Voiceの初回セットアップをチェックリスト化し、マイク・入力言語・貼り付け先アプリの三者が矛盾なく動く状態を再現できること。環境差（Bluetooth／有線、内蔵マイク）によるトラブルを切り分け手順で説明できること。">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="ja_JP">
   <meta property="og:title" content="Aqua Voice初期設定（最適な環境を整える） | CUCUL FM">
-  <meta property="og:description" content="この記事は「Aqua Voice学習シリーズ」のSTEP 02（設定）です。">
+  <meta property="og:description" content="Aqua Voiceの初回セットアップをチェックリスト化し、マイク・入力言語・貼り付け先アプリの三者が矛盾なく動く状態を再現できること。環境差（Bluetooth／有線、内蔵マイク）によるトラブルを切り分け手順で説明できること。">
   <meta property="og:image" content="https://images.unsplash.com/photo-1589903308904-1010c2294adc?w=1200&amp;h=600&amp;fit=crop">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Aqua Voice初期設定（最適な環境を整える） | CUCUL FM">
-  <meta name="twitter:description" content="この記事は「Aqua Voice学習シリーズ」のSTEP 02（設定）です。">
+  <meta name="twitter:description" content="Aqua Voiceの初回セットアップをチェックリスト化し、マイク・入力言語・貼り付け先アプリの三者が矛盾なく動く状態を再現できること。環境差（Bluetooth／有線、内蔵マイク）によるトラブルを切り分け手順で説明できること。">
   <meta name="twitter:image" content="https://images.unsplash.com/photo-1589903308904-1010c2294adc?w=1200&amp;h=600&amp;fit=crop">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Aqua Voice初期設定（最適な環境を整える）", "datePublished": "2026-01-01", "dateModified": "2026-01-01", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1589903308904-1010c2294adc?w=1200&h=600&fit=crop"]}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,50 +44,66 @@
     <div class="article-featured-image"><img src="https://images.unsplash.com/photo-1589903308904-1010c2294adc?w=1200&amp;h=600&amp;fit=crop" alt="Aqua Voiceの活用" loading="lazy"></div>
 
     <div class="article-content">
-<h2>はじめに</h2>
-<p>この記事は「Aqua Voice学習シリーズ」の<strong>STEP 02（設定）</strong>です。</p>
-<p>マイク・言語・出力先の設定で快適な環境を作ります。</p>
-<h2>Aqua Voiceとは</h2>
-<p>リアルタイム音声入力AI。高速処理で議事録・メモ作成に最適。</p>
-<h2>このステップで学ぶこと</h2>
-<ol>
-<li>設定の基本概念</li>
-<li>実践的な使い方</li>
-<li>業務での活用例</li>
-<li>よくある失敗と回避策</li>
-</ol>
-<h2>実践ステップ</h2>
-<h3>ステップ1：準備</h3>
-<p>まずはAqua Voiceにアクセスし、基本的な操作を確認しましょう。</p>
-<h3>ステップ2：基本操作</h3>
-<p>設定に関連する基本操作を一通り試してみます。</p>
-<h3>ステップ3：応用</h3>
-<p>実際の業務シーンを想定して、より実践的な使い方を学びます。</p>
-<h2>業務での活用例</h2>
+<h2>この記事の学習ゴール</h2>
+<p>Aqua Voiceの<strong>初回セットアップをチェックリスト化</strong>し、マイク・入力言語・貼り付け先アプリの三者が矛盾なく動く状態を再現できること。環境差（Bluetooth／有線、内蔵マイク）によるトラブルを<strong>切り分け手順</strong>で説明できること。</p>
+<h2>前提知識・向いている人</h2>
+<p>シリーズの <strong>STEP 02（設定）</strong> です。アプリを入手済みだが、認識が不安定・遅い・貼り付けないといった<strong>環境起因の不調</strong>を減らしたい方向けです。</p>
+<h2>キーコンセプトと用語</h2>
 <ul>
-<li><strong>例1</strong>: 日々の定型作業を効率化</li>
-<li><strong>例2</strong>: チームでの情報共有に活用</li>
-<li><strong>例3</strong>: 品質向上のためのチェックに使用</li>
+<li><strong>入力デバイス優先度</strong>: OSとアプリの両方で「どのマイクを使うか」が一致している必要があります。片方だけUSB指向性、片方が内蔵、などのズレが典型トラブルです。</li>
+<li><strong>ホットキー／ショートカット</strong>: 手をキーボードから離さず録音開始・停止できるかが、実務での継続率に直結します（製品版のキー設定は公式ドキュメント参照）。</li>
+<li><strong>出力先（フォーカス）</strong>: テキストが入るアプリにカーソルがあるか、OSのフォーカスが奪われていないか。</li>
+<li><strong>言語・方言設定</strong>: 日本語業務でも英単語が混ざる場合、<strong>辞書登録</strong>や話し方（アルファベット読み）で補正します。</li>
 </ul>
-<h2>よくある質問</h2>
-<p><strong>Q: 初心者でも使えますか？</strong> A: はい、このステップは基礎から解説しているので、初めての方でも安心して取り組めます。</p>
-<p><strong>Q: 他のツールとの違いは？</strong> A: Aqua Voiceはリアルタイム音声入力AIという特徴があります。</p>
-<h2>まとめ</h2>
-<p>このステップでは設定について学びました。次のステップでは、さらに発展的な内容に進みます。</p>
+<h2>手順（ステップバイステップ）</h2>
+<h3>ステップ1：OS側でマイク権限と既定デバイスを確認</h3>
+<p>システム環境設定／設定アプリで、入力デバイスに<strong>想定どおりのマイク</strong>が選ばれているか、権限が有効かを確認。変更有無にかかわらず<strong>一度ログアウトや再接続</strong>で状態を揃えると早いです。</p>
+<h3>ステップ2：物理レイアウトを固定する</h3>
+<p>マイクは口元から一定距離。ノートパソコンのキーボード打鍵音が入る場合は<strong>指向性マイクまたはブーム式</strong>に寄せる。Bluetoothは干渉で遅延が出る場合があるため、重要会議前は有線を試す価値があります。</p>
+<h3>ステップ3：Aqua Voice内の音声・言語設定</h3>
+<p>アプリ内で入力言語、ノイズ処理の有無、入力モード（逐次／段落）などを公式の推奨に沿って選択。<strong>変更は1項目ずつ</strong>試し、効果をメモします。</p>
+<h3>ステップ4：ショートカットを「左手だけ」で押せる配置に</h3>
+<p>頻繁に使うなら、エディタやIDEの保存・補完と<strong>指が競合しない</strong>キーに。チームで共有するなら、設定エクスポートやスクリーンショートをWikiに残す。</p>
+<h3>ステップ5：テストフレーズで通し試験</h3>
+<p>固定の3文（日本語短文、英語混じり、数字と固有名詞）を用意し、<strong>毎週同じテスト</strong>で劣化を検知。アップデート直後に特に実施。</p>
+<p>バッテリー駆動のノートPCでは、省電力モードにより<strong>音声処理の遅延</strong>が増えることがあります。重要会議の前は電源接続とパフォーマンスプロファイルの確認をセットにすると安心です。仮想デスクトップや複数モニタでは、フォーカスが別スペースに逃げて<strong>貼り付けミス</strong>が起きやすいので、「入力直前にカーソル色やウィンドウ枠を確認する」といった儀式を個人ルールに加えるのも有効です。</p>
+<h2>設定まわりの業務シナリオ</h2>
+<p>営業がCRMにメモ、エンジニアがIssueトラッカー、コンサルがノートアプリ——<strong>貼り付け先が複数</strong>なら、プロファイル切替やOS別のペースト方法を決めておくとミスが減ります。VPNやリモートデスクトップ越しではマイクパススルーが別設定になるため、出社・在宅で<strong>チェック項目を分ける</strong>と再現性が上がります。</p>
+<h2>実践ミニ演習</h2>
+<ol>
+<li>現在使用中のマイク名をOS設定画面で書き写し、Aqua Voice側の入力候補と一致するか照合する。</li>
+<li>ショートカットを1つ決め、メモアプリに10回連続で「テスト成功」を貼り付けるタイムアタックを行う（失敗したらその場で原因を1行メモ）。</li>
+<li>英数字混じりのフレーズ1つ（例：プロジェクトコード SKU-2026-A）を読み上げ、認識結果を辞書または読み方ルールに反映する案を書く。</li>
+</ol>
+<h2>セルフチェックリスト</h2>
+<ul>
+<li>[ ] OSとアプリでマイクの指定が揃った。</li>
+<li>[ ] ショートカットが指の負担なく押せる。</li>
+<li>[ ] テストフレーズ3種で再現チェックした。</li>
+<li>[ ] 在宅／出社で違う設定が必要ならメモした。</li>
+</ul>
+<h2>つまずきポイントと対処</h2>
+<ul>
+<li><strong>反応が遅い</strong> → 他アプリのCPU占有、Bluetooth帯域、バックグラウンド同期を疑う。有線マイクとケーブル直通で比較。</li>
+<li><strong>文字化け・別言語</strong> → アプリの言語設定、システムキーボード、IMEの状態を確認。</li>
+<li><strong>貼り付けない</strong> → 対象アプリがセキュリティでペーストブロックしていないか、フォーカスが別ウィンドウにいないか。</li>
+<li><strong>音量波形が出ない</strong> → 権限、デバイス選択、ハードウェア静音スイッチを順に。</li>
+</ul>
+<h2>まとめ：次に何をするか</h2>
+<p>設定は「一度やれば終わり」ではなく、<strong>OSアップデートやデバイス交換のたびに繰り返すメンテ</strong>です。次は STEP 03「話し方」で認識率を押し上げ、STEP 04で会議リアルタイム運用へ進んでください。</p>
+<h3>お問い合わせ</h3>
+<p>AIツールの導入・活用支援のご相談はお気軽にどうぞ</p>
+<p>📞 090-6262-3842</p>
 <hr>
 <h2>ツール情報</h2>
 <ul>
-<li><strong>公式サイト</strong>: <a href="https://withaqua.com/" target="_blank" rel="noopener">Aqua Voice</a></li>
-<li><strong>ツール概要</strong>: リアルタイム音声入力AI。高速処理で議事録・メモ作成に最適。</li>
+<li><strong>公式サイト</strong>: <a href="https://withaqua.com/" target="_blank" rel="noopener">Aqua Voice</a>（公式サイトのURLは変更される場合があります）</li>
+<li><strong>ツール概要</strong>: リアルタイム音声入力。詳細な設定項目は公式ヘルプやリリースノートを参照してください。</li>
 </ul>
 <h2>権利表記</h2>
 <p>Aqua Voiceは各社の商標または登録商標です。本記事は公式提供ではなく、一般的な情報提供を目的としています。</p>
 <h2>画像クレジット</h2>
-<p>サムネイル画像は<a href="https://unsplash.com/" target="_blank" rel="noopener">Unsplash</a>のライセンスに基づき使用しています。</p>
-<hr>
-<h3>お問い合わせ</h3>
-<p>AIツールの導入・活用支援のご相談はお気軽にどうぞ</p>
-<p>📞 090-6262-3842</p>
+<p>サムネイル画像は <a href="https://unsplash.com/" target="_blank" rel="noopener">Unsplash</a> のライセンスに基づき使用しています。</p>
 
     </div>
   </article>

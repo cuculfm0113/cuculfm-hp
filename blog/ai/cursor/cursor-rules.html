@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cursor Rules設定（プロジェクト固有の指示を自動化） | CUCUL FM</title>
-  <meta name="description" content="この記事は「Cursor学習シリーズ」のSTEP 06（ルール）です。">
+  <meta name="description" content="「必ず○○テストを追加」「このディレクトリではインポート順」「エラーは握り潰さない」など、検証可能な宣言が強いです。「きれいに」だけは弱いので、具体例を1つ。">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="ja_JP">
   <meta property="og:title" content="Cursor Rules設定（プロジェクト固有の指示を自動化） | CUCUL FM">
-  <meta property="og:description" content="この記事は「Cursor学習シリーズ」のSTEP 06（ルール）です。">
+  <meta property="og:description" content="「必ず○○テストを追加」「このディレクトリではインポート順」「エラーは握り潰さない」など、検証可能な宣言が強いです。「きれいに」だけは弱いので、具体例を1つ。">
   <meta property="og:image" content="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&amp;h=600&amp;fit=crop">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Cursor Rules設定（プロジェクト固有の指示を自動化） | CUCUL FM">
-  <meta name="twitter:description" content="この記事は「Cursor学習シリーズ」のSTEP 06（ルール）です。">
+  <meta name="twitter:description" content="「必ず○○テストを追加」「このディレクトリではインポート順」「エラーは握り潰さない」など、検証可能な宣言が強いです。「きれいに」だけは弱いので、具体例を1つ。">
   <meta name="twitter:image" content="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&amp;h=600&amp;fit=crop">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Cursor Rules設定（プロジェクト固有の指示を自動化）", "datePublished": "2026-01-01", "dateModified": "2026-01-01", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&h=600&fit=crop"]}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,47 +44,71 @@
     <div class="article-featured-image"><img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&amp;h=600&amp;fit=crop" alt="Cursorの活用" loading="lazy"></div>
 
     <div class="article-content">
-<h2>はじめに</h2>
-<p>この記事は「Cursor学習シリーズ」の<strong>STEP 06（ルール）</strong>です。</p>
-<p>.cursorrules でプロジェクト固有の指示を自動適用する方法です。</p>
-<h2>Cursorとは</h2>
-<p>AI搭載コードエディタ。プログラミング支援とコード生成に特化。</p>
-<h2>このステップで学ぶこと</h2>
+<h2>学習ゴール</h2>
+<ul>
+<li>プロジェクトにルールファイル（例：<code>.cursor/rules</code> やレガシーな <code>.cursorrules</code>）を置く目的と守備範囲を説明できる。</li>
+<li>言語・フレームワーク・コーディング規約・禁止事項を短い条文化ルールに落とし、AI出力のブレを減らせる。</li>
+</ul>
+<h2>前提知識</h2>
+<ul>
+<li>リポジトリのディレクトリ構造を把握していること。</li>
+<li>チームで既存のスタイルガイドやLint設定があると、ルールに転記しやすいです。</li>
+</ul>
+<h2>キーコンセプトと用語</h2>
+<ul>
+<li><strong>システムレベル指示</strong>：ワークスペース全体に効くマナー。長すぎると逆効果。</li>
+<li><strong>スコープドルール</strong>：特定フォルダだけに効かせるルール（環境により機能差あり）。</li>
+<li><strong>Lint/Formatter</strong>：ルールを機械的に補強する第二の防壁。</li>
+<li><strong>DRYすぎるルール</strong>：あらゆるケースを書きすぎるとモデルが読み落とす。</li>
+</ul>
+<h2>手順（ステップバイステップ）</h2>
 <ol>
-<li>ルールの基本概念</li>
-<li>実践的な使い方</li>
-<li>業務での活用例</li>
-<li>よくある失敗と回避策</li>
+<li><strong>既存規約を棚卸</strong>：README、Contributing、ESLint設定などを集める。</li>
+<li><strong>最頻失敗トップ3</strong>：レビューで毎回指摘される内容を書き出す。</li>
+<li><strong>ルールv0.1</strong>：A4半分以内に圧縮。箇条書き最大15行目安。</li>
+<li><strong>カテゴリ分割</strong>：フロント/バック/インフラでファイルを分けるか検討。</li>
+<li><strong>AIに自己検証させる</strong>：「このルールに反するコード例」を出させ、穴を埋める。</li>
+<li><strong>PRでバージョン管理</strong>：ルール変更もdiffとセットでレビュー。</li>
 </ol>
-<h2>実践ステップ</h2>
-<h3>ステップ1：準備</h3>
-<p>まずはCursorにアクセスし、基本的な操作を確認しましょう。</p>
-<h3>ステップ2：基本操作</h3>
-<p>ルールに関連する基本操作を一通り試してみます。</p>
-<h3>ステップ3：応用</h3>
-<p>実際の業務シーンを想定して、より実践的な使い方を学びます。</p>
-<h2>業務での活用例</h2>
+<h2>実践ミニ演習</h2>
 <ul>
-<li><strong>例1</strong>: 日々の定型作業を効率化</li>
-<li><strong>例2</strong>: チームでの情報共有に活用</li>
-<li><strong>例3</strong>: 品質向上のためのチェックに使用</li>
+<li><strong>演習1</strong>：禁止したいパターン（例：直書きSQL）を1行ルールにし、実際の生成コードで違反が減るか見る。</li>
+<li><strong>演習2</strong>：ルールを倍にした版と半分にした版で同じ依頼を比較。</li>
+<li><strong>演習3</strong>：新メンバーが読んでも曖昧な行に下線を引き、言い換え。</li>
 </ul>
-<h2>よくある質問</h2>
-<p><strong>Q: 初心者でも使えますか？</strong> A: はい、このステップは基礎から解説しているので、初めての方でも安心して取り組めます。</p>
-<p><strong>Q: 他のツールとの違いは？</strong> A: CursorはAI搭載コードエディタという特徴があります。</p>
-<h2>まとめ</h2>
-<p>このステップではルールについて学びました。次のステップでは、さらに発展的な内容に進みます。</p>
-<hr>
-<h2>ツール情報</h2>
+<h2>セルフチェックリスト</h2>
 <ul>
-<li><strong>公式サイト</strong>: <a href="https://cursor.sh/" target="_blank" rel="noopener">Cursor</a></li>
-<li><strong>ツール概要</strong>: AI搭載コードエディタ。プログラミング支援とコード生成に特化。</li>
+<li>[ ] ルールは短く、衝突しない用語で書いた</li>
+<li>[ ] 公式ドキュメントへのリンクを併記した</li>
+<li>[ ] 秘密情報をルール内に書いていない</li>
+<li>[ ] Lintと矛盾していない</li>
+<li>[ ] 変更履歴に日付を残した</li>
 </ul>
-<h2>権利表記</h2>
-<p>Cursorは各社の商標または登録商標です。本記事は公式提供ではなく、一般的な情報提供を目的としています。</p>
+<h2>つまずきポイントと対処</h2>
+<ul>
+<li><strong>効いていない気がする</strong> → 依頼文にも同じ制約を1行足し、差分を観察。</li>
+<li><strong>ルール戦争</strong> → 「必須10行」に絞り、残りは任意ベストプラクティスへ。</li>
+<li><strong>環境差</strong> → 利用中のCursorバージョンと公式ドキュメントでルールの場所を再確認。</li>
+</ul>
+<h2>深掘り：良いルールのパターン</h2>
+<p>「必ず○○テストを追加」「このディレクトリではインポート順」「エラーは握り潰さない」など、<strong>検証可能な宣言</strong>が強いです。「きれいに」だけは弱いので、具体例を1つ。</p>
+<h2>チーム展開</h2>
+<p>ルールはコードレビューと同じく合意形成が大事です。<a href="./cursor-team-operations.html">チーム運用</a> と合わせ、オーナーを置くと更新が止まりません。</p>
+<h2>運用ノート：ルールと人間のジレンマ</h2>
+<p>ルールが増えると「読まれない」より先に「守れない」が起きます。<strong>違反してよい例外手続き</strong>を1行で書いておくと現場が止まりません。三半期ごとにルールの廃止審査を開き、使われていない条を削る勇気も必要。オーナーはエンジニア1名に固定せず、フロント／バックでローテすると偏りが減ります。上位組織のコーディング規約が更新されたら、差分だけをAIに取り込ませ、人は衝突解消に集中すると効率的です。</p>
+<p>（学習の定着）</p>
+<p>組織学習の観点では、週次15分の振り返りをカレンダーに固定し、うまくいった依頼文や依頼テンプレは共有ドライブへコピーして資産化します。四半期ごとに公式の利用規約と社内ポリシーを突き合わせ、差分があれば短いチケットで追記してください。個人メモでも「日付・用途・入力の要点・出力の使い道」を1セットで残すと検索性が上がり、異動時の引き継ぎもスムーズです。ステークホルダー別の典型的な懸念（経営はROI、情シスは漏洩、現場は手間と心理的負担）を箇条書きで持っておくと、同じ学びを説明する場面でも言い換え疲れが減ります。公開可否が曖昧な資料はそもそもAIに入力しない、と自分で宣言しておく線引きメモがあると、日々の判断が速くなります。</p>
+<p>なお学習効率を上げるには、「読む→15分で演習→翌週に同じ手順でもう一度」をカレンダーに3連続で置き、忘却曲線を意識するのがコツです。複数人で進めるときは教え合うペアと日時を先に仮押さえし、片方が欠席しても演習PDFだけで進められるようにリンク集を1枚添えておくと属人化が進みにくくなります。最後に、成果が出た週は短いログ（良かった依頼1行）を残し、出なかった週は「阻害要因」を1語だけメモして次週の設計に回すと改善が続きます。</p>
+<h2>まとめ：次に何をするか</h2>
+<p>v0.1ルールをコミットし、来週のPR2本で「ルールにしたおかげで省けた指摘」をメモしてください。</p>
+<h2>ツール情報（公式リンク）</h2>
+<ul>
+<li><a href="https://cursor.com/" target="_blank" rel="noopener">Cursor（公式）</a></li>
+</ul>
+<h2>権利表記・引用について</h2>
+<p>Cursorは各社の商標または登録商標です。本記事は各社の公式提供ではなく、一般的な情報提供を目的としています。機能や提供条件は変更される場合があるため、最新情報は公式ページをご確認ください。</p>
 <h2>画像クレジット</h2>
-<p>サムネイル画像は<a href="https://unsplash.com/" target="_blank" rel="noopener">Unsplash</a>のライセンスに基づき使用しています。</p>
-<hr>
+<p>サムネイル/本文画像はUnsplashの写真を使用しています（ライセンス：<a href="https://unsplash.com/license" target="_blank" rel="noopener">Unsplash License</a>）。</p>
 <h3>お問い合わせ</h3>
 <p>AIツールの導入・活用支援のご相談はお気軽にどうぞ</p>
 <p>📞 090-6262-3842</p>

@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Grokとの対話のコツ（ユーモアと情報収集） | CUCUL FM</title>
-  <meta name="description" content="この記事は「Grok学習シリーズ」のSTEP 03（対話）です。">
+  <title>Grokとの対話のコツ（トーン制御・多段改善・業務チャットの型） | CUCUL FM</title>
+  <meta name="description" content="Grokの応答が ユーモア寄り／口語になりがちな特性を理解し、業務用途では トーン・深さ・根拠の出し方 をプロンプトで制御できること。同じテーマで 最大3往復の改善ループ（たたき台→不足指摘→仕上げ条件）を自分で回せること。">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="ja_JP">
-  <meta property="og:title" content="Grokとの対話のコツ（ユーモアと情報収集） | CUCUL FM">
-  <meta property="og:description" content="この記事は「Grok学習シリーズ」のSTEP 03（対話）です。">
+  <meta property="og:title" content="Grokとの対話のコツ（トーン制御・多段改善・業務チャットの型） | CUCUL FM">
+  <meta property="og:description" content="Grokの応答が ユーモア寄り／口語になりがちな特性を理解し、業務用途では トーン・深さ・根拠の出し方 をプロンプトで制御できること。同じテーマで 最大3往復の改善ループ（たたき台→不足指摘→仕上げ条件）を自分で回せること。">
   <meta property="og:image" content="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=1200&amp;h=600&amp;fit=crop">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Grokとの対話のコツ（ユーモアと情報収集） | CUCUL FM">
-  <meta name="twitter:description" content="この記事は「Grok学習シリーズ」のSTEP 03（対話）です。">
+  <meta name="twitter:title" content="Grokとの対話のコツ（トーン制御・多段改善・業務チャットの型） | CUCUL FM">
+  <meta name="twitter:description" content="Grokの応答が ユーモア寄り／口語になりがちな特性を理解し、業務用途では トーン・深さ・根拠の出し方 をプロンプトで制御できること。同じテーマで 最大3往復の改善ループ（たたき台→不足指摘→仕上げ条件）を自分で回せること。">
   <meta name="twitter:image" content="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=1200&amp;h=600&amp;fit=crop">
-  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Grokとの対話のコツ（ユーモアと情報収集）", "datePublished": "2026-01-01", "dateModified": "2026-01-01", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=1200&h=600&fit=crop"]}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Grokとの対話のコツ（トーン制御・多段改善・業務チャットの型）", "datePublished": "2026-01-01", "dateModified": "2026-01-01", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=1200&h=600&fit=crop"]}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
@@ -34,7 +34,7 @@
   <article class="article-container">
     <header class="article-header">
       <span class="article-category">AI</span>
-      <h1 class="article-title">Grokとの対話のコツ（ユーモアと情報収集）</h1>
+      <h1 class="article-title">Grokとの対話のコツ（トーン制御・多段改善・業務チャットの型）</h1>
       <div class="article-meta">
         <time class="article-date">2026.01.01</time>
         <span class="article-author">ククルFM編集部</span>
@@ -44,46 +44,71 @@
     <div class="article-featured-image"><img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=1200&amp;h=600&amp;fit=crop" alt="Grokの活用" loading="lazy"></div>
 
     <div class="article-content">
-<h2>はじめに</h2>
-<p>この記事は「Grok学習シリーズ」の<strong>STEP 03（対話）</strong>です。</p>
-<p>{name}の特徴を活かした対話のコツを学びます。</p>
-<h2>Grokとは</h2>
-<p>xAI製の大規模言語モデル。リアルタイム情報とユーモアが特徴。</p>
-<h2>このステップで学ぶこと</h2>
-<ol>
-<li>対話の基本概念</li>
-<li>実践的な使い方</li>
-<li>業務での活用例</li>
-<li>よくある失敗と回避策</li>
-</ol>
-<h2>実践ステップ</h2>
-<h3>ステップ1：準備</h3>
-<p>まずはGrokにアクセスし、基本的な操作を確認しましょう。</p>
-<h3>ステップ2：基本操作</h3>
-<p>対話に関連する基本操作を一通り試してみます。</p>
-<h3>ステップ3：応用</h3>
-<p>実際の業務シーンを想定して、より実践的な使い方を学びます。</p>
-<h2>業務での活用例</h2>
+<h2>この記事の学習ゴール</h2>
+<p>Grokの応答が <strong>ユーモア寄り／口語</strong>になりがちな特性を理解し、業務用途では <strong>トーン・深さ・根拠の出し方</strong> をプロンプトで制御できること。同じテーマで <strong>最大3往復の改善ループ</strong>（たたき台→不足指摘→仕上げ条件）を自分で回せること。</p>
+<h2>前提知識・向いている人</h2>
+<p><a href="./grok-basics.html">入門</a> と <a href="./grok-setup.html">初期設定</a> を終え、<strong>新規チャットを問題ごとに分ける</strong>運用ができる方。顧客・上司向けの文章をAIで下書きするが、<strong>最終責任は自分</strong>にあると理解している方。</p>
+<h2>キーコンセプトと用語</h2>
 <ul>
-<li><strong>例1</strong>: 日々の定型作業を効率化</li>
-<li><strong>例2</strong>: チームでの情報共有に活用</li>
-<li><strong>例3</strong>: 品質向上のためのチェックに使用</li>
+<li><strong>システム的トーン</strong>: Grokは「会話を楽しませる」方向に寄りやすい場合があります。業務では最初の1行で <strong>「ユーモア禁止」「です・ます固定」「推測は『推測』とラベル」</strong> などを宣言します。</li>
+<li><strong>コンテキスト過多</strong>: 長い貼り付けは、モデルが重要制約を落とすことがあります。<strong>先に箇条書き5行のブリーフ</strong>を書き、詳細は「必要なら追加」と段階的に渡すと安定しやすいです。</li>
+<li><strong>役割指定</strong>: 「〇〇業界のB2Bマーケ担当として」は有用ですが、<strong>権限や機密へのアクセスがあるかのような誤解</strong>を与えないよう、あくまで文体のためと割り切ります。</li>
+<li><strong>セーフティとブランド</strong>: 過激な比喩やネットミーム調の文は、外向けにそのまま使わない。社内メモ用と外注用で<strong>チャットを分ける</strong>のが安全です。</li>
 </ul>
-<h2>よくある質問</h2>
-<p><strong>Q: 初心者でも使えますか？</strong> A: はい、このステップは基礎から解説しているので、初めての方でも安心して取り組めます。</p>
-<p><strong>Q: 他のツールとの違いは？</strong> A: GrokはxAI製の大規模言語モデルという特徴があります。</p>
-<h2>まとめ</h2>
-<p>このステップでは対話について学びました。次のステップでは、さらに発展的な内容に進みます。</p>
+<h2>手順（ステップバイステップ）</h2>
+<h3>ステップ1：1メッセージの型を固定する</h3>
+<p>以下をコピペ用テンプレとして持ちます（空欄を埋める）。</p>
+<ul>
+<li><strong>目的</strong>: （例：営業メールの叩き）</li>
+<li><strong>読者</strong>: （役職・関係性）</li>
+<li><strong>トーン</strong>: 敬語／カジュアル／禁止（ジョーク・比喩）</li>
+<li><strong>形式</strong>: 見出し構造・字数上限・箇条書きのみ など</li>
+<li><strong>禁止</strong>: 断定・個人攻撃・未確認の数値</li>
+<li><strong>素材</strong>: 公開情報またはマスキング済み箇条書きのみ</li>
+</ul>
+<h3>ステップ2：第1返答は「不足リスト」をもらう</h3>
+<p>いきなり最終稿を求めず、「<strong>不足している前提を最大5つ</strong>列挙→その後にドラフト」と指示すると、手戻りが減ることがあります。</p>
+<h3>ステップ3：第2返答で「削る・短くする・具体化」</h3>
+<p>「200字削る」「挨拶を1文に」「次アクションを1つに絞る」など、<strong>編集指示は1回に1テーマ</strong>が学習には向きます。</p>
+<h3>ステップ4：第3返答で「リスク表」を添える</h3>
+<p>外向け文案なら「<strong>誤解されうる表現</strong>」「<strong>要ファクトチェック</strong>」の表形式出力を依頼し、人間がチェックリスト化します。</p>
+<h3>ステップ5：次の記事へ</h3>
+<p>リアルタイム性が絡む対話は <a href="./grok-realtime.html">リアルタイム情報</a> で扱います。</p>
+<h2>ユーモアを武器にする／封印する判断</h2>
+<ul>
+<li><strong>封印推奨</strong>: 法務・IR・クレーム対応・採用お断りメールなど、<strong>解釈の余地がコスト</strong>になる場面。</li>
+<li><strong>武器にしてよい</strong>: 社内ブレスト、SNS下書きのバリエーション出し、キャッチコピーの大量生成（採用前に人間が精査）。</li>
+</ul>
+<h2>実践ミニ演習（20分）</h2>
+<ol>
+<li>同じ依頼を (A) 制約なし (B) ビジネス固定・ユーモア禁止 で実行し、<strong>事実の具体性</strong>の差をメモする。</li>
+<li>わざと曖昧な依頼→2往復目で制約を足す、の形を1回試し、どの制約が効いたか記録する。</li>
+<li>「自分の過去メールを真似ない」「新規文体のみ」など、<strong>著作・模倣の境界</strong>をチームで1行ルールにする（個人の実メールは貼らず、口頭で方針だけ）。</li>
+</ol>
+<h2>セルフチェックリスト</h2>
+<ul>
+<li>[ ] 1メッセージテンプレを手元にある。</li>
+<li>[ ] 業務チャットではトーンを先に固定した。</li>
+<li>[ ] 3往復以内で仕上げる習慣を1回試した。</li>
+<li>[ ] 外向け文案を無検証で送っていない。</li>
+</ul>
+<h2>つまずきポイントと対処</h2>
+<ul>
+<li><strong>まだ軽い口調になる</strong> → 「CEO向け説明文」「監査ログに残る書き方」など<strong>読者の厳しさ</strong>を上げると変わることが多い。</li>
+<li><strong>質問攻めで終わる</strong> → 「質問は最大1つ。足りない前提は推測せず『不明』」と書く。</li>
+<li><strong>長文のコピペが読まれていない</strong> → 箇条書き要約を先に自分で書き、Grokには<strong>要約＋穴埋め</strong>だけ渡す。</li>
+</ul>
+<h2>まとめ：次に何をするか</h2>
+<p>対話の質は「才能」より <strong>テンプレと往復の型</strong>で底上げできます。次は <a href="./grok-realtime.html">リアルタイム情報の扱い</a> で、鮮度と正確性のトレードオフを学び、<a href="./grok-search.html">検索・調査</a> で根拠の取り方を固めてください。</p>
 <hr>
 <h2>ツール情報</h2>
 <ul>
 <li><strong>公式サイト</strong>: <a href="https://grok.x.ai/" target="_blank" rel="noopener">Grok</a></li>
-<li><strong>ツール概要</strong>: xAI製の大規模言語モデル。リアルタイム情報とユーモアが特徴。</li>
 </ul>
 <h2>権利表記</h2>
 <p>Grokは各社の商標または登録商標です。本記事は公式提供ではなく、一般的な情報提供を目的としています。</p>
 <h2>画像クレジット</h2>
-<p>サムネイル画像は<a href="https://unsplash.com/" target="_blank" rel="noopener">Unsplash</a>のライセンスに基づき使用しています。</p>
+<p>サムネイル画像は <a href="https://unsplash.com/" target="_blank" rel="noopener">Unsplash</a> のライセンスに基づき使用しています。</p>
 <hr>
 <h3>お問い合わせ</h3>
 <p>AIツールの導入・活用支援のご相談はお気軽にどうぞ</p>

@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Obsidian×AI連携（Copilot/ChatGPTとの組み合わせ） | CUCUL FM</title>
-  <meta name="description" content="この記事は「Obsidian学習シリーズ」のSTEP 07（AI）です。">
+  <meta name="description" content="AI連携は知的好奇心と情報管理の両立が課題です。送信を最小化し、出力をスクラッチに隔離、昇格は人が承認する三段が安全です。">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="ja_JP">
   <meta property="og:title" content="Obsidian×AI連携（Copilot/ChatGPTとの組み合わせ） | CUCUL FM">
-  <meta property="og:description" content="この記事は「Obsidian学習シリーズ」のSTEP 07（AI）です。">
+  <meta property="og:description" content="AI連携は知的好奇心と情報管理の両立が課題です。送信を最小化し、出力をスクラッチに隔離、昇格は人が承認する三段が安全です。">
   <meta property="og:image" content="https://images.unsplash.com/photo-1517842645767-c639042777db?w=1200&amp;h=600&amp;fit=crop">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Obsidian×AI連携（Copilot/ChatGPTとの組み合わせ） | CUCUL FM">
-  <meta name="twitter:description" content="この記事は「Obsidian学習シリーズ」のSTEP 07（AI）です。">
+  <meta name="twitter:description" content="AI連携は知的好奇心と情報管理の両立が課題です。送信を最小化し、出力をスクラッチに隔離、昇格は人が承認する三段が安全です。">
   <meta name="twitter:image" content="https://images.unsplash.com/photo-1517842645767-c639042777db?w=1200&amp;h=600&amp;fit=crop">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Obsidian×AI連携（Copilot/ChatGPTとの組み合わせ）", "datePublished": "2026-01-01", "dateModified": "2026-01-01", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1517842645767-c639042777db?w=1200&h=600&fit=crop"]}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,42 +44,62 @@
     <div class="article-featured-image"><img src="https://images.unsplash.com/photo-1517842645767-c639042777db?w=1200&amp;h=600&amp;fit=crop" alt="Obsidianの活用" loading="lazy"></div>
 
     <div class="article-content">
-<h2>はじめに</h2>
-<p>この記事は「Obsidian学習シリーズ」の<strong>STEP 07（AI）</strong>です。</p>
-<p>AI連携プラグインで、ノート作成・要約・検索を強化します。</p>
-<h2>Obsidianとは</h2>
-<p>ローカル動作の知識管理ツール。ノート間のリンクで思考を整理。</p>
-<h2>このステップで学ぶこと</h2>
+<h2>学習の目標</h2>
+<ul>
+<li>第三者AIに<strong>どこまでノートを渡すか</strong>をポリシーで決められる。</li>
+<li>要約・タグ提案・アウトライン生成を<strong>人の編集フロー</strong>に組み込める。</li>
+<li>コミュニティプラグイン利用時のAPIキー管理を説明できる。</li>
+</ul>
+<h2>前提条件</h2>
+<ul>
+<li>利用規約と社内ガイドラインを確認済み。</li>
+<li>連携用プラグイン（例: Copilot系）を試せる環境があるならベター。</li>
+<li>機密区分の資料がボールトに混ざっていないか棚卸し済み。</li>
+</ul>
+<h2>キーコンセプト</h2>
+<ul>
+<li><strong>最小送信</strong>: 必要段落だけコピー。全ボールト丸ごとは避ける。</li>
+<li><strong>出典ログ</strong>: AI案を貼るなら日付とプロンプト概要を脚注風に。</li>
+<li><strong>人間ゲート</strong>: 公開・契約・学術用途は必ず最終人間校正。</li>
+</ul>
+<h2>手順（実践ステップ）</h2>
 <ol>
-<li>AIの基本概念</li>
-<li>実践的な使い方</li>
-<li>業務での活用例</li>
-<li>よくある失敗と回避策</li>
+<li><strong>ポリシー1枚</strong>: 禁止データ・許可プロンプト例・廃棄手順。</li>
+<li><strong>ワークフロー</strong>: 「下書きはAI→自分の言葉に全部置換」または「箇条書きのみ」等。</li>
+<li><strong>プラグイン設定</strong>: モデル選択、オフライン可否、ログ保存の有無を確認。</li>
+<li><strong>実験ノート</strong>: <code>AI_scratch/</code> に限定し、昇格は手動。</li>
+<li><strong>監査</strong>: 月1でスクラッチフォルダを空にする。</li>
 </ol>
-<h2>実践ステップ</h2>
-<h3>ステップ1：準備</h3>
-<p>まずはObsidianにアクセスし、基本的な操作を確認しましょう。</p>
-<h3>ステップ2：基本操作</h3>
-<p>AIに関連する基本操作を一通り試してみます。</p>
-<h3>ステップ3：応用</h3>
-<p>実際の業務シーンを想定して、より実践的な使い方を学びます。</p>
-<h2>業務での活用例</h2>
+<h2>演習課題</h2>
 <ul>
-<li><strong>例1</strong>: 日々の定型作業を効率化</li>
-<li><strong>例2</strong>: チームでの情報共有に活用</li>
-<li><strong>例3</strong>: 品質向上のためのチェックに使用</li>
+<li>2000字ノートを要約させ、<strong>3つの事実誤認</strong>を自分で修正し、修正理由をコメントせよ。</li>
+<li>機密と判断した段落をマスキングした版だけを送信する手順を書け。</li>
 </ul>
-<h2>よくある質問</h2>
-<p><strong>Q: 初心者でも使えますか？</strong> A: はい、このステップは基礎から解説しているので、初めての方でも安心して取り組めます。</p>
-<p><strong>Q: 他のツールとの違いは？</strong> A: Obsidianはローカル動作の知識管理ツールという特徴があります。</p>
+<h2>自己チェックリスト</h2>
+<ul>
+<li>[ ] APIキーがリポジトリにコミットされていない</li>
+<li>[ ] クラウド学習オプトアウト等を確認した（各サービス仕様）</li>
+<li>[ ] AI生成段落に視覚的マーカー（引用ブロック等）を付けた</li>
+<li>[ ] チームでプロンプト例を共有した</li>
+</ul>
+<h2>つまずきポイント（避けたい落とし穴）</h2>
+<ul>
+<li><strong>慣れによる超過送信</strong>: 規程より勢いが勝つ。テンプレで縛る。</li>
+<li><strong>幻覚のそのまま貼り付け</strong>: 特に日付・固有名詞。</li>
+<li><strong>プラグイン過多</strong>: 送信経路が増えるほどリスク増。</li>
+</ul>
 <h2>まとめ</h2>
-<p>このステップではAIについて学びました。次のステップでは、さらに発展的な内容に進みます。</p>
-<hr>
-<h2>ツール情報</h2>
+<p>AI連携は<strong>知的好奇心と情報管理の両立</strong>が課題です。送信を最小化し、出力をスクラッチに隔離、昇格は人が承認する三段が安全です。</p>
+<h2>ミニレクチャー（20分）</h2>
+<p><code>scratch_ai/</code> フォルダを作り、全AI下書きはそこに限定。プロンプト先頭に「機密なし宣言」チェックリストを貼る。生成結果は引用ブロックに入れ、その直下に必ず<strong>自分の言い換え</strong>を書く。APIキーは環境変数かOSキーチェーンにのみ。月1でスクラッチを空にし、昇格済み以外を消す。第三者プラグインは送信URLログを読み、社内Proxyと衝突しないか確認。ダークパターン：「便利だから全部貼る」を検知したら自分に赤カード。</p>
+<p>モデル切替時はプロンプト記録ノートに日付を付けて保存し、品質変化を追跡。法人契約のSSOやデータ所在地条項を確認し、個人契約APIキーを会社PCに置かない。Copilot系はエディタ全体を読む可能性があるため、機密ノートは別ボールトへ物理分離が最善。</p>
+<h2>ツール・参考リンク</h2>
 <ul>
-<li><strong>公式サイト</strong>: <a href="https://obsidian.md/" target="_blank" rel="noopener">Obsidian</a></li>
-<li><strong>ツール概要</strong>: ローカル動作の知識管理ツール。ノート間のリンクで思考を整理。</li>
+<li><a href="https://obsidian.md/" target="_blank" rel="noopener">Obsidian</a></li>
+<li><a href="https://openai.com/" target="_blank" rel="noopener">OpenAI</a>（利用する場合は各公式のデータ利用方針を確認）</li>
+<li><a href="https://obsidian.md/plugins" target="_blank" rel="noopener">Obsidian Community Plugins</a></li>
 </ul>
+<hr>
 <h2>権利表記</h2>
 <p>Obsidianは各社の商標または登録商標です。本記事は公式提供ではなく、一般的な情報提供を目的としています。</p>
 <h2>画像クレジット</h2>

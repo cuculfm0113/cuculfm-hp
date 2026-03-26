@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NotebookLMでレポート・論文を要約（学術資料の読み方） | CUCUL FM</title>
-  <meta name="description" content="この記事は「NotebookLM学習シリーズ」のSTEP 04（要約）です。">
+  <meta name="description" content="学術読解は質問設計と原文の往復です。NotebookLMは探索と叩き台を速め、査読レベルの厳密さは常に人が担保します。">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="ja_JP">
   <meta property="og:title" content="NotebookLMでレポート・論文を要約（学術資料の読み方） | CUCUL FM">
-  <meta property="og:description" content="この記事は「NotebookLM学習シリーズ」のSTEP 04（要約）です。">
+  <meta property="og:description" content="学術読解は質問設計と原文の往復です。NotebookLMは探索と叩き台を速め、査読レベルの厳密さは常に人が担保します。">
   <meta property="og:image" content="https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=1200&amp;h=600&amp;fit=crop">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="NotebookLMでレポート・論文を要約（学術資料の読み方） | CUCUL FM">
-  <meta name="twitter:description" content="この記事は「NotebookLM学習シリーズ」のSTEP 04（要約）です。">
+  <meta name="twitter:description" content="学術読解は質問設計と原文の往復です。NotebookLMは探索と叩き台を速め、査読レベルの厳密さは常に人が担保します。">
   <meta name="twitter:image" content="https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=1200&amp;h=600&amp;fit=crop">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "NotebookLMでレポート・論文を要約（学術資料の読み方）", "datePublished": "2026-01-01", "dateModified": "2026-01-01", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=1200&h=600&fit=crop"]}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,42 +44,74 @@
     <div class="article-featured-image"><img src="https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=1200&amp;h=600&amp;fit=crop" alt="NotebookLMの活用" loading="lazy"></div>
 
     <div class="article-content">
-<h2>はじめに</h2>
-<p>この記事は「NotebookLM学習シリーズ」の<strong>STEP 04（要約）</strong>です。</p>
-<p>学術論文やレポートの要点を短時間で把握するコツです。</p>
-<h2>NotebookLMとは</h2>
-<p>Google製の資料読解AI。PDF/ドキュメントの要約・質問応答が得意。</p>
-<h2>このステップで学ぶこと</h2>
+<h2>学習の目標</h2>
+<ul>
+<li>論文・レポートから<strong>RQ・仮説・手法・主要結果・限界</strong>を地図化し、読む順序を最適化できる。</li>
+<li>図表番号と本文の対応、効果量・信頼区間など<strong>数値の文脈</strong>を逃さない確認列を回せる。</li>
+<li>AI要約を<strong>パラフレーズの素材</strong>に留め、そのまま提出しないポリシーを守れる。</li>
+</ul>
+<h2>前提条件</h2>
+<ul>
+<li>全文PDFまたは許諾済みプレプリントがある。</li>
+<li>読了後に欲しいアウトプット（文献ノート、学会スライド骨子等）が1行で言える。</li>
+<li>剽窃・無断利用に関する所属機関の規程を把握している。</li>
+</ul>
+<h2>キーコンセプト</h2>
+<ul>
+<li><strong>IMRAD質問</strong>: Introduction/Methods/Results/Discussionに分けて聞くと抜けが減る。</li>
+<li><strong>主張の階層</strong>: 主張→エビデンス→限界の三段が食い違っていないかを疑う。</li>
+<li><strong>図表は現物</strong>: キャプションと数値はスクリーンショット併読レベルで疑う。</li>
+<li><strong>資金・倫理・利益相反</strong>: AI要約では丸ごと信用しないパラグラフ群。</li>
+</ul>
+<h2>手順（実践ステップ）</h2>
 <ol>
-<li>要約の基本概念</li>
-<li>実践的な使い方</li>
-<li>業務での活用例</li>
-<li>よくある失敗と回避策</li>
+<li><strong>リーディング目的</strong>: 「自分の実験設計に何を借りるか」まで具体化。</li>
+<li><strong>1論文1ノートブック</strong>: レビュー論文混在は禁止。</li>
+<li><strong>骨格4問</strong>: アブスト叩き台／手法の再構成／主結果箇条書き／著者の限界と示唆。</li>
+<li><strong>深掘り</strong>: 対照条件・サンプルサイズ感応度・再現性情報を個別質問。</li>
+<li><strong>図表トリガー</strong>: 「図2が主張していることを引用付きで」など形で縛る。</li>
+<li><strong>検証ラウンド</strong>: 重要文3つを選びPDFを開いて言い換え検査。</li>
+<li><strong>自分ノート化</strong>: 最終ノートには「AI→自分語」に書き換えた段落だけ残す。</li>
 </ol>
-<h2>実践ステップ</h2>
-<h3>ステップ1：準備</h3>
-<p>まずはNotebookLMにアクセスし、基本的な操作を確認しましょう。</p>
-<h3>ステップ2：基本操作</h3>
-<p>要約に関連する基本操作を一通り試してみます。</p>
-<h3>ステップ3：応用</h3>
-<p>実際の業務シーンを想定して、より実践的な使い方を学びます。</p>
-<h2>業務での活用例</h2>
+<h2>演習課題</h2>
 <ul>
-<li><strong>例1</strong>: 日々の定型作業を効率化</li>
-<li><strong>例2</strong>: チームでの情報共有に活用</li>
-<li><strong>例3</strong>: 品質向上のためのチェックに使用</li>
+<li>「結論1行・反証になりうる結果・著者の限界」を引用付きで抜き出し、<strong>最低1つは著者が未検討と書いた限界</strong>を探せ。</li>
+<li>用語説明3つを検証し、ズレがあれば辞書・本文定義に基づき修正せよ。</li>
 </ul>
-<h2>よくある質問</h2>
-<p><strong>Q: 初心者でも使えますか？</strong> A: はい、このステップは基礎から解説しているので、初めての方でも安心して取り組めます。</p>
-<p><strong>Q: 他のツールとの違いは？</strong> A: NotebookLMはGoogle製の資料読解AIという特徴があります。</p>
+<h2>自己チェックリスト</h2>
+<ul>
+<li>[ ] 図表と本文を1箇所以上突合した</li>
+<li>[ ] 統計値の条件（片側／両側等）を読んだ</li>
+<li>[ ] 参考文献は人手確認方針</li>
+<li>[ ] 要約に自分ラベル（例:#toread verified）を付けた</li>
+<li>[ ] 連作論文ならどの版か明記した</li>
+<li>[ ] 二次利用条件を確認した</li>
+<li>[ ] メモを第三者に見せても問題ない形か確認した</li>
+</ul>
+<h2>つまずきポイント（避けたい落とし穴）</h2>
+<ul>
+<li><strong>複数論文混在</strong>: 主語が消える。</li>
+<li><strong>要約の安易コピペ</strong>: 学術不正リスク。</li>
+<li><strong>プレプリントと版</strong>: arXivとジャーナル版の差を見落とす。</li>
+</ul>
 <h2>まとめ</h2>
-<p>このステップでは要約について学びました。次のステップでは、さらに発展的な内容に進みます。</p>
-<hr>
-<h2>ツール情報</h2>
+<p>学術読解は<strong>質問設計と原文の往復</strong>です。NotebookLMは探索と叩き台を速め、査読レベルの厳密さは常に人が担保します。</p>
+<h2>振り返りの問い（任意）</h2>
 <ul>
-<li><strong>公式サイト</strong>: <a href="https://notebooklm.google/" target="_blank" rel="noopener">NotebookLM</a></li>
-<li><strong>ツール概要</strong>: Google製の資料読解AI。PDF/ドキュメントの要約・質問応答が得意。</li>
+<li>この論文の主結果を1文で言うと何か。裏付け図表はどれか。</li>
+<li>AI要約に触発されて見落とした段落はなかったか。</li>
+<li>次に読むべき引用文献はどれか（著者が挙げた中から）。</li>
 </ul>
+<h2>ミニレクチャー（25分）</h2>
+<p>査読前イメトレとして、1論文1ノートブックを厳守する。まず「著者は何を主張し、どの結果で支え、どこで脚色しているか」を3問に分けて投げる。図があるページはスクリーンショットを別メモに貼り、キャプションと数値を照合。p値だけでなく効果量・サンプルサイズの記述を<strong>別質問</strong>で聞き、段落を開いて確認。Discussionで過剰一般化していないかを最後に聞く。終了後、自分の文献ノートに「AI下書き→赤入れした最終要約」だけを残し、チャットログは消してよい。ここまでやると、輪読会で質問の密度が上がる。</p>
+<p>分野のサーベイ論文を読む場合は章が長いので、<strong>章ごとに小ノートブックを作る</strong>方が負荷が下がる。各ノートブック終了時に「次に読むべき1本」をメモし、引用グラフを人手で伸ばす。AIが挙げた関連研究は必ずGoogle Scholar等で実在を確認。共同研究なら、共有NotebookLMの中に自分専用メモソースを混ぜない。</p>
+<h2>ツール・参考リンク</h2>
+<ul>
+<li><a href="https://notebooklm.google/" target="_blank" rel="noopener">NotebookLM</a></li>
+<li><a href="https://policies.google.com/terms" target="_blank" rel="noopener">Google 利用規約</a></li>
+<li><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google プライバシーポリシー</a></li>
+</ul>
+<hr>
 <h2>権利表記</h2>
 <p>NotebookLMは各社の商標または登録商標です。本記事は公式提供ではなく、一般的な情報提供を目的としています。</p>
 <h2>画像クレジット</h2>

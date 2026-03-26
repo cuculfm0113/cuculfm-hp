@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NotebookLMチーム運用（共有ノートブックの管理） | CUCUL FM</title>
-  <meta name="description" content="この記事は「NotebookLM学習シリーズ」のSTEP 09（チーム）です。">
+  <meta name="description" content="チームではツールより誰が責任を負い、いつ手を放すかが成功要因です。短い規約と週次5分が、長期の品質を支えます。">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="ja_JP">
   <meta property="og:title" content="NotebookLMチーム運用（共有ノートブックの管理） | CUCUL FM">
-  <meta property="og:description" content="この記事は「NotebookLM学習シリーズ」のSTEP 09（チーム）です。">
+  <meta property="og:description" content="チームではツールより誰が責任を負い、いつ手を放すかが成功要因です。短い規約と週次5分が、長期の品質を支えます。">
   <meta property="og:image" content="https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=1200&amp;h=600&amp;fit=crop">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="NotebookLMチーム運用（共有ノートブックの管理） | CUCUL FM">
-  <meta name="twitter:description" content="この記事は「NotebookLM学習シリーズ」のSTEP 09（チーム）です。">
+  <meta name="twitter:description" content="チームではツールより誰が責任を負い、いつ手を放すかが成功要因です。短い規約と週次5分が、長期の品質を支えます。">
   <meta name="twitter:image" content="https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=1200&amp;h=600&amp;fit=crop">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "NotebookLMチーム運用（共有ノートブックの管理）", "datePublished": "2026-01-01", "dateModified": "2026-01-01", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=1200&h=600&fit=crop"]}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,42 +44,74 @@
     <div class="article-featured-image"><img src="https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=1200&amp;h=600&amp;fit=crop" alt="NotebookLMの活用" loading="lazy"></div>
 
     <div class="article-content">
-<h2>はじめに</h2>
-<p>この記事は「NotebookLM学習シリーズ」の<strong>STEP 09（チーム）</strong>です。</p>
-<p>チームで資料を共有・管理するためのルールを整理します。</p>
-<h2>NotebookLMとは</h2>
-<p>Google製の資料読解AI。PDF/ドキュメントの要約・質問応答が得意。</p>
-<h2>このステップで学ぶこと</h2>
+<h2>学習の目標</h2>
+<ul>
+<li>共有ノートブックについて<strong>オーナー／サブオーナー／レビュー者／閲覧者</strong>の役割を一文規約にできる。</li>
+<li>命名・ソース追加・削除・棚卸しの<strong>週次ルール</strong>をテンプレ化できる。</li>
+<li>新メンバー向け<strong>3分オンボード</strong>（アクセス取得→README→テスト質問）を説明できる。</li>
+</ul>
+<h2>前提条件</h2>
+<ul>
+<li>情報分類ラベル（公開／社内／秘密等）のたたき台がある。</li>
+<li>プロジェクト用のDriveまたはファイル置き場がある。</li>
+<li>ゲスト招待ポリシーが情報システムまたは法務と整合している。</li>
+</ul>
+<h2>キーコンセプト</h2>
+<ul>
+<li><strong>Accountableは1人</strong>: 複数ボスは意思決定が遅れる。</li>
+<li><strong>ソースの鮮度</strong>: 外部URLは変化する。固定版PDF化やスナップショット方針。</li>
+<li><strong>最小権限</strong>: 余計なメンバーを常時Joinさせない。</li>
+<li><strong>ライフサイクル</strong>: 進行→読取→アーカイブ→削除の4段。</li>
+</ul>
+<h2>手順（実践ステップ）</h2>
 <ol>
-<li>チームの基本概念</li>
-<li>実践的な使い方</li>
-<li>業務での活用例</li>
-<li>よくある失敗と回避策</li>
+<li><strong>RACI表</strong>: 4ロール以上でもよいが、Aは1名に固定。</li>
+<li><strong>命名規約</strong>: 英数字案件コード＋論点＋日付。絵文字は検索で事故りやすい。</li>
+<li><strong>キックオフ1枚</strong>: 正本URL、禁止事項、よく使うプロンプト、緊急連絡。</li>
+<li><strong>週次5分</strong>: 新規ソースの重複・権限・版の監査。</li>
+<li><strong>月次</strong>: 僵尸ノートブック一覧を出し、オーナーに削除 or アーカイブを依頼。</li>
+<li><strong>クローズ</strong>: 成果をDocs化し、NotebookLM側は読み取り専用→期限後削除。</li>
+<li><strong>オンボード</strong>: アカウント発行→README読了証跡→テスト質問1本の実演。</li>
 </ol>
-<h2>実践ステップ</h2>
-<h3>ステップ1：準備</h3>
-<p>まずはNotebookLMにアクセスし、基本的な操作を確認しましょう。</p>
-<h3>ステップ2：基本操作</h3>
-<p>チームに関連する基本操作を一通り試してみます。</p>
-<h3>ステップ3：応用</h3>
-<p>実際の業務シーンを想定して、より実践的な使い方を学びます。</p>
-<h2>業務での活用例</h2>
+<h2>演習課題</h2>
 <ul>
-<li><strong>例1</strong>: 日々の定型作業を効率化</li>
-<li><strong>例2</strong>: チームでの情報共有に活用</li>
-<li><strong>例3</strong>: 品質向上のためのチェックに使用</li>
+<li>架空PJでRACIと命名例を1枚。実在PJなら<strong>削除候補ソース3件</strong>と理由。</li>
+<li>READMEを新卒向けに読み、<strong>わからなかった用語を1つ</strong>追記せよ。</li>
 </ul>
-<h2>よくある質問</h2>
-<p><strong>Q: 初心者でも使えますか？</strong> A: はい、このステップは基礎から解説しているので、初めての方でも安心して取り組めます。</p>
-<p><strong>Q: 他のツールとの違いは？</strong> A: NotebookLMはGoogle製の資料読解AIという特徴があります。</p>
+<h2>自己チェックリスト</h2>
+<ul>
+<li>[ ] オーナー名がドキュメントされた</li>
+<li>[ ] 禁止データリストが更新された</li>
+<li>[ ] 週次監査のカレンダー入りした</li>
+<li>[ ] 終了時アーカイブ手順がLink集にある</li>
+<li>[ ] ゲスト招待ログを残す運用</li>
+<li>[ ] APIキーや個人メモが混ざっていない</li>
+<li>[ ] バックアップ方針とNotebookLMの関係が説明できる</li>
+</ul>
+<h2>つまずきポイント（避けたい落とし穴）</h2>
+<ul>
+<li><strong>名無し共有</strong>: ゴミソースだらけ。</li>
+<li><strong>個人Gmail依存</strong>: 退職で蒸発。</li>
+<li><strong>規約の形骸化</strong>: テンプレを毎回コピペし改訂日を残す。</li>
+</ul>
 <h2>まとめ</h2>
-<p>このステップではチームについて学びました。次のステップでは、さらに発展的な内容に進みます。</p>
-<hr>
-<h2>ツール情報</h2>
+<p>チームではツールより<strong>誰が責任を負い、いつ手を放すか</strong>が成功要因です。短い規約と週次5分が、長期の品質を支えます。</p>
+<h2>振り返りの問い（任意）</h2>
 <ul>
-<li><strong>公式サイト</strong>: <a href="https://notebooklm.google/" target="_blank" rel="noopener">NotebookLM</a></li>
-<li><strong>ツール概要</strong>: Google製の資料読解AI。PDF/ドキュメントの要約・質問応答が得意。</li>
+<li>オーナー不在のノートブックはないか。</li>
+<li>外部メンバーが見てよいソースだけになっているか。</li>
+<li>3ヶ月触っていないノートブックをどうするか決まっているか。</li>
 </ul>
+<h2>ミニレクチャー（20分）</h2>
+<p>立ち上げ初日にやるのは、A4半ページの「NotebookLMチャーター」だけでよい。記載項目は、オーナー、バックアップオーナー、招待ルール、禁止データ、命名接尾辞、終了時フロー。週次5分ミーティングでは、新規ソース3件だけをサムネイルレビューし、明らかにノイズなら即削除。月次で「90日無操作」ノートブックをリストアップし、オーナーにContinue or Killを迫る。個人Gmailでの実務利用を禁じ、Workspaceアカウントへ寄せる。最後に、新人ハンズオンは<strong>テスト用ダミーノートブック</strong>で実施し、本番データを見せない。</p>
+<p>監査ログが必要な業界では、「いつ誰がどのソースを追加したか」をDrive側のファイル更新履歴と突き合わせる手順をチャーターに書く。ソースの外部URLが失効したらノートブック内に失効日メモを残し、代替PDFをDriveへ。複数部門共有時は部門コードを接頭辞に入れた命名で衝突を避ける。</p>
+<h2>ツール・参考リンク</h2>
+<ul>
+<li><a href="https://notebooklm.google/" target="_blank" rel="noopener">NotebookLM</a></li>
+<li><a href="https://policies.google.com/terms" target="_blank" rel="noopener">Google 利用規約</a></li>
+<li><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google プライバシーポリシー</a></li>
+</ul>
+<hr>
 <h2>権利表記</h2>
 <p>NotebookLMは各社の商標または登録商標です。本記事は公式提供ではなく、一般的な情報提供を目的としています。</p>
 <h2>画像クレジット</h2>

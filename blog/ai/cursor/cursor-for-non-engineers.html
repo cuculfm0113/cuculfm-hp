@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>非エンジニアのためのCursor活用（安全な改善の回し方） | CUCUL FM</title>
-  <meta name="description" content="Cursorはプログラマー向けの印象が強いですが、実は「Webページの文言修正」「リンク修正」「記事追加」など、非エンジニアの更新業務にも相性が良いです。">
+  <meta name="description" content="既存のクラス名・構造を維持し、テキストノードだけを変えるのが最も安全です。色や余白を変えたい場合はデザイン担当とルールを決めると衝突が減ります。">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="ja_JP">
   <meta property="og:title" content="非エンジニアのためのCursor活用（安全な改善の回し方） | CUCUL FM">
-  <meta property="og:description" content="Cursorはプログラマー向けの印象が強いですが、実は「Webページの文言修正」「リンク修正」「記事追加」など、非エンジニアの更新業務にも相性が良いです。">
+  <meta property="og:description" content="既存のクラス名・構造を維持し、テキストノードだけを変えるのが最も安全です。色や余白を変えたい場合はデザイン担当とルールを決めると衝突が減ります。">
   <meta property="og:image" content="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=1200&amp;h=600&amp;fit=crop">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="非エンジニアのためのCursor活用（安全な改善の回し方） | CUCUL FM">
-  <meta name="twitter:description" content="Cursorはプログラマー向けの印象が強いですが、実は「Webページの文言修正」「リンク修正」「記事追加」など、非エンジニアの更新業務にも相性が良いです。">
+  <meta name="twitter:description" content="既存のクラス名・構造を維持し、テキストノードだけを変えるのが最も安全です。色や余白を変えたい場合はデザイン担当とルールを決めると衝突が減ります。">
   <meta name="twitter:image" content="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=1200&amp;h=600&amp;fit=crop">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "非エンジニアのためのCursor活用（安全な改善の回し方）", "datePublished": "2026-01-09", "dateModified": "2026-01-09", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1553877522-43269d4ea984?w=1200&h=600&fit=crop"]}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,31 +44,64 @@
     <div class="article-featured-image"><img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=1200&amp;h=600&amp;fit=crop" alt="非エンジニアの業務改善" loading="lazy"></div>
 
     <div class="article-content">
-<h2>はじめに</h2>
-<p>Cursorはプログラマー向けの印象が強いですが、実は「Webページの文言修正」「リンク修正」「記事追加」など、非エンジニアの更新業務にも相性が良いです。</p>
-<p>ポイントは、できることを増やす前に、<strong>壊さない手順</strong>を身につけることです。</p>
-<h2>非エンジニアが安全にできること（おすすめ）</h2>
+<h2>学習ゴール</h2>
 <ul>
-<li><strong>文言修正</strong>：タイトル、説明文、ボタン文言</li>
-<li><strong>リンク修正</strong>：遷移先の変更、導線の整備</li>
-<li><strong>記事追加</strong>：既存記事テンプレをコピーして増やす</li>
-<li><strong>簡単なスタイル調整</strong>：余白、見出し、色（範囲限定）</li>
+<li>文言修正・リンク差し替え・テンプレコピーによる記事追加など、非エンジニアでも安全にできる作業の範囲を説明できる。</li>
+<li>目的・範囲・差分・ロールバックの4ステップを自分の作業に埋め込める。</li>
 </ul>
-<h2>安全な進め方（4ステップ）</h2>
+<h2>前提知識</h2>
+<ul>
+<li>ブラウザでHTMLプレビューできる環境、またはステージングURLがあると安心。</li>
+<li>Gitがわからなくても、バックアップコピーを取る習慣は必須です。</li>
+</ul>
+<h2>キーコンセプトと用語</h2>
+<ul>
+<li><strong>スコープ</strong>：触ってよいファイルと触らないファイルの境界。</li>
+<li><strong>DOMの親子</strong>：HTMLの構造。親タグを壊すとレイアウトが崩れる。</li>
+<li><strong>相対パス</strong>：<code>./</code> や <code>../</code> でリンク先を指す表現。切れやすい。</li>
+<li><strong>ロールバック</strong>：変更前の状態に戻すこと。Undoまたはファイルコピーでも可。</li>
+</ul>
+<h2>手順（ステップバイステップ）</h2>
 <ol>
-<li><strong>変更目的</strong>：何のために変えるか</li>
-<li><strong>変更範囲</strong>：どのファイルのどの部分か</li>
-<li><strong>差分確認</strong>：意図した変更だけか</li>
-<li><strong>戻せる状態</strong>：大きい変更は分割して反映</li>
+<li><strong>バックアップ</strong>：対象ファイルを別名コピー。</li>
+<li><strong>目的1行</strong>：例）「料金ページのCTAボタン文言を更新」。</li>
+<li><strong>範囲指定</strong>：ファイル名と、変える見出しまたは行番号をチャットに書く。</li>
+<li><strong>AIに依頼</strong>：変えていい要素／触れ禁止のブロックを明記。</li>
+<li><strong>差分確認</strong>：意図しない箇所の自動整形が混ざっていないか見る。</li>
+<li><strong>表示確認</strong>：ローカルまたはステージングでリンククリックまで実施。</li>
+<li><strong>記録</strong>：変更理由を1行残し、関係者に共有。</li>
 </ol>
-<h2>よくある事故と回避策</h2>
+<h2>実践ミニ演習</h2>
 <ul>
-<li><strong>変更が広がる</strong> → 「この要素だけ」「この行だけ」と範囲を限定</li>
-<li><strong>見た目が崩れる</strong> → 既存のクラス名・構造を崩さない</li>
-<li><strong>リンク切れ</strong> → 追加後に必ずクリックで確認</li>
+<li><strong>演習1</strong>：<code>h2</code> テキスト1か所だけ変え、他の見出しが変わっていないか確認。</li>
+<li><strong>演習2</strong>：外部リンクを1つ更新し、新規タブ属性や <code>rel</code> 属性が意図通りか確認。</li>
+<li><strong>演習3</strong>：既存記事を複製し、メタ情報だけ差し替える練習（画像パスに注意）。</li>
 </ul>
-<h2>まとめ</h2>
-<p>Cursorは、非エンジニアが「更新を自走」するための強力な味方になります。次回は、品質を落とさずに速度を上げるための実践Tips（ルール化・レビュー観点）を紹介します。</p>
+<h2>セルフチェックリスト</h2>
+<ul>
+<li>[ ] バックアップを取った</li>
+<li>[ ] 触ってよい範囲を文章化した</li>
+<li>[ ] 差分に余計な変更がない</li>
+<li>[ ] 主要導線のリンクをクリックした</li>
+<li>[ ] 関係者へ通知した</li>
+</ul>
+<h2>つまずきポイントと対処</h2>
+<ul>
+<li><strong>レイアウト崩れ</strong> → 閉じタグやクラス名を変えていないかdiffで確認。</li>
+<li><strong>リンク切れ</strong> → 相対パス計算を人が追う。ルート相対なら <code>/</code> 始まりを確認。</li>
+<li><strong>変更が広がる</strong> → チャットを分け、ファイルを分け、1依頼1目的に戻す。</li>
+</ul>
+<h2>深掘り：デザインを壊さないコツ</h2>
+<p>既存のクラス名・構造を維持し、テキストノードだけを変えるのが最も安全です。色や余白を変えたい場合はデザイン担当とルールを決めると衝突が減ります。</p>
+<h2>次の伸ばし方</h2>
+<p>慣れたら <a href="./cursor-productivity-tips.html">実践Tips</a> でレビュー観点を増やし、Gitが使えるなら <a href="./cursor-git-workflow.html">Git連携</a> で履歴管理に進みます。</p>
+<h2>運用ノート：社内CMSとの役割分担</h2>
+<p>CursorでHTMLを直す場合でも、本番反映はCMS経由かGit経由かを<strong>必ず手順書で固定</strong>します。権限の弱い職種ほど、ステージングURLでの確認とダブルチェック人員をセットに。写真差し替えは容量と著作権確認が絡むため、冒頭でスコープ外に切り出すと安全です。「とりあえずAIに投げる」ではなく、<strong>変更管理番号やチケット番号をチャット先頭に置く</strong>と後追いが楽になります。</p>
+<p>（学習の定着）</p>
+<p>組織学習の観点では、週次15分の振り返りをカレンダーに固定し、うまくいった依頼文や依頼テンプレは共有ドライブへコピーして資産化します。四半期ごとに公式の利用規約と社内ポリシーを突き合わせ、差分があれば短いチケットで追記してください。個人メモでも「日付・用途・入力の要点・出力の使い道」を1セットで残すと検索性が上がり、異動時の引き継ぎもスムーズです。ステークホルダー別の典型的な懸念（経営はROI、情シスは漏洩、現場は手間と心理的負担）を箇条書きで持っておくと、同じ学びを説明する場面でも言い換え疲れが減ります。公開可否が曖昧な資料はそもそもAIに入力しない、と自分で宣言しておく線引きメモがあると、日々の判断が速くなります。</p>
+<p>なお学習効率を上げるには、「読む→15分で演習→翌週に同じ手順でもう一度」をカレンダーに3連続で置き、忘却曲線を意識するのがコツです。複数人で進めるときは教え合うペアと日時を先に仮押さえし、片方が欠席しても演習PDFだけで進められるようにリンク集を1枚添えておくと属人化が進みにくくなります。最後に、成果が出た週は短いログ（良かった依頼1行）を残し、出なかった週は「阻害要因」を1語だけメモして次週の設計に回すと改善が続きます。</p>
+<h2>まとめ：次に何をするか</h2>
+<p>今週中に「文言またはリンク」のどちらか1件だけをフロー通りに完了し、つまずきがあればチェックリストに追記してください。</p>
 <h2>ツール情報（公式リンク）</h2>
 <ul>
 <li><a href="https://cursor.com/" target="_blank" rel="noopener">Cursor（公式）</a></li>

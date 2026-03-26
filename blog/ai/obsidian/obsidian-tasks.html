@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Obsidianでタスク管理（Todosプラグイン活用） | CUCUL FM</title>
-  <meta name="description" content="この記事は「Obsidian学習シリーズ」のSTEP 08（タスク）です。">
+  <meta name="description" content="タスク管理は見える化と捨てる勇気です。プラグインで集約し、ノートで文脈を添えると、思考ツールとの共存がしやすいです。">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="ja_JP">
   <meta property="og:title" content="Obsidianでタスク管理（Todosプラグイン活用） | CUCUL FM">
-  <meta property="og:description" content="この記事は「Obsidian学習シリーズ」のSTEP 08（タスク）です。">
+  <meta property="og:description" content="タスク管理は見える化と捨てる勇気です。プラグインで集約し、ノートで文脈を添えると、思考ツールとの共存がしやすいです。">
   <meta property="og:image" content="https://images.unsplash.com/photo-1517842645767-c639042777db?w=1200&amp;h=600&amp;fit=crop">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Obsidianでタスク管理（Todosプラグイン活用） | CUCUL FM">
-  <meta name="twitter:description" content="この記事は「Obsidian学習シリーズ」のSTEP 08（タスク）です。">
+  <meta name="twitter:description" content="タスク管理は見える化と捨てる勇気です。プラグインで集約し、ノートで文脈を添えると、思考ツールとの共存がしやすいです。">
   <meta name="twitter:image" content="https://images.unsplash.com/photo-1517842645767-c639042777db?w=1200&amp;h=600&amp;fit=crop">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Obsidianでタスク管理（Todosプラグイン活用）", "datePublished": "2026-01-01", "dateModified": "2026-01-01", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1517842645767-c639042777db?w=1200&h=600&fit=crop"]}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,42 +44,61 @@
     <div class="article-featured-image"><img src="https://images.unsplash.com/photo-1517842645767-c639042777db?w=1200&amp;h=600&amp;fit=crop" alt="Obsidianの活用" loading="lazy"></div>
 
     <div class="article-content">
-<h2>はじめに</h2>
-<p>この記事は「Obsidian学習シリーズ」の<strong>STEP 08（タスク）</strong>です。</p>
-<p>タスク管理機能で、ノートとToDoを一元管理します。</p>
-<h2>Obsidianとは</h2>
-<p>ローカル動作の知識管理ツール。ノート間のリンクで思考を整理。</p>
-<h2>このステップで学ぶこと</h2>
+<h2>学習の目標</h2>
+<ul>
+<li>Markdownの<code>- [ ]</code> 記法とプラグイン（Tasks等）の<strong>集約ビュー</strong>を組み合わせられる。</li>
+<li>期限・繰り返し・プロジェクトリンクを<strong>破綻しない粒度</strong>で付けられる。</li>
+<li>ObsidianをフルPMにせず「思考と軽量タスク」の境界を保てる。</li>
+</ul>
+<h2>前提条件</h2>
+<ul>
+<li>デイリーノートまたはプロジェクトノートにチェックボックスを書いた経験がある。</li>
+<li>コミュニティプラグインのインストールが可能。</li>
+<li>本格的ガントが必要なら別ツール併用の腹積もりがある。</li>
+</ul>
+<h2>キーコンセプト</h2>
+<ul>
+<li><strong>ノート横断</strong>: タスクは所属コンテキストの近くに置くと文脈が失われにくい。</li>
+<li><strong>絞り込み</strong>: <code>due before today</code> などクエリで今日の皿だけ見せる。</li>
+<li><strong>上限意識</strong>: アクティブ30件超は分割・委譲を検討。</li>
+</ul>
+<h2>手順（実践ステップ）</h2>
 <ol>
-<li>タスクの基本概念</li>
-<li>実践的な使い方</li>
-<li>業務での活用例</li>
-<li>よくある失敗と回避策</li>
+<li><strong>記法統一</strong>: <code>- [ ] 動詞から書く #proj/xxx ⏫</code> など最小ルール。</li>
+<li><strong>集約ノート</strong>: 「Today」「This week」用の1枚を作る。</li>
+<li><strong>プラグイン</strong>: Tasks等でクエリブロックを設置。絞り込み条件を固定。</li>
+<li><strong>レビュー</strong>: 金曜に期限切れとノーコンテキストを整理。</li>
+<li><strong>連携</strong>: Dataviewやデイリーとリンクで相互参照。</li>
 </ol>
-<h2>実践ステップ</h2>
-<h3>ステップ1：準備</h3>
-<p>まずはObsidianにアクセスし、基本的な操作を確認しましょう。</p>
-<h3>ステップ2：基本操作</h3>
-<p>タスクに関連する基本操作を一通り試してみます。</p>
-<h3>ステップ3：応用</h3>
-<p>実際の業務シーンを想定して、より実践的な使い方を学びます。</p>
-<h2>業務での活用例</h2>
+<h2>演習課題</h2>
 <ul>
-<li><strong>例1</strong>: 日々の定型作業を効率化</li>
-<li><strong>例2</strong>: チームでの情報共有に活用</li>
-<li><strong>例3</strong>: 品質向上のためのチェックに使用</li>
+<li>今日の皿ビューに<strong>最大7タスク</strong>だけ乗るようクエリを調整せよ。</li>
+<li>1週間、すべての新タスクに <code>[[プロジェクト]]</code> リンクを付け、孤児タスク数をゼロにせよ。</li>
 </ul>
-<h2>よくある質問</h2>
-<p><strong>Q: 初心者でも使えますか？</strong> A: はい、このステップは基礎から解説しているので、初めての方でも安心して取り組めます。</p>
-<p><strong>Q: 他のツールとの違いは？</strong> A: Obsidianはローカル動作の知識管理ツールという特徴があります。</p>
+<h2>自己チェックリスト</h2>
+<ul>
+<li>[ ] 期限の書式がブレていない</li>
+<li>[ ] 完了タスクのアーカイブ方針がある</li>
+<li>[ ] ルーチンはテンプレに入っている</li>
+<li>[ ] 重複ツール（Slack等）との役割分担が言語化された</li>
+</ul>
+<h2>つまずきポイント（避けたい落とし穴）</h2>
+<ul>
+<li><strong>インボックスの無限増殖</strong>: 週次で殺す。</li>
+<li><strong>粒度ミスマッチ</strong>: 「レポート書く」1行は壊れる。次アクションへ分割。</li>
+<li><strong>完璧主義</strong>: Obsidianは軽量GTD向き。巨大WBSは移動を。</li>
+</ul>
 <h2>まとめ</h2>
-<p>このステップではタスクについて学びました。次のステップでは、さらに発展的な内容に進みます。</p>
-<hr>
-<h2>ツール情報</h2>
+<p>タスク管理は<strong>見える化と捨てる勇気</strong>です。プラグインで集約し、ノートで文脈を添えると、思考ツールとの共存がしやすいです。</p>
+<h2>ミニレクチャー（20分）</h2>
+<p>記法を <code>- [ ] 動詞 #proj/xxx 📅 2026-03-30</code> のように統一（絵文字はチームで合意）。Todayビューを1枚作り、<code>due before tomorrow</code> など宣言的クエリで絞る。金曜に期限切れを赤表示し、次週へ滑らせるかキルか決める。親タスクはノート見出し、サブはチェックボックス。30件超えたらプロジェクト分割。ObsidianをGitHub Issuesの代替にしない勇気も必要。重いWBSは別ツールへ。</p>
+<p>繰り返しタスクはテンプレに <code>:repeat:</code> 相当の欄を用意し、プラグイン設定と合わせる。Inboxタスクは日次に居させず24時間でプロジェクトノートへ移すルールを。レビュー会議の直前に <code>done</code> タスクをアーカイブノートへ移し、ダッシュボードを軽く保つ。</p>
+<h2>ツール・参考リンク</h2>
 <ul>
-<li><strong>公式サイト</strong>: <a href="https://obsidian.md/" target="_blank" rel="noopener">Obsidian</a></li>
-<li><strong>ツール概要</strong>: ローカル動作の知識管理ツール。ノート間のリンクで思考を整理。</li>
+<li><a href="https://obsidian.md/" target="_blank" rel="noopener">Obsidian</a></li>
+<li><a href="https://obsidian.md/plugins?id=obsidian-tasks-plugin" target="_blank" rel="noopener">Tasks Plugin（コミュニティ）</a></li>
 </ul>
+<hr>
 <h2>権利表記</h2>
 <p>Obsidianは各社の商標または登録商標です。本記事は公式提供ではなく、一般的な情報提供を目的としています。</p>
 <h2>画像クレジット</h2>

@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Grokと他AIの使い分け（ChatGPT/Claudeとの違い） | CUCUL FM</title>
-  <meta name="description" content="この記事は「Grok学習シリーズ」のSTEP 08（比較）です。">
+  <title>Grokと他AIの使い分け（ChatGPT・Claude・Geminiの観点整理） | CUCUL FM</title>
+  <meta name="description" content="シリーズ前半（〜）を一通り読んだ方。すでに ChatGPT / Claude / Gemini のいずれかを業務で使っている方が最も比較の学びが深いです。">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="ja_JP">
-  <meta property="og:title" content="Grokと他AIの使い分け（ChatGPT/Claudeとの違い） | CUCUL FM">
-  <meta property="og:description" content="この記事は「Grok学習シリーズ」のSTEP 08（比較）です。">
+  <meta property="og:title" content="Grokと他AIの使い分け（ChatGPT・Claude・Geminiの観点整理） | CUCUL FM">
+  <meta property="og:description" content="シリーズ前半（〜）を一通り読んだ方。すでに ChatGPT / Claude / Gemini のいずれかを業務で使っている方が最も比較の学びが深いです。">
   <meta property="og:image" content="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=1200&amp;h=600&amp;fit=crop">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Grokと他AIの使い分け（ChatGPT/Claudeとの違い） | CUCUL FM">
-  <meta name="twitter:description" content="この記事は「Grok学習シリーズ」のSTEP 08（比較）です。">
+  <meta name="twitter:title" content="Grokと他AIの使い分け（ChatGPT・Claude・Geminiの観点整理） | CUCUL FM">
+  <meta name="twitter:description" content="シリーズ前半（〜）を一通り読んだ方。すでに ChatGPT / Claude / Gemini のいずれかを業務で使っている方が最も比較の学びが深いです。">
   <meta name="twitter:image" content="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=1200&amp;h=600&amp;fit=crop">
-  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Grokと他AIの使い分け（ChatGPT/Claudeとの違い）", "datePublished": "2026-01-01", "dateModified": "2026-01-01", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=1200&h=600&fit=crop"]}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Grokと他AIの使い分け（ChatGPT・Claude・Geminiの観点整理）", "datePublished": "2026-01-01", "dateModified": "2026-01-01", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=1200&h=600&fit=crop"]}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
@@ -34,7 +34,7 @@
   <article class="article-container">
     <header class="article-header">
       <span class="article-category">AI</span>
-      <h1 class="article-title">Grokと他AIの使い分け（ChatGPT/Claudeとの違い）</h1>
+      <h1 class="article-title">Grokと他AIの使い分け（ChatGPT・Claude・Geminiの観点整理）</h1>
       <div class="article-meta">
         <time class="article-date">2026.01.01</time>
         <span class="article-author">ククルFM編集部</span>
@@ -44,46 +44,77 @@
     <div class="article-featured-image"><img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=1200&amp;h=600&amp;fit=crop" alt="Grokの活用" loading="lazy"></div>
 
     <div class="article-content">
-<h2>はじめに</h2>
-<p>この記事は「Grok学習シリーズ」の<strong>STEP 08（比較）</strong>です。</p>
-<p>他のAIツールとの違いと、使い分けの指針です。</p>
-<h2>Grokとは</h2>
-<p>xAI製の大規模言語モデル。リアルタイム情報とユーモアが特徴。</p>
-<h2>このステップで学ぶこと</h2>
-<ol>
-<li>比較の基本概念</li>
-<li>実践的な使い方</li>
-<li>業務での活用例</li>
-<li>よくある失敗と回避策</li>
-</ol>
-<h2>実践ステップ</h2>
-<h3>ステップ1：準備</h3>
-<p>まずはGrokにアクセスし、基本的な操作を確認しましょう。</p>
-<h3>ステップ2：基本操作</h3>
-<p>比較に関連する基本操作を一通り試してみます。</p>
-<h3>ステップ3：応用</h3>
-<p>実際の業務シーンを想定して、より実践的な使い方を学びます。</p>
-<h2>業務での活用例</h2>
+<h2>この記事の学習ゴール</h2>
+<p><strong>同じ依頼を2ツールに投げるべきではないケース</strong>と、<strong>併用すると良いケース</strong>を業務軸で説明できること。Grokを置くなら <strong>「速い初動・トーン・X周辺の空気感」</strong>、避けるなら <strong>「厳密な法務レビュー・閉域・長文コード資産」</strong> のように、<strong>否定形も含めて言語化</strong>できること。</p>
+<h2>前提知識・向いている人</h2>
+<p>シリーズ前半（<a href="./grok-basics.html">入門</a>〜<a href="./grok-analysis.html">分析</a>）を一通り読んだ方。すでに ChatGPT / Claude / Gemini のいずれかを業務で使っている方が最も比較の学びが深いです。</p>
+<h2>重要な注意（比較記事の読み方）</h2>
+<p>モデル名・提供機能・プランは <strong>月単位で変わります</strong>。本記事は「2026年初頭時点の一般的な立ち位置」の<strong>学習用フレーム</strong>です。導入判断は <strong>各公式のデータ取り扱いと自社ポリシー</strong> を最優先してください。</p>
+<h2>比較の軸（チェックリスト）</h2>
+<p>業務で次を埋めると、どれを開くか迷いが減ります。</p>
+<table>
+<thead><tr><th>観点</th><th>自社の要求（メモ欄）</th></tr></thead>
+<tbody>
+<tr><td>データ所在地・学習利用の可否</td><td></td></tr>
+<tr><td>長文の構成・推敲品質</td><td></td></tr>
+<tr><td>リアルタイム／Web参照</td><td></td></tr>
+<tr><td>コード・Git連携・エージェント的タスク</td><td></td></tr>
+<tr><td>スライド・ドキュメント・表計算連携</td><td></td></tr>
+<tr><td>ユーモア・キャッチコピー多様性</td><td></td></tr>
+<tr><td>日本語ドメイン知識</td><td></td></tr>
+<tr><td>料金・席数・SSO</td><td></td></tr>
+</tbody>
+</table>
+<h2>ざっくり得意領域（フレームワーク）</h2>
+<p>以下は <strong>傾向の話</strong>であり保証ではありません。</p>
 <ul>
-<li><strong>例1</strong>: 日々の定型作業を効率化</li>
-<li><strong>例2</strong>: チームでの情報共有に活用</li>
-<li><strong>例3</strong>: 品質向上のためのチェックに使用</li>
+<li><strong>Grok</strong>: 速報性のある話題の整理、キャッチコピー案、カジュアル寄りの対話。Xエコシステムに触れる文脈では相性が良いことがある。<strong>厳密ファクトは必ず再検証</strong>。</li>
+<li><strong>ChatGPT</strong>: 汎用の対話・カスタムGPT・各種連携エコシステム。<strong>業務テンプレの共有</strong>がしやすい企業も多い。</li>
+<li><strong>Claude</strong>: 長文の読解・要約・構成、<strong>慎重な文体</strong>のドキュメント。Artifacts など執筆フロー向き。</li>
+<li><strong>Gemini</strong>: Google Workspace 前提のチーム、検索・動画・画像の<strong>マルチモーダル</strong>、業務がGoogle側に寄っている場合に強み。</li>
 </ul>
-<h2>よくある質問</h2>
-<p><strong>Q: 初心者でも使えますか？</strong> A: はい、このステップは基礎から解説しているので、初めての方でも安心して取り組めます。</p>
-<p><strong>Q: 他のツールとの違いは？</strong> A: GrokはxAI製の大規模言語モデルという特徴があります。</p>
-<h2>まとめ</h2>
-<p>このステップでは比較について学びました。次のステップでは、さらに発展的な内容に進みます。</p>
+<h2>併用パターン（実務でよくある形）</h2>
+<ol>
+<li><strong>Grokで論点10個→Claudeで長文構成→人間が法務チェック</strong></li>
+<li><strong>Geminiで社内ドキュメント横断→Grokで外向け短文化</strong>（機微はマスキング後のみ）</li>
+<li><strong>ChatGPTでコード雛形→ローカルでテスト→Grokは使わない</strong>（属人性を避ける）</li>
+</ol>
+<h2>使い分けで失敗するパターン</h2>
+<ul>
+<li><strong>同じ機密を3ツールに貼る</strong> → ポリシー違反とログ分散。 <strong>1ツールに決める</strong>か、データ分類表で事前に振り分ける。</li>
+<li><strong>「一番賢い」信仰</strong> → タスク別に最適解が違う。<strong>週次で15分、どれが勝ったかログ</strong>を取ると組織が賢くなる。</li>
+<li><strong>比較記事の表をそのまま社内規程に</strong> → 公式の利用規約を毎回読む。</li>
+</ul>
+<h2>実践ミニ演習（25分）</h2>
+<ol>
+<li>自分の業務タスクを5つ書き、各タスクに <strong>第1選択ツール＋理由1行</strong> を付ける（根拠は実体験ベースでよい）。</li>
+<li>1タスクだけ <strong>意図的に別ツール</strong> で実施し、時間・手戻り・気分疲労を5段階で採点。</li>
+<li>「Grok禁止タスク」をチームで3つ決め（例：個人情報入りサポートログの要約など）。</li>
+</ol>
+<h2>セルフチェックリスト</h2>
+<ul>
+<li>[ ] 比較軸の表を自分用に埋めた。</li>
+<li>[ ] データガバナンスを無視した併用をしていない。</li>
+<li>[ ] 実測ベースのメモを1回取った。</li>
+<li>[ ] 公式規約を最後に読む習慣がある。</li>
+</ul>
+<h2>つまずきポイントと対処</h2>
+<ul>
+<li><strong>担当者ごとにツールがバラバラ</strong> → チームで「用途→ツール」簡易表を1枚に。</li>
+<li><strong>ベンダー変更が怖い</strong> → プロンプトと手順は<strong>ベンダー非依存</strong>のMarkdownで資産化。</li>
+</ul>
+<h2>まとめ：次に何をするか</h2>
+<p>比較の目的は優劣ではなく <strong>再現性とリスク管理</strong> です。次は <a href="./grok-business.html">Grokビジネス活用</a> でガバナンスと展開、<a href="./grok-master.html">マスター編</a> で90日の学習計画に落とし込んでください。</p>
 <hr>
 <h2>ツール情報</h2>
 <ul>
-<li><strong>公式サイト</strong>: <a href="https://grok.x.ai/" target="_blank" rel="noopener">Grok</a></li>
-<li><strong>ツール概要</strong>: xAI製の大規模言語モデル。リアルタイム情報とユーモアが特徴。</li>
+<li><strong>Grok</strong>: <a href="https://grok.x.ai/" target="_blank" rel="noopener">grok.x.ai</a></li>
+<li><strong>参考（各公式）</strong>: 利用前に最新のプライバシーとビジネスプランを確認してください。</li>
 </ul>
 <h2>権利表記</h2>
-<p>Grokは各社の商標または登録商標です。本記事は公式提供ではなく、一般的な情報提供を目的としています。</p>
+<p>本記事に登場する製品名は各社の商標です。本記事は公式の比較資料ではありません。</p>
 <h2>画像クレジット</h2>
-<p>サムネイル画像は<a href="https://unsplash.com/" target="_blank" rel="noopener">Unsplash</a>のライセンスに基づき使用しています。</p>
+<p>サムネイル画像は <a href="https://unsplash.com/" target="_blank" rel="noopener">Unsplash</a> のライセンスに基づき使用しています。</p>
 <hr>
 <h3>お問い合わせ</h3>
 <p>AIツールの導入・活用支援のご相談はお気軽にどうぞ</p>

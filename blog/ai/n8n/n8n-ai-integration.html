@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>n8n×AI連携（ChatGPT/Claudeを組み込む） | CUCUL FM</title>
-  <meta name="description" content="この記事は「n8n学習シリーズ」のSTEP 06（AI）です。">
+  <meta name="description" content="この記事は「n8n学習シリーズ」のSTEP 06（AI）です。構造化データやテキストをn8nで前処理し、生成AIノードへ渡す設計をまとめます。">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="ja_JP">
   <meta property="og:title" content="n8n×AI連携（ChatGPT/Claudeを組み込む） | CUCUL FM">
-  <meta property="og:description" content="この記事は「n8n学習シリーズ」のSTEP 06（AI）です。">
+  <meta property="og:description" content="この記事は「n8n学習シリーズ」のSTEP 06（AI）です。構造化データやテキストをn8nで前処理し、生成AIノードへ渡す設計をまとめます。">
   <meta property="og:image" content="https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?w=1200&amp;h=600&amp;fit=crop">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="n8n×AI連携（ChatGPT/Claudeを組み込む） | CUCUL FM">
-  <meta name="twitter:description" content="この記事は「n8n学習シリーズ」のSTEP 06（AI）です。">
+  <meta name="twitter:description" content="この記事は「n8n学習シリーズ」のSTEP 06（AI）です。構造化データやテキストをn8nで前処理し、生成AIノードへ渡す設計をまとめます。">
   <meta name="twitter:image" content="https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?w=1200&amp;h=600&amp;fit=crop">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "n8n×AI連携（ChatGPT/Claudeを組み込む）", "datePublished": "2026-01-01", "dateModified": "2026-01-01", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?w=1200&h=600&fit=crop"]}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -45,41 +45,78 @@
 
     <div class="article-content">
 <h2>はじめに</h2>
-<p>この記事は「n8n学習シリーズ」の<strong>STEP 06（AI）</strong>です。</p>
-<p>AIノードを使って、自動化フローにAI処理を組み込みます。</p>
-<h2>n8nとは</h2>
-<p>ノーコード/ローコード自動化ツール。ワークフローを視覚的に構築。</p>
-<h2>このステップで学ぶこと</h2>
-<ol>
-<li>AIの基本概念</li>
-<li>実践的な使い方</li>
-<li>業務での活用例</li>
-<li>よくある失敗と回避策</li>
-</ol>
-<h2>実践ステップ</h2>
-<h3>ステップ1：準備</h3>
-<p>まずはn8nにアクセスし、基本的な操作を確認しましょう。</p>
-<h3>ステップ2：基本操作</h3>
-<p>AIに関連する基本操作を一通り試してみます。</p>
-<h3>ステップ3：応用</h3>
-<p>実際の業務シーンを想定して、より実践的な使い方を学びます。</p>
-<h2>業務での活用例</h2>
+<p>この記事は「n8n学習シリーズ」の<strong>STEP 06（AI）</strong>です。構造化データやテキストをn8nで前処理し、生成AIノードへ渡す設計をまとめます。</p>
+<h2>学習の目標</h2>
 <ul>
-<li><strong>例1</strong>: 日々の定型作業を効率化</li>
-<li><strong>例2</strong>: チームでの情報共有に活用</li>
-<li><strong>例3</strong>: 品質向上のためのチェックに使用</li>
+<li>プロンプトに渡す入力を短くキレイに分離できる</li>
+<li>温度やモデル指定など、再現性に効くパラメータを選べる</li>
+<li>機密・PIIを送らないガードをフロー段階に置ける</li>
 </ul>
-<h2>よくある質問</h2>
-<p><strong>Q: 初心者でも使えますか？</strong> A: はい、このステップは基礎から解説しているので、初めての方でも安心して取り組めます。</p>
-<p><strong>Q: 他のツールとの違いは？</strong> A: n8nはノーコード/ローコード自動化ツールという特徴があります。</p>
-<h2>まとめ</h2>
-<p>このステップではAIについて学びました。次のステップでは、さらに発展的な内容に進みます。</p>
-<hr>
+<h2>前提知識</h2>
+<ul>
+<li>STEP 05相当のデータ整形</li>
+<li>LLMの利用規約と料金が従量であることの理解</li>
+</ul>
+<h2>用語ミニ辞典</h2>
+<ul>
+<li><strong>プロンプトテンプレ</strong>: 固定文＋差し込み変数で構成する指示文</li>
+<li><strong>構造化出力</strong>: JSONスキーマや箇条書きなど形式を縛った返答</li>
+<li><strong>トークン</strong>: 課金と長さの単位（ざっくり入力＋出力の長さ）</li>
+</ul>
+<h2>ステップバイステップで進める</h2>
+<ol>
+<li>AIに渡す前に、不要列を落とし、文字数を制限する前処理ノードを置く</li>
+<li>システム／ユーザー役割を分け、禁止事項（嘘を確定と言わない等）を固定文に入れる</li>
+<li>期待するJSONキーを例付きでプロンプトに埋め込み、Codeノードで軽く検証する</li>
+<li>429やタイムアウト向けにリトライとバックオフを設定する</li>
+<li>モデル切替やプロンプト版に番号を付け、変更履歴を残す</li>
+</ol>
+<h2>ミニ課題</h2>
+<p>顧客フィードバックのダミーテキスト5件を要約し、「センチメント（pos/neg/neu）」「要約50字」「根拠引用」だけをJSONで返すフローを設計してください。PIIらしい語が入ったら空返却するフィルタ案も文章化します。</p>
+<h2>理解度チェックリスト</h2>
+<ul>
+<li>[ ] プロンプトとシークレットが分離されている</li>
+<li>[ ] 生成結果をそのまま外部公開しない確認ステップがある</li>
+<li>[ ] 失敗時に人へエスカレーションできる</li>
+</ul>
+<h2>よくある落とし穴</h2>
+<ul>
+<li><strong>長文丸投げ</strong>: トークン爆増とコスト増、品質低下を招く</li>
+<li><strong>スキーマ未検証</strong>: 壊れたJSONを下流がそのまま解釈する</li>
+<li><strong>規約違反</strong>: 学習利用設定やデータ持込ポリシーを見落とす</li>
+</ul>
+<h2>もう一歩掘り下げる</h2>
+<p>AI連携の価値は「文章」ではなく<strong>判断の前処理</strong>にあります。分類・タグ付け・ドラフト生成など、人手がボトルネックな箇所に限定すると成功しやすいです。最終判断は必ず人かルールベースのゲートで受け止めましょう。</p>
+<h2>学びを固める（追補）</h2>
+<p>AIノードは魔法ではなく、<strong>前処理と後検証の品質関数</strong>です。プロンプトを長文化するより、入力を削るほど精度とコストが改善することがあります。構造化JSONを期待するならスキーマ検証をコードノードで軽く入れるのが実戦的です。</p>
+<h2>シナリオ演習（15分）</h2>
+<p>同一入力で温度やモデル指示だけを変えた2実行を比較し、業務利用に耐えるのはどちらか、落とし穴を1つ書きます。</p>
+<h2>今日の振り返り（3問）</h2>
+<ul>
+<li>PIIマスキングルールは先に書けているか。</li>
+<li>429時のバックオフは設定したか。</li>
+<li>生成結果をそのまま外部公開していないか。</li>
+</ul>
+<h2>深読みメモ（現場向け）</h2>
+<p>LLM出力を後段のシステムが食うなら、<strong>スキーマ逸脱は例外ではなく予測内</strong>です。軽い検証とフォールバック（人へ通知、空レスポンス）を決めておきます。プロンプトインジェクションの入口になるのは外部Webhook経由の自由テキストなので、長さ制限と禁止語フィルタを前段に置くとリスクが下がります。コストは日次でざっくり確認するダッシュボードを作ると暴走に気づけます。</p>
+<h2>自習リフレクション（読了後5分）</h2>
+<p>プロンプトに必ず入れる禁止事項を5つに絞り、英語版も用意するか検討します。LLM出力を後段がパースするなら、壊れたときのフォールバックをフローチャートにします。トークン単価と直近利用量をざっくり計算し、週次で見る閾値を決めてください。</p>
+<h2>クイック参照（紙に写す用）</h2>
+<p>前処理でトークン削減。JSON期待なら検証＋フォールバック。PIIマスク先行。外部テキストは長さ制限。プロンプト版に番号。コスト週次チェック。インジェクション入口に禁止語。</p>
+<h2>読了後の一行メモ</h2>
+<p>この回の学びを140字以内で要約し、翌週の業務で一度だけ実践してみてください。音声メモに3分解説を録音し、未来の自分への手紙として残すと抜けが見えます。勉強会に使う場合はチェックリストを印刷して自己採点してから終えると定着します。公式ドキュメント・料金・UIは更新されるため、手順と数値は必ず最新情報で再確認してください。改善アクションは<strong>1つに絞る</strong>と実行率がもっとも高くなります。</p>
+<p>連載を順に進めるときは「前章のチェックリストが緑になるまで次へ進まない」ペースが安全です。分からない用語はその場で検索せず、一度記録だけして後で3語に圧縮すると記憶に残ります。業務と学習の境目で迷ったら、公開情報とダミーデータだけで試すセーフティゾーンを先に決めてから触れてください。</p>
+<h2>次にやること</h2>
+<ul>
+<li>STEP 07で定型業務例を量産し、テンプレ化する</li>
+<li>プロンプトとモデル版をGit管理する運用を決める</li>
+</ul>
 <h2>ツール情報</h2>
 <ul>
 <li><strong>公式サイト</strong>: <a href="https://n8n.io/" target="_blank" rel="noopener">n8n</a></li>
-<li><strong>ツール概要</strong>: ノーコード/ローコード自動化ツール。ワークフローを視覚的に構築。</li>
+<li><strong>ツール概要</strong>: LLM向けノードやHTTPノード経由の独自統合でAIをフローに埋め込める</li>
 </ul>
+<hr>
 <h2>権利表記</h2>
 <p>n8nは各社の商標または登録商標です。本記事は公式提供ではなく、一般的な情報提供を目的としています。</p>
 <h2>画像クレジット</h2>
