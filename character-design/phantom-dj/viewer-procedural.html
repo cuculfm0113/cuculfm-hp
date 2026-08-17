@@ -1,0 +1,1590 @@
+<!DOCTYPE html>
+<!--
+  ============================================================================
+  アーカイブ(プロシージャル版)。本命は viewer.html(GLB版)。
+  このファイルは Three.js プリミティブのみでキャラクターを組み立てる旧実装で、
+  model.glb が使えない環境向けのフォールバック / 造形資料として保存している。
+  通常のビューアは同フォルダの viewer.html(GLTFLoader で model.glb を読込)を参照。
+  ============================================================================
+-->
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NEON PHANTOM DJ — CUCUL FM OFFICIAL CHARACTER</title>
+<meta name="description" content="CUCUL FM 公式キャラクター「ネオン・ファントムDJ」3Dターンテーブルビューア">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23111'/%3E%3Cpath d='M8 8 L24 24 M24 8 L8 24' stroke='%23F5F5F5' stroke-width='5' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%23FFE9A0'/%3E%3C/svg%3E">
+<style>
+  :root{
+    --cyan:#00E5FF;
+    --gold:#FFD400;
+    --ink:#05070b;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; background:var(--ink); color:#cfd6e4; overflow:hidden;
+    font-family:"Helvetica Neue",Arial,"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  #stage{position:fixed; inset:0}
+  #stage canvas{display:block; width:100%; height:100%; touch-action:none}
+
+  /* ---- HUD ---- */
+  .hud{
+    position:fixed; left:0; right:0; bottom:max(18px, env(safe-area-inset-bottom));
+    text-align:center; pointer-events:none; z-index:5;
+  }
+  .hud .caption{
+    font-size:clamp(10px,1.35vw,13px); letter-spacing:.36em; text-transform:uppercase;
+    color:#e8edf6; text-shadow:0 0 18px rgba(0,229,255,.35), 0 2px 10px rgba(0,0,0,.9);
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis; padding:0 12px;
+  }
+  .hud .caption b{font-weight:600}
+  .hud .caption i{font-style:normal; color:#8fa0b8}
+  .hud .hint{
+    margin-top:9px; font-size:clamp(9px,1.05vw,11px); letter-spacing:.18em; color:#61708a;
+  }
+  .hud .hint span{margin:0 .55em; white-space:nowrap}
+  .hud .hint kbd{
+    font:inherit; letter-spacing:.1em; color:#8fa0b8; border:1px solid #24303f;
+    border-radius:3px; padding:1px 5px; background:rgba(255,255,255,.03);
+  }
+
+  .brand{
+    position:fixed; top:max(16px, env(safe-area-inset-top)); left:18px; z-index:5;
+    font-size:10px; letter-spacing:.42em; color:#4b586e; pointer-events:none; text-transform:uppercase;
+  }
+  .brand em{font-style:normal; color:var(--gold); opacity:.85}
+
+  /* ---- loading / error ---- */
+  #boot{
+    position:fixed; inset:0; z-index:20; display:grid; place-content:center; gap:14px;
+    background:var(--ink); transition:opacity .7s ease; text-align:center;
+  }
+  #boot.gone{opacity:0; pointer-events:none}
+  #boot .bar{width:180px; height:1px; background:#1b2330; position:relative; overflow:hidden; margin:0 auto}
+  #boot .bar::after{
+    content:""; position:absolute; inset:0; width:40%; background:linear-gradient(90deg,transparent,var(--cyan),transparent);
+    animation:sweep 1.25s infinite ease-in-out;
+  }
+  @keyframes sweep{0%{transform:translateX(-120%)}100%{transform:translateX(320%)}}
+  #boot p{margin:0; font-size:10px; letter-spacing:.4em; color:#556479}
+  #fail{max-width:min(520px,86vw); line-height:1.9; font-size:13px; color:#93a1b8; display:none}
+  #fail code{color:#8fa0b8; font-size:12px}
+  @media (prefers-reduced-motion: reduce){
+    #boot .bar::after{animation:none; width:100%; opacity:.35}
+  }
+</style>
+</head>
+<body>
+  <div id="stage"></div>
+
+  <div class="brand">CUCUL <em>FM</em></div>
+
+  <div class="hud">
+    <div class="caption"><b>NEON PHANTOM DJ</b> <i>—</i> CUCUL FM OFFICIAL CHARACTER</div>
+    <div class="hint">
+      <span>ドラッグで回転</span><span>ホイールでズーム</span><span><kbd>1</kbd>/<kbd>2</kbd>/<kbd>3</kbd> 正面・側面・背面</span><span><kbd>R</kbd> 自動回転</span>
+    </div>
+  </div>
+
+  <div id="boot">
+    <p id="bootmsg">LOADING</p>
+    <div class="bar"></div>
+    <div id="fail"></div>
+  </div>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+  }
+}
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls }    from 'three/addons/controls/OrbitControls.js';
+import { EffectComposer }   from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass }       from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass }  from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { OutputPass }       from 'three/addons/postprocessing/OutputPass.js';
+import { ShaderPass }       from 'three/addons/postprocessing/ShaderPass.js';
+
+/* =========================================================================
+   NEON PHANTOM DJ — procedural turntable viewer
+   仕様: character-design/phantom-dj/README.md
+   全高 1.90m / 7.5頭身 / 全テクスチャは canvas 2D で動的生成(外部画像なし)
+   ========================================================================= */
+
+const PALETTE = {
+  black:  0x111111,   // ベース(マット)
+  paint:  0xF5F5F5,   // Xペイント
+  hot:    0xFFE9A0,   // Xペイント交点(暖色発光)
+  yellow: 0xFFD400,   // ネオンイエロー
+  cyan:   0x00E5FF,   // ネオンシアン
+  gold:   0xD4A017,   // 三日月エンブレム
+};
+
+const CFG = {
+  height:       1.902,   // 全高(m)
+  bloom:        { threshold: 0.82, strength: 0.42, radius: 0.42 },
+  autoRotate:   1.2,
+  breath:       0.006,   // 胸スケール振幅
+  camStart:     new THREE.Vector3(1.05, 1.34, 4.45),
+  target:       new THREE.Vector3(0, 1.06, 0),   // 胸高やや下(全身が収まる高さ)
+};
+
+const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const PARAMS  = new URLSearchParams(location.search);
+
+/* ---------------------------------------------------------------- utils */
+const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
+const lerp  = (a, b, t) => a + (b - a) * t;
+const smoothstep = t => (t = clamp(t, 0, 1), t * t * (3 - 2 * t));
+
+/** 決定的な乱数(スクショ再現性のため固定シード) */
+function mulberry32(seed){
+  return function(){
+    seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+    let t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+const rnd = mulberry32(0x43554355);
+const rr  = (a, b) => a + (b - a) * rnd();
+
+function cv(w, h){
+  const c = document.createElement('canvas');
+  c.width = w; c.height = h;
+  return c;
+}
+
+let MAX_ANISO = 4;
+/** canvas → THREE.CanvasTexture。data 用(bump/rough)は srgb:false */
+function tex(canvas, { srgb = true, repeat = null, wrap = false } = {}){
+  const t = new THREE.CanvasTexture(canvas);
+  if (srgb) t.colorSpace = THREE.SRGBColorSpace;
+  if (wrap){ t.wrapS = t.wrapT = THREE.RepeatWrapping; }
+  if (repeat) t.repeat.set(repeat[0], repeat[1]);
+  t.anisotropy = MAX_ANISO;
+  t.needsUpdate = true;
+  return t;
+}
+
+/* ===================================================================== */
+/*  TEXTURE FACTORY — すべて canvas 2D で生成                             */
+/* ===================================================================== */
+
+/** ひび割れ線(石膏クラック)を描く共通ルーチン */
+function crackNetwork(ctx, W, H, { count, color, width, alpha = 1, hi = null }){
+  ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  for (let i = 0; i < count; i++){
+    let x = rnd() * W, y = rr(H * 0.05, H * 0.95);
+    let a = rnd() * Math.PI * 2;
+    const segs = 4 + Math.floor(rnd() * 12);
+    const pts = [[x, y]];
+    for (let s = 0; s < segs; s++){
+      a += (rnd() - 0.5) * 1.0;
+      const len = rr(6, 30);
+      x += Math.cos(a) * len; y += Math.sin(a) * len;
+      pts.push([x, y]);
+    }
+    const draw = (col, w, off) => {
+      ctx.strokeStyle = col; ctx.lineWidth = w;
+      ctx.beginPath();
+      ctx.moveTo(pts[0][0] + off, pts[0][1] + off);
+      for (let k = 1; k < pts.length; k++) ctx.lineTo(pts[k][0] + off, pts[k][1] + off);
+      ctx.stroke();
+    };
+    if (hi) draw(hi, width * 0.7, -1.2);          // 割れの縁のハイライト
+    ctx.globalAlpha = alpha * rr(0.55, 1);
+    draw(color, width * rr(0.5, 1.25), 0);
+    ctx.globalAlpha = 1;
+    // 枝分かれ
+    if (rnd() < 0.55){
+      const p = pts[Math.floor(rnd() * pts.length)];
+      let bx = p[0], by = p[1], ba = rnd() * Math.PI * 2;
+      ctx.strokeStyle = color; ctx.lineWidth = width * 0.6;
+      ctx.beginPath(); ctx.moveTo(bx, by);
+      for (let s = 0; s < 4; s++){
+        ba += (rnd() - 0.5) * 1.2;
+        bx += Math.cos(ba) * rr(5, 16); by += Math.sin(ba) * rr(5, 16);
+        ctx.lineTo(bx, by);
+      }
+      ctx.stroke();
+    }
+  }
+}
+
+/** 荒い筆致のストローク(Xペイント用) */
+function brushStroke(ctx, x0, y0, x1, y1, w, color){
+  const dx = x1 - x0, dy = y1 - y0;
+  const len = Math.hypot(dx, dy);
+  const steps = Math.ceil(len / 1.6);
+  const nx = -dy / len, ny = dx / len;     // 法線(ストローク幅方向)
+  ctx.fillStyle = color;
+  for (let i = 0; i <= steps; i++){
+    const t = i / steps;
+    const taper = 0.55 + 0.45 * Math.sin(Math.PI * clamp(t * 1.04 - 0.02, 0, 1));
+    const wob = Math.sin(t * 11.0) * 0.06 + Math.sin(t * 27.0) * 0.03;
+    const cxp = x0 + dx * t + nx * len * wob * 0.06;
+    const cyp = y0 + dy * t + ny * len * wob * 0.06;
+    const r = w * 0.5 * taper * rr(0.86, 1.06);
+    ctx.globalAlpha = rr(0.72, 1);
+    ctx.beginPath(); ctx.arc(cxp, cyp, r, 0, Math.PI * 2); ctx.fill();
+  }
+  // かすれ(ドライブラシ): ストローク方向に細い線で削る
+  ctx.globalCompositeOperation = 'destination-out';
+  for (let i = 0; i < 26; i++){
+    const off = rr(-0.46, 0.46) * w;
+    const t0 = rr(0, 0.8), t1 = t0 + rr(0.08, 0.3);
+    ctx.strokeStyle = '#000'; ctx.lineWidth = rr(0.8, 3.4);
+    ctx.globalAlpha = rr(0.25, 0.9);
+    ctx.beginPath();
+    ctx.moveTo(x0 + dx * t0 + nx * off, y0 + dy * t0 + ny * off);
+    ctx.lineTo(x0 + dx * t1 + nx * off, y0 + dy * t1 + ny * off);
+    ctx.stroke();
+  }
+  ctx.globalCompositeOperation = 'source-over';
+  // 端の飛沫
+  ctx.fillStyle = color;
+  for (let i = 0; i < 30; i++){
+    const t = rnd() < 0.5 ? rr(-0.06, 0.12) : rr(0.88, 1.06);
+    const off = rr(-1.1, 1.1) * w;
+    ctx.globalAlpha = rr(0.2, 0.85);
+    ctx.beginPath();
+    ctx.arc(x0 + dx * t + nx * off, y0 + dy * t + ny * off, rr(0.6, 3.2), 0, Math.PI * 2);
+    ctx.fill();
+  }
+  ctx.globalAlpha = 1;
+}
+
+/**
+ * 頭部テクスチャ一式。
+ * SphereGeometry の UV: u=0.25 が +Z(正面)、v(UV.y)=1 が頭頂。
+ * よって顔の X は canvas 中央左寄り(x≈0.25W)・上下は中央やや上に描く。
+ */
+function makeHeadMaps(){
+  const W = 1024, H = 512;
+  const FX = W * 0.25;            // 顔の中心 u=0.25
+  const FY = H * 0.492;           // 顔の中心(頭頂から約45%)
+
+  /* --- diffuse --- */
+  const cCol = cv(W, H), g = cCol.getContext('2d');
+  g.fillStyle = '#0d0d0e'; g.fillRect(0, 0, W, H);
+  // 石膏のムラ
+  for (let i = 0; i < 260; i++){
+    const x = rnd() * W, y = rnd() * H, r = rr(18, 130);
+    const grad = g.createRadialGradient(x, y, 0, x, y, r);
+    const v = Math.floor(rr(8, 34));
+    grad.addColorStop(0, `rgba(${v},${v},${v + 2},${rr(0.05, 0.22)})`);
+    grad.addColorStop(1, 'rgba(0,0,0,0)');
+    g.fillStyle = grad; g.beginPath(); g.arc(x, y, r, 0, Math.PI * 2); g.fill();
+  }
+  crackNetwork(g, W, H, { count: 150, color: 'rgba(0,0,0,0.85)', width: 2.6, hi: 'rgba(122,126,134,0.30)' });
+  // 顔の X ペイント
+  const XW = W * 0.152, XH = H * 0.178;   // 半幅・半高(顔幅いっぱいの大きなX)
+  brushStroke(g, FX - XW, FY - XH, FX + XW, FY + XH, 44, '#F2F2F0');
+  brushStroke(g, FX + XW, FY - XH, FX - XW, FY + XH, 44, '#F7F7F5');
+  // 交点を少し明るく盛る
+  const core = g.createRadialGradient(FX, FY, 0, FX, FY, 46);
+  core.addColorStop(0, 'rgba(255,255,250,0.95)');
+  core.addColorStop(0.45, 'rgba(255,246,220,0.35)');
+  core.addColorStop(1, 'rgba(255,240,200,0)');
+  g.fillStyle = core; g.beginPath(); g.arc(FX, FY, 46, 0, Math.PI * 2); g.fill();
+
+  /* --- bump(クラックの凹凸) --- */
+  const cBmp = cv(W, H), b = cBmp.getContext('2d');
+  b.fillStyle = '#808080'; b.fillRect(0, 0, W, H);
+  for (let i = 0; i < 300; i++){
+    const x = rnd() * W, y = rnd() * H, r = rr(10, 90);
+    const grad = b.createRadialGradient(x, y, 0, x, y, r);
+    const v = 128 + Math.floor(rr(-26, 26));
+    grad.addColorStop(0, `rgba(${v},${v},${v},0.5)`);
+    grad.addColorStop(1, 'rgba(128,128,128,0)');
+    b.fillStyle = grad; b.beginPath(); b.arc(x, y, r, 0, Math.PI * 2); b.fill();
+  }
+  crackNetwork(b, W, H, { count: 150, color: 'rgba(24,24,24,0.9)', width: 2.6, hi: 'rgba(214,214,214,0.55)' });
+
+  /* --- emissive(X交点のみ発光) --- */
+  const cEm = cv(W, H), e = cEm.getContext('2d');
+  e.fillStyle = '#000'; e.fillRect(0, 0, W, H);
+  const halo = e.createRadialGradient(FX, FY, 0, FX, FY, 40);
+  halo.addColorStop(0.00, '#ffffff');
+  halo.addColorStop(0.20, '#FFEFB4');
+  halo.addColorStop(0.50, '#6b5316');
+  halo.addColorStop(1.00, '#000000');
+  e.fillStyle = halo; e.beginPath(); e.arc(FX, FY, 40, 0, Math.PI * 2); e.fill();
+  // X の筆致に沿って僅かに滲ませる
+  e.globalCompositeOperation = 'lighter';
+  e.strokeStyle = 'rgba(120,96,40,0.5)'; e.lineCap = 'round';
+  const XW0 = W * 0.100, XH0 = H * 0.132;
+  e.lineWidth = 14;
+  e.beginPath(); e.moveTo(FX - XW0 * 0.5, FY - XH0 * 0.5); e.lineTo(FX + XW0 * 0.5, FY + XH0 * 0.5); e.stroke();
+  e.beginPath(); e.moveTo(FX + XW0 * 0.5, FY - XH0 * 0.5); e.lineTo(FX - XW0 * 0.5, FY + XH0 * 0.5); e.stroke();
+  e.globalCompositeOperation = 'source-over';
+
+  return {
+    map:      tex(cCol),
+    bumpMap:  tex(cBmp, { srgb: false }),
+    emissive: tex(cEm),
+  };
+}
+
+/** コート裏地の回路パターン(黄×シアン) */
+function makeLiningTexture(){
+  const S = 1024;
+  const c = cv(S, S), g = c.getContext('2d');
+  g.fillStyle = '#04060a'; g.fillRect(0, 0, S, S);
+
+  // 下地のヘックスグリッド(かすかな黄)
+  const hr = 46, hh = Math.sqrt(3) / 2 * hr;
+  g.strokeStyle = 'rgba(255,212,0,0.10)'; g.lineWidth = 1.4;
+  for (let row = -1; row * hh * 1.5 < S + hr; row++){
+    for (let col = -1; col * hr * 3 < S + hr * 3; col++){
+      const cx0 = col * hr * 3 + (row % 2 ? hr * 1.5 : 0);
+      const cy0 = row * hh;
+      g.beginPath();
+      for (let k = 0; k < 6; k++){
+        const a = Math.PI / 180 * (60 * k);
+        const px = cx0 + Math.cos(a) * hr, py = cy0 + Math.sin(a) * hr;
+        k ? g.lineTo(px, py) : g.moveTo(px, py);
+      }
+      g.closePath(); g.stroke();
+    }
+  }
+
+  // 回路トレース(45°/90° のみ。太めに描いて縮小時のちらつきを防ぐ)
+  const DIRS = [[1, 0], [0, 1], [0, -1], [0.7071, 0.7071], [0.7071, -0.7071], [-0.7071, 0.7071]];
+  g.lineCap = 'square'; g.lineJoin = 'miter';
+  for (let i = 0; i < 34; i++){
+    const col = i % 2 === 0 ? '#00E5FF' : '#FFD400';
+    let x = rnd() * S, y = rnd() * S;
+    let d = DIRS[Math.floor(rnd() * DIRS.length)];
+    g.beginPath(); g.moveTo(x, y);
+    const segs = 2 + Math.floor(rnd() * 4);
+    for (let s = 0; s < segs; s++){
+      const len = rr(120, 380);
+      x += d[0] * len; y += d[1] * len;
+      g.lineTo(x, y);
+      d = DIRS[Math.floor(rnd() * DIRS.length)];
+    }
+    g.strokeStyle = col; g.lineWidth = rr(6, 11);
+    g.shadowColor = col; g.shadowBlur = rr(14, 30);
+    g.globalAlpha = rr(0.6, 1);
+    g.stroke();
+    // 終端ノード
+    g.fillStyle = col;
+    g.beginPath(); g.arc(x, y, rr(7, 13), 0, Math.PI * 2); g.fill();
+    g.globalAlpha = 1; g.shadowBlur = 0;
+  }
+  // データドット(大きめ)
+  for (let i = 0; i < 60; i++){
+    g.fillStyle = rnd() < 0.5 ? 'rgba(0,229,255,0.8)' : 'rgba(255,212,0,0.75)';
+    g.fillRect(rnd() * S, rnd() * S, rr(6, 14), rr(6, 14));
+  }
+  return c;
+}
+
+/** 背面の金の三日月エンブレム(装飾三日月 + 縦オーナメント) */
+function makeCrescentTexture(){
+  const S = 1024;
+  const c = cv(S, S), g = c.getContext('2d');
+  const cx = S * 0.385, cy = S * 0.47, R = S * 0.345;
+
+  // --- 三日月本体(外円 − オフセット内円) ---
+  const grad = g.createLinearGradient(cx - R, cy - R, cx + R * 0.6, cy + R);
+  grad.addColorStop(0.00, '#7d570d');
+  grad.addColorStop(0.30, '#D4A017');
+  grad.addColorStop(0.55, '#F7E39B');
+  grad.addColorStop(0.78, '#C89312');
+  grad.addColorStop(1.00, '#8a610e');
+  g.fillStyle = grad;
+  g.beginPath(); g.arc(cx, cy, R, 0, Math.PI * 2); g.fill();
+  g.globalCompositeOperation = 'destination-out';
+  g.beginPath(); g.arc(cx + R * 0.36, cy, R * 0.855, 0, Math.PI * 2); g.fill();
+
+  // --- 唐草風の抜き(同心アークを破線で削る) ---
+  for (let i = 0; i < 22; i++){
+    const rr0 = R * (0.87 + i * 0.006);
+    g.lineWidth = R * 0.014;
+    g.setLineDash([R * rr(0.03, 0.09), R * rr(0.03, 0.10)]);
+    g.lineDashOffset = rnd() * 100;
+    g.strokeStyle = '#000';
+    g.beginPath(); g.arc(cx, cy, rr0, 0, Math.PI * 2); g.stroke();
+  }
+  g.setLineDash([]);
+  // 放射状の細い抜き
+  for (let i = 0; i < 46; i++){
+    const a = Math.PI * 0.42 + (i / 46) * Math.PI * 1.16;
+    g.lineWidth = R * 0.012; g.strokeStyle = '#000';
+    g.beginPath();
+    g.moveTo(cx + Math.cos(a) * R * 0.86, cy + Math.sin(a) * R * 0.86);
+    g.lineTo(cx + Math.cos(a) * R * 1.01, cy + Math.sin(a) * R * 1.01);
+    g.stroke();
+  }
+  g.globalCompositeOperation = 'source-over';
+
+  // --- 三日月の外周にシャープな金の縁 ---
+  g.strokeStyle = 'rgba(247,227,155,0.85)'; g.lineWidth = R * 0.018;
+  g.beginPath(); g.arc(cx, cy, R * 0.995, -Math.PI * 0.5, Math.PI * 0.5, true); g.stroke();
+
+  // --- 縦オーナメント(ダイヤ+丸+十字) ---
+  const ox = cx + R * 0.62;
+  g.strokeStyle = '#D4A017'; g.fillStyle = '#E8C24A'; g.lineWidth = R * 0.012;
+  g.beginPath(); g.moveTo(ox, cy - R * 1.22); g.lineTo(ox, cy + R * 1.22); g.stroke();
+  const marks = [-1.14, -0.74, -0.30, 0.30, 0.74, 1.14];
+  marks.forEach((m, i) => {
+    const y = cy + R * m, sz = R * (i % 2 ? 0.038 : 0.055);
+    g.beginPath();
+    g.moveTo(ox, y - sz); g.lineTo(ox + sz * 0.62, y); g.lineTo(ox, y + sz); g.lineTo(ox - sz * 0.62, y);
+    g.closePath(); g.fill();
+    g.beginPath(); g.arc(ox, y, sz * 1.55, 0, Math.PI * 2); g.stroke();
+    g.beginPath();
+    g.moveTo(ox - sz * 2.0, y); g.lineTo(ox + sz * 2.0, y); g.stroke();
+  });
+  // 上下端の小さな星
+  [[-1.30, 0.05], [1.30, 0.05]].forEach(([m, s]) => {
+    const y = cy + R * m, sz = R * s;
+    g.fillStyle = '#F7E39B';
+    g.beginPath();
+    g.moveTo(ox, y - sz); g.quadraticCurveTo(ox, y, ox + sz, y);
+    g.quadraticCurveTo(ox, y, ox, y + sz); g.quadraticCurveTo(ox, y, ox - sz, y);
+    g.quadraticCurveTo(ox, y, ox, y - sz); g.fill();
+  });
+  // 三日月の角に添える小さな星
+  [[0.30, -0.86], [0.30, 0.86]].forEach(([sx, sy]) => {
+    const x = cx + R * sx * 1.5, y = cy + R * sy;
+    g.fillStyle = 'rgba(247,227,155,0.9)';
+    g.beginPath();
+    g.moveTo(x, y - R * 0.07); g.quadraticCurveTo(x, y, x + R * 0.07, y);
+    g.quadraticCurveTo(x, y, x, y + R * 0.07); g.quadraticCurveTo(x, y, x - R * 0.07, y);
+    g.quadraticCurveTo(x, y, x, y - R * 0.07); g.fill();
+  });
+  return c;
+}
+
+/** 小さな X マーク(ブーツ側面=シアン / 太もも=白) */
+function makeXTexture(hex, glow){
+  const S = 256;
+  const c = cv(S, S), g = c.getContext('2d');
+  if (glow){ g.shadowColor = hex; g.shadowBlur = 26; }
+  const m = S * 0.22;
+  g.lineCap = 'round'; g.strokeStyle = hex; g.lineWidth = S * 0.085;
+  g.beginPath(); g.moveTo(m, m); g.lineTo(S - m, S - m); g.stroke();
+  g.beginPath(); g.moveTo(S - m, m); g.lineTo(m, S - m); g.stroke();
+  if (glow){ g.shadowBlur = 40; g.stroke(); }
+  return c;
+}
+
+/** 肩の金の円形パッチ(三日月+星) */
+function makeShoulderPatch(){
+  const S = 256;
+  const c = cv(S, S), g = c.getContext('2d');
+  const cx = S / 2, cy = S / 2, R = S * 0.42;
+  g.fillStyle = '#0b0b0c'; g.beginPath(); g.arc(cx, cy, R, 0, Math.PI * 2); g.fill();
+  g.strokeStyle = '#D4A017'; g.lineWidth = S * 0.028;
+  g.beginPath(); g.arc(cx, cy, R * 0.94, 0, Math.PI * 2); g.stroke();
+  g.lineWidth = S * 0.012;
+  g.beginPath(); g.arc(cx, cy, R * 0.80, 0, Math.PI * 2); g.stroke();
+  // 内側の三日月
+  g.fillStyle = '#E8C24A';
+  g.beginPath(); g.arc(cx - S * 0.02, cy, R * 0.58, 0, Math.PI * 2); g.fill();
+  g.globalCompositeOperation = 'destination-out';
+  g.beginPath(); g.arc(cx + S * 0.10, cy, R * 0.52, 0, Math.PI * 2); g.fill();
+  g.globalCompositeOperation = 'source-over';
+  // 目盛り
+  g.strokeStyle = 'rgba(232,194,74,0.8)'; g.lineWidth = S * 0.014;
+  for (let i = 0; i < 16; i++){
+    const a = i / 16 * Math.PI * 2;
+    g.beginPath();
+    g.moveTo(cx + Math.cos(a) * R * 0.84, cy + Math.sin(a) * R * 0.84);
+    g.lineTo(cx + Math.cos(a) * R * 0.90, cy + Math.sin(a) * R * 0.90);
+    g.stroke();
+  }
+  // 小さな星
+  g.fillStyle = '#F7E39B';
+  const sx = cx + S * 0.14, sy = cy - S * 0.02, ss = S * 0.05;
+  g.beginPath();
+  g.moveTo(sx, sy - ss); g.quadraticCurveTo(sx, sy, sx + ss, sy);
+  g.quadraticCurveTo(sx, sy, sx, sy + ss); g.quadraticCurveTo(sx, sy, sx - ss, sy);
+  g.quadraticCurveTo(sx, sy, sx, sy - ss); g.fill();
+  return c;
+}
+
+/** 布地(コート/パンツ)の微細ノイズ + 縦皺 */
+function makeFabricBump(){
+  const S = 512;
+  const c = cv(S, S), g = c.getContext('2d');
+  g.fillStyle = '#808080'; g.fillRect(0, 0, S, S);
+  for (let i = 0; i < 900; i++){
+    const x = rnd() * S, y = rnd() * S, r = rr(3, 26);
+    const v = 128 + Math.floor(rr(-30, 30));
+    const grad = g.createRadialGradient(x, y, 0, x, y, r);
+    grad.addColorStop(0, `rgba(${v},${v},${v},0.42)`);
+    grad.addColorStop(1, 'rgba(128,128,128,0)');
+    g.fillStyle = grad; g.beginPath(); g.arc(x, y, r, 0, Math.PI * 2); g.fill();
+  }
+  // 縦の皺
+  g.lineCap = 'round';
+  for (let i = 0; i < 70; i++){
+    const x = rnd() * S;
+    const y0 = rr(-40, S), h = rr(60, 300);
+    g.strokeStyle = rnd() < 0.5 ? 'rgba(96,96,96,0.30)' : 'rgba(168,168,168,0.26)';
+    g.lineWidth = rr(1, 3.4);
+    g.beginPath();
+    g.moveTo(x, y0);
+    g.bezierCurveTo(x + rr(-9, 9), y0 + h * 0.33, x + rr(-9, 9), y0 + h * 0.66, x + rr(-6, 6), y0 + h);
+    g.stroke();
+  }
+  return c;
+}
+
+/** 床(濡れた地面の照り返し: 金=左 / シアン=右) */
+function makeFloorTexture(){
+  const S = 1024;
+  const c = cv(S, S), g = c.getContext('2d');
+  g.fillStyle = '#000'; g.fillRect(0, 0, S, S);
+  const mid = S / 2;
+  // 中央の淡いプール
+  let rg = g.createRadialGradient(mid, mid, 0, mid, mid, S * 0.5);
+  rg.addColorStop(0.00, 'rgba(38,48,64,0.95)');
+  rg.addColorStop(0.28, 'rgba(20,27,38,0.75)');
+  rg.addColorStop(0.62, 'rgba(7,10,16,0.35)');
+  rg.addColorStop(1.00, 'rgba(0,0,0,0)');
+  g.fillStyle = rg; g.fillRect(0, 0, S, S);
+  // 照り返し(金は左、シアンは右)
+  const pool = (x, y, rx, ry, col) => {
+    g.save(); g.translate(x, y); g.scale(rx / ry, 1);
+    const p = g.createRadialGradient(0, 0, 0, 0, 0, ry);
+    p.addColorStop(0, col[0]); p.addColorStop(0.45, col[1]); p.addColorStop(1, col[2]);
+    g.fillStyle = p; g.beginPath(); g.arc(0, 0, ry, 0, Math.PI * 2); g.fill();
+    g.restore();
+  };
+  pool(S * 0.30, mid, S * 0.16, S * 0.30,
+       ['rgba(255,190,40,0.34)', 'rgba(150,105,15,0.13)', 'rgba(0,0,0,0)']);
+  pool(S * 0.71, mid, S * 0.15, S * 0.30,
+       ['rgba(0,229,255,0.30)', 'rgba(0,110,140,0.12)', 'rgba(0,0,0,0)']);
+  // 濡れた斑点・小石
+  for (let i = 0; i < 1400; i++){
+    const a = rnd() * Math.PI * 2, r = Math.pow(rnd(), 0.6) * S * 0.48;
+    const x = mid + Math.cos(a) * r, y = mid + Math.sin(a) * r;
+    const f = 1 - r / (S * 0.5);
+    g.fillStyle = rnd() < 0.5
+      ? `rgba(120,150,175,${rr(0.02, 0.14) * f})`
+      : `rgba(200,160,60,${rr(0.02, 0.10) * f})`;
+    g.beginPath(); g.ellipse(x, y, rr(1, 6), rr(1, 3), rnd() * 3, 0, Math.PI * 2); g.fill();
+  }
+  // 接地影
+  const sh = g.createRadialGradient(mid, mid, 0, mid, mid, S * 0.085);
+  sh.addColorStop(0, 'rgba(0,0,0,0.92)');
+  sh.addColorStop(0.55, 'rgba(0,0,0,0.55)');
+  sh.addColorStop(1, 'rgba(0,0,0,0)');
+  g.fillStyle = sh;
+  g.save(); g.translate(mid, mid); g.scale(1.5, 0.85);
+  g.beginPath(); g.arc(0, 0, S * 0.085, 0, Math.PI * 2); g.fill(); g.restore();
+  return c;
+}
+
+/* ===================================================================== */
+/*  GEOMETRY HELPERS                                                      */
+/* ===================================================================== */
+
+/** [ [y,r], ... ] → LatheGeometry(下→上に整列して法線を外向きに) */
+function lathe(pairs, segments = 64, thetaStart = 0, thetaLength = Math.PI * 2, rScale = 1){
+  const pts = pairs.slice().sort((a, b) => a[0] - b[0])
+                   .map(p => new THREE.Vector2(p[1] * rScale, p[0]));
+  return new THREE.LatheGeometry(pts, segments, thetaStart, thetaLength);
+}
+
+/** プロファイルから半径を線形補間するサンプラ */
+function sampler(pairs){
+  const p = pairs.slice().sort((a, b) => a[0] - b[0]);
+  return y => {
+    if (y <= p[0][0]) return p[0][1];
+    if (y >= p[p.length - 1][0]) return p[p.length - 1][1];
+    for (let i = 0; i < p.length - 1; i++){
+      if (y <= p[i + 1][0]){
+        const t = (y - p[i][0]) / (p[i + 1][0] - p[i][0]);
+        return lerp(p[i][1], p[i + 1][1], t);
+      }
+    }
+    return p[p.length - 1][1];
+  };
+}
+
+/** 角丸ボックス(ExtrudeGeometry ベース。w=X, h=Y, d=Z) */
+function roundedBox(w, h, d, r, bevel = 0.005){
+  const iw = Math.max(0.002, w - bevel * 2), id = Math.max(0.002, d - bevel * 2);
+  const rr0 = Math.min(r, iw / 2 - 0.001, id / 2 - 0.001);
+  const s = new THREE.Shape();
+  const x = -iw / 2, y = -id / 2;
+  s.moveTo(x + rr0, y);
+  s.lineTo(x + iw - rr0, y); s.quadraticCurveTo(x + iw, y, x + iw, y + rr0);
+  s.lineTo(x + iw, y + id - rr0); s.quadraticCurveTo(x + iw, y + id, x + iw - rr0, y + id);
+  s.lineTo(x + rr0, y + id); s.quadraticCurveTo(x, y + id, x, y + id - rr0);
+  s.lineTo(x, y + rr0); s.quadraticCurveTo(x, y, x + rr0, y);
+  const geo = new THREE.ExtrudeGeometry(s, {
+    depth: Math.max(0.002, h - bevel * 2), bevelEnabled: true,
+    bevelThickness: bevel, bevelSize: bevel, bevelSegments: 2, curveSegments: 5,
+  });
+  geo.rotateX(-Math.PI / 2);
+  geo.center();
+  return geo;
+}
+
+/**
+ * ルールド曲面ビルダ(コート前身頃・折り返しフェーシング用)
+ * fn(u,v) -> {x,y,z,u,v}。法線は軸から外向き。
+ */
+function ruledSurface(nu, nv, fn, flip){
+  const pos = [], uvs = [], idx = [];
+  for (let j = 0; j <= nv; j++){
+    for (let i = 0; i <= nu; i++){
+      const p = fn(i / nu, j / nv);
+      pos.push(p.x, p.y, p.z);
+      uvs.push(p.u, p.v);
+    }
+  }
+  for (let j = 0; j < nv; j++){
+    for (let i = 0; i < nu; i++){
+      const a = j * (nu + 1) + i, b = a + 1, c = a + nu + 1, d = c + 1;
+      if (!flip) idx.push(a, c, b, b, c, d);
+      else       idx.push(a, b, c, b, d, c);
+    }
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  g.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));
+  g.setIndex(idx);
+  g.computeVertexNormals();
+  return g;
+}
+
+/** 点列 → TubeGeometry(発光ラインに使用) */
+function tubeThrough(points, radius, tubularSegments = 96, radial = 7){
+  const curve = new THREE.CatmullRomCurve3(points, false, 'centripetal', 0.5);
+  return new THREE.TubeGeometry(curve, tubularSegments, radius, radial, false);
+}
+
+/* ===================================================================== */
+/*  RENDERER / SCENE                                                      */
+/* ===================================================================== */
+const stage = document.getElementById('stage');
+const boot  = document.getElementById('boot');
+
+let renderer;
+try {
+  renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
+} catch (err){ fail(err); throw err; }
+if (!renderer.capabilities.isWebGL2 && !renderer.getContext()) fail(new Error('WebGL unavailable'));
+
+renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+renderer.setSize(stage.clientWidth, stage.clientHeight);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.0;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+stage.appendChild(renderer.domElement);
+MAX_ANISO = Math.min(8, renderer.capabilities.getMaxAnisotropy());
+
+function fail(err){
+  const f = document.getElementById('fail');
+  document.getElementById('bootmsg').textContent = 'WEBGL ERROR';
+  document.querySelector('#boot .bar').style.display = 'none';
+  f.style.display = 'block';
+  f.innerHTML = 'このブラウザでは 3D 表示を初期化できませんでした。<br><code>' +
+                String(err && err.message || err).replace(/[<>&]/g, '') + '</code>';
+  console.error('[phantom-dj]', err);
+}
+
+const scene  = new THREE.Scene();
+scene.fog = new THREE.FogExp2(0x080a10, 0.052);
+
+const camera = new THREE.PerspectiveCamera(32, stage.clientWidth / stage.clientHeight, 0.1, 120);
+camera.position.copy(CFG.camStart);
+
+/* --- 背景スフィア(グラデーションは手続き的に。テクスチャだと巨大球で
+       サンプリングの格子模様が出るためシェーダで生成する) --- */
+const bgSphere = new THREE.Mesh(
+  new THREE.SphereGeometry(40, 32, 24),
+  new THREE.ShaderMaterial({
+    side: THREE.BackSide, depthWrite: false, fog: false,
+    uniforms: {
+      cTop:  { value: new THREE.Color(0x03050a) },
+      cMid:  { value: new THREE.Color(0x111a2b) },
+      cBot:  { value: new THREE.Color(0x030407) },
+      cGold: { value: new THREE.Color(0xB98C1E) },
+      cCyan: { value: new THREE.Color(0x148CAA) },
+    },
+    vertexShader: `
+      varying vec3 vDir;
+      void main(){
+        vDir = normalize(position);
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      }
+    `,
+    fragmentShader: `
+      uniform vec3 cTop, cMid, cBot, cGold, cCyan;
+      varying vec3 vDir;
+      float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123); }
+      void main(){
+        vec3 d = normalize(vDir);
+        float h = d.y;
+        // 縦グラデ: 上=暗 / 地平線付近=僅かに明るい / 下=暗
+        vec3 col = mix(cMid, cTop, smoothstep(0.02, 0.75, h));
+        col = mix(col, cBot, smoothstep(0.0, -0.45, h));
+        // 金(左) / シアン(右) は「地表近くの照り返しヘイズ」として地平線下に沈める。
+        // band を強めに絞り、上空はどの角度から見ても暗いまま(側面ビューの黄壁対策)
+        float band = exp(-pow((h + 0.03) * 6.5, 2.0));   // 地平線に張り付く帯(上空は常に暗い)
+        float gGold = pow(max(0.0, dot(d, normalize(vec3(-0.80, -0.10, -0.35)))), 4.0);
+        float gCyan = pow(max(0.0, dot(d, normalize(vec3( 0.82, -0.06, -0.30)))), 4.0);
+        col += cGold * gGold * band * 0.50;
+        col += cCyan * gCyan * band * 0.40;
+        // 8bit バンディング対策のディザ
+        col += (hash(gl_FragCoord.xy) - 0.5) * (1.6 / 255.0);
+        gl_FragColor = vec4(col, 1.0);
+      }
+    `,
+  })
+);
+bgSphere.renderOrder = -10;
+scene.add(bgSphere);
+
+/* --- 床(照り返し + 接地影) --- */
+const floor = new THREE.Mesh(
+  new THREE.CircleGeometry(7.5, 96),
+  new THREE.MeshBasicMaterial({ map: tex(makeFloorTexture()), transparent: true, depthWrite: false, fog: true })
+);
+floor.rotation.x = -Math.PI / 2;
+floor.position.y = 0.001;
+scene.add(floor);
+
+/* ===================================================================== */
+/*  LIGHTS — コンセプトアート踏襲(金リム=左低め / シアンリム=右 / 冷白キー) */
+/* ===================================================================== */
+const lights = new THREE.Group();
+scene.add(lights);
+
+const ambient = new THREE.AmbientLight(0x33405e, 0.9);
+lights.add(ambient);
+lights.add(new THREE.HemisphereLight(0x2c3d59, 0x080b12, 0.9));
+
+const keyLight = new THREE.DirectionalLight(0xdae6ff, 3.2);    // 冷白キー(上前方)
+keyLight.position.set(2.0, 4.2, 3.0);
+lights.add(keyLight);
+
+const fillLight = new THREE.DirectionalLight(0x9fb4d4, 1.0);   // 前下からの弱いフィル
+fillLight.position.set(-1.4, 0.7, 2.6);
+lights.add(fillLight);
+
+const goldRim = new THREE.PointLight(0xFFC53D, 14.0, 9, 2.0);  // 金リム(左・低め)
+goldRim.position.set(-1.75, 0.60, 0.45);
+lights.add(goldRim);
+
+const goldRim2 = new THREE.DirectionalLight(0xFFB020, 2.0);
+goldRim2.position.set(-3.0, 1.2, -0.8);
+lights.add(goldRim2);
+
+const cyanRim = new THREE.PointLight(0x3FE6FF, 12.0, 9, 2.0);  // シアンリム(右)
+cyanRim.position.set(1.95, 1.50, -0.85);
+lights.add(cyanRim);
+
+const cyanRim2 = new THREE.DirectionalLight(0x30D8FF, 1.7);
+cyanRim2.position.set(2.6, 2.2, -1.8);
+lights.add(cyanRim2);
+
+/* ===================================================================== */
+/*  MATERIALS                                                             */
+/* ===================================================================== */
+const headMaps   = makeHeadMaps();
+const fabricBump = tex(makeFabricBump(), { srgb: false, wrap: true, repeat: [3, 3] });
+const liningTex  = tex(makeLiningTexture(), { wrap: true });
+const crescentTex= tex(makeCrescentTexture());
+const patchTex   = tex(makeShoulderPatch());
+const xCyanTex   = tex(makeXTexture('#8CF4FF', true));
+const xWhiteTex  = tex(makeXTexture('#EFEFEA', false));
+
+/** 発光マテリアル生成(Bloom threshold を僅かに越える強度に抑える) */
+const glowMat = (hex, intensity = 1.5, base = 0x0a1418) =>
+  new THREE.MeshStandardMaterial({ color: base, emissive: hex, emissiveIntensity: intensity, roughness: 0.4, metalness: 0 });
+
+const MAT = {
+  /* 頭部: マット黒 + クラック + Xペイント(交点エミッシブ) */
+  head: new THREE.MeshStandardMaterial({
+    color: 0xffffff, map: headMaps.map, bumpMap: headMaps.bumpMap, bumpScale: 0.18,
+    roughness: 0.9, metalness: 0.04,
+    emissive: 0xffffff, emissiveMap: headMaps.emissive, emissiveIntensity: 1.5,
+  }),
+  /* コート: ワックスドレザー風(リム光を拾う程度の光沢) */
+  coat: new THREE.MeshStandardMaterial({
+    color: 0x1a1a1e, roughness: 0.52, metalness: 0.22,
+    bumpMap: fabricBump, bumpScale: 0.008,
+  }),
+  /* 裏地: 回路パターンのエミッシブ */
+  lining: new THREE.MeshStandardMaterial({
+    color: 0x0a0d12, map: liningTex, emissive: 0xffffff, emissiveMap: liningTex,
+    emissiveIntensity: 0.85, roughness: 0.62, metalness: 0.1, side: THREE.FrontSide,
+  }),
+  /* コート内側(前開きから覗く面) */
+  liningInner: new THREE.MeshStandardMaterial({
+    color: 0x0a0d12, map: liningTex, emissive: 0xffffff, emissiveMap: liningTex,
+    emissiveIntensity: 0.6, roughness: 0.7, metalness: 0.1, side: THREE.BackSide,
+  }),
+  /* 布(インナー/パンツ): マットで粗い */
+  cloth: new THREE.MeshStandardMaterial({
+    color: 0x141417, roughness: 0.84, metalness: 0.04,
+    bumpMap: fabricBump, bumpScale: 0.006,
+  }),
+  /* ストラップ/ベルト等の黒革 */
+  strap: new THREE.MeshStandardMaterial({ color: 0x1c1c20, roughness: 0.45, metalness: 0.3 }),
+  /* 手袋 */
+  glove: new THREE.MeshStandardMaterial({ color: 0x191919, roughness: 0.55, metalness: 0.18 }),
+  /* ブーツ本体 / ソール */
+  boot:  new THREE.MeshStandardMaterial({ color: 0x1a1a1d, roughness: 0.48, metalness: 0.22 }),
+  sole:  new THREE.MeshStandardMaterial({ color: 0x0e0e10, roughness: 0.93, metalness: 0.0 }),
+  /* 金属(バックル) */
+  metal: new THREE.MeshStandardMaterial({ color: 0x6a6d76, roughness: 0.34, metalness: 0.95 }),
+  /* 金(三日月・肩パッチ) */
+  gold: new THREE.MeshStandardMaterial({ color: PALETTE.gold, roughness: 0.32, metalness: 0.9 }),
+  emblem: new THREE.MeshStandardMaterial({
+    color: 0xffffff, map: crescentTex, transparent: true, alphaTest: 0.03,
+    roughness: 0.3, metalness: 0.9, side: THREE.FrontSide,
+    emissive: 0xD4A017, emissiveMap: crescentTex, emissiveIntensity: 0.42,
+    polygonOffset: true, polygonOffsetFactor: -3, polygonOffsetUnits: -3,
+  }),
+  patch: new THREE.MeshStandardMaterial({
+    color: 0xffffff, map: patchTex, transparent: true, alphaTest: 0.25,
+    roughness: 0.35, metalness: 0.8, side: THREE.DoubleSide,
+    emissive: 0xD4A017, emissiveMap: patchTex, emissiveIntensity: 0.30,
+    polygonOffset: true, polygonOffsetFactor: -3, polygonOffsetUnits: -3,
+  }),
+  /* 発光 */
+  cyan:   glowMat(PALETTE.cyan, 1.55),
+  yellow: glowMat(PALETTE.yellow, 1.35, 0x181206),
+  cyanSoft: glowMat(PALETTE.cyan, 1.1),
+  /* ヘッドホン(バンド/パッド) */
+  hpBand: new THREE.MeshStandardMaterial({ color: 0x2a2a31, roughness: 0.34, metalness: 0.55 }),
+  pad: new THREE.MeshStandardMaterial({ color: 0x1c1c1f, roughness: 0.72, metalness: 0.08 }),
+  /* 小さな X デカール */
+  xCyan: new THREE.MeshStandardMaterial({
+    color: 0x000000, map: xCyanTex, transparent: true, alphaTest: 0.06, side: THREE.DoubleSide,
+    emissive: 0xffffff, emissiveMap: xCyanTex, emissiveIntensity: 1.6, depthWrite: false,
+    polygonOffset: true, polygonOffsetFactor: -3, polygonOffsetUnits: -3,
+  }),
+  xWhite: new THREE.MeshStandardMaterial({
+    color: 0xE8E8E2, map: xWhiteTex, transparent: true, alphaTest: 0.08, side: THREE.DoubleSide,
+    roughness: 0.9, depthWrite: false,
+    polygonOffset: true, polygonOffsetFactor: -3, polygonOffsetUnits: -3,
+  }),
+};
+
+/* ===================================================================== */
+/*  PROPORTIONS(三面図準拠 / 全高 1.902m・頭身 7.5)                      */
+/* ===================================================================== */
+const P = {
+  headY: 1.752, headRy: 0.142, headRx: 0.111, headRz: 0.117,  // 頭頂≈1.880 / 顎≈1.601(襟の内側に沈む)
+  neckY0: 1.545, neckY1: 1.620, neckR: 0.056,
+  shoulderY: 1.50, shoulderX: 0.190, shoulderR: 0.070,
+  waistY: 1.10, hipY: 0.95,
+  kneeY: 0.50, bootTopY: 0.30,
+  legX: 0.082,
+};
+
+/* コート外殻プロファイル(半径 = 正面から見た半幅。奥行きは group.scale.z=0.62) */
+const COAT_PROFILE = [
+  [1.545, 0.196], [1.48, 0.232], [1.38, 0.240], [1.26, 0.232],
+  [1.14, 0.224], [1.02, 0.234], [0.86, 0.256], [0.68, 0.282],
+  [0.50, 0.310], [0.37, 0.334],
+];
+const coatR = sampler(COAT_PROFILE);
+const COAT_Z = 0.56;             // コートの前後つぶし(三面図の側面幅に一致)
+
+/* 前身頃(フラップ)のパラメータ。v=0:肩 → v=1:裾 */
+const FLAP = {
+  yTop: 1.50, yHem: 0.33,
+  y:      v => lerp(1.50, 0.33, v),
+  aFold:  v => 0.30 + 0.42 * v,                       // 折り返しの折り目(胸で閉じ、裾へ開く)
+  aAtt:   v => 1.24 + 0.20 * v,                       // 外殻への取り付き角
+  wFace:  v => 0.045 + 0.34 * Math.pow(v, 1.5),       // 折り返し幅(rad)
+  R:      v => coatR(lerp(1.50, 0.33, v)) * 1.035 + 0.008,
+};
+const FACE_LIFT = 0.010;         // 折り返しは本体の外側に重なる
+
+/* ===================================================================== */
+/*  BUILD — パーツごとに Group 分割(将来のリグ/アニメ用)                 */
+/* ===================================================================== */
+const character = new THREE.Group();
+character.name = 'phantom-dj';
+scene.add(character);
+
+const PARTS = {};
+
+/* ------------------------------------------------------------ 頭部 head */
+function buildHead(){
+  const g = new THREE.Group(); g.name = 'head';
+  g.position.set(0, P.headY, 0);
+
+  const geo = new THREE.SphereGeometry(1, 64, 48);
+  const pos = geo.attributes.position;
+  const v = new THREE.Vector3();
+  for (let i = 0; i < pos.count; i++){
+    v.fromBufferAttribute(pos, i);
+    // 顎に向かうテーパー(下半分を絞る)
+    if (v.y < 0){
+      const t = smoothstep(-v.y);
+      const k = 1 - 0.36 * Math.pow(t, 1.5);
+      v.x *= k; v.z *= k;
+      v.y *= 1 + 0.06 * t;               // 顎を少し伸ばす
+    } else {
+      const t = smoothstep(v.y);
+      const k = 1 - 0.10 * Math.pow(t, 2.2);   // 頭頂を僅かに窄める
+      v.x *= k; v.z *= k;
+    }
+    // 後頭部を僅かに膨らませ、顔面をわずかに平坦化
+    if (v.z > 0) v.z *= 0.965;
+    else v.z *= 1.02;
+    pos.setXYZ(i, v.x * P.headRx, v.y * P.headRy, v.z * P.headRz);
+  }
+  geo.computeVertexNormals();
+  const skull = new THREE.Mesh(geo, MAT.head);
+  skull.name = 'head.skull';
+  g.add(skull);
+
+  // 首(短円柱)
+  const neck = new THREE.Mesh(
+    new THREE.CylinderGeometry(P.neckR, P.neckR * 1.22, P.neckY1 - P.neckY0, 24, 1),
+    MAT.cloth
+  );
+  neck.position.y = (P.neckY0 + P.neckY1) / 2 - P.headY;
+  neck.name = 'head.neck';
+  g.add(neck);
+
+  g.rotation.x = 0.035;            // ごく僅かに俯く
+  PARTS.head = g;
+  return g;
+}
+
+/* -------------------------------------------------- 胴体 torso(インナー) */
+function buildTorso(){
+  const g = new THREE.Group(); g.name = 'torso';
+
+  const TORSO = [
+    [0.88, 0.118], [0.95, 0.132], [1.02, 0.126], [1.10, 0.112],
+    [1.20, 0.122], [1.32, 0.140], [1.42, 0.148], [1.50, 0.134],
+    [1.545, 0.104], [1.57, 0.072],
+  ];
+  const body = new THREE.Mesh(lathe(TORSO, 48), MAT.cloth);
+  body.name = 'torso.shirt';
+  g.add(body);
+
+  // 斜めストラップ(胴に沿う開いた円筒アーク)
+  const mkStrap = (y, tilt, thetaStart, thetaLen, h, r) => {
+    const m = new THREE.Mesh(
+      new THREE.CylinderGeometry(r, r, h, 32, 1, true, thetaStart, thetaLen), MAT.strap
+    );
+    m.position.y = y; m.rotation.z = tilt;
+    m.material.side = THREE.DoubleSide;
+    return m;
+  };
+  g.add(mkStrap(1.31, 0.46, -0.95, 1.9, 0.024, 0.152));   // 右肩→左腰
+  g.add(mkStrap(1.20, -0.34, -0.85, 1.7, 0.016, 0.150));  // 交差する細ストラップ
+  // ベルト
+  const belt = new THREE.Mesh(new THREE.CylinderGeometry(0.128, 0.128, 0.05, 40, 1, true), MAT.strap);
+  belt.position.y = 1.06; belt.material.side = THREE.DoubleSide;
+  g.add(belt);
+  const buckle = new THREE.Mesh(roundedBox(0.052, 0.036, 0.018, 0.006), MAT.metal);
+  buckle.position.set(0, 1.06, 0.128 * 0.78);
+  g.add(buckle);
+  // 胸の小さなハーネスリング
+  const ring = new THREE.Mesh(new THREE.TorusGeometry(0.017, 0.004, 8, 20), MAT.metal);
+  ring.position.set(-0.055, 1.235, 0.118); ring.rotation.x = 0.25;
+  g.add(ring);
+
+  g.scale.z = 0.75;                 // 断面を楕円に(横広・前後薄)
+  PARTS.torso = g;
+  return g;
+}
+
+/* ------------------------------------------------------- コート coat */
+function buildCoat(){
+  const g = new THREE.Group(); g.name = 'coat';
+  g.scale.z = COAT_Z;
+
+  const GAP = 0.72;                                      // 前開き 41°(胸元はほぼ閉じ、裾に向かって開く)
+  const tStart = GAP / 2, tLen = Math.PI * 2 - GAP;
+
+  /* 外殻(背面〜側面) */
+  const shell = new THREE.Mesh(lathe(COAT_PROFILE, 72, tStart, tLen), MAT.coat);
+  shell.name = 'coat.shell';
+  g.add(shell);
+
+  /* 裏地(内側の一回り小さい同プロファイル。前開きから覗く) */
+  const inner = new THREE.Mesh(lathe(COAT_PROFILE, 72, tStart, tLen, 0.95), MAT.liningInner);
+  inner.name = 'coat.lining';
+  g.add(inner);
+
+  /* 肩ヨーク(ケープ層。コート上端を塞ぐ) */
+  const YOKE = [
+    [1.40, 0.253], [1.47, 0.249], [1.52, 0.233], [1.56, 0.196],
+    [1.585, 0.136], [1.60, 0.092],
+  ];
+  const yoke = new THREE.Mesh(lathe(YOKE, 64, 0.44, Math.PI * 2 - 0.88), MAT.coat);
+  yoke.name = 'coat.yoke';
+  g.add(yoke);
+
+  /* 襟(立ち襟。内側は裏地、上端にシアンライン) */
+  const CGAP = 1.30;
+  const COLLAR = [
+    [1.485, 0.112], [1.545, 0.124], [1.60, 0.136], [1.65, 0.145], [1.69, 0.150],
+  ];
+  /* 襟は丸首に近づける: コート全体の z つぶし(0.56)を部分的に打ち消し、
+     頭(z半径≈0.10)を余裕をもって抱く楕円にする */
+  const collarG = new THREE.Group();
+  collarG.scale.z = 1.35;
+  g.add(collarG);
+  const collarOut = new THREE.Mesh(lathe(COLLAR, 56, CGAP / 2, Math.PI * 2 - CGAP), MAT.coat);
+  collarOut.name = 'coat.collar';
+  collarG.add(collarOut);
+  const collarIn = new THREE.Mesh(lathe(COLLAR, 56, CGAP / 2, Math.PI * 2 - CGAP, 0.92), MAT.liningInner);
+  collarG.add(collarIn);
+  // 襟の上端 = シアンの細い発光リング
+  const collarRim = new THREE.Mesh(
+    new THREE.TorusGeometry(0.150, 0.0032, 8, 96, Math.PI * 2 - CGAP), MAT.cyanSoft
+  );
+  collarRim.rotation.x = -Math.PI / 2;
+  collarRim.rotation.z = -CGAP / 2;
+  collarRim.position.y = 1.69;
+  collarG.add(collarRim);
+
+  /* --- 前身頃 × 2(黒の本体 + 折り返しの発光裏地 + 縁ライン) --- */
+  const buildFlap = (s, edgeMat) => {
+    const fg = new THREE.Group();
+    fg.name = s > 0 ? 'coat.flapL' : 'coat.flapR';
+    const flip = s < 0;
+
+    // 本体(折り目 → 外殻への取り付き)
+    const panel = ruledSurface(14, 26, (u, v) => {
+      const a = lerp(FLAP.aFold(v), FLAP.aAtt(v), u);
+      const R = FLAP.R(v);
+      const y = FLAP.y(v) - 0.02 * (1 - u) * v;
+      return { x: s * R * Math.sin(a), y, z: R * Math.cos(a),
+               u: a * R / 0.30, v: (1.50 - y) / 0.55 };
+    }, flip);
+    fg.add(new THREE.Mesh(panel, MAT.coat));
+
+    // 折り返し(ラペル): 折り目から外へ折り返され、裏地が正面を向く
+    const facing = ruledSurface(12, 26, (u, v) => {
+      const a = FLAP.aFold(v) + FLAP.wFace(v) * u;
+      const R = FLAP.R(v) + FACE_LIFT;
+      const y = FLAP.y(v) - 0.028 * u * v;           // 前裾をわずかに尖らせる
+      return { x: s * R * Math.sin(a), y, z: R * Math.cos(a),
+               u: (a - FLAP.aFold(v)) * R / 0.30, v: (1.50 - y) / 0.80 };
+    }, flip);
+    fg.add(new THREE.Mesh(facing, MAT.lining));
+
+    // 折り目の発光ライン(左=シアン / 右=ゴールド)
+    const crease = [];
+    for (let i = 0; i <= 24; i++){
+      const v = i / 24, a = FLAP.aFold(v), R = FLAP.R(v) + FACE_LIFT + 0.004;
+      crease.push(new THREE.Vector3(s * R * Math.sin(a), FLAP.y(v), R * Math.cos(a)));
+    }
+    fg.add(new THREE.Mesh(tubeThrough(crease, 0.0052, 72, 6), edgeMat));
+
+    // 裾の発光ライン(折り返しの下端に沿う)
+    const hem = [];
+    for (let i = 0; i <= 12; i++){
+      const u = (i / 12) * 0.85;                     // 端は側面に回り込ませない
+      const a = FLAP.aFold(1) + FLAP.wFace(1) * u;
+      const R = FLAP.R(1) + FACE_LIFT + 0.001;
+      hem.push(new THREE.Vector3(s * R * Math.sin(a), FLAP.y(1) - 0.018 * u - 0.002, R * Math.cos(a)));
+    }
+    fg.add(new THREE.Mesh(tubeThrough(hem, 0.0042, 40, 6), edgeMat));
+
+    return fg;
+  };
+  g.add(buildFlap( 1, MAT.cyan));    // キャラ左 = シアン
+  g.add(buildFlap(-1, MAT.yellow));  // キャラ右 = ゴールド
+
+  /* 背面〜側面の裾ライン(シアン) */
+  const hemArc = Math.PI * 2 - FLAP.aAtt(1) * 2;
+  const hemRing = new THREE.Mesh(
+    new THREE.TorusGeometry(0.334, 0.0042, 8, 120, hemArc), MAT.cyan
+  );
+  hemRing.rotation.x = -Math.PI / 2;
+  hemRing.rotation.z = -FLAP.aAtt(1);
+  hemRing.position.y = 0.373;
+  g.add(hemRing);
+
+  /* 背面: 金の三日月エンブレム(コート曲面に沿わせる) */
+  const hw = 0.80;
+  const emblem = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.2385, 0.2395, 0.55, 48, 1, true, Math.PI - hw, hw * 2),
+    MAT.emblem
+  );
+  emblem.position.y = 1.235;
+  emblem.rotation.y = 0.15;        // 三日月を背骨の中心へ寄せる
+  emblem.name = 'coat.emblem';
+  g.add(emblem);
+
+  /* 背面のバックストラップ(左右に短く。三面図準拠) */
+  [1, -1].forEach(s => {
+    const bs = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.2355, 0.2355, 0.026, 24, 1, true,
+        Math.PI + s * 0.30 - 0.24, 0.48), MAT.strap
+    );
+    bs.position.y = 0.96; bs.material.side = THREE.DoubleSide;
+    g.add(bs);
+    const bb = new THREE.Mesh(roundedBox(0.024, 0.020, 0.012, 0.004), MAT.metal);
+    const a = Math.PI + s * 0.30;
+    bb.position.set(Math.sin(a) * 0.238, 0.96, Math.cos(a) * 0.238);
+    bb.rotation.y = a;
+    g.add(bb);
+  });
+
+  PARTS.coat = g;
+  return g;
+}
+
+/* --------------------------------------------------------- 腕 arm(袖/手) */
+function buildArm(s){
+  const g = new THREE.Group();
+  g.name = s > 0 ? 'armL' : 'armR';
+  g.position.set(s * P.shoulderX, P.shoulderY, 0);
+  g.rotation.z = s * 0.24;          // A ポーズ(約14°)
+  g.rotation.x = -0.05;             // ごく僅かに前へ
+
+  // 肩(コートの肩を形づくる球)
+  const shoulder = new THREE.Mesh(new THREE.SphereGeometry(P.shoulderR, 28, 20), MAT.coat);
+  shoulder.scale.set(1, 0.95, 1.05);
+  g.add(shoulder);
+
+  // 上腕(袖)
+  const upper = new THREE.Mesh(new THREE.CylinderGeometry(0.066, 0.054, 0.30, 26, 1), MAT.coat);
+  upper.position.y = -0.15;
+  g.add(upper);
+
+  // 肩の金の円形パッチ(袖の外側曲面に沿わせる)
+  const patch = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.0665, 0.061, 0.082, 24, 1, true,
+      (s > 0 ? Math.PI / 2 : -Math.PI / 2) - 0.62, 1.24),
+    MAT.patch
+  );
+  patch.position.y = -0.09;
+  g.add(patch);
+
+  // 上腕のバックルストラップ
+  const strapU = new THREE.Mesh(new THREE.TorusGeometry(0.059, 0.006, 8, 26), MAT.strap);
+  strapU.position.y = -0.245; strapU.rotation.x = Math.PI / 2;
+  g.add(strapU);
+  const buckleU = new THREE.Mesh(roundedBox(0.022, 0.016, 0.012, 0.004), MAT.metal);
+  buckleU.position.set(s * 0.057, -0.245, 0.012);
+  g.add(buckleU);
+
+  /* --- 前腕(肘で僅かに曲げる) --- */
+  const fore = new THREE.Group();
+  fore.name = (s > 0 ? 'armL' : 'armR') + '.forearm';
+  fore.position.y = -0.30;
+  fore.rotation.x = 0.10;
+  fore.rotation.z = s * -0.05;
+  g.add(fore);
+
+  const elbow = new THREE.Mesh(new THREE.SphereGeometry(0.054, 20, 14), MAT.coat);
+  fore.add(elbow);
+
+  const lower = new THREE.Mesh(new THREE.CylinderGeometry(0.054, 0.047, 0.26, 24, 1), MAT.coat);
+  lower.position.y = -0.13;
+  fore.add(lower);
+
+  // 袖口(カフ)+ ストラップ
+  const cuff = new THREE.Mesh(new THREE.CylinderGeometry(0.060, 0.054, 0.070, 24, 1), MAT.strap);
+  cuff.position.y = -0.245;
+  fore.add(cuff);
+  const cuffRing = new THREE.Mesh(new THREE.TorusGeometry(0.059, 0.0045, 8, 24), MAT.metal);
+  cuffRing.position.y = -0.222; cuffRing.rotation.x = Math.PI / 2;
+  fore.add(cuffRing);
+
+  /* --- 手(ミトン状の黒手袋) --- */
+  const hand = new THREE.Group();
+  hand.name = (s > 0 ? 'armL' : 'armR') + '.hand';
+  hand.position.y = -0.285;
+  fore.add(hand);
+
+  const palm = new THREE.Mesh(new THREE.CapsuleGeometry(0.035, 0.060, 6, 16), MAT.glove);
+  palm.position.y = -0.056;
+  palm.scale.set(1.05, 1, 0.66);
+  hand.add(palm);
+  // 親指
+  const thumb = new THREE.Mesh(new THREE.CapsuleGeometry(0.013, 0.022, 5, 12), MAT.glove);
+  thumb.position.set(s * -0.027, -0.042, 0.017);
+  thumb.rotation.z = s * 0.42; thumb.rotation.x = -0.5;
+  hand.add(thumb);
+
+  PARTS[g.name] = g;
+  return g;
+}
+
+/* ------------------------------------------------- 脚 leg(パンツ+ブーツ) */
+function buildLeg(s){
+  const g = new THREE.Group();
+  g.name = s > 0 ? 'legL' : 'legR';
+  g.position.set(s * P.legX, 0.98, 0);
+  g.rotation.z = s * 0.028;
+
+  // 腿
+  const thigh = new THREE.Mesh(new THREE.CylinderGeometry(0.098, 0.079, 0.50, 26, 1), MAT.cloth);
+  thigh.position.y = -0.25;
+  g.add(thigh);
+  // 膝
+  const knee = new THREE.Mesh(new THREE.SphereGeometry(0.079, 20, 14), MAT.cloth);
+  knee.position.y = -0.49;
+  g.add(knee);
+  // 脛
+  const shin = new THREE.Mesh(new THREE.CylinderGeometry(0.079, 0.070, 0.24, 24, 1), MAT.cloth);
+  shin.position.y = -0.60;
+  g.add(shin);
+
+  // カーゴポケット(外側)
+  const pocket = new THREE.Mesh(roundedBox(0.036, 0.125, 0.088, 0.012), MAT.cloth);
+  pocket.position.set(s * 0.095, -0.245, 0.028);
+  pocket.rotation.z = s * -0.06;
+  g.add(pocket);
+  const flap = new THREE.Mesh(roundedBox(0.030, 0.030, 0.086, 0.008), MAT.strap);
+  flap.position.set(s * 0.100, -0.190, 0.028);
+  g.add(flap);
+
+  // 腿のストラップ
+  const ts = new THREE.Mesh(new THREE.TorusGeometry(0.092, 0.006, 8, 26), MAT.strap);
+  ts.position.y = -0.35; ts.rotation.x = Math.PI / 2; ts.scale.z = 0.9;
+  g.add(ts);
+
+  // キャラ右腿の白い X(三面図準拠)
+  if (s < 0){
+    const xd = new THREE.Mesh(new THREE.PlaneGeometry(0.05, 0.05), MAT.xWhite);
+    xd.position.set(-0.052, -0.325, 0.088);
+    xd.rotation.y = -0.42;
+    g.add(xd);
+  }
+
+  /* --- ブーツ(ワールド y: ソール 0 / 甲 0.16 / シャフト上端 0.31) --- */
+  const boot = new THREE.Group();
+  boot.name = (s > 0 ? 'legL' : 'legR') + '.boot';
+  boot.position.y = -0.98;            // ワールド原点(床)へ
+  g.add(boot);
+
+  const shaft = new THREE.Mesh(new THREE.CylinderGeometry(0.086, 0.090, 0.19, 26, 1), MAT.boot);
+  shaft.position.y = 0.215;
+  boot.add(shaft);
+  // シャフト上端の折り返し
+  const cuffB = new THREE.Mesh(new THREE.TorusGeometry(0.086, 0.011, 10, 26), MAT.boot);
+  cuffB.position.y = 0.305; cuffB.rotation.x = Math.PI / 2;
+  boot.add(cuffB);
+  // 甲
+  const foot = new THREE.Mesh(roundedBox(0.115, 0.115, 0.255, 0.035), MAT.boot);
+  foot.position.set(0, 0.105, 0.030);
+  boot.add(foot);
+  // 厚底ソール(footprint 大きめ)
+  const sole = new THREE.Mesh(roundedBox(0.128, 0.058, 0.295, 0.028), MAT.sole);
+  sole.position.set(0, 0.029, 0.038);
+  boot.add(sole);
+  const mid = new THREE.Mesh(roundedBox(0.124, 0.016, 0.288, 0.024), MAT.boot);
+  mid.position.set(0, 0.062, 0.038);
+  boot.add(mid);
+  // トレッド(前後のラグ)
+  for (let i = 0; i < 4; i++){
+    const lug = new THREE.Mesh(roundedBox(0.118, 0.012, 0.030, 0.006, 0.003), MAT.sole);
+    lug.position.set(0, 0.006, -0.075 + i * 0.052);
+    boot.add(lug);
+  }
+  // レース金具
+  for (let i = 0; i < 4; i++){
+    const lace = new THREE.Mesh(roundedBox(0.070, 0.010, 0.010, 0.004, 0.002), MAT.strap);
+    lace.position.set(0, 0.135 + i * 0.042, 0.086 - i * 0.012);
+    boot.add(lace);
+  }
+  // バックルストラップ
+  const bs = new THREE.Mesh(new THREE.TorusGeometry(0.090, 0.008, 8, 24), MAT.strap);
+  bs.position.y = 0.245; bs.rotation.x = Math.PI / 2;
+  boot.add(bs);
+  const bb = new THREE.Mesh(roundedBox(0.020, 0.016, 0.010, 0.003), MAT.metal);
+  bb.position.set(s * 0.088, 0.245, 0.014);
+  boot.add(bb);
+
+  // 側面の小さなシアン X(発光)
+  const xd = new THREE.Mesh(new THREE.PlaneGeometry(0.052, 0.052), MAT.xCyan);
+  xd.position.set(s * 0.061, 0.112, 0.045);
+  xd.rotation.y = s * Math.PI / 2;
+  boot.add(xd);
+
+  PARTS[g.name] = g;
+  return g;
+}
+
+/* --------------------------------------------- ヘッドホン(首に掛けた状態) */
+function buildHeadphones(){
+  const g = new THREE.Group(); g.name = 'headphones';
+  g.position.set(0, 1.548, 0);
+
+  /* バンド: 左カップ → 肩の上 → 襟の後ろ → 右カップ。
+     側面〜背面はコート/襟に隠れ、前面のみ胸の上に覗く(参考: ディテール02) */
+  const bandPts = [
+    new THREE.Vector3( 0.072, -0.020, 0.150),
+    new THREE.Vector3( 0.100, 0.020, 0.144),
+    new THREE.Vector3( 0.130, 0.062, 0.082),
+    new THREE.Vector3( 0.138, 0.088, -0.020),
+    new THREE.Vector3( 0.108, 0.104, -0.106),
+    new THREE.Vector3( 0.000, 0.112, -0.152),
+    new THREE.Vector3(-0.108, 0.104, -0.106),
+    new THREE.Vector3(-0.138, 0.088, -0.020),
+    new THREE.Vector3(-0.130, 0.062, 0.082),
+    new THREE.Vector3(-0.100, 0.020, 0.144),
+    new THREE.Vector3(-0.072, -0.020, 0.150),
+  ];
+  g.add(new THREE.Mesh(tubeThrough(bandPts, 0.0125, 80, 10), MAT.hpBand));
+  // バンドのパッド(後頭側)
+  g.add(new THREE.Mesh(tubeThrough(bandPts.slice(4, 7), 0.017, 30, 10), MAT.pad));
+
+  // イヤーカップ × 2
+  [1, -1].forEach(s => {
+    const cup = new THREE.Group();
+    cup.name = s > 0 ? 'headphones.cupL' : 'headphones.cupR';
+    cup.position.set(s * 0.072, -0.014, 0.150);
+    cup.rotation.y = s * 0.38;
+    cup.rotation.x = 0.26;
+    cup.scale.setScalar(0.92);
+    g.add(cup);
+
+    // ヨーク(バンドとカップをつなぐ金具。カップの外側後方に隠す)
+    const yoke = new THREE.Mesh(roundedBox(0.010, 0.034, 0.012, 0.004, 0.002), MAT.metal);
+    yoke.position.set(s * 0.034, 0.020, -0.018);
+    yoke.rotation.z = s * -0.52;
+    cup.add(yoke);
+
+    // 本体
+    const body = new THREE.Mesh(new THREE.CylinderGeometry(0.052, 0.049, 0.030, 32, 1), MAT.boot);
+    body.rotation.x = Math.PI / 2;
+    cup.add(body);
+    // イヤーパッド(裏側)
+    const pad = new THREE.Mesh(new THREE.TorusGeometry(0.042, 0.017, 12, 28), MAT.pad);
+    pad.position.z = -0.022;
+    cup.add(pad);
+    // 縁のシアン発光リング
+    const rim = new THREE.Mesh(new THREE.TorusGeometry(0.0475, 0.0038, 8, 44), MAT.cyan);
+    rim.position.z = 0.0155;
+    cup.add(rim);
+    // 内側のリング + 中央ドット(ディテールシート 02 準拠)
+    const ring2 = new THREE.Mesh(new THREE.TorusGeometry(0.026, 0.0028, 8, 36), MAT.cyanSoft);
+    ring2.position.z = 0.0162;
+    cup.add(ring2);
+    const dot = new THREE.Mesh(new THREE.CylinderGeometry(0.006, 0.006, 0.004, 16), MAT.cyanSoft);
+    dot.rotation.x = Math.PI / 2; dot.position.z = 0.0165;
+    cup.add(dot);
+    // フェイスプレートの段差
+    const plate = new THREE.Mesh(new THREE.CylinderGeometry(0.040, 0.044, 0.008, 32), MAT.boot);
+    plate.rotation.x = Math.PI / 2; plate.position.z = 0.014;
+    cup.add(plate);
+  });
+
+  PARTS.headphones = g;
+  return g;
+}
+
+/* --------------------------------------------------------------- 組み立て */
+character.add(buildLeg( 1), buildLeg(-1));
+character.add(buildTorso());
+character.add(buildCoat());
+character.add(buildArm( 1), buildArm(-1));
+character.add(buildHead());
+character.add(buildHeadphones());
+
+/* ===================================================================== */
+/*  POST — RenderPass → UnrealBloomPass → OutputPass                      */
+/* ===================================================================== */
+const composer = new EffectComposer(renderer);
+composer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+composer.setSize(stage.clientWidth, stage.clientHeight);
+composer.addPass(new RenderPass(scene, camera));
+
+const bloom = new UnrealBloomPass(
+  new THREE.Vector2(stage.clientWidth, stage.clientHeight),
+  CFG.bloom.strength, CFG.bloom.radius, CFG.bloom.threshold
+);
+composer.addPass(bloom);
+composer.addPass(new OutputPass());
+
+/* 微細グレイン + ビネット。暗い背景での 8bit バンディング(Bloom の粗いミップが
+   格子状に見える現象)をディザで潰す */
+const GrainShader = {
+  uniforms: {
+    tDiffuse: { value: null },
+    uTime:    { value: 0 },
+    uAmount:  { value: 0.032 },
+    uVignette:{ value: 0.34 },
+  },
+  vertexShader: `
+    varying vec2 vUv;
+    void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }
+  `,
+  fragmentShader: `
+    uniform sampler2D tDiffuse;
+    uniform float uTime, uAmount, uVignette;
+    varying vec2 vUv;
+    float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123); }
+    void main(){
+      vec4 c = texture2D(tDiffuse, vUv);
+      float n = hash(vUv * 1024.0 + fract(uTime) * 91.7) - 0.5;
+      c.rgb += n * uAmount;
+      float d = distance(vUv, vec2(0.5));
+      c.rgb *= 1.0 - uVignette * smoothstep(0.34, 0.86, d);
+      gl_FragColor = c;
+    }
+  `,
+};
+const grainPass = new ShaderPass(GrainShader);
+composer.addPass(grainPass);
+
+/* ===================================================================== */
+/*  CONTROLS                                                              */
+/* ===================================================================== */
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.target.copy(CFG.target);                 // = 胸高
+controls.enableDamping = true;
+controls.dampingFactor = 0.062;
+controls.enablePan = false;
+controls.minDistance = 2.1;
+controls.maxDistance = 8.0;
+controls.minPolarAngle = 0.55;                    // 見下ろし過ぎ防止
+controls.maxPolarAngle = 1.74;                    // 床下に潜らない
+controls.autoRotate = !REDUCED;                   // reduced-motion では停止
+controls.autoRotateSpeed = CFG.autoRotate;
+controls.update();
+
+/* ===================================================================== */
+/*  LOOP                                                                  */
+/* ===================================================================== */
+const clock = new THREE.Clock();
+let running = true, frames = 0, fpsT0 = performance.now(), reported = false;
+window.__fps = 0;
+
+function render(){
+  const t = clock.getElapsedTime();
+
+  // 微かな呼吸(胸 scale 1±0.006)
+  if (!REDUCED && PARTS.torso){
+    const b = 1 + Math.sin(t * 1.35) * CFG.breath;
+    PARTS.torso.scale.set(b, 1 + (b - 1) * 0.45, 0.75 * b);
+    PARTS.headphones.position.y = 1.500 + Math.sin(t * 1.35) * 0.0016;
+  }
+
+  grainPass.uniforms.uTime.value = t;
+  controls.update();
+  composer.render();
+
+  // fps 概算
+  frames++;
+  const now = performance.now();
+  if (now - fpsT0 >= 1000){
+    window.__fps = Math.round(frames * 1000 / (now - fpsT0));
+    frames = 0; fpsT0 = now;
+    if (!reported){
+      reported = true;
+      console.log('[phantom-dj] fps ≈ ' + window.__fps +
+                  ' | drawcalls ' + renderer.info.render.calls +
+                  ' | tris ' + renderer.info.render.triangles);
+    }
+  }
+}
+
+function loop(){
+  if (!running) return;
+  requestAnimationFrame(loop);
+  render();
+}
+
+/* ---- resize ---- */
+function resize(){
+  const w = stage.clientWidth, h = stage.clientHeight;
+  if (!w || !h) return;
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.setSize(w, h);
+  composer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  composer.setSize(w, h);
+  bloom.setSize(w, h);
+}
+window.addEventListener('resize', resize);
+if (window.ResizeObserver) new ResizeObserver(resize).observe(stage);
+
+/* ---- 非表示時はループ停止 ---- */
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden){ running = false; }
+  else if (!running){ running = true; clock.getDelta(); loop(); }
+});
+
+/* ---- WebGL コンテキスト喪失 ---- */
+renderer.domElement.addEventListener('webglcontextlost', e => {
+  e.preventDefault(); running = false;
+  console.warn('[phantom-dj] webgl context lost');
+});
+renderer.domElement.addEventListener('webglcontextrestored', () => {
+  running = true; loop();
+});
+
+/* ===================================================================== */
+/*  VIEW HELPERS / DEBUG API(スクショ検証用)                             */
+/* ===================================================================== */
+const VIEWS = {
+  front:   [0, 1.22, 4.55],
+  side:    [4.55, 1.22, 0],
+  back:    [0, 1.22, -4.55],
+  three:   [2.85, 1.45, 3.35],
+  head:    [0.20, 1.83, 0.86, 1.79],   // [x, y, z, targetY]
+  chest:   [0.25, 1.62, 1.05, 1.40],
+  hem:     [0.90, 0.60, 1.75, 0.45],
+};
+function setView(name, opts = {}){
+  const v = VIEWS[name] || VIEWS.front;
+  controls.autoRotate = false;
+  camera.position.set(v[0], v[1], v[2]);
+  const ty = opts.ty !== undefined ? opts.ty : (v[3] !== undefined ? v[3] : CFG.target.y);
+  controls.target.set(0, ty, 0);
+  controls.update();
+  composer.render();
+  return name;
+}
+window.__viewer = {
+  THREE, scene, camera, controls, composer, renderer, bloom, PARTS, character,
+  setView,
+  stopAutoRotate(){ controls.autoRotate = false; },
+  startAutoRotate(){ controls.autoRotate = true; },
+  get fps(){ return window.__fps; },
+};
+
+window.addEventListener('keydown', e => {
+  if (e.target !== document.body) return;
+  const k = e.key.toLowerCase();
+  if (k === '1') setView('front');
+  else if (k === '2') setView('side');
+  else if (k === '3') setView('back');
+  else if (k === 'r') controls.autoRotate = !controls.autoRotate;
+});
+
+/* ---- URL パラメータ(?view=front&norot=1) ---- */
+if (PARAMS.get('norot') !== null) controls.autoRotate = false;
+if (PARAMS.get('view')) setView(PARAMS.get('view'));
+
+/* ---- 起動 ---- */
+composer.render();
+loop();
+boot.classList.add('gone');
+setTimeout(() => boot.remove(), 900);
+window.__ready = true;
+console.log('[phantom-dj] ready — objects:', scene.children.length,
+            '| height:', CFG.height, 'm');
+</script>
+</body>
+</html>

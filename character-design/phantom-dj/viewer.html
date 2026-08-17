@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NEON PHANTOM DJ — CUCUL FM OFFICIAL CHARACTER</title>
+<meta name="description" content="CUCUL FM 公式キャラクター「ネオン・ファントムDJ」3Dターンテーブルビューア">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23111'/%3E%3Cpath d='M8 8 L24 24 M24 8 L8 24' stroke='%23F5F5F5' stroke-width='5' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%23FFE9A0'/%3E%3C/svg%3E">
+<style>
+  :root{
+    --cyan:#00E5FF;
+    --gold:#FFD400;
+    --ink:#05070b;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; background:var(--ink); color:#cfd6e4; overflow:hidden;
+    font-family:"Helvetica Neue",Arial,"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  #stage{position:fixed; inset:0}
+  #stage canvas{display:block; width:100%; height:100%; touch-action:none}
+
+  /* ---- HUD ---- */
+  .hud{
+    position:fixed; left:0; right:0; bottom:max(18px, env(safe-area-inset-bottom));
+    text-align:center; pointer-events:none; z-index:5;
+  }
+  .hud .caption{
+    font-size:clamp(10px,1.35vw,13px); letter-spacing:.36em; text-transform:uppercase;
+    color:#e8edf6; text-shadow:0 0 18px rgba(0,229,255,.35), 0 2px 10px rgba(0,0,0,.9);
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis; padding:0 12px;
+  }
+  .hud .caption b{font-weight:600}
+  .hud .caption i{font-style:normal; color:#8fa0b8}
+  .hud .hint{
+    margin-top:9px; font-size:clamp(9px,1.05vw,11px); letter-spacing:.18em; color:#61708a;
+  }
+  .hud .hint span{margin:0 .55em; white-space:nowrap}
+  .hud .hint kbd{
+    font:inherit; letter-spacing:.1em; color:#8fa0b8; border:1px solid #24303f;
+    border-radius:3px; padding:1px 5px; background:rgba(255,255,255,.03);
+  }
+
+  /* ---- 操作ピル(再生/停止・自動回転) ---- */
+  .ctl{
+    display:flex; gap:10px; justify-content:center; flex-wrap:wrap;
+    margin:0 0 14px; padding:0 12px;
+  }
+  .pill{
+    pointer-events:auto; cursor:pointer; -webkit-appearance:none; appearance:none;
+    font:inherit; font-size:clamp(9px,1.05vw,11px); letter-spacing:.2em; text-transform:uppercase;
+    color:#8fa0b8; background:rgba(8,12,20,.62); border:1px solid #1f2a39; border-radius:999px;
+    padding:7px 15px; line-height:1; backdrop-filter:blur(6px);
+    transition:color .2s ease, border-color .2s ease, background .2s ease, box-shadow .2s ease;
+  }
+  .pill:hover{color:#dbe4f2; border-color:#33455c}
+  .pill:focus-visible{outline:2px solid var(--cyan); outline-offset:2px}
+  .pill[aria-pressed="true"]{
+    color:#eaf6ff; border-color:rgba(0,229,255,.55); background:rgba(0,229,255,.08);
+    box-shadow:0 0 18px rgba(0,229,255,.16), inset 0 0 12px rgba(0,229,255,.06);
+  }
+  .pill .ic{margin-left:.5em; letter-spacing:0; opacity:.9}
+
+  .brand{
+    position:fixed; top:max(16px, env(safe-area-inset-top)); left:18px; z-index:5;
+    font-size:10px; letter-spacing:.42em; color:#4b586e; pointer-events:none; text-transform:uppercase;
+  }
+  .brand em{font-style:normal; color:var(--gold); opacity:.85}
+
+  /* ---- loading / error ---- */
+  #boot{
+    position:fixed; inset:0; z-index:20; display:grid; place-content:center; gap:14px;
+    background:var(--ink); transition:opacity .7s ease; text-align:center;
+  }
+  #boot.gone{opacity:0; pointer-events:none}
+  #boot .bar{width:180px; height:1px; background:#1b2330; position:relative; overflow:hidden; margin:0 auto}
+  #boot .bar::after{
+    content:""; position:absolute; inset:0; width:40%; background:linear-gradient(90deg,transparent,var(--cyan),transparent);
+    animation:sweep 1.25s infinite ease-in-out;
+  }
+  #boot .bar.det::after{content:none}
+  #boot .bar > i{
+    display:block; position:absolute; left:0; top:0; bottom:0; width:0%;
+    background:var(--cyan); box-shadow:0 0 10px rgba(0,229,255,.6); transition:width .18s linear;
+  }
+  @keyframes sweep{0%{transform:translateX(-120%)}100%{transform:translateX(320%)}}
+  #boot p{margin:0; font-size:10px; letter-spacing:.4em; color:#556479}
+  #fail{max-width:min(520px,86vw); line-height:1.9; font-size:13px; color:#93a1b8; display:none}
+  #fail code{color:#8fa0b8; font-size:12px}
+  @media (prefers-reduced-motion: reduce){
+    #boot .bar::after{animation:none; width:100%; opacity:.35}
+  }
+</style>
+</head>
+<body>
+  <div id="stage"></div>
+
+  <div class="brand">CUCUL <em>FM</em></div>
+
+  <div class="hud">
+    <div class="ctl">
+      <button id="btnWalk" class="pill" type="button" aria-pressed="true" aria-label="歩行アニメーションの再生・停止">WALK <span class="ic" id="icWalk">❚❚</span></button>
+      <button id="btnRot"  class="pill" type="button" aria-pressed="true" aria-label="自動回転のオン・オフ">AUTO-ROTATE <span class="ic" id="icRot">●</span></button>
+    </div>
+    <div class="caption"><b>NEON PHANTOM DJ</b> <i>—</i> CUCUL FM OFFICIAL CHARACTER</div>
+    <div class="hint">
+      <span>ドラッグで回転</span><span>ホイールでズーム</span><span><kbd>1</kbd>/<kbd>2</kbd>/<kbd>3</kbd> 正面・側面・背面</span><span><kbd>R</kbd> 自動回転</span>
+    </div>
+  </div>
+
+  <div id="boot">
+    <p id="bootmsg">LOADING</p>
+    <div class="bar" id="bootbar"><i id="bootfill"></i></div>
+    <div id="fail"></div>
+  </div>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+  }
+}
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls }    from 'three/addons/controls/OrbitControls.js';
+import { GLTFLoader }       from 'three/addons/loaders/GLTFLoader.js';
+import { RGBELoader }       from 'three/addons/loaders/RGBELoader.js';
+import { RoomEnvironment }  from 'three/addons/environments/RoomEnvironment.js';
+import { EffectComposer }   from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass }       from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass }  from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { OutputPass }       from 'three/addons/postprocessing/OutputPass.js';
+import { ShaderPass }       from 'three/addons/postprocessing/ShaderPass.js';
+
+/* =========================================================================
+   NEON PHANTOM DJ — GLB turntable viewer
+   モデル: ./model.glb(Meshy 出力 / スキン + その場歩行アニメ内蔵)
+   世界観(背景グラデ球・薄フォグ・床の照り返し・グレイン)は
+   プロシージャル版(viewer-procedural.html)から流用。
+   ========================================================================= */
+
+const CFG = {
+  height:     1.75,      // 自動フィット後の全高(m)
+  bloom:      { threshold: 0.75, strength: 0.50, radius: 0.50 },
+  autoRotate: 0.9,
+  camStart:   new THREE.Vector3(0.95, 1.22, 4.20),
+  target:     new THREE.Vector3(0, 0.95, 0),
+  envIntensity: 0.5,     // HDRI(scene.environment)の効き
+  // three.js 同梱の royal_esplanade。threejs.org/examples/... の実体は現在404のため
+  // jsDelivr の GitHub ミラー(CORS: *)を使う。取得失敗時は RoomEnvironment にフォールバック。
+  hdri: 'https://cdn.jsdelivr.net/gh/mrdoob/three.js@r170/examples/textures/equirectangular/royal_esplanade_1k.hdr',
+};
+
+/* 発光・反射の調整ノブ(Fable 調整パス用)。
+   GLB は emissiveTexture=baseColor + emissiveFactor[1,1,1] のフル発光状態なので
+   emissiveIntensity を主ノブとして絞り、明るいテクセルだけを Bloom に載せる。 */
+const GLOW = {
+  emissiveIntensity: 0.35,   // 主ノブ: ベイク済み emissive の全体強度
+  specularIntensity: 0.45,   // KHR_materials_specular のギラつき抑制
+  specularColorMax:  1.0,    // specularColorFactor 2.0 のクランプ上限
+  rules: [                   // 将来のパーツ分割GLB用(mesh名 / material名でマッチ)
+    { match: /x|paint|face/i,      color: 0xFFE9A0, intensity: 2.2 },
+    { match: /neon|line|circuit/i, color: 0x00E5FF, intensity: 2.4 },
+    { match: /headphone|ring/i,    color: 0x00E5FF, intensity: 2.0 },
+  ],
+};
+
+/* 追加装飾(ディテールシート03/04/05)。GLBに無い装飾を後付けする調整ノブ。
+   単位: ボーンローカル ≒ cm(Armature scale 0.01 の逆数系) */
+const DECALS = {
+  /* 配置はワールド空間(m)で指定 → バインドポーズのボーン行列で逆変換して取り付ける。
+     キャラは +z 向き(背面 = -z)。offset はボーンのワールド位置からの相対。 */
+  emblem: {                        // 背中の金の三日月+縦オーナメント(シート04)
+    bone: /^Spine02$/i,
+    size: 0.335,                   // 一辺(m)
+    curve: 0.55,                   // 背中の丸みに沿う湾曲(rad)
+    offset: [0, 0.17, -0.21],      // Spine02(y1.10,z0.03)から肩甲骨高・コート背面表皮の外へ
+    face:   [0, 0, -1],            // 板の表を -z(背面)へ向ける
+    tilt:   -0.08,                 // 背中の前傾に沿わせる微調整(x軸回転)
+    emissiveIntensity: 0.65,       // 金の箔押し+微発光
+  },
+  bootX: {                         // ブーツ外側面の小さなシアンX(シート05)
+    bones: [/^LeftFoot$/i, /^RightFoot$/i],
+    size: 0.068,
+    offset: [0.048, 0.03, 0.01],   // Foot(±0.17,0.15)から靴側面に密着(右足は x 反転)
+    face:   [1, 0, 0],             // 表を外側へ(右足は反転)
+    tilt: 0,
+    emissiveIntensity: 1.6,
+  },
+};
+
+/* コート裏地の回路ネオン(シート03)。
+   コート殻の三角形をバインドポーズで判定し、内側向きの「ライナーメッシュ」を
+   同スケルトンにバインドして複製する(外側の見た目は不変・アニメ追従)。 */
+const LINING = {
+  enabled: true,
+  intensity: 1.8,                  // 回路エミッシブの強さ
+  inset: 0.006,                    // 法線の内側へのオフセット(m) z-fight回避
+  repeat: [3, 1.5],                // 円筒UVでのパターンタイル数 [周方向, 高さ]
+  /* 判定閾値(バインドポーズ・メッシュローカル m 単位) */
+  radialDotMin: 0.35,              // 法線が外向き(dot(n, radial) > これ)ならコート殻候補
+  yRange: [0.22, 1.30],            // コートの高さ範囲
+  minRadius: h => 0.135 + Math.max(0, (0.9 - h)) * 0.10,  // 胴体より外側の判定(裾ほど広い)
+  maxRadiusAboveWaist: 0.27,       // 腰上でこれより外は腕とみなして除外
+};
+
+const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const PARAMS  = new URLSearchParams(location.search);
+
+/* ---------------------------------------------------------------- utils */
+/** 決定的な乱数(スクショ再現性のため固定シード) */
+function mulberry32(seed){
+  return function(){
+    seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+    let t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+const rnd = mulberry32(0x43554355);
+const rr  = (a, b) => a + (b - a) * rnd();
+
+function cv(w, h){
+  const c = document.createElement('canvas');
+  c.width = w; c.height = h;
+  return c;
+}
+
+let MAX_ANISO = 4;
+/** canvas → THREE.CanvasTexture。data 用(bump/rough)は srgb:false */
+function tex(canvas, { srgb = true, repeat = null, wrap = false } = {}){
+  const t = new THREE.CanvasTexture(canvas);
+  if (srgb) t.colorSpace = THREE.SRGBColorSpace;
+  if (wrap){ t.wrapS = t.wrapT = THREE.RepeatWrapping; }
+  if (repeat) t.repeat.set(repeat[0], repeat[1]);
+  t.anisotropy = MAX_ANISO;
+  t.needsUpdate = true;
+  return t;
+}
+
+/** 床(濡れた地面の照り返し: 金=左 / シアン=右) */
+function makeFloorTexture(){
+  const S = 1024;
+  const c = cv(S, S), g = c.getContext('2d');
+  g.fillStyle = '#000'; g.fillRect(0, 0, S, S);
+  const mid = S / 2;
+  // 中央の淡いプール
+  let rg = g.createRadialGradient(mid, mid, 0, mid, mid, S * 0.5);
+  rg.addColorStop(0.00, 'rgba(38,48,64,0.95)');
+  rg.addColorStop(0.28, 'rgba(20,27,38,0.75)');
+  rg.addColorStop(0.62, 'rgba(7,10,16,0.35)');
+  rg.addColorStop(1.00, 'rgba(0,0,0,0)');
+  g.fillStyle = rg; g.fillRect(0, 0, S, S);
+  // 照り返し(金は左、シアンは右)
+  const pool = (x, y, rx, ry, col) => {
+    g.save(); g.translate(x, y); g.scale(rx / ry, 1);
+    const p = g.createRadialGradient(0, 0, 0, 0, 0, ry);
+    p.addColorStop(0, col[0]); p.addColorStop(0.45, col[1]); p.addColorStop(1, col[2]);
+    g.fillStyle = p; g.beginPath(); g.arc(0, 0, ry, 0, Math.PI * 2); g.fill();
+    g.restore();
+  };
+  pool(S * 0.30, mid, S * 0.16, S * 0.30,
+       ['rgba(255,190,40,0.34)', 'rgba(150,105,15,0.13)', 'rgba(0,0,0,0)']);
+  pool(S * 0.71, mid, S * 0.15, S * 0.30,
+       ['rgba(0,229,255,0.30)', 'rgba(0,110,140,0.12)', 'rgba(0,0,0,0)']);
+  // 濡れた斑点・小石
+  for (let i = 0; i < 1400; i++){
+    const a = rnd() * Math.PI * 2, r = Math.pow(rnd(), 0.6) * S * 0.48;
+    const x = mid + Math.cos(a) * r, y = mid + Math.sin(a) * r;
+    const f = 1 - r / (S * 0.5);
+    g.fillStyle = rnd() < 0.5
+      ? `rgba(120,150,175,${rr(0.02, 0.14) * f})`
+      : `rgba(200,160,60,${rr(0.02, 0.10) * f})`;
+    g.beginPath(); g.ellipse(x, y, rr(1, 6), rr(1, 3), rnd() * 3, 0, Math.PI * 2); g.fill();
+  }
+  // 接地影
+  const sh = g.createRadialGradient(mid, mid, 0, mid, mid, S * 0.085);
+  sh.addColorStop(0, 'rgba(0,0,0,0.92)');
+  sh.addColorStop(0.55, 'rgba(0,0,0,0.55)');
+  sh.addColorStop(1, 'rgba(0,0,0,0)');
+  g.fillStyle = sh;
+  g.save(); g.translate(mid, mid); g.scale(1.5, 0.85);
+  g.beginPath(); g.arc(0, 0, S * 0.085, 0, Math.PI * 2); g.fill(); g.restore();
+  return c;
+}
+
+/* ---- 追加装飾テクスチャ(プロシージャル版 viewer-procedural.html から移植) ---- */
+
+/** コート裏地: 回路トレース + かすかなヘックス(黄 #FFD400 × シアン #00E5FF) */
+function makeLiningTexture(){
+  const S = 1024;
+  const c = cv(S, S), g = c.getContext('2d');
+  g.fillStyle = '#04060a'; g.fillRect(0, 0, S, S);
+
+  const hr = 46, hh = Math.sqrt(3) / 2 * hr;
+  g.strokeStyle = 'rgba(255,212,0,0.10)'; g.lineWidth = 1.4;
+  for (let row = -1; row * hh * 1.5 < S + hr; row++){
+    for (let col = -1; col * hr * 3 < S + hr * 3; col++){
+      const cx0 = col * hr * 3 + (row % 2 ? hr * 1.5 : 0);
+      const cy0 = row * hh;
+      g.beginPath();
+      for (let k = 0; k < 6; k++){
+        const a = Math.PI / 180 * (60 * k);
+        const px = cx0 + Math.cos(a) * hr, py = cy0 + Math.sin(a) * hr;
+        k ? g.lineTo(px, py) : g.moveTo(px, py);
+      }
+      g.closePath(); g.stroke();
+    }
+  }
+
+  const DIRS = [[1, 0], [0, 1], [0, -1], [0.7071, 0.7071], [0.7071, -0.7071], [-0.7071, 0.7071]];
+  g.lineCap = 'square'; g.lineJoin = 'miter';
+  for (let i = 0; i < 34; i++){
+    const col = i % 2 === 0 ? '#00E5FF' : '#FFD400';
+    let x = rnd() * S, y = rnd() * S;
+    let d = DIRS[Math.floor(rnd() * DIRS.length)];
+    g.beginPath(); g.moveTo(x, y);
+    const segs = 2 + Math.floor(rnd() * 4);
+    for (let s = 0; s < segs; s++){
+      const len = rr(120, 380);
+      x += d[0] * len; y += d[1] * len;
+      g.lineTo(x, y);
+      d = DIRS[Math.floor(rnd() * DIRS.length)];
+    }
+    g.strokeStyle = col; g.lineWidth = rr(6, 11);
+    g.shadowColor = col; g.shadowBlur = rr(14, 30);
+    g.globalAlpha = rr(0.6, 1);
+    g.stroke();
+    g.fillStyle = col;
+    g.beginPath(); g.arc(x, y, rr(7, 13), 0, Math.PI * 2); g.fill();
+    g.globalAlpha = 1; g.shadowBlur = 0;
+  }
+  for (let i = 0; i < 60; i++){
+    g.fillStyle = rnd() < 0.5 ? 'rgba(0,229,255,0.8)' : 'rgba(255,212,0,0.75)';
+    g.fillRect(rnd() * S, rnd() * S, rr(6, 14), rr(6, 14));
+  }
+  return c;
+}
+
+/** 背面の金の三日月エンブレム(装飾三日月 + 縦オーナメント、シート04) */
+function makeCrescentTexture(){
+  const S = 1024;
+  const c = cv(S, S), g = c.getContext('2d');
+  const cx = S * 0.385, cy = S * 0.47, R = S * 0.345;
+
+  const grad = g.createLinearGradient(cx - R, cy - R, cx + R * 0.6, cy + R);
+  grad.addColorStop(0.00, '#7d570d');
+  grad.addColorStop(0.30, '#D4A017');
+  grad.addColorStop(0.55, '#F7E39B');
+  grad.addColorStop(0.78, '#C89312');
+  grad.addColorStop(1.00, '#8a610e');
+  g.fillStyle = grad;
+  g.beginPath(); g.arc(cx, cy, R, 0, Math.PI * 2); g.fill();
+  g.globalCompositeOperation = 'destination-out';
+  g.beginPath(); g.arc(cx + R * 0.36, cy, R * 0.855, 0, Math.PI * 2); g.fill();
+
+  for (let i = 0; i < 22; i++){
+    const rr0 = R * (0.87 + i * 0.006);
+    g.lineWidth = R * 0.014;
+    g.setLineDash([R * rr(0.03, 0.09), R * rr(0.03, 0.10)]);
+    g.lineDashOffset = rnd() * 100;
+    g.strokeStyle = '#000';
+    g.beginPath(); g.arc(cx, cy, rr0, 0, Math.PI * 2); g.stroke();
+  }
+  g.setLineDash([]);
+  for (let i = 0; i < 46; i++){
+    const a = Math.PI * 0.42 + (i / 46) * Math.PI * 1.16;
+    g.lineWidth = R * 0.012; g.strokeStyle = '#000';
+    g.beginPath();
+    g.moveTo(cx + Math.cos(a) * R * 0.86, cy + Math.sin(a) * R * 0.86);
+    g.lineTo(cx + Math.cos(a) * R * 1.01, cy + Math.sin(a) * R * 1.01);
+    g.stroke();
+  }
+  g.globalCompositeOperation = 'source-over';
+
+  g.strokeStyle = 'rgba(247,227,155,0.85)'; g.lineWidth = R * 0.018;
+  g.beginPath(); g.arc(cx, cy, R * 0.995, -Math.PI * 0.5, Math.PI * 0.5, true); g.stroke();
+
+  const ox = cx + R * 0.62;
+  g.strokeStyle = '#D4A017'; g.fillStyle = '#E8C24A'; g.lineWidth = R * 0.012;
+  g.beginPath(); g.moveTo(ox, cy - R * 1.22); g.lineTo(ox, cy + R * 1.22); g.stroke();
+  const marks = [-1.14, -0.74, -0.30, 0.30, 0.74, 1.14];
+  marks.forEach((m, i) => {
+    const y = cy + R * m, sz = R * (i % 2 ? 0.038 : 0.055);
+    g.beginPath();
+    g.moveTo(ox, y - sz); g.lineTo(ox + sz * 0.62, y); g.lineTo(ox, y + sz); g.lineTo(ox - sz * 0.62, y);
+    g.closePath(); g.fill();
+    g.beginPath(); g.arc(ox, y, sz * 1.55, 0, Math.PI * 2); g.stroke();
+    g.beginPath();
+    g.moveTo(ox - sz * 2.0, y); g.lineTo(ox + sz * 2.0, y); g.stroke();
+  });
+  [[-1.30, 0.05], [1.30, 0.05]].forEach(([m, s]) => {
+    const y = cy + R * m, sz = R * s;
+    g.fillStyle = '#F7E39B';
+    g.beginPath();
+    g.moveTo(ox, y - sz); g.quadraticCurveTo(ox, y, ox + sz, y);
+    g.quadraticCurveTo(ox, y, ox, y + sz); g.quadraticCurveTo(ox, y, ox - sz, y);
+    g.quadraticCurveTo(ox, y, ox, y - sz); g.fill();
+  });
+  [[0.30, -0.86], [0.30, 0.86]].forEach(([sx, sy]) => {
+    const x = cx + R * sx * 1.5, y = cy + R * sy;
+    g.fillStyle = 'rgba(247,227,155,0.9)';
+    g.beginPath();
+    g.moveTo(x, y - R * 0.07); g.quadraticCurveTo(x, y, x + R * 0.07, y);
+    g.quadraticCurveTo(x, y, x, y + R * 0.07); g.quadraticCurveTo(x, y, x - R * 0.07, y);
+    g.quadraticCurveTo(x, y, x, y - R * 0.07); g.fill();
+  });
+  return c;
+}
+
+/** 小さな X マーク(ブーツ側面=シアン発光) */
+function makeXTexture(hex, glow){
+  const S = 256;
+  const c = cv(S, S), g = c.getContext('2d');
+  if (glow){ g.shadowColor = hex; g.shadowBlur = 26; }
+  const m = S * 0.22;
+  g.lineCap = 'round'; g.strokeStyle = hex; g.lineWidth = S * 0.085;
+  g.beginPath(); g.moveTo(m, m); g.lineTo(S - m, S - m); g.stroke();
+  g.beginPath(); g.moveTo(S - m, m); g.lineTo(m, S - m); g.stroke();
+  if (glow){ g.shadowBlur = 40; g.stroke(); }
+  return c;
+}
+
+/* ===================================================================== */
+/*  RENDERER / SCENE                                                      */
+/* ===================================================================== */
+const stage = document.getElementById('stage');
+const boot  = document.getElementById('boot');
+
+function fail(err){
+  const f = document.getElementById('fail');
+  if (!f) return;
+  boot.classList.remove('gone');
+  document.getElementById('bootmsg').textContent = 'ERROR';
+  const bar = document.querySelector('#boot .bar');
+  if (bar) bar.style.display = 'none';
+  f.style.display = 'block';
+  f.innerHTML = 'このブラウザでは 3D 表示を初期化できませんでした。<br><code>' +
+                String(err && err.message || err).replace(/[<>&]/g, '') + '</code>';
+  console.error('[phantom-dj]', err);
+}
+
+let renderer;
+try {
+  renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
+} catch (err){ fail(err); throw err; }
+if (!renderer.capabilities.isWebGL2 && !renderer.getContext()) fail(new Error('WebGL unavailable'));
+
+renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+renderer.setSize(stage.clientWidth, stage.clientHeight);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.0;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+stage.appendChild(renderer.domElement);
+MAX_ANISO = Math.min(8, renderer.capabilities.getMaxAnisotropy());
+
+const scene  = new THREE.Scene();
+scene.fog = new THREE.FogExp2(0x080a10, 0.052);
+scene.environmentIntensity = CFG.envIntensity;
+
+const camera = new THREE.PerspectiveCamera(32, stage.clientWidth / stage.clientHeight, 0.1, 120);
+camera.position.copy(CFG.camStart);
+
+/* --- 背景スフィア(グラデーションは手続き的に。テクスチャだと巨大球で
+       サンプリングの格子模様が出るためシェーダで生成する) --- */
+const bgSphere = new THREE.Mesh(
+  new THREE.SphereGeometry(40, 32, 24),
+  new THREE.ShaderMaterial({
+    side: THREE.BackSide, depthWrite: false, fog: false,
+    uniforms: {
+      cTop:  { value: new THREE.Color(0x03050a) },
+      cMid:  { value: new THREE.Color(0x111a2b) },
+      cBot:  { value: new THREE.Color(0x030407) },
+      cGold: { value: new THREE.Color(0xB98C1E) },
+      cCyan: { value: new THREE.Color(0x148CAA) },
+    },
+    vertexShader: `
+      varying vec3 vDir;
+      void main(){
+        vDir = normalize(position);
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      }
+    `,
+    fragmentShader: `
+      uniform vec3 cTop, cMid, cBot, cGold, cCyan;
+      varying vec3 vDir;
+      float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123); }
+      void main(){
+        vec3 d = normalize(vDir);
+        float h = d.y;
+        // 縦グラデ: 上=暗 / 地平線付近=僅かに明るい / 下=暗
+        vec3 col = mix(cMid, cTop, smoothstep(0.02, 0.75, h));
+        col = mix(col, cBot, smoothstep(0.0, -0.45, h));
+        // 金(左) / シアン(右) は「地表近くの照り返しヘイズ」として地平線下に沈める。
+        // band を強めに絞り、上空はどの角度から見ても暗いまま(側面ビューの黄壁対策)
+        float band = exp(-pow((h + 0.03) * 6.5, 2.0));   // 地平線に張り付く帯(上空は常に暗い)
+        float gGold = pow(max(0.0, dot(d, normalize(vec3(-0.80, -0.10, -0.35)))), 5.0);
+        float gCyan = pow(max(0.0, dot(d, normalize(vec3( 0.82, -0.06, -0.30)))), 5.0);
+        col += cGold * gGold * band * 0.42;
+        col += cCyan * gCyan * band * 0.34;
+        // 8bit バンディング対策のディザ
+        col += (hash(gl_FragCoord.xy) - 0.5) * (1.6 / 255.0);
+        gl_FragColor = vec4(col, 1.0);
+      }
+    `,
+  })
+);
+bgSphere.renderOrder = -10;
+scene.add(bgSphere);
+
+/* --- 床(照り返し + 接地影) --- */
+const floor = new THREE.Mesh(
+  new THREE.CircleGeometry(7.5, 96),
+  new THREE.MeshBasicMaterial({ map: tex(makeFloorTexture()), transparent: true, depthWrite: false, fog: true })
+);
+floor.rotation.x = -Math.PI / 2;
+floor.position.y = 0.001;
+scene.add(floor);
+
+/* ===================================================================== */
+/*  ENVIRONMENT — HDRI(照明のみ。背景はグラデ球のまま)                    */
+/* ===================================================================== */
+const pmrem = new THREE.PMREMGenerator(renderer);
+pmrem.compileEquirectangularShader();
+
+function useRoomEnvironment(){
+  const room = new RoomEnvironment();
+  scene.environment = pmrem.fromScene(room, 0.04).texture;
+  room.dispose?.();
+}
+
+new RGBELoader().load(
+  CFG.hdri,
+  hdr => {
+    hdr.mapping = THREE.EquirectangularReflectionMapping;
+    scene.environment = pmrem.fromEquirectangular(hdr).texture;
+    hdr.dispose();
+  },
+  undefined,
+  err => {
+    console.info('[phantom-dj] HDRI unavailable → RoomEnvironment fallback',
+                 (err && (err.message || err.type)) || '');
+    try { useRoomEnvironment(); } catch (e){ console.info('[phantom-dj] env fallback skipped', e); }
+  }
+);
+
+/* ===================================================================== */
+/*  LIGHTS — HDRI がベース照明。ブランド色のリムだけを残す(~60%)          */
+/* ===================================================================== */
+const lights = new THREE.Group();
+scene.add(lights);
+
+const ambient = new THREE.AmbientLight(0x33405e, 0.45);
+lights.add(ambient);
+lights.add(new THREE.HemisphereLight(0x2c3d59, 0x080b12, 0.45));
+
+const keyLight = new THREE.DirectionalLight(0xdae6ff, 1.6);    // 冷白キー(上前方)
+keyLight.position.set(2.0, 4.2, 3.0);
+lights.add(keyLight);
+
+const fillLight = new THREE.DirectionalLight(0x9fb4d4, 0.5);   // 前下からの弱いフィル
+fillLight.position.set(-1.4, 0.7, 2.6);
+lights.add(fillLight);
+
+const goldRim = new THREE.PointLight(0xFFC53D, 8.4, 9, 2.0);   // 金リム(左・低め)
+goldRim.position.set(-1.75, 0.60, 0.45);
+lights.add(goldRim);
+
+const goldRim2 = new THREE.DirectionalLight(0xFFB020, 1.2);
+goldRim2.position.set(-3.0, 1.2, -0.8);
+lights.add(goldRim2);
+
+const cyanRim = new THREE.PointLight(0x3FE6FF, 7.2, 9, 2.0);   // シアンリム(右)
+cyanRim.position.set(1.95, 1.50, -0.85);
+lights.add(cyanRim);
+
+const cyanRim2 = new THREE.DirectionalLight(0x30D8FF, 1.0);
+cyanRim2.position.set(2.6, 2.2, -1.8);
+lights.add(cyanRim2);
+
+/* ===================================================================== */
+/*  MODEL — GLTFLoader                                                    */
+/* ===================================================================== */
+const wrapper = new THREE.Group();
+wrapper.name = 'phantom-dj';
+scene.add(wrapper);
+
+let model = null, mixer = null, action = null;
+let walking = !REDUCED;
+
+const bootmsg  = document.getElementById('bootmsg');
+const bootbar  = document.getElementById('bootbar');
+const bootfill = document.getElementById('bootfill');
+
+/** GLOW.rules を mesh名 / material名でマッチさせて適用 */
+function applyGlow(mesh, mat){
+  const key = `${mesh.name || ''} ${mat.name || ''}`;
+  const rule = GLOW.rules.find(r => r.match.test(key));
+  if (rule){
+    if (mat.emissive && rule.color !== undefined) mat.emissive.setHex(rule.color);
+    mat.emissiveIntensity = rule.intensity;
+  } else {
+    mat.emissiveIntensity = GLOW.emissiveIntensity;
+  }
+  // KHR_materials_specular(specularColorFactor 2.0)のギラつきを抑える
+  if (mat.isMeshPhysicalMaterial){
+    mat.specularIntensity = GLOW.specularIntensity;
+    if (mat.specularColor){
+      const m = Math.max(mat.specularColor.r, mat.specularColor.g, mat.specularColor.b);
+      if (m > GLOW.specularColorMax) mat.specularColor.multiplyScalar(GLOW.specularColorMax / m);
+    }
+  }
+  mat.needsUpdate = true;
+  return rule ? String(rule.match) : '(default)';
+}
+
+/** 一様スケールで全高 CFG.height に正規化 → 足元 y=0 / x,z センタリング */
+function fitToStage(root){
+  wrapper.scale.setScalar(1);
+  wrapper.position.set(0, 0, 0);
+  wrapper.updateMatrixWorld(true);
+
+  const box0 = new THREE.Box3().setFromObject(root);
+  const size0 = box0.getSize(new THREE.Vector3());
+  const s = size0.y > 1e-6 ? CFG.height / size0.y : 1;
+  wrapper.scale.setScalar(s);
+  wrapper.updateMatrixWorld(true);
+
+  const box1 = new THREE.Box3().setFromObject(root);
+  const c = box1.getCenter(new THREE.Vector3());
+  wrapper.position.set(-c.x, -box1.min.y, -c.z);
+  wrapper.updateMatrixWorld(true);
+  return { scale: s, raw: size0, fitted: box1.getSize(new THREE.Vector3()) };
+}
+
+/* ---------------------------------------------------------------------
+   追加装飾 1: ボーン追従デカール(背中の三日月エンブレム / ブーツX)
+   ボーンローカルは Armature scale 0.01 系 ≒ cm 単位。
+   --------------------------------------------------------------------- */
+function curvedPlane(size, curve){
+  // 湾曲プレーン: curve(rad)>0 なら開いた円筒セグメント、0なら平面。
+  // CylinderGeometry の theta=0 は +z なので、セグメント中央の外面は
+  // ローカル +z を向く。表面が z≈0 に来るよう -R だけ引き込む。
+  if (curve <= 0.001) return new THREE.PlaneGeometry(size, size);
+  const R = size / curve;
+  const geo = new THREE.CylinderGeometry(R, R, size, 24, 1, true, -curve / 2, curve);
+  geo.translate(0, 0, -R);
+  return geo;
+}
+
+/** ワールド空間の目標姿勢をボーンローカルへ逆変換して子付けする。
+    ボーン軸の向き(リグ依存)を推測せずに済み、アニメには剛体追従する。 */
+function attachToBone(bone, mesh, worldPos, faceDir, tilt){
+  bone.updateWorldMatrix(true, false);
+  const up = new THREE.Vector3(0, 1, 0);
+  const m = new THREE.Matrix4().lookAt(new THREE.Vector3(0, 0, 0), new THREE.Vector3().fromArray(faceDir).negate(), up);
+  const q = new THREE.Quaternion().setFromRotationMatrix(m);
+  if (tilt) q.multiply(new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1, 0, 0), tilt));
+  const world = new THREE.Matrix4().compose(worldPos, q, new THREE.Vector3(1, 1, 1));
+  const local = new THREE.Matrix4().copy(bone.matrixWorld).invert().multiply(world);
+  local.decompose(mesh.position, mesh.quaternion, mesh.scale);
+  mesh.frustumCulled = false;
+  mesh.renderOrder = 2;
+  bone.add(mesh);
+}
+
+function attachDecals(model){
+  const bones = [];
+  model.traverse(o => { if (o.isBone) bones.push(o); });
+  const findBone = re => bones.find(b => re.test(b.name));
+  const out = [];
+  const bp = new THREE.Vector3();
+
+  /* --- 背中の三日月エンブレム --- */
+  {
+    const cfg = DECALS.emblem;
+    const bone = findBone(cfg.bone);
+    if (bone){
+      const crescent = tex(makeCrescentTexture());
+      const mat = new THREE.MeshPhysicalMaterial({
+        map: crescent,
+        transparent: true,
+        metalness: 0.85, roughness: 0.38,
+        emissive: 0xD4A017,
+        emissiveMap: crescent,
+        emissiveIntensity: cfg.emissiveIntensity,
+        polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2,
+        depthWrite: false,
+        side: THREE.DoubleSide,
+      });
+      const mesh = new THREE.Mesh(curvedPlane(cfg.size, cfg.curve), mat);
+      mesh.name = 'decal.emblem';
+      bone.getWorldPosition(bp);
+      attachToBone(bone, mesh, bp.clone().add(new THREE.Vector3().fromArray(cfg.offset)), cfg.face, cfg.tilt);
+      out.push({ decal: mesh.name, bone: bone.name, world: bp.toArray().map(v => +v.toFixed(3)) });
+    } else {
+      out.push({ decal: 'emblem', bone: '(not found)' });
+    }
+  }
+
+  /* --- ブーツ外側面のシアンX --- */
+  {
+    const cfg = DECALS.bootX;
+    const xtex = tex(makeXTexture('#8CF4FF', true));
+    cfg.bones.forEach((re, i) => {
+      const bone = findBone(re);
+      if (!bone){ out.push({ decal: 'bootX', bone: '(not found)' }); return; }
+      const s = i === 0 ? 1 : -1;                    // 左足=+x外側 / 右足=-x外側
+      const mat = new THREE.MeshStandardMaterial({
+        map: xtex, transparent: true,
+        emissive: 0x00E5FF, emissiveMap: xtex,
+        emissiveIntensity: cfg.emissiveIntensity,
+        roughness: 0.6, metalness: 0,
+        polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2,
+        depthWrite: false, side: THREE.DoubleSide,
+      });
+      const mesh = new THREE.Mesh(new THREE.PlaneGeometry(cfg.size, cfg.size), mat);
+      mesh.name = 'decal.bootX.' + bone.name;
+      bone.getWorldPosition(bp);
+      const off = new THREE.Vector3(s * cfg.offset[0], cfg.offset[1], cfg.offset[2]);
+      attachToBone(bone, mesh, bp.clone().add(off), [s * cfg.face[0], cfg.face[1], cfg.face[2]], cfg.tilt);
+      out.push({ decal: mesh.name, bone: bone.name, world: bp.toArray().map(v => +v.toFixed(3)) });
+    });
+  }
+  console.info('[phantom-dj] decals: ' + JSON.stringify(out));
+  return out;
+}
+
+/* ---------------------------------------------------------------------
+   追加装飾 2: コート裏地の回路ネオン(ライナーメッシュ方式)
+   バインドポーズでコート殻の三角形を判定 → 同スケルトンにバインドした
+   複製メッシュ(BackSide=内側からだけ見える)に円筒UVで回路テクスチャ。
+   外側の見た目は不変・歩行アニメに完全追従。 ?debug=lining で判定を可視化。
+   --------------------------------------------------------------------- */
+function buildLining(model){
+  if (!LINING.enabled) return null;
+  let src = null;
+  model.traverse(o => { if (!src && o.isSkinnedMesh) src = o; });
+  if (!src) return null;
+
+  const geo = src.geometry;
+  const pos = geo.attributes.position;
+  const nor = geo.attributes.normal;
+  const si  = geo.attributes.skinIndex;
+  const sw  = geo.attributes.skinWeight;
+  const idx = geo.index ? geo.index.array : null;
+  const triCount = (idx ? idx.length : pos.count) / 3;
+
+  const keep = [];              // 採用した三角形の頂点インデックス並び
+  const A = new THREE.Vector3(), B = new THREE.Vector3(), C = new THREE.Vector3();
+  const nrm = new THREE.Vector3(), cen = new THREE.Vector3(), rad = new THREE.Vector3();
+
+  for (let t = 0; t < triCount; t++){
+    const i0 = idx ? idx[t * 3] : t * 3;
+    const i1 = idx ? idx[t * 3 + 1] : t * 3 + 1;
+    const i2 = idx ? idx[t * 3 + 2] : t * 3 + 2;
+    A.fromBufferAttribute(pos, i0);
+    B.fromBufferAttribute(pos, i1);
+    C.fromBufferAttribute(pos, i2);
+    cen.copy(A).add(B).add(C).multiplyScalar(1 / 3);
+
+    const h = cen.y;
+    if (h < LINING.yRange[0] || h > LINING.yRange[1]) continue;
+    const r = Math.hypot(cen.x, cen.z);
+    if (r < LINING.minRadius(h)) continue;                       // 胴体・脚を除外
+    if (h > 0.7 && r > LINING.maxRadiusAboveWaist) continue;     // 腕を除外
+
+    // 面法線(ジオメトリ法線の平均で代用: スムーズ法線でも向きは保たれる)
+    nrm.set(
+      nor.getX(i0) + nor.getX(i1) + nor.getX(i2),
+      nor.getY(i0) + nor.getY(i1) + nor.getY(i2),
+      nor.getZ(i0) + nor.getZ(i1) + nor.getZ(i2)
+    ).normalize();
+    rad.set(cen.x, 0, cen.z).normalize();
+    if (nrm.dot(rad) < LINING.radialDotMin) continue;            // 外向き面のみ=コート殻
+
+    keep.push(i0, i1, i2);
+  }
+
+  if (!keep.length){
+    console.info('[phantom-dj] lining: no faces classified — skipped');
+    return null;
+  }
+
+  /* 複製ジオメトリ(非インデックス)。UVは円筒投影で新規生成 */
+  const n = keep.length;
+  const p2 = new Float32Array(n * 3), n2 = new Float32Array(n * 3);
+  const u2 = new Float32Array(n * 2);
+  const s2 = new (si.array.constructor)(n * 4);
+  const w2 = new Float32Array(n * 4);
+  const thetaOf = i => Math.atan2(pos.getX(i), pos.getZ(i));
+
+  for (let t = 0; t < n; t += 3){
+    // θシーム(±π)対策: 三角形単位でアンラップ
+    const th = [thetaOf(keep[t]), thetaOf(keep[t + 1]), thetaOf(keep[t + 2])];
+    for (let k = 1; k < 3; k++){
+      if (th[k] - th[0] >  Math.PI) th[k] -= Math.PI * 2;
+      if (th[k] - th[0] < -Math.PI) th[k] += Math.PI * 2;
+    }
+    for (let k = 0; k < 3; k++){
+      const i = keep[t + k], o3 = (t + k) * 3, o2 = (t + k) * 2, o4 = (t + k) * 4;
+      // 位置: 法線の逆向きへ少し沈めて z-fight 回避
+      p2[o3]     = pos.getX(i) - nor.getX(i) * LINING.inset;
+      p2[o3 + 1] = pos.getY(i) - nor.getY(i) * LINING.inset;
+      p2[o3 + 2] = pos.getZ(i) - nor.getZ(i) * LINING.inset;
+      // 法線: 内向きに反転
+      n2[o3] = -nor.getX(i); n2[o3 + 1] = -nor.getY(i); n2[o3 + 2] = -nor.getZ(i);
+      // 円筒UV(θ, y)
+      u2[o2]     = (th[k] / (Math.PI * 2)) * LINING.repeat[0];
+      u2[o2 + 1] = (pos.getY(i) / 1.7) * LINING.repeat[1];
+      for (let j = 0; j < 4; j++){ s2[o4 + j] = si.array[i * 4 + j]; w2[o4 + j] = sw.array[i * 4 + j]; }
+    }
+  }
+
+  const lg = new THREE.BufferGeometry();
+  lg.setAttribute('position',   new THREE.BufferAttribute(p2, 3));
+  lg.setAttribute('normal',     new THREE.BufferAttribute(n2, 3));
+  lg.setAttribute('uv',         new THREE.BufferAttribute(u2, 2));
+  lg.setAttribute('skinIndex',  new THREE.BufferAttribute(s2, 4));
+  lg.setAttribute('skinWeight', new THREE.BufferAttribute(w2, 4));
+
+  const debug = PARAMS.get('debug') === 'lining';
+  const liningTex = tex(makeLiningTexture(), { wrap: true });
+  const mat = debug
+    ? new THREE.MeshBasicMaterial({ color: 0xff2040, side: THREE.DoubleSide, wireframe: false })
+    : new THREE.MeshStandardMaterial({
+        color: 0x05070a, roughness: 0.8, metalness: 0,
+        emissive: 0xffffff, emissiveMap: liningTex,
+        emissiveIntensity: LINING.intensity,
+        side: THREE.BackSide,        // 内側から見た時だけ描画
+      });
+
+  const liner = new THREE.SkinnedMesh(lg, mat);
+  liner.name = 'coat.lining';
+  liner.frustumCulled = false;
+  src.parent.add(liner);
+  liner.bind(src.skeleton, src.bindMatrix);
+  liner.bindMode = src.bindMode;
+
+  console.info('[phantom-dj] lining:', keep.length / 3, 'faces /', Math.round(triCount), 'total',
+               debug ? '(DEBUG表示)' : '');
+  return liner;
+}
+
+new GLTFLoader().load(
+  './model.glb',
+  gltf => {
+    model = gltf.scene;
+    wrapper.add(model);
+
+    /* --- マテリアル一覧 + 発光ルール適用 --- */
+    const rows = [];
+    model.traverse(o => {
+      if (o.isSkinnedMesh) o.frustumCulled = false;      // スキン変形でカリング誤判定を防ぐ
+      if (!o.isMesh && !o.isSkinnedMesh) return;
+      const mats = Array.isArray(o.material) ? o.material : [o.material];
+      mats.forEach(m => {
+        if (!m) return;
+        // GLB 側テクスチャにも異方性フィルタを効かせる
+        ['map', 'emissiveMap', 'normalMap', 'roughnessMap', 'metalnessMap'].forEach(k => {
+          if (m[k]) m[k].anisotropy = MAX_ANISO;
+        });
+        const rule = applyGlow(o, m);
+        rows.push({
+          mesh: o.name, type: o.type,
+          material: m.name, matType: m.type,
+          emissive: m.emissive ? '#' + m.emissive.getHexString() : '-',
+          emissiveMap: !!m.emissiveMap,
+          emissiveIntensity: m.emissiveIntensity,
+          specularIntensity: m.specularIntensity ?? '-',
+          rule,
+        });
+      });
+    });
+    console.table(rows);
+
+    const fit = fitToStage(model);
+    console.log('[phantom-dj] fit — scale', fit.scale.toFixed(4),
+                '| raw', fit.raw.toArray().map(n => n.toFixed(3)).join(' × '),
+                '| fitted', fit.fitted.toArray().map(n => n.toFixed(3)).join(' × '));
+
+    /* --- 追加装飾(GLBに無い要素の後付け): fit後に取り付け --- */
+    try { attachDecals(model); } catch (e){ console.warn('[phantom-dj] decals failed:', e); }
+    try { buildLining(model);  } catch (e){ console.warn('[phantom-dj] lining failed:', e); }
+
+    /* --- アニメーション --- */
+    if (gltf.animations && gltf.animations.length){
+      mixer  = new THREE.AnimationMixer(model);
+      action = mixer.clipAction(gltf.animations[0]);
+      action.setLoop(THREE.LoopRepeat, Infinity);
+      action.clampWhenFinished = false;
+      action.play();
+      action.paused = !walking;
+      console.log('[phantom-dj] clip —', gltf.animations[0].name,
+                  gltf.animations[0].duration.toFixed(3) + 's',
+                  '| clips:', gltf.animations.length);
+    } else {
+      walking = false;
+    }
+    syncWalkBtn();
+
+    controls.target.copy(CFG.target);
+    controls.update();
+
+    if (PARAMS.get('view')) setView(PARAMS.get('view'));
+    composer.render();
+
+    boot.classList.add('gone');
+    setTimeout(() => boot.remove(), 900);
+    window.__ready = true;
+    console.log('[phantom-dj] ready — height', CFG.height, 'm | meshes', rows.length);
+  },
+  ev => {
+    if (ev && ev.lengthComputable && ev.total > 0){
+      const pct = Math.min(100, Math.round(ev.loaded / ev.total * 100));
+      bootbar.classList.add('det');
+      bootfill.style.width = pct + '%';
+      bootmsg.textContent = 'LOADING ' + pct + '%';
+    } else {
+      bootbar.classList.remove('det');   // 不定長 → スイープ(スピナー)表示
+      bootfill.style.width = '0%';
+      bootmsg.textContent = 'LOADING';
+    }
+  },
+  err => fail(err || new Error('model.glb load failed'))
+);
+
+/* ===================================================================== */
+/*  POST — RenderPass → UnrealBloomPass → OutputPass → Grain              */
+/* ===================================================================== */
+const composer = new EffectComposer(renderer);
+composer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+composer.setSize(stage.clientWidth, stage.clientHeight);
+composer.addPass(new RenderPass(scene, camera));
+
+const bloom = new UnrealBloomPass(
+  new THREE.Vector2(stage.clientWidth, stage.clientHeight),
+  CFG.bloom.strength, CFG.bloom.radius, CFG.bloom.threshold
+);
+composer.addPass(bloom);
+composer.addPass(new OutputPass());
+
+/* 微細グレイン + ビネット。暗い背景での 8bit バンディング(Bloom の粗いミップが
+   格子状に見える現象)をディザで潰す */
+const GrainShader = {
+  uniforms: {
+    tDiffuse: { value: null },
+    uTime:    { value: 0 },
+    uAmount:  { value: 0.032 },
+    uVignette:{ value: 0.34 },
+  },
+  vertexShader: `
+    varying vec2 vUv;
+    void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }
+  `,
+  fragmentShader: `
+    uniform sampler2D tDiffuse;
+    uniform float uTime, uAmount, uVignette;
+    varying vec2 vUv;
+    float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123); }
+    void main(){
+      vec4 c = texture2D(tDiffuse, vUv);
+      float n = hash(vUv * 1024.0 + fract(uTime) * 91.7) - 0.5;
+      c.rgb += n * uAmount;
+      float d = distance(vUv, vec2(0.5));
+      c.rgb *= 1.0 - uVignette * smoothstep(0.34, 0.86, d);
+      gl_FragColor = c;
+    }
+  `,
+};
+const grainPass = new ShaderPass(GrainShader);
+composer.addPass(grainPass);
+
+/* ===================================================================== */
+/*  CONTROLS                                                              */
+/* ===================================================================== */
+const MIN_DIST = 1.9;
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.target.copy(CFG.target);
+controls.enableDamping = true;
+controls.dampingFactor = 0.062;
+controls.enablePan = false;
+controls.minDistance = MIN_DIST;
+controls.maxDistance = 8.0;
+controls.minPolarAngle = 0.55;                    // 見下ろし過ぎ防止
+controls.maxPolarAngle = 1.74;                    // 床下に潜らない
+controls.autoRotate = !REDUCED;                   // reduced-motion では停止
+controls.autoRotateSpeed = CFG.autoRotate;
+controls.update();
+
+/* ===================================================================== */
+/*  UI — 再生/停止 & 自動回転トグル                                        */
+/* ===================================================================== */
+const btnWalk = document.getElementById('btnWalk');
+const btnRot  = document.getElementById('btnRot');
+const icWalk  = document.getElementById('icWalk');
+const icRot   = document.getElementById('icRot');
+
+function syncWalkBtn(){
+  btnWalk.setAttribute('aria-pressed', String(walking));
+  icWalk.textContent = walking ? '❚❚' : '▶';
+  btnWalk.disabled = !action;
+  btnWalk.style.opacity = action ? '' : '.4';
+}
+function setWalking(on){
+  walking = !!on && !!action;
+  if (action) action.paused = !walking;
+  syncWalkBtn();
+}
+function syncRotBtn(){
+  btnRot.setAttribute('aria-pressed', String(controls.autoRotate));
+  icRot.textContent = controls.autoRotate ? '●' : '○';
+}
+function setAutoRotate(on){
+  controls.autoRotate = !!on;
+  syncRotBtn();
+}
+
+btnWalk.addEventListener('click', () => setWalking(!walking));
+btnRot .addEventListener('click', () => setAutoRotate(!controls.autoRotate));
+syncWalkBtn();
+syncRotBtn();
+
+/* ===================================================================== */
+/*  LOOP                                                                  */
+/* ===================================================================== */
+const clock = new THREE.Clock();
+let running = true, frames = 0, fpsT0 = performance.now(), reported = false;
+window.__fps = 0;
+
+function render(){
+  const dt = clock.getDelta();
+  const t  = clock.getElapsedTime();
+
+  if (mixer && walking) mixer.update(dt);
+
+  grainPass.uniforms.uTime.value = t;
+  controls.update();
+  composer.render();
+
+  // fps 概算
+  frames++;
+  const now = performance.now();
+  if (now - fpsT0 >= 1000){
+    window.__fps = Math.round(frames * 1000 / (now - fpsT0));
+    frames = 0; fpsT0 = now;
+    if (!reported && window.__ready){
+      reported = true;
+      console.log('[phantom-dj] fps ≈ ' + window.__fps +
+                  ' | drawcalls ' + renderer.info.render.calls +
+                  ' | tris ' + renderer.info.render.triangles);
+    }
+  }
+}
+
+function loop(){
+  if (!running) return;
+  requestAnimationFrame(loop);
+  render();
+}
+
+/* ---- resize ---- */
+function resize(){
+  const w = stage.clientWidth, h = stage.clientHeight;
+  if (!w || !h) return;
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.setSize(w, h);
+  composer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  composer.setSize(w, h);
+  bloom.setSize(w, h);
+}
+window.addEventListener('resize', resize);
+if (window.ResizeObserver) new ResizeObserver(resize).observe(stage);
+
+/* ---- 非表示時はループ停止 ---- */
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden){ running = false; }
+  else if (!running){ running = true; clock.getDelta(); loop(); }
+});
+
+/* ---- WebGL コンテキスト喪失 ---- */
+renderer.domElement.addEventListener('webglcontextlost', e => {
+  e.preventDefault(); running = false;
+  console.warn('[phantom-dj] webgl context lost');
+});
+renderer.domElement.addEventListener('webglcontextrestored', () => {
+  running = true; loop();
+});
+
+/* ===================================================================== */
+/*  VIEW HELPERS / DEBUG API(スクショ検証用)                             */
+/* ===================================================================== */
+const VIEWS = {
+  front:   [0, 1.05, 4.20],
+  side:    [4.20, 1.05, 0],
+  back:    [0, 1.05, -4.20],
+  three:   [2.60, 1.32, 3.05],
+  head:    [0.16, 1.68, 0.95, 1.60],   // [x, y, z, targetY] 頭部クローズアップ
+  chest:   [0.22, 1.42, 1.55, 1.25],
+  feet:    [0.70, 0.42, 1.60, 0.28],
+};
+function setView(name, opts = {}){
+  const v = VIEWS[name] || VIEWS.front;
+  setAutoRotate(false);
+  const ty = opts.ty !== undefined ? opts.ty : (v[3] !== undefined ? v[3] : CFG.target.y);
+  controls.target.set(0, ty, 0);
+  // クローズアップは minDistance に阻まれるので一時的に緩める
+  const d = Math.hypot(v[0], v[1] - ty, v[2]);
+  controls.minDistance = Math.min(MIN_DIST, d * 0.98);
+  camera.position.set(v[0], v[1], v[2]);
+  controls.update();
+  composer.render();
+  return name;
+}
+window.__viewer = {
+  THREE, scene, camera, controls, composer, renderer, bloom, wrapper, CFG, GLOW,
+  get model(){ return model; },
+  get mixer(){ return mixer; },
+  get action(){ return action; },
+  get walking(){ return walking; },
+  setView, setWalking, setAutoRotate,
+  stopAutoRotate(){ setAutoRotate(false); },
+  startAutoRotate(){ setAutoRotate(true); },
+  get fps(){ return window.__fps; },
+};
+
+window.addEventListener('keydown', e => {
+  // フォーム入力中のみ無視(ピルボタンにフォーカスが残っていてもショートカットは効かせる)
+  const t = e.target;
+  if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT' || t.isContentEditable)) return;
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  const k = (e.key || '').toLowerCase();
+  if (k === '1') setView('front');
+  else if (k === '2') setView('side');
+  else if (k === '3') setView('back');
+  else if (k === 'r') setAutoRotate(!controls.autoRotate);
+});
+
+/* ---- URL パラメータ(?view=front&norot=1) ---- */
+if (PARAMS.get('norot') !== null) setAutoRotate(false);
+if (PARAMS.get('view')) setView(PARAMS.get('view'));
+
+/* ---- 起動(モデル到着前から背景を描画) ---- */
+composer.render();
+loop();
+</script>
+</body>
+</html>
