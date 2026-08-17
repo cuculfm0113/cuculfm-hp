@@ -183,7 +183,7 @@ html[data-theme="red"] .theme-layer--red{opacity:1}
 }
 
 /* --------------------------------------------------------------------------
-   4. Overlays : vignette / grain / flicker / dust
+   4. Overlays : vignette / grain / dust
    -------------------------------------------------------------------------- */
 #vignette{
   position:fixed;inset:0;z-index:49;pointer-events:none;
@@ -197,10 +197,12 @@ html[data-theme="red"] .theme-layer--red{opacity:1}
   top:-60px;left:-60px;width:calc(100% + 120px);height:calc(100% + 120px);
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)' opacity='0.62'/%3E%3C/svg%3E");
   background-repeat:repeat;
-  opacity:.12;
-  mix-blend-mode:overlay;   /* iOS で重い場合: mix-blend-mode を外し opacity:.07 に落とす */
+  /* .12/.8s から微弱化(2026-08-18): 明滅感の指摘を受けノイズの濃度とテンポを抑制。
+     フィルムの質感は維持する */
+  opacity:.07;
+  mix-blend-mode:overlay;   /* iOS で重い場合: mix-blend-mode を外す */
   will-change:transform;
-  animation:grainShift .8s steps(1) infinite;
+  animation:grainShift 1.2s steps(1) infinite;
 }
 @keyframes grainShift{
   0%  {transform:translate3d(0,0,0)}
@@ -213,23 +215,8 @@ html[data-theme="red"] .theme-layer--red{opacity:1}
   87% {transform:translate3d(-7px,-13px,0)}
   100%{transform:translate3d(0,0,0)}
 }
-#flicker{
-  position:fixed;inset:0;z-index:50;pointer-events:none;
-  background:#ffffff;opacity:0;
-  animation:flick 5s linear infinite;
-}
-@keyframes flick{
-  0%,7%,100%{opacity:0}
-  7.4%{opacity:.045}
-  8.1%{opacity:0}
-  38%{opacity:0}
-  38.5%{opacity:.022}
-  39.2%{opacity:0}
-  71%{opacity:0}
-  71.6%{opacity:.05}
-  72.3%{opacity:.012}
-  73%{opacity:0}
-}
+/* #flicker(映写機の白フラッシュ)は削除済み: 全画面の明滅が「チカチカする」との
+   指摘で除去(2026-08-18)。光過敏への配慮も兼ねる。復活させないこと */
 #dust{position:fixed;inset:0;z-index:50;pointer-events:none;overflow:hidden}
 #dust span{
   position:absolute;bottom:-12px;
@@ -1052,10 +1039,10 @@ html[data-theme="red"] .idx{background:rgba(18,1,7,.93)}
   pointer-events:none;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)' opacity='0.62'/%3E%3C/svg%3E");
   background-repeat:repeat;
-  opacity:.10;
+  opacity:.06;
   mix-blend-mode:overlay;
   will-change:transform;
-  animation:grainShift .8s steps(1) infinite;
+  animation:grainShift 1.2s steps(1) infinite;
 }
 .idx-scroll{
   position:absolute;inset:0;
@@ -1281,8 +1268,8 @@ html[data-theme="red"] .c-rim--red{opacity:1}
     scroll-behavior:auto!important;
   }
   html{scroll-behavior:auto}
-  #grain{animation:none;opacity:.08}
-  .idx-grain{animation:none;opacity:.07}
+  #grain{animation:none;opacity:.06}
+  .idx-grain{animation:none;opacity:.05}
   /* 閉じるときの visibility 遅延(.42s)も消す（透明のまま .42s タブ順に残るのを防ぐ） */
   .idx{transition-delay:0s}
   /* reduce では *{transition-duration:.01ms!important} が効くため、既定の
@@ -1290,7 +1277,6 @@ html[data-theme="red"] .c-rim--red{opacity:1}
      開いた直後の1フレーム子孫が hidden のまま残る＝ focus() が黙って弾かれる。
      オーバーレイ配下は transition 自体を切って即座に visible を伝播させる。 */
   .idx,.idx *{transition-property:none!important}
-  #flicker{display:none}
   #dust{display:none}
   .shooting-star{display:none}
   .grid-overlay{animation:none}
@@ -1929,7 +1915,6 @@ html[data-theme="red"] .c-rim--red{opacity:1}
      ====================================================================== -->
 <div id="vignette" aria-hidden="true"></div>
 <div id="grain" aria-hidden="true"></div>
-<div id="flicker" aria-hidden="true"></div>
 <div id="dust" aria-hidden="true"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
