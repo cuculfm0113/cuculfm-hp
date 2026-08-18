@@ -781,17 +781,32 @@ html[data-theme="red"] .bg-red{opacity:1}
   transition:translate .45s cubic-bezier(.16,1,.3,1),border-color .45s ease,box-shadow .45s ease,background .45s ease;
 }
 .biz-card::before{
-  content:'';position:absolute;inset:0;
+  content:'';position:absolute;inset:0;z-index:1;   /* サムネイル(z0)の上・テキスト(z2)の下 */
   background:linear-gradient(160deg,var(--a1),var(--a2));
   opacity:0;transition:opacity .45s ease;
 }
 .biz-card::after{
-  content:'';position:absolute;left:0;right:0;top:0;height:2px;
+  content:'';position:absolute;left:0;right:0;top:0;height:2px;z-index:3;
   background:linear-gradient(90deg,var(--a1),var(--a2));
   transform:scaleX(0);transform-origin:left;
   transition:transform .5s cubic-bezier(.16,1,.3,1);
 }
 .biz-card>*{position:relative;z-index:2}
+/* 全面ポスター型サムネイル: ダークセピアで沈め、hoverで写真が浮かび上がる */
+.biz-card .thumb{position:absolute;inset:0;z-index:0;overflow:hidden;border-radius:inherit}
+.biz-card .thumb img{
+  width:100%;height:100%;object-fit:cover;
+  filter:grayscale(.3) sepia(.22) brightness(.52) contrast(1.06);
+  transition:filter .45s ease,transform .45s cubic-bezier(.16,1,.3,1);
+}
+.biz-card .thumb::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(178deg,rgba(16,13,9,.18) 0%,rgba(16,13,9,.55) 44%,rgba(16,13,9,.94) 74%,#100d09 100%);
+}
+.biz-card:hover .thumb img,.biz-card:focus-visible .thumb img{
+  filter:grayscale(.05) sepia(.08) brightness(.68) contrast(1.05);
+  transform:scale(1.05);
+}
 .biz-card .no{
   font-family:var(--font-display);font-weight:700;
   font-size:.68rem;letter-spacing:.24em;color:#8a7a62;
@@ -1916,6 +1931,7 @@ html[data-theme="red"] .c-rim--red{opacity:1}
     <div class="biz-grid">
 
       <a class="biz-card biz-card--feat" href="/services/ai/" style="--a1:#7b61ff;--a2:#00d4ff">
+        <span class="thumb" aria-hidden="true"><img src="/images/biz/biz-01-ai.jpg" alt="" loading="lazy" decoding="async" width="600" height="1000"></span>
         <span class="badge">feat. AI</span>
         <span class="no">01</span>
         <span class="en">AI<br>SERVICES</span>
@@ -1924,6 +1940,7 @@ html[data-theme="red"] .c-rim--red{opacity:1}
       </a>
 
       <a class="biz-card" href="/services/construction/" style="--a1:#f5e100;--a2:#ff8c00">
+        <span class="thumb" aria-hidden="true"><img src="/images/biz/biz-02-construction.jpg" alt="" loading="lazy" decoding="async" width="600" height="1000"></span>
         <span class="no">02</span>
         <span class="en">CONSTRUCTION</span>
         <span class="ja">建設業</span>
@@ -1931,6 +1948,7 @@ html[data-theme="red"] .c-rim--red{opacity:1}
       </a>
 
       <a class="biz-card" href="/services/inspection/" style="--a1:#f5e100;--a2:#ff8c00">
+        <span class="thumb" aria-hidden="true"><img src="/images/biz/biz-03-inspection.jpg" alt="" loading="lazy" decoding="async" width="600" height="1000"></span>
         <span class="no">03</span>
         <span class="en">INSPECTION<br>&amp; CLEANING</span>
         <span class="ja">調査・清掃</span>
@@ -1938,6 +1956,7 @@ html[data-theme="red"] .c-rim--red{opacity:1}
       </a>
 
       <a class="biz-card" href="/services/tools/" style="--a1:#ff6b6b;--a2:#ff8e53">
+        <span class="thumb" aria-hidden="true"><img src="/images/biz/biz-04-tools.jpg" alt="" loading="lazy" decoding="async" width="600" height="1000"></span>
         <span class="no">04</span>
         <span class="en">TOOLS<br>&amp; CRAFT</span>
         <span class="ja">工具・クラフト販売</span>
@@ -1945,6 +1964,7 @@ html[data-theme="red"] .c-rim--red{opacity:1}
       </a>
 
       <a class="biz-card" href="/services/video/" style="--a1:#7b61ff;--a2:#00d4ff">
+        <span class="thumb" aria-hidden="true"><img src="/images/biz/biz-05-video.jpg" alt="" loading="lazy" decoding="async" width="600" height="1000"></span>
         <span class="no">05</span>
         <span class="en">VIDEO<br>&amp; DOCUMENTS</span>
         <span class="ja">映像制作・資料作成</span>
@@ -1952,6 +1972,7 @@ html[data-theme="red"] .c-rim--red{opacity:1}
       </a>
 
       <a class="biz-card" href="/services/web/" style="--a1:#00f5d4;--a2:#00cce6">
+        <span class="thumb" aria-hidden="true"><img src="/images/biz/biz-06-web3d.jpg" alt="" loading="lazy" decoding="async" width="600" height="1000"></span>
         <span class="no">06</span>
         <span class="en">WEB &amp;<br>3D DESIGN</span>
         <span class="ja">ホームページ・3D・アプリ開発 — 本サイトも自社制作</span>
@@ -1959,6 +1980,7 @@ html[data-theme="red"] .c-rim--red{opacity:1}
       </a>
 
       <a class="biz-card" href="/services/dog/" style="--a1:#ff6b6b;--a2:#ff8e53">
+        <span class="thumb" aria-hidden="true"><img src="/images/biz/biz-07-dog.jpg" alt="" loading="lazy" decoding="async" width="600" height="1000"></span>
         <span class="no">07</span>
         <span class="en">DOG<br>SERVICES</span>
         <span class="ja">犬に携わる業務</span>
