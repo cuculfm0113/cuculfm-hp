@@ -765,8 +765,8 @@ html[data-theme="red"] .bg-red{opacity:1}
 }
 .biz-grid{
   display:grid;
-  grid-template-columns:repeat(6,minmax(0,1fr));
-  gap:clamp(10px,1.1vw,18px);
+  grid-template-columns:repeat(7,minmax(0,1fr));
+  gap:clamp(8px,1vw,16px);
 }
 .biz-card{
   position:relative;display:flex;flex-direction:column;justify-content:space-between;
@@ -1547,10 +1547,11 @@ html[data-theme="red"] .c-rim--red{opacity:1}
        03 INSPECTION & CLEANING  /services/inspection/
        04 TOOLS & CRAFT          /services/tools/
        05 VIDEO & DOCUMENTS      /services/video/
-       06 DOG SERVICES           /services/dog/
-     [index overlay]  SERVICES 8 / NEWS & INFO 4 / COMPANY
+       06 WEB & 3D DESIGN        /services/web/
+       07 DOG SERVICES           /services/dog/
+     [index overlay]  SERVICES 9 / NEWS & INFO 4 / COMPANY
        SERVICES : /services/ai/ /services/construction/ /services/inspection/ /services/tools/
-                  /services/craft/ /services/video/ /services/document/ /services/dog/
+                  /services/craft/ /services/video/ /services/document/ /services/web/ /services/dog/
        NEWS     : /articles/ /recruit/ /event/ /services/dog/#puppies
        COMPANY  : #about #contact / tel:09062623842 / Instagram / X
      [anchors]  下層ページが深リンクする id（変更禁止）
@@ -1908,7 +1909,7 @@ html[data-theme="red"] .c-rim--red{opacity:1}
       <p class="eyebrow">AI-DRIVEN / BLUE-COLLAR / BUILD-UP</p>
       <h2 id="biz-title">OUR <em>BUSINESS</em></h2>
     </div>
-    <p class="lead">AI × 現場。建設・インフラからライフスタイルまで、AIを駆使してブルーカラーの仕事をビルドアップする——合同会社ククルFMの6つの領域。</p>
+    <p class="lead">AI × 現場。建設・インフラからライフスタイルまで、AIを駆使してブルーカラーの仕事をビルドアップする——合同会社ククルFMの7つの領域。</p>
   </div>
 
   <div class="biz-scroller" id="biz-scroller">
@@ -1950,8 +1951,15 @@ html[data-theme="red"] .c-rim--red{opacity:1}
         <span class="go">VIEW<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
       </a>
 
-      <a class="biz-card" href="/services/dog/" style="--a1:#ff6b6b;--a2:#ff8e53">
+      <a class="biz-card" href="/services/web/" style="--a1:#00f5d4;--a2:#00cce6">
         <span class="no">06</span>
+        <span class="en">WEB &amp;<br>3D DESIGN</span>
+        <span class="ja">ホームページ・3D・アプリ開発 — 本サイトも自社制作</span>
+        <span class="go">VIEW<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+
+      <a class="biz-card" href="/services/dog/" style="--a1:#ff6b6b;--a2:#ff8e53">
+        <span class="no">07</span>
         <span class="en">DOG<br>SERVICES</span>
         <span class="ja">犬に携わる業務</span>
         <span class="go">VIEW<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
@@ -1962,7 +1970,7 @@ html[data-theme="red"] .c-rim--red{opacity:1}
 
   <div class="biz-progress" aria-hidden="true">
     <div class="rail"><i id="biz-line"></i></div>
-    <div class="lab"><span>01 feat. AI</span><span>06 DOG</span></div>
+    <div class="lab"><span>01 feat. AI</span><span>07 DOG</span></div>
   </div>
 </section>
 
@@ -2034,7 +2042,7 @@ html[data-theme="red"] .c-rim--red{opacity:1}
         <div class="spec-row"><dt>運営会社</dt><dd>ククルFM合同会社</dd></div>
         <div class="spec-row"><dt>代表者</dt><dd>馬場 陽子</dd></div>
         <div class="spec-row"><dt>経歴</dt><dd>プロセス制御機器メーカーにて、石油・LNG・化学プラント向けの海外プロジェクトにアプリケーションエンジニアとして従事。その後、コンサルティング会社数社にて電力・ガス・素材業界のDX戦略策定、業務改革、新規事業支援などをEnd to Endで支援。現在はククルFM代表を務める傍ら、AIテックカンパニーに従事。</dd></div>
-        <div class="spec-row"><dt>事業内容</dt><dd>【建設・インフラ】建設業 / 調査・清掃<br>【クリエイティブ・テック】映像制作 / 資料作成 / AI業務支援 / Web開発 / メディア運営<br>【ライフスタイル】犬関連事業 / オーナーズコモン等</dd></div>
+        <div class="spec-row"><dt>事業内容</dt><dd>【建設・インフラ】建設業 / 調査・清掃<br>【クリエイティブ・テック】映像制作 / 資料作成 / AI業務支援 / Web開発 / 3Dデザイン / メディア運営<br>【ライフスタイル】犬関連事業 / オーナーズコモン等</dd></div>
         <div class="spec-row"><dt>所在地</dt><dd>〒333-0802<br>埼玉県川口市戸塚東４丁目３２−５<br>ITSUZAI community base １号室</dd></div>
         <div class="spec-row"><dt>連絡先</dt><dd><a href="tel:09062623842">090-6262-3842</a></dd></div>
       </dl>
@@ -2141,6 +2149,7 @@ html[data-theme="red"] .c-rim--red{opacity:1}
         <li><a href="/services/craft/"><span class="en">CRAFT</span>オリジナルクラフト</a></li>
         <li><a href="/services/video/"><span class="en">VIDEO</span>映像制作・編集</a></li>
         <li><a href="/services/document/"><span class="en">DOCUMENT</span>資料作成</a></li>
+        <li><a href="/services/web/"><span class="en">WEB</span>Web制作・3D・アプリ開発</a></li>
         <li><a href="/services/dog/"><span class="en">DOG</span>犬に携わる業務</a></li>
       </ul>
     </nav>
@@ -2200,7 +2209,8 @@ html[data-theme="red"] .c-rim--red{opacity:1}
           <a class="idx-item" href="/services/craft/"><span class="n">05</span><span class="en">CRAFT</span><span class="ja">オリジナルクラフト</span></a>
           <a class="idx-item" href="/services/video/"><span class="n">06</span><span class="en">VIDEO</span><span class="ja">映像制作・編集</span></a>
           <a class="idx-item" href="/services/document/"><span class="n">07</span><span class="en">DOCUMENT</span><span class="ja">資料作成</span></a>
-          <a class="idx-item" href="/services/dog/"><span class="n">08</span><span class="en">DOG</span><span class="ja">犬に携わる業務</span></a>
+          <a class="idx-item" href="/services/web/"><span class="n">08</span><span class="en">WEB</span><span class="ja">Web制作・3D・アプリ開発</span></a>
+          <a class="idx-item" href="/services/dog/"><span class="n">09</span><span class="en">DOG</span><span class="ja">犬に携わる業務</span></a>
         </nav>
 
         <nav class="idx-group" aria-labelledby="idx-h-news">
