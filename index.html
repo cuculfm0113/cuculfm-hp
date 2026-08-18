@@ -1042,6 +1042,21 @@ dialog:not([open]){display:none}
   opacity:.7;
 }
 .news-card>*{position:relative;z-index:2}
+/* TCGアート窓: 金縁フレームの油彩イラスト(掲示板に貼られたトレカの世界観) */
+.news-card .card-art{
+  margin-top:12px;                       /* テープ(::before top:7px)の下に */
+  aspect-ratio:21/16;overflow:hidden;background:#0a0a12;
+  border:1px solid rgba(212,160,23,.55);
+  box-shadow:0 0 0 3px rgba(20,16,9,.9),0 0 0 4px rgba(212,160,23,.28),inset 0 0 16px rgba(0,0,0,.55);
+}
+.news-card .card-art img{
+  display:block;width:100%;height:100%;object-fit:cover;
+  transition:transform .5s cubic-bezier(.16,1,.3,1);
+}
+.news-card:hover .card-art img,.news-card:focus-visible .card-art img{transform:scale(1.05)}
+@media (max-width:680px){
+  .news-card .card-art{aspect-ratio:21/12}   /* 1カラムでは縦伸び防止 */
+}
 .news-card .no{
   font-family:var(--font-display);font-weight:700;
   font-size:.66rem;letter-spacing:.24em;color:#8a7a62;
@@ -2012,6 +2027,7 @@ html[data-theme="red"] .c-rim--red{opacity:1}
 
     <a class="news-card" href="/articles/">
       <span class="no">01</span>
+      <span class="card-art" aria-hidden="true"><img src="/images/news/news-01-articles.jpg" alt="" loading="lazy" decoding="async" width="840" height="640"></span>
       <span class="en">ARTICLES</span>
       <span class="ja">記事一覧</span>
       <span class="go">READ<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
@@ -2019,6 +2035,7 @@ html[data-theme="red"] .c-rim--red{opacity:1}
 
     <a class="news-card" href="/recruit/">
       <span class="no">02</span>
+      <span class="card-art" aria-hidden="true"><img src="/images/news/news-02-recruit.jpg" alt="" loading="lazy" decoding="async" width="840" height="640"></span>
       <span class="en">RECRUIT</span>
       <span class="ja">好きを仕事に変えよう。全年代 求人募集中</span>
       <span class="go">READ<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
@@ -2026,6 +2043,7 @@ html[data-theme="red"] .c-rim--red{opacity:1}
 
     <a class="news-card" href="/event/">
       <span class="no">03</span>
+      <span class="card-art" aria-hidden="true"><img src="/images/news/news-03-event.jpg" alt="" loading="lazy" decoding="async" width="840" height="640"></span>
       <span class="en">EVENT</span>
       <span class="ja">イベント</span>
       <span class="go">READ<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
@@ -2033,6 +2051,7 @@ html[data-theme="red"] .c-rim--red{opacity:1}
 
     <a class="news-card" href="/services/dog/#puppies">
       <span class="no">04</span>
+      <span class="card-art" aria-hidden="true"><img src="/images/news/news-04-puppies.jpg" alt="" loading="lazy" decoding="async" width="840" height="640"></span>
       <span class="en">PUPPIES</span>
       <span class="ja">当店で生まれた子犬たちをご紹介</span>
       <span class="go">READ<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
