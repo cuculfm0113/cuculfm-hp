@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>プロンプトエンジニアリング入門 | CUCUL FM</title>
-  <meta name="description" content="チャットAIに対して、再現性の高い指示文（プロンプト） を書けるようになること。具体的には、業務でよく使う1種類の依頼（例：メール草案、議事メモ整形、企画のアイデア出し）について、改善前・改善後のプロンプト を自分で用意できること。">
+  <title>プロンプトの型：目的・材料・形式・禁止・確認 | CUCUL FM</title>
+  <meta name="description" content="目的・材料・形式・禁止・確認の5ブロックで依頼し、2往復で使える下書きにする。">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="ja_JP">
-  <meta property="og:title" content="プロンプトエンジニアリング入門 | CUCUL FM">
-  <meta property="og:description" content="チャットAIに対して、再現性の高い指示文（プロンプト） を書けるようになること。具体的には、業務でよく使う1種類の依頼（例：メール草案、議事メモ整形、企画のアイデア出し）について、改善前・改善後のプロンプト を自分で用意できること。">
-  <meta property="og:image" content="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=1200&amp;h=600&amp;fit=crop">
+  <meta property="og:title" content="プロンプトの型：目的・材料・形式・禁止・確認 | CUCUL FM">
+  <meta property="og:description" content="目的・材料・形式・禁止・確認の5ブロックで依頼し、2往復で使える下書きにする。">
+  
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="プロンプトエンジニアリング入門 | CUCUL FM">
-  <meta name="twitter:description" content="チャットAIに対して、再現性の高い指示文（プロンプト） を書けるようになること。具体的には、業務でよく使う1種類の依頼（例：メール草案、議事メモ整形、企画のアイデア出し）について、改善前・改善後のプロンプト を自分で用意できること。">
-  <meta name="twitter:image" content="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=1200&amp;h=600&amp;fit=crop">
-  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "プロンプトエンジニアリング入門", "datePublished": "2025-12-17", "dateModified": "2025-12-17", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=1200&h=600&fit=crop"]}</script>
+  <meta name="twitter:title" content="プロンプトの型：目的・材料・形式・禁止・確認 | CUCUL FM">
+  <meta name="twitter:description" content="目的・材料・形式・禁止・確認の5ブロックで依頼し、2往復で使える下書きにする。">
+  
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "プロンプトの型：目的・材料・形式・禁止・確認", "datePublished": "2026-08-18", "dateModified": "2026-08-18", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
@@ -34,115 +34,66 @@
   <article class="article-container">
     <header class="article-header">
       <span class="article-category">AI</span>
-      <h1 class="article-title">プロンプトエンジニアリング入門</h1>
+      <h1 class="article-title">プロンプトの型：目的・材料・形式・禁止・確認</h1>
       <div class="article-meta">
-        <time class="article-date">2025.12.17</time>
+        <time class="article-date">2026.08.18</time>
         <span class="article-author">ククルFM編集部</span>
       </div>
     </header>
 
-    <div class="article-featured-image"><img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=1200&amp;h=600&amp;fit=crop" alt="プロンプトエンジニアリング" loading="lazy"></div>
+    
 
     <div class="article-content">
-<h2>この記事の学習ゴール</h2>
-<p>チャットAIに対して、<strong>再現性の高い指示文（プロンプト）</strong> を書けるようになること。具体的には、業務でよく使う1種類の依頼（例：メール草案、議事メモ整形、企画のアイデア出し）について、<strong>改善前・改善後のプロンプト</strong> を自分で用意できること。</p>
-<h2>前提知識・向いている人</h2>
-<p>ChatGPT や Claude など、<strong>対話型の生成AIを一度は触ったことがある方</strong>。マーケティング・事務・開発・企画など、文章やアイデアを頻繁に出す職種で効果が出やすいです。</p>
-<h2>キーコンセプトと用語</h2>
+<h2>この記事でできるようになること / やらないこと</h2>
 <ul>
-<li><strong>プロンプト</strong>: AIへの指示・質問・制約・参考情報をまとめた入力全文。短い一言でも、長い仕様書でも「プロンプト」と呼びます。</li>
-<li><strong>ロール（役割）指定</strong>: 「あなたは○○の専門家」と宣言し、文体・深さ・リスク回避の癖を寄せる技法。</li>
-<li><strong>出力形式指定</strong>: 箇条書き、表、JSON、見出し付きMarkdownなど、<strong>受け取り側が処理しやすい形</strong> を先に決めること。</li>
-<li><strong>Few-shot（例示）</strong>: 望ましい出力の例を1〜3個見せ、スタイルや粒度を揃える手法。</li>
-<li><strong>チェーンプロンプト</strong>: 一度に全部を聞かず、概要→詳細→事例のように段階で深掘りする手法。</li>
-<li><strong>ハルシネーション</strong>: もっともらしいが事実でない内容をAIが生成する現象。ファクトチェック前提で運用します。</li>
+<li><strong>できること</strong>: 5ブロックの依頼文を書いて、2往復で使える下書きにする。</li>
+<li><strong>やらないこと</strong>: 魔法の呪文、モデル名の暗記。画面操作は公式ヘルプを正とする。最終確認日: 2026-08-18</li>
 </ul>
-<h2>手順（ステップバイステップ）</h2>
-<h3>ステップ1：目的を1文で固定する</h3>
-<p>悪い例：「いい感じにまとめて」。 良い例：「経営層向けに、直近の売上遅延の要因を3点に整理したい」。</p>
-<h3>ステップ2：入力に含める素材を列挙する</h3>
-<p>箇条書きのメモ、ログの抜粋、禁止したい表現、想定読者、文字数。<strong>足りない情報はAIに質問させる</strong> 指示を足してもよいです（例：「不足情報があれば3つまで質問してから回答」）。</p>
-<h3>ステップ3：ロールとトーンを置く</h3>
-<p>例：「BtoB SaaSのカスタマーサクセス担当として、冷静だが丁寧な日文で」。</p>
-<h3>ステップ4：出力形式を宣言する</h3>
-<p>例：「見出しは##、本文は箇条書き、最後に次のアクションを3つ」「表の列は◯◯」。</p>
-<h3>ステップ5：分割か一括かを選ぶ</h3>
-<p>複雑なら <strong>チェーン</strong>（まず論点一覧→各論点を深掘り）。単純なら一括で十分なことが多いです。</p>
-<h3>ステップ6：評価と改善</h3>
-<p>「望みと違った点」を1語でメモし、<strong>プロンプトに制約を1行追加</strong> して再実行。これを3回繰り返すと、自分専用テンプレが出来上がります。</p>
-<h2>基本テクニック（悪い例／良い例）</h2>
-<h3>具体性</h3>
+<p>安全境界は <a href="./ai-introduction.html">AI導入の始め方</a>。</p>
+<h2>結論</h2>
+<p>長い名文より、<strong>抜けがない短い箇条書き</strong>。最低5つ: 目的、読者、材料、出力形式、禁止。足りないときは「不明は不明と書く」を足す。</p>
+<h2>5ブロック（コピペ）</h2>
+<pre><code>目的:
+読者:
+材料（固有名詞は伏せる）:
+出力形式（見出し / 字数 / 表の列）:
+禁止（推測しない、実名を作らない、URLを捏造しない）:
+確認してほしいこと:</code></pre>
+<p>例（調査日報の要約）:</p>
+<pre><code>目的: 今日の現場メモを、明日の朝礼で読める短文にする
+読者: 現場代理人と作業員
+材料: 天候、作業内容（伏せ字）、未完了、明日の搬入
+出力形式: 見出し3つ（完了 / 未完 / 明日）。全体400字以内
+禁止: 住所と顧客名を書かない。ない数字を足さない
+確認: 未完了が材料と一致しているか</code></pre>
+<h2>2往復で仕上げる</h2>
+<p>1回目: 5ブロックをそのまま出す。80点で止める。 2回目: 修正は1つだけ。「短い」「ですますに統一」「明日の搬入を先頭」など。</p>
+<p>一度に10個直させると、直ったものと壊れたものが混ざる。</p>
+<h2>評価の仕方（3分）</h2>
+<p>出力を見て印を付ける。</p>
 <ul>
-<li><strong>悪</strong>: 「記事を書いて」</li>
-<li><strong>良</strong>: 「中小企業経営者向けに、AI導入の第一歩を800字前後で。見出し3つ。専門用語には括弧で短い説明を付けて。」</li>
+<li>材料にない事実が増えていないか</li>
+<li>形式（字数・見出し）を守っているか</li>
+<li>読者が次に動けるか</li>
 </ul>
-<h3>ロール</h3>
+<p>ダメならブロックを足す。モデルを変えるのはそのあと。</p>
+<h2>現場で使う短い型</h2>
+<p><strong>メール</strong>: 件名候補3つ + 本文。相手、期限、お願いを材料に書く。 <strong>議事</strong>: 決定 / ToDo（誰・いつ） / 未決。発言録の全文は渡さない。 <strong>チェック</strong>: 「誤解されやすい箇所を先に列挙し、次に修正文」の順を指定する。</p>
+<p>ChatGPT向けの業務例は <a href="../chatgpt/chatgpt-workflows-business.html">業務ワークフロー</a>。</p>
+<h2>チェックリスト</h2>
 <ul>
-<li><strong>悪</strong>: 「キャッチコピーを考えて」</li>
-<li><strong>良</strong>: 「大手広告代理店のコピーライターとして、20代女性向けスキンケアのキャッチを5案。各25字以内。トーンは明るく誠実。」</li>
+<li>[ ] 5ブロックが埋まっている</li>
+<li>[ ] 固有名詞と実数を伏せた</li>
+<li>[ ] 1回で完成させない</li>
+<li>[ ] 人が数字を確認してから送る</li>
 </ul>
-<h3>形式</h3>
+<h2>次に読む</h2>
 <ul>
-<li><strong>悪</strong>: 「AIツールをまとめて」</li>
-<li><strong>良</strong>: 「列は『ツール名／用途／目安月額／注意点』。行は5つ。不明な料金は『要確認』と書く。」</li>
+<li><a href="../chatgpt/chatgpt-basics.html">ChatGPTの始め方</a></li>
+<li><a href="../chatgpt/chatgpt-prompts-practical.html">実務プロンプト</a></li>
 </ul>
-<h3>推論の段取り</h3>
-<p>複雑な意思決定では、「結論の前に、前提→選択肢→評価基準→推奨」の順を明示すると読みやすくなることがあります。</p>
-<h2>応用：チェーンと制約のリスト</h2>
-<p>チェーン例：</p>
-<ol>
-<li>○○の論点を5つ挙げて。</li>
-<li>そのうちビジネス影響が大きい順に並べ替えて。</li>
-<li>上位2つについて、それぞれ具体施策を3つ。</li>
-</ol>
-<p>制約例：</p>
-<ul>
-<li>専門用語は使わない／小学生向けに言い換える。</li>
-<li>300字以内、敬語、ネガティブ表現は避ける。</li>
-<li>出典が不確かな数値は書かない（推定が必要なら「推定」と明記）。</li>
-</ul>
-<h2>やってはいけないこと（実務での学び）</h2>
-<ul>
-<li><strong>曖昧形容詞の乱発</strong>（「いい感じ」「かっこよく」）→ 指標か例に置き換える。</li>
-<li><strong>一度に10個の質問</strong> → 優先度順に分割し、毎回フォーカスを1つにする。</li>
-<li><strong>長大プロンプトの肥大化</strong> → 本当に必要な節だけ残し、残りは「要約した中間結果」を次のターンに渡す。</li>
-<li><strong>機密の直打ち</strong> → マスキング、ダミー値、社内規程に照らしたクラウド利用設定の確認。</li>
-</ul>
-<h2>実践ミニ演習</h2>
-<ol>
-<li>あなたの業務で週3回以上出る依頼を1つ選び、「悪いプロンプト」を意図的に書く（10字以内でも可）。</li>
-<li>同じ依頼を「良いプロンプト」に書き換え、<strong>ロール・形式・制約</strong> を最低1つずつ入れる。</li>
-<li>AIに実行させ、「1文だけ修正したい」点をプロンプトに追記して再実行する。<strong>追記文</strong> を記録する。</li>
-</ol>
-<h2>セルフチェックリスト</h2>
-<ul>
-<li>[ ] プロンプトに目的・読者・形式のうち2つ以上を明示した。</li>
-<li>[ ] Few-shot かチェーンのどちらかを、自分の用途で試した。</li>
-<li>[ ] ハルシネーション対策として、最終確認の責任が人にあると説明できる。</li>
-<li>[ ] 自分用テンプレを1枚（メモ）に保存した。</li>
-</ul>
-<h2>つまずきポイントと対処</h2>
-<ul>
-<li><strong>答えが薄い</strong> → 入力情報が足りないか、ロールが弱い。素材を足すか、専門家ロールを具体職種に変える。</li>
-<li><strong>長文すぎる</strong> → 文字数上限と「箇条書きのみ」を同時指定する。</li>
-<li><strong>言い回しが合わない</strong> → 好みの例文をFew-shotで2つ提示する。</li>
-<li><strong>毎回ブレる</strong> → 温度感に相当する設定がUIにある場合は低めに。または「同じ構成で」と固定。</li>
-</ul>
-<h2>まとめ：次に何をするか</h2>
-<p>プロンプトエンジニアリングは、生成AI活用の <strong>再現性と品質の土台</strong> です。次は、ミニ演習で得た「良いプロンプト」をチームのテンプレート1枚にし、禁止事項（個人情報など）をヘッダに書き添えて共有してください。ツール選択の観点を補強したい場合は「ChatGPT・Claude・Gemini徹底比較ガイド」へ進むと、モデル特性に合わせた指示の微調整がしやすくなります。</p>
-<h3>お問い合わせ</h3>
-<p>AI活用・プロンプト作成のご相談はお気軽にどうぞ</p>
-<p>📞 090-6262-3842</p>
-<hr>
-<h2>ツール情報</h2>
-<p>プロンプトは製品非依存の技能ですが、利用するサービスのデータ取り扱い・学習オプトアウトは公式で確認してください（公式サイトのURLは変更される場合があります）。</p>
-<ul>
-<li><a href="https://openai.com/" target="_blank" rel="noopener">OpenAI</a></li>
-<li><a href="https://www.anthropic.com/" target="_blank" rel="noopener">Anthropic</a></li>
-<li><a href="https://gemini.google.com/" target="_blank" rel="noopener">Google Gemini</a></li>
-</ul>
-<h2>画像クレジット</h2>
-<p>サムネイル画像は <a href="https://unsplash.com/" target="_blank" rel="noopener">Unsplash</a> のライセンスに基づき使用しています。</p>
+<h2>公式</h2>
+<p>使うツールの公式ヘルプと利用規約を正とする。本記事は各社の公式提供ではありません。</p>
 
     </div>
   </article>

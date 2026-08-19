@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gemini×Google Workspace活用（Gmail/Docs/Sheetsの実務例） | CUCUL FM</title>
-  <meta name="description" content="生成AIは「単体で使う」より、普段の業務ツール（Gmail/Docs/Sheets）に落とし込むと定着しやすくなります。">
+  <title>Gemini×Workspace：下書きはサイドパネル、送信は人 | CUCUL FM</title>
+  <meta name="description" content="Gmail・ドキュメント・スプレッドシートの中で下書きを取り、数字と宛先は人が見てから出す。アイコンが無い日は公式と管理者を正とする。">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="ja_JP">
-  <meta property="og:title" content="Gemini×Google Workspace活用（Gmail/Docs/Sheetsの実務例） | CUCUL FM">
-  <meta property="og:description" content="生成AIは「単体で使う」より、普段の業務ツール（Gmail/Docs/Sheets）に落とし込むと定着しやすくなります。">
-  <meta property="og:image" content="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=1200&amp;h=600&amp;fit=crop">
+  <meta property="og:title" content="Gemini×Workspace：下書きはサイドパネル、送信は人 | CUCUL FM">
+  <meta property="og:description" content="Gmail・ドキュメント・スプレッドシートの中で下書きを取り、数字と宛先は人が見てから出す。アイコンが無い日は公式と管理者を正とする。">
+  
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Gemini×Google Workspace活用（Gmail/Docs/Sheetsの実務例） | CUCUL FM">
-  <meta name="twitter:description" content="生成AIは「単体で使う」より、普段の業務ツール（Gmail/Docs/Sheets）に落とし込むと定着しやすくなります。">
-  <meta name="twitter:image" content="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=1200&amp;h=600&amp;fit=crop">
-  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Gemini×Google Workspace活用（Gmail/Docs/Sheetsの実務例）", "datePublished": "2026-01-14", "dateModified": "2026-01-14", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=1200&h=600&fit=crop"]}</script>
+  <meta name="twitter:title" content="Gemini×Workspace：下書きはサイドパネル、送信は人 | CUCUL FM">
+  <meta name="twitter:description" content="Gmail・ドキュメント・スプレッドシートの中で下書きを取り、数字と宛先は人が見てから出す。アイコンが無い日は公式と管理者を正とする。">
+  
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Gemini×Workspace：下書きはサイドパネル、送信は人", "datePublished": "2026-08-19", "dateModified": "2026-08-19", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
@@ -34,104 +34,56 @@
   <article class="article-container">
     <header class="article-header">
       <span class="article-category">AI</span>
-      <h1 class="article-title">Gemini×Google Workspace活用（Gmail/Docs/Sheetsの実務例）</h1>
+      <h1 class="article-title">Gemini×Workspace：下書きはサイドパネル、送信は人</h1>
       <div class="article-meta">
-        <time class="article-date">2026.01.14</time>
+        <time class="article-date">2026.08.19</time>
         <span class="article-author">ククルFM編集部</span>
       </div>
     </header>
 
-    <div class="article-featured-image"><img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=1200&amp;h=600&amp;fit=crop" alt="Google Workspaceの業務効率化" loading="lazy"></div>
+    
 
     <div class="article-content">
-<h2>はじめに</h2>
-<p>生成AIは「単体で使う」より、普段の業務ツール（Gmail/Docs/Sheets）に落とし込むと定着しやすくなります。</p>
-<p>本記事では、Geminiを中心に、Google Workspaceでの実務例をまとめます（※機能の提供状況はプラン/環境により異なる場合があります）。メール・ドキュメント・表計算という日常ツールごとに、入力の型と検証の型を分けて書いているので、チーム内の「お手本1枚」としてそのまま流用できます。学習パートでは権限とコンプライアンスの論点も演習形式で押さえます。</p>
-<h2>Gmail：メールの“型”を作って時短</h2>
+<h2>この記事でできるようになること / やらないこと</h2>
 <ul>
-<li>依頼/お礼/断り/催促のテンプレを作る</li>
-<li>箇条書きメモ→丁寧文に整形</li>
-<li>誤解されやすい表現のチェック（トーン調整）</li>
+<li><strong>できること</strong>: 今日、伏せ字のメモからメール1通、または見出しだけの資料1枚を下書きする。</li>
+<li><strong>やらないこと</strong>: 料金表、管理者設定の全解説、スライドとMeet。画面名・可否・プランは <a href="https://support.google.com/a/users/answer/15146419?hl=ja" target="_blank" rel="noopener">Google Workspace with Gemini の活用</a> が正。最終確認日: 2026-08-19</li>
 </ul>
-<p>件名は最後に確定させ、本文で必要な件（期限・URL・添付有無）を箇条書きで先に出してから整形すると抜けが減ります。返信チェーンが長いときは、最新の依頼部分だけを引用して渡すと要約の精度が上がります。</p>
-<h2>Google Docs：提案書・記事の下書き→推敲</h2>
-<ul>
-<li>見出し構成を先に作る</li>
-<li>章ごとに下書きを作る</li>
-<li>レビュー観点（分かりやすさ/誤解リスク/冗長）で推敲</li>
-</ul>
-<h2>Google Sheets：集計・関数・整形を加速</h2>
-<ul>
-<li>要件→関数提案→テストケース</li>
-<li>データ整形（分割/抽出/正規表現）</li>
-<li>GASの叩き台（通知、転記、ログ）</li>
-</ul>
-<p>Sheetsでは「期待する数値サンプル（入力行と答え）」を2組だけ添えると、関数提案の精度が跳ね上がります。貼り付けた式は必ず境界行（空行・文末空白）で壊れないか確認し、GASに進む前に式で済むか検討するクセを付けましょう。</p>
-<h2>運用のコツ（ここが一番大事）</h2>
-<ul>
-<li><strong>入力ルール</strong>：個人情報・顧客情報は抽象化/伏字</li>
-<li><strong>テンプレ化</strong>：よく使う依頼文を固定</li>
-<li><strong>チェック</strong>：外部送信・公開前は人間が最終確認</li>
-</ul>
-<h2>権限とコンプライアンスの見落としポイント</h2>
-<p>管理者がGemini利用を許可していても、部門ごとのNDAや顧客契約で「クラウドAI利用禁止」が上書きされることがあります。利用可否は法務・情シスとセットで確認し、Slackやメールの定型文に「AI下書き使用時は〇〇を確認」と一言入れておくと現場の事故が減ります。教育では「伏字例」「ダメな入力例」をスクリーンショット1枚で示すと定着が早いです。</p>
-<h2>学習向け（手順・演習・用語・確認・トラブル向け）</h2>
-<h3>実践ステップ</h3>
-<h4>ステップ1：接続範囲の確認</h4>
-<p>自社のWorkspaceプランとGemini連携の利用可否を管理者または公式ヘルプで確認します。「どこまでAIがコンテンツにアクセスできるか」をチームで言語化しておきます。</p>
-<h4>ステップ2：Gmail→Docs→Sheetsの順で小さく試す</h4>
-<p>まずは1通の依頼メールの返信下書き、次にDocsで1ページの構成案、最後にSheetsで関数の叩き台、の順に試すと失敗の切り分けがしやすいです。</p>
-<h4>ステップ3：テンプレと禁止事項を共有ドライブに1枚化</h4>
-<p>「定型プロンプト」「伏字ルール」「公開前チェック担当」を1ドキュメントにまとめ、リンクをチームチャットのピン留めにします。</p>
-<h3>演習課題</h3>
+<p>共通の禁止は <a href="../basics/ai-introduction.html">AI導入の始め方</a>。依頼の骨格は <a href="../basics/prompt-engineering.html">プロンプトの型</a>。表の式とGASのテストは <a href="../chatgpt/chatgpt-excel-gas.html">スプレッドシート×ChatGPT</a>。</p>
+<h2>結論</h2>
+<p>GeminiをWorkspaceで使う意味は、<strong>メールと表を開いたまま下書きできる</strong>こと。だからこそ送信ボタンは人が押す。アイコンが無い、メニュー名が違う、は故障ではなくプランか管理者の話。推測しない。</p>
+<h2>開始前</h2>
 <ol>
-<li>Gmailで箇条書きメモから「依頼・お礼・催促」の3パターンの丁寧文を生成し、トーンの差を比較する。</li>
-<li>Docsで見出しだけ先に10個作らせ、自分が3つに間引いてから本文を埋める流れを1回通す。</li>
-<li>Sheetsの架空データで「列の意味・期待する集計」を文章化し、提案関数をコピペ前に検算する。</li>
-<li>同じドキュメントで「社内向け」「顧客向け」の2トーン指定を切り替え、禁則語が混ざらないか確認する。</li>
+<li>Gmail またはドキュメントの右上付近に <strong>「Gemini に相談」</strong> があるか見る（正式な位置はヘルプが正）</li>
+<li>無い → <a href="https://support.google.com/a/users/answer/15146419?hl=ja" target="_blank" rel="noopener">ヘルプ</a> と管理者。この記事の手順はここで止める</li>
+<li>ある → 禁止1行を先に書く</li>
 </ol>
-<h3>用語ミニ辞典</h3>
+<p>「氏名・住所・顧客の実名、実額、契約文、パスワードは貼らない。A社・X円に置き換える。」</p>
+<p>会社の Workspace では、顧客契約がクラウドAIを禁じていることがある。許可は情シスと契約が正。Geminiアプリ（ <a href="https://gemini.google.com/" target="_blank" rel="noopener">gemini.google.com</a> ）と、Gmailの中のGeminiは別物として扱う。</p>
+<h2>向く仕事 / 向かない仕事</h2>
+<p>向く: 依頼・お礼・催促の下書き、Docsの見出し案、シートの列名と関数のたたき台。 向かない（単独）: 宛先と金額の確定、契約解釈、今日のニュースの正、医療・法律・金融の助言（ヘルプもそう書いてある）。</p>
+<h2>メール（コピペ）</h2>
+<p>相手: A社（実名は出さない） 目的: ＿＿ 期限: ＿＿ 必須: ＿＿ 禁止: 謝罪の連打、新しい数字 出力: 件名1、本文200字以内、次アクション1行</p>
+<p>返ってきたら人が見る3点: 宛先、日付、金額。送信は自分。</p>
+<p>長いスレッドは「最新の依頼だけ」を渡す。全文を要約させてから返事を書かせると、古い条件が混ざる。</p>
+<h2>ドキュメント（コピペ）</h2>
+<p>読者: ＿＿ 目的（1行）: ＿＿ 今日出すもの: 見出し案だけ / 第1節だけ 禁止: 新しい数字、固有名詞の変更</p>
+<p>見出しを人が直してから本文。全文一発は使わない。</p>
+<h2>スプレッドシート</h2>
+<p>列名とテスト3行を書いてから関数を頼む。本番列は触らない。詳細は <a href="../chatgpt/chatgpt-excel-gas.html">テストシートから</a> と同じ。</p>
+<p>「このシートを要約して」は、個人名が入ったままだと要約にも残る。渡す範囲を先に決める。</p>
+<h2>演習（1つ）</h2>
+<p>架空の催促メモ（伏せ字）でメール下書きを1通。件名と期限だけ人が直して、下書きフォルダに残す。送信しない。</p>
+<p>フォームからの受付をシートに落とす仕事は <a href="./google-ai-automation.html">フォーム→シート</a>。</p>
+<h2>公式</h2>
 <ul>
-<li><strong>Google Workspace</strong>：GmailやDocsなどのクラウド生産性ツール群の総称です（Gemini連携は機能・地域・契約により異なります）。</li>
-<li><strong>サイドパネル／サイドアシスト</strong>：編集中画面からGeminiを呼び出すUIのイメージ。正式名称はプロダクトのアップデートで変わることがあります。</li>
-<li><strong>マスキング</strong>：個人情報を***や「A社」に置き換える処理。</li>
-<li><strong>GAS</strong>：Google Apps Script。シート上の定型処理を自動化するスクリプト環境です。</li>
-<li><strong>監査ログ</strong>：誰がいつどのデータを触ったかの記録。AI利用ポリシーとあわせて確認ポイントになります。</li>
-</ul>
-<h3>セルフチェック</h3>
-<ul>
-<li>[ ] 取り扱うデータの機密度に対して入力ルールがチーム合意できている</li>
-<li>[ ] 外部送付メールにAI下書きをそのまま使っていない</li>
-<li>[ ] Sheetsの計算結果をサンプルで人間が突き合わせた</li>
-<li>[ ] 連携メニューの位置・制限を公式ドキュメントで一期確認した</li>
-</ul>
-<h3>トラブルシューティング</h3>
-<table>
-<thead><tr><th>状況</th><th>対処のヒント</th></tr></thead>
-<tbody>
-<tr><td>Geminiメニューが見えない</td><td>管理者設定・地域・プラン・アカウント種別を確認する</td></tr>
-<tr><td>長いスレッドで要約がズレる</td><td>対象範囲を最新10通などに区切り、目的を1行で添える</td></tr>
-<tr><td>関数案が誤集計</td><td>期待する入力例と出力例を2行で渡し、まず小さな範囲で検証する</td></tr>
-<tr><td>ドキュメントのトーンが統一されない</td><td>読者・文体・禁則語をテンプレの先頭に固定する</td></tr>
-<tr><td>共同編集者と出力がずれる</td><td>プロンプトをコメントで共有し、「最終版は誰が責任を持つか」を決める</td></tr>
-</tbody>
-</table>
-<h2>まとめ</h2>
-<p>Workspace×Geminiは、メール・資料・集計の“毎日の仕事”に効きます。次回は、Google AI Studioでプロンプトを設計・検証して「再現性」を作る方法を解説します。</p>
-<h2>ツール情報（公式リンク）</h2>
-<ul>
-<li><a href="https://gemini.google.com/" target="_blank" rel="noopener">Gemini（Google）</a></li>
-<li><a href="https://workspace.google.com/" target="_blank" rel="noopener">Google Workspace</a></li>
+<li><a href="https://support.google.com/a/users/answer/15146419?hl=ja" target="_blank" rel="noopener">Google Workspace with Gemini の活用</a></li>
+<li><a href="https://support.google.com/docs/answer/15123226?hl=ja" target="_blank" rel="noopener">Gemini in ドキュメント / スプレッドシート など</a></li>
+<li><a href="https://gemini.google.com/" target="_blank" rel="noopener">Gemini</a></li>
 <li><a href="https://policies.google.com/terms" target="_blank" rel="noopener">Google 利用規約</a></li>
 <li><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google プライバシーポリシー</a></li>
 </ul>
-<h2>権利表記・引用について</h2>
-<p>Google、Gemini、Google WorkspaceはGoogle LLCの商標または登録商標です。本記事は各社の公式提供ではありません。機能や提供条件は変更される場合があるため、最新情報は公式ページをご確認ください。</p>
-<h2>画像クレジット</h2>
-<p>サムネイル/本文画像はUnsplashの写真を使用しています（ライセンス：<a href="https://unsplash.com/license" target="_blank" rel="noopener">Unsplash License</a>）。</p>
-<h3>お問い合わせ</h3>
-<p>Google Workspace運用とAI活用の設計もお気軽にご相談ください</p>
-<p>📞 090-6262-3842</p>
+<p>Google、Gemini、Google Workspace は Google LLC の商標です。本記事は公式提供ではありません。</p>
 
     </div>
   </article>

@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NotebookLM完全ガイドAIがあなたの資料を読み解く | CUCUL FM</title>
-  <meta name="description" content="NotebookLMは、資料の山から根拠付きの意思決定材料を素早く拾うための道具です。設計の中心は「何をソースにするか」と「どう検証するか」であり、プロンプトのテクニックはその二次です。オーディオは学習と復習の強い味方ですが、公式記録…">
+  <title>Gemini Notebook（旧 NotebookLM）：ソースを入れて、引用を開く | CUCUL FM</title>
+  <meta name="description" content="手元の資料だけを根拠にする。引用を原文と突き合わせ、資料に無い予測は別ツールへ出す。">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="ja_JP">
-  <meta property="og:title" content="NotebookLM完全ガイドAIがあなたの資料を読み解く | CUCUL FM">
-  <meta property="og:description" content="NotebookLMは、資料の山から根拠付きの意思決定材料を素早く拾うための道具です。設計の中心は「何をソースにするか」と「どう検証するか」であり、プロンプトのテクニックはその二次です。オーディオは学習と復習の強い味方ですが、公式記録…">
-  <meta property="og:image" content="https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=1200&amp;h=600&amp;fit=crop">
+  <meta property="og:title" content="Gemini Notebook（旧 NotebookLM）：ソースを入れて、引用を開く | CUCUL FM">
+  <meta property="og:description" content="手元の資料だけを根拠にする。引用を原文と突き合わせ、資料に無い予測は別ツールへ出す。">
+  
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="NotebookLM完全ガイドAIがあなたの資料を読み解く | CUCUL FM">
-  <meta name="twitter:description" content="NotebookLMは、資料の山から根拠付きの意思決定材料を素早く拾うための道具です。設計の中心は「何をソースにするか」と「どう検証するか」であり、プロンプトのテクニックはその二次です。オーディオは学習と復習の強い味方ですが、公式記録…">
-  <meta name="twitter:image" content="https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=1200&amp;h=600&amp;fit=crop">
-  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "NotebookLM完全ガイドAIがあなたの資料を読み解く", "datePublished": "2026-01-01", "dateModified": "2026-01-01", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=1200&h=600&fit=crop"]}</script>
+  <meta name="twitter:title" content="Gemini Notebook（旧 NotebookLM）：ソースを入れて、引用を開く | CUCUL FM">
+  <meta name="twitter:description" content="手元の資料だけを根拠にする。引用を原文と突き合わせ、資料に無い予測は別ツールへ出す。">
+  
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Gemini Notebook（旧 NotebookLM）：ソースを入れて、引用を開く", "datePublished": "2026-08-19", "dateModified": "2026-08-19", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
@@ -33,127 +33,53 @@
 
   <article class="article-container">
     <header class="article-header">
-      <span class="article-category">AI TOOLS</span>
-      <h1 class="article-title">NotebookLM完全ガイドAIがあなたの資料を読み解く</h1>
+      <span class="article-category">AI</span>
+      <h1 class="article-title">Gemini Notebook（旧 NotebookLM）：ソースを入れて、引用を開く</h1>
       <div class="article-meta">
-        <time class="article-date">2026.01.01</time>
+        <time class="article-date">2026.08.19</time>
         <span class="article-author">ククルFM編集部</span>
       </div>
     </header>
 
-    <div class="article-featured-image"><img src="https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=1200&amp;h=600&amp;fit=crop" alt="NotebookLM" loading="lazy"></div>
+    
 
     <div class="article-content">
-<h2>学習の目標</h2>
+<h2>この記事でできるようになること / やらないこと</h2>
 <ul>
-<li>NotebookLMが「アップロードした一次資料に根ざした要約・Q&amp;Aエンジン」であると、初任者にも説明できる。</li>
-<li>PDF・Docs・スライド・Web・動画など<strong>ソースタイプ別の読み取り特性</strong>を踏まえ、ノートブック構成を初期設計できる。</li>
-<li>オーディオ概要を含むマルチモーダル出力の<strong>向き不向き</strong>を場面で区別できる。</li>
-<li>Web検索型チャットとの棲み分けを図にせず言葉で語れる。</li>
+<li><strong>できること</strong>: 今日、伏せ字の資料1点を入れ、「資料のどこにあるか」が付く質問を1回する。</li>
+<li><strong>やらないこと</strong>: 件数上限の暗記、料金、音声概要の全解説。製品名と画面は <a href="https://notebooklm.google/" target="_blank" rel="noopener">Gemini Notebook</a> と <a href="https://support.google.com/notebooklm/answer/16164461?hl=ja" target="_blank" rel="noopener">ヘルプ</a> が正。最終確認日: 2026-08-19</li>
 </ul>
-<h2>前提条件</h2>
-<ul>
-<li>Googleアカウントで<a href="https://notebooklm.google/" target="_blank" rel="noopener">NotebookLM</a>へログインできる。</li>
-<li>著作権と社内規程上問題のないサンプル資料を最低1点（可能なら3点）持っている。</li>
-<li>一般的な生成AIを一度は触っており、「それっぽい誤答」に警戒できる。</li>
-<li>ブラウザの最新版に近い環境がある（UIは変更されうるため、スクリーンショット手順の丸暗記は不要）。</li>
-</ul>
-<h2>キーコンセプト</h2>
-<ul>
-<li><strong>ソース特化</strong>: 一般教養で足りる雑談ではなく、資料のどの段落かを含意する回答が主戦場。引用UIを必ず見る癖を付ける。</li>
-<li><strong>構造化アウトプット</strong>: ブリーフィング、FAQ案、目次案、タイムライン案は、長文を読む順序をくれる「仮の地図」。地図と実地を混同しない。</li>
-<li><strong>Audio Overview</strong>: ラジオ感覚で全体像を掴む。数値や条文の確定にはテキスト側の再確認が必須。</li>
-<li><strong>容量・件数の壁</strong>: ソース数とサイズに上限がある前提で設計し、巨大ファイルは事前分割や要約版を検討。</li>
-<li><strong>機密と越境</strong>: クラウド送信の許容範囲は組織ごと。ツールの convenience より規程が優先。</li>
-</ul>
-<h2>手順（実践ステップ）</h2>
+<p>公式は 2026年7月、NotebookLM を <strong>Gemini Notebook</strong> に改称した（同一製品。既存ノートはそのまま）。URL は <a href="https://notebooklm.google/" target="_blank" rel="noopener">notebooklm.google</a> 。画面に旧称が残っていても、やることは同じ。<strong>入れたソースに根ざす</strong>。</p>
+<p>共通の禁止は <a href="../basics/ai-introduction.html">AI導入の始め方</a>。ウェブの出典探しは <a href="../perplexity/perplexity-research.html">Perplexity</a>。読み方の手順は <a href="./notebooklm-workflows.html">論点→質問</a>。</p>
+<h2>結論</h2>
+<p>対話AIにPDFを貼るのとは別物。ここは <strong>ソース外の一般知識で穴を埋めない</strong> ための箱。ヘルプも、アップロードしたソースに基づいて答える、と書いている。資料に無いことは「資料にない」で止める。</p>
+<h2>開始前</h2>
 <ol>
-<li><strong>ノートブック命名</strong></li>
+<li>入れてよい資料か（著作権、顧客実名、未公開契約）。ダメなら入れない</li>
+<li>実名と実額は伏せる。A社・X円</li>
+<li>ノートは1テーマ。資格試験と顧客案件を混ぜない</li>
 </ol>
+<p>仕事用アカウントは、管理者が許可していないと使えないことがある。ヘルプが正。</p>
+<h2>質問（コピペ）</h2>
+<pre><code>このノートのソースだけを根拠にする。
+ソースに無いことは「ソースにない」と書く。推測しない。
+聞きたいこと: ＿＿
+出力: 答え / 引用（どの資料のどの付近か） / 不明点</code></pre>
+<p>返ってきた引用を、必ず原文で開く。引用UIの名前は変わる。変わっても <strong>原文を開く</strong> は変えない。</p>
+<h2>向く仕事 / 向かない仕事</h2>
+<p>向く: 仕様書・指針・社内マニュアルの「どこに書いてあるか」、複数PDFの共通点と食い違い。 向かない（この箱だけ）: 今日のウェブニュース、ソースに無い市場予測、契約の最終解釈。</p>
+<p>音声概要（Audio Overview）は全体の耳用。数字と条文はテキストと原文。ヘルプも医療・法律・金融は専門家へ、と注意している。</p>
+<h2>演習（1つ）</h2>
+<p>公開の短いPDF（自分のサイトの記事でも可）を1点入れる。「結論は何か。引用付き」と聞く。引用箇所を原文で確認する。確認していない文は使わない。</p>
+<p>会議用の回し方は <a href="./notebooklm-workflows.html">論点→質問</a>。</p>
+<h2>公式</h2>
 <ul>
-<li><code>テーマ_版 or 日付</code> を推奨。検索でヒットしやすいASCII併記も有効。</li>
-<li>最初の1冊は実験用と割り切り、本番用を複製しやすいようにしておく。</li>
-</ul>
-<ol>
-<li><strong>ソース取り込み順</strong></li>
-</ol>
-<ul>
-<li>まず「最も権威の高い正本」、次に補助資料。ブログ単体で議論を始めない。</li>
-<li>Webページは更新されうるので、重要ならPDF化やスクリーンショット保管を検討（ポリシー順守）。</li>
-</ul>
-<ol>
-<li><strong>全体像の生成</strong></li>
-</ol>
-<ul>
-<li>ブリーフィング相当の機能で骨格を得たら、必ず「決めたいこと一行」を自分で上書き入力。</li>
-<li>資料の目的がブリーフとズレたら、ソース選びからやり直す。</li>
-</ul>
-<ol>
-<li><strong>検証可能な質問列</strong></li>
-</ol>
-<ul>
-<li>良い例：「第4章の免責条項を引用付きで」「表2の数値の単位前提は」</li>
-<li>悪い例：「この業界の今後」（ソース外の予測を期待してしまう）。</li>
-</ul>
-<ol>
-<li><strong>マルチ資料の簡易比較</strong></li>
-</ol>
-<ul>
-<li>2点以上あるときは「共通結論」「相違」「矛盾候補」を連続で質問し、最後に表形式依頼。</li>
-</ul>
-<ol>
-<li><strong>Audio生成と検証</strong></li>
-</ol>
-<ul>
-<li>聴取後すぐにテキスト3行要約を自分で書き、ズレがあれば該当ソースを開く。</li>
-<li>聴覚優位な人ほど、言い切り調に騙されやすいので注意。</li>
-</ul>
-<ol>
-<li><strong>振り返りログ</strong></li>
-</ol>
-<ul>
-<li>「効いた質問」「効かなかった質問」をメモするだけで次回の型が成熟する。</li>
-</ul>
-<h2>演習課題</h2>
-<ul>
-<li>同一テーマの資料2点以上で、「共通点／相違点／ブレる前提」の三段質問を送り、表形式回答の各行に対応する引用段落を1つずつ開け。</li>
-<li>任意の長文PDFでAudio Overviewを1本作り、5分後に自分語りで要点を話し録音し、ソース見ずに言えた数を数え、ズレをノートに書け。</li>
-</ul>
-<h2>自己チェックリスト</h2>
-<ul>
-<li>[ ] ノートブックが単一テーマに収まっている</li>
-<li>[ ] 引用を最低1回は原文と突き合わせた</li>
-<li>[ ] 機密区分と矛盾しないデータのみを入れた</li>
-<li>[ ] リアルタイム調査は別ツールに逃がした</li>
-<li>[ ] 音声とテキストの使い分けを言語化した</li>
-<li>[ ] 失敗プロンプトを1つ記録した</li>
-<li>[ ] 次回改善する質問テンプレを1行追加した</li>
-</ul>
-<h2>つまずきポイント（避けたい落とし穴）</h2>
-<ul>
-<li><strong>空気を読ませすぎる質問</strong>: 章番号・表番号・比較相手を明示。</li>
-<li><strong>権威のないソース先行</strong>: 公式一次情報が取れるテーマでブログだけを入れる。</li>
-<li><strong>音声の断定調を鵜呑み</strong>: カジュアルなトーンは理解を助けるが、精度を保証しない。</li>
-<li><strong>機密の賭け</strong>: グレーゾーンなら上司確認。ツールよりキャリア。</li>
-<li><strong>機能の丸暗記</strong>: UIは変わる。「引用を確認する」が唯一の不変の作法。</li>
-</ul>
-<h2>まとめ</h2>
-<p>NotebookLMは、資料の山から<strong>根拠付きの意思決定材料</strong>を素早く拾うための道具です。設計の中心は「何をソースにするか」と「どう検証するか」であり、プロンプトのテクニックはその二次です。オーディオは学習と復習の強い味方ですが、公式記録や契約コメントの代替にはなりません。最初の一週間は実験ノートブックで失敗を重ね、型が固まってから業務ノートへ移すと安全です。</p>
-<h2>振り返りの問い（任意）</h2>
-<ul>
-<li>いま手元の資料で、Chatに丸投げせずNotebookLMに切り替えると利益が出るテーマは何か。</li>
-<li>オーディオでスッキリ聴こえたが、文末を読むとニュアンスが違った箇所はどこか。</li>
-<li>次に読む長文の「目次案」をAIに出させた場合、自分が最初に確認したい章は何章か。</li>
-</ul>
-<h2>ツール・参考リンク</h2>
-<ul>
-<li><a href="https://notebooklm.google/" target="_blank" rel="noopener">NotebookLM</a></li>
+<li><a href="https://notebooklm.google/" target="_blank" rel="noopener">Gemini Notebook</a></li>
+<li><a href="https://support.google.com/notebooklm/answer/16164461?hl=ja" target="_blank" rel="noopener">Gemini Notebook の詳細（ヘルプ）</a></li>
 <li><a href="https://policies.google.com/terms" target="_blank" rel="noopener">Google 利用規約</a></li>
 <li><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google プライバシーポリシー</a></li>
 </ul>
-<h3>お問い合わせ</h3>
-<p>資料作成・調査・議事録のAI活用設計もお気軽にご相談ください</p>
-<p>📞 090-6262-3842</p>
+<p>Google、Gemini Notebook、NotebookLM は Google LLC の商標です。本記事は公式提供ではありません。</p>
 
     </div>
   </article>

@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ChatGPT業務活用の始め方（安全ルールと最短の型） | CUCUL FM</title>
-  <meta name="description" content="要約は「会議共有・報告の入口」、たたき台は「ゼロからの時間短縮」、レビューは「品質の底上げ」です。週ごとにどれを1本ずつ回すか決めると習慣化しやすく、チームでも同じ型を配布できます。">
+  <title>ChatGPT業務活用の始め方（安全ルールと3つの型） | CUCUL FM</title>
+  <meta name="description" content="入力禁止を固定し、要約・たたき台・チェックの3型から今日1回回す。APIや全社展開は扱わない。">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="ja_JP">
-  <meta property="og:title" content="ChatGPT業務活用の始め方（安全ルールと最短の型） | CUCUL FM">
-  <meta property="og:description" content="要約は「会議共有・報告の入口」、たたき台は「ゼロからの時間短縮」、レビューは「品質の底上げ」です。週ごとにどれを1本ずつ回すか決めると習慣化しやすく、チームでも同じ型を配布できます。">
-  <meta property="og:image" content="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&amp;h=600&amp;fit=crop">
+  <meta property="og:title" content="ChatGPT業務活用の始め方（安全ルールと3つの型） | CUCUL FM">
+  <meta property="og:description" content="入力禁止を固定し、要約・たたき台・チェックの3型から今日1回回す。APIや全社展開は扱わない。">
+  
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="ChatGPT業務活用の始め方（安全ルールと最短の型） | CUCUL FM">
-  <meta name="twitter:description" content="要約は「会議共有・報告の入口」、たたき台は「ゼロからの時間短縮」、レビューは「品質の底上げ」です。週ごとにどれを1本ずつ回すか決めると習慣化しやすく、チームでも同じ型を配布できます。">
-  <meta name="twitter:image" content="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&amp;h=600&amp;fit=crop">
-  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "ChatGPT業務活用の始め方（安全ルールと最短の型）", "datePublished": "2026-01-01", "dateModified": "2026-01-01", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&h=600&fit=crop"]}</script>
+  <meta name="twitter:title" content="ChatGPT業務活用の始め方（安全ルールと3つの型） | CUCUL FM">
+  <meta name="twitter:description" content="入力禁止を固定し、要約・たたき台・チェックの3型から今日1回回す。APIや全社展開は扱わない。">
+  
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "ChatGPT業務活用の始め方（安全ルールと3つの型）", "datePublished": "2026-08-18", "dateModified": "2026-08-18", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
@@ -34,85 +34,58 @@
   <article class="article-container">
     <header class="article-header">
       <span class="article-category">AI</span>
-      <h1 class="article-title">ChatGPT業務活用の始め方（安全ルールと最短の型）</h1>
+      <h1 class="article-title">ChatGPT業務活用の始め方（安全ルールと3つの型）</h1>
       <div class="article-meta">
-        <time class="article-date">2026.01.01</time>
+        <time class="article-date">2026.08.18</time>
         <span class="article-author">ククルFM編集部</span>
       </div>
     </header>
 
-    <div class="article-featured-image"><img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&amp;h=600&amp;fit=crop" alt="ChatGPTの業務活用" loading="lazy"></div>
+    
 
     <div class="article-content">
-<h2>学習ゴール</h2>
+<h2>この記事でできるようになること / やらないこと</h2>
 <ul>
-<li>業務でChatGPTを使う前に決めるべき「入力禁止境界」と、再現性の高いプロンプトの型を説明できる。</li>
-<li>要約・たたき台・レビューの3パターンで、1日以内に実務で1回は成功体験を作れる。</li>
+<li><strong>できること</strong>: 入力禁止を決めたうえで、要約・たたき台・チェックのどれかを今日1回回す。</li>
+<li><strong>やらないこと</strong>: GPTs、API、全社展開。画面の最新配置は <a href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPT</a> を正とする。最終確認日: 2026-08-18</li>
 </ul>
-<h2>前提知識</h2>
-<ul>
-<li>ChatGPTはブラウザまたはアプリから利用できる対話型AIです（アカウント作成と利用規約の同意が必要）。</li>
-<li>出力は参考情報であり、<strong>必ず人間が最終確認</strong>する前提で読み進めてください。</li>
-</ul>
-<h2>キーコンセプトと用語</h2>
-<ul>
-<li><strong>プロンプト</strong>：AIへの指示文。目的・読者・形式を書くほどブレが減ります。</li>
-<li><strong>コンテキスト</strong>：背景情報。欠けると一般的すぎる答えになりやすいです。</li>
-<li><strong>抽象化</strong>：固有名詞や数値をA社・X円のように置き換え、構造だけ渡すこと。</li>
-<li><strong>改善ループ</strong>：1往復で完璧を狙わず、たたき台→指摘→修正を短く回す考え方。</li>
-</ul>
-<h2>手順（ステップバイステップ）</h2>
+<p>共通ルールは <a href="../basics/ai-introduction.html">AI導入の始め方</a>。依頼文の骨格は <a href="../basics/prompt-engineering.html">プロンプトの型</a>。</p>
+<h2>結論</h2>
+<p>ChatGPTは会話の往復が速い。だからこそ、<strong>1通で完成させない</strong>。材料を箇条書きで渡し、形式を指定し、人が数字を見る。</p>
+<h2>開始前の1行</h2>
+<p>「氏名・住所・顧客の実名、実額、契約文、パスワードは貼らない。A社・X円に置き換える。」</p>
+<p>この1行をチャットの先頭に固定してよい。</p>
+<h2>3つの型</h2>
+<p><strong>要約</strong> 材料: 会議や現場のメモ（伏せ字）。出力: 決定 / 未決 / 次アクション。</p>
+<p><strong>たたき台</strong> 材料: 相手、期限、お願い、NG。出力: 件名と本文。長さの上限を書く。</p>
+<p><strong>チェック</strong> 材料: 自分が書いた文。出力: 誤解ポイントの列挙 → 修正案。最初から「綺麗な完成文だけ」を求めない。</p>
+<h2>手順</h2>
 <ol>
-<li><strong>境界を決める</strong>：個人情報・契約・未公開数値・認証情報は入れない方針をメモに1行で書く。</li>
-<li><strong>最初の成功を小さくする</strong>：メール下書きや200字要約など、失敗しても致命傷にならない題材から試す。</li>
-<li><strong>型を選ぶ</strong>：要約／たたき台／レビューのどれかに絞って依頼する。</li>
-<li><strong>材料を箇条書き</strong>：目的／相手／期限／NG／素材を5行以内で並べ、最後に「出力形式」を添える。</li>
-<li><strong>2〜3往復で仕上げる</strong>：初回は80点でよいので広げ、次で「短く」「敬語を統一」など具体修正を指示する。</li>
-<li><strong>自己最終チェック</strong>：事実・数値・固有名詞・トーンを人の目で確認してから送信・採用する。</li>
+<li>禁止1行を貼る</li>
+<li>型を1つ選ぶ</li>
+<li>材料を5行以内</li>
+<li>出力形式（見出しと字数）</li>
+<li>返ってきたら、修正は1点だけ指示する</li>
+<li>固有名詞と数字を人が見てから使う</li>
 </ol>
-<h2>実践ミニ演習</h2>
+<h2>演習（どれか1つ）</h2>
+<p>A: 社内メモ1枚を3見出しに要約させる。 B: 依頼メールの下書きを出し、2回目で「200字・期限を明示・謝罪は1回」と足す。 C: 自分の文を貼り、誤解箇所だけ先に出させる。</p>
+<h2>つまずき</h2>
+<p>当たり障りのない答え → 読者と局面と禁止を足す。 長い → 字数と「箇条書きのみ」。 事実が増える → 「不明は不明。推測には推測と書く」。</p>
+<h2>次</h2>
 <ul>
-<li><strong>演習A</strong>：手元の社内資料1枚分を、固有名詞を伏せたうえで「決定事項・未決・次アクション」の3見出しに要約させる。</li>
-<li><strong>演習B</strong>：依頼メールのたたき台を出し、2回目で「200字以内・期限を明示・謝罪は1回だけ」など条件を足す。</li>
-<li><strong>演習C</strong>：自分の文章を貼り、「誤解されやすい箇所を列挙→修正案→最終文」の順で出力させる。</li>
+<li><a href="./chatgpt-prompts-practical.html">実務プロンプト</a></li>
+<li><a href="./chatgpt-workflows-business.html">業務ワークフロー</a></li>
+<li><a href="./chatgpt-excel-gas.html">表の自動化</a></li>
+<li>長文の骨子なら <a href="../claude/claude-basics.html">Claudeの始め方</a></li>
 </ul>
-<h2>セルフチェックリスト</h2>
+<h2>公式</h2>
 <ul>
-<li>[ ] 機密・個人情報が入っていない、または抽象化できている</li>
-<li>[ ] 読者と目的が1行で書けている</li>
-<li>[ ] 出力の形式（箇条書き・字数・見出し）を指定した</li>
-<li>[ ] 1回で完璧を狙わず、改善指示を用意した</li>
-<li>[ ] 採用前にファクトとトーンを人が確認した</li>
-</ul>
-<h2>つまずきポイントと対処</h2>
-<ul>
-<li><strong>当たり障りのない答え</strong> → 前提と制約を増やす。「誰向け／何の局面／禁止事項」を足す。</li>
-<li><strong>長すぎる</strong> → 「上限◯字」「箇条書きのみ」「結論先出し」を明示する。</li>
-<li><strong>勝手に事実が増える</strong> → 「不明な点は不明と書く」「推測は推測とラベル」とルールを先に渡す。</li>
-</ul>
-<h2>型の深化：要約・たたき台・レビュー</h2>
-<p>要約は「会議共有・報告の入口」、たたき台は「ゼロからの時間短縮」、レビューは「品質の底上げ」です。週ごとにどれを1本ずつ回すか決めると習慣化しやすく、チームでも同じ型を配布できます。</p>
-<h2>業務への落とし込み（メール・議事・FAQ）</h2>
-<p>メールは件名＋本文の定型、議事は決定・ToDoの列、FAQは想定問いの列を先に作ってからAIに埋めさせると修正コストが下がります。成果物は必ずテンプレに当てはめてから社外に出してください。</p>
-<h2>運用ノート：経営・現場とのコミュニケーション</h2>
-<p>導入初期は「速さ」より<strong>再現性</strong>をKPIにすると揉めにくいです。例えば週次で「型どおりに回した依頼数」と「手戻り件数」だけを記録し、改善はプロンプト1行の修正に留めると負荷が低いまま底上げできます。上司説明では「AIが文章を代筆する」のではなく、<strong>型とチェックで品質を担保する</strong>と言い切ると理解が進みやすいです。顧客向け案件では、入力前のマスキング手順を紙にして配布し、クライアントワークでも通用する境界線を先に共有しておくと安心です。</p>
-<p>（学習の定着）</p>
-<p>組織学習の観点では、週次15分の振り返りをカレンダーに固定し、うまくいった依頼文や依頼テンプレは共有ドライブへコピーして資産化します。四半期ごとに公式の利用規約と社内ポリシーを突き合わせ、差分があれば短いチケットで追記してください。個人メモでも「日付・用途・入力の要点・出力の使い道」を1セットで残すと検索性が上がり、異動時の引き継ぎもスムーズです。ステークホルダー別の典型的な懸念（経営はROI、情シスは漏洩、現場は手間と心理的負担）を箇条書きで持っておくと、同じ学びを説明する場面でも言い換え疲れが減ります。公開可否が曖昧な資料はそもそもAIに入力しない、と自分で宣言しておく線引きメモがあると、日々の判断が速くなります。</p>
-<h2>まとめ：次に何をするか</h2>
-<p>社内メモに「入力禁止」と「3つの型」を貼り、明日までに演習A〜Cのいずれか1つを実施してみてください。慣れてきたら <a href="./chatgpt-prompts-practical.html">実務プロンプトの作り方</a> で型を5ブロックに拡張すると再現性がさらに上がります。</p>
-<h2>ツール情報（公式リンク）</h2>
-<ul>
-<li><a href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPT（OpenAI）</a></li>
+<li><a href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPT</a></li>
 <li><a href="https://openai.com/policies/terms-of-use" target="_blank" rel="noopener">OpenAI 利用規約</a></li>
 <li><a href="https://openai.com/policies/privacy-policy" target="_blank" rel="noopener">OpenAI プライバシーポリシー</a></li>
 </ul>
-<h2>権利表記・引用について</h2>
-<p>ChatGPTはOpenAIの商標または登録商標です。本記事は各社の公式提供ではなく、一般的な情報提供を目的としています。機能や提供条件は変更される場合があるため、最新情報は公式ページをご確認ください。</p>
-<h2>画像クレジット</h2>
-<p>サムネイル/本文画像はUnsplashの写真を使用しています（ライセンス：<a href="https://unsplash.com/license" target="_blank" rel="noopener">Unsplash License</a>）。</p>
-<h3>お問い合わせ</h3>
-<p>生成AIの業務定着（ルール設計・研修・自動化）のご相談はお気軽にどうぞ</p>
-<p>📞 090-6262-3842</p>
+<p>ChatGPT は OpenAI の商標です。本記事は公式提供ではありません。</p>
 
     </div>
   </article>

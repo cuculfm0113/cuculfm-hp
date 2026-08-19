@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>トップの3Dはどう組んでいるか（演出の意図） | CUCUL FM</title>
+  <meta name="description" content="ロゴ由来のキャラをGLBで載せ、失敗時はSVGが残るようにする。操作確認はビューアで分ける。">
+  <meta property="og:type" content="article">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:title" content="トップの3Dはどう組んでいるか（演出の意図） | CUCUL FM">
+  <meta property="og:description" content="ロゴ由来のキャラをGLBで載せ、失敗時はSVGが残るようにする。操作確認はビューアで分ける。">
+  <meta property="og:image" content="../../services/web/images/pf-phantom-dj.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="トップの3Dはどう組んでいるか（演出の意図） | CUCUL FM">
+  <meta name="twitter:description" content="ロゴ由来のキャラをGLBで載せ、失敗時はSVGが残るようにする。操作確認はビューアで分ける。">
+  <meta name="twitter:image" content="../../services/web/images/pf-phantom-dj.jpg">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "トップの3Dはどう組んでいるか（演出の意図）", "datePublished": "2026-08-19", "dateModified": "2026-08-19", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["../../services/web/images/pf-phantom-dj.jpg"]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="blog-header">
+    <div class="header-container">
+      <a href="../../articles/index.html" class="back-link">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>記事一覧へ戻る</span>
+      </a>
+      <a href="../../index.html" class="header-logo">CUCUL FM</a>
+    </div>
+  </header>
+
+  <article class="article-container">
+    <header class="article-header">
+      <span class="article-category">Web</span>
+      <h1 class="article-title">トップの3Dはどう組んでいるか（演出の意図）</h1>
+      <div class="article-meta">
+        <time class="article-date">2026.08.19</time>
+        <span class="article-author">ククルFM編集部</span>
+      </div>
+    </header>
+
+    <div class="article-featured-image"><img src="../../services/web/images/pf-phantom-dj.jpg" alt="ネオン・ファントムDJ" loading="lazy"></div>
+
+    <div class="article-content">
+<h2>この記事でできるようになること / やらないこと</h2>
+<ul>
+<li><strong>できること</strong>: 「いつも動く3D」と「落ちても読めるサイト」を分けて発注・自作のチェックにする。</li>
+<li><strong>やらないこと</strong>: Three.jsの導入手順の全コピー、モデルデータの再配布。画面の数値は実装が正。最終確認日: 2026-08-19</li>
+</ul>
+<p>見る場所:</p>
+<ul>
+<li>本番のトップ: <a href="../../index.html">cucul-fm.com</a></li>
+<li>モデルを回して確認する箱: <a href="../../character-design/phantom-dj/viewer.html">ファントムDJ ビューア</a></li>
+<li>事業の説明: <a href="../../services/web/index.html">Web・3D</a></li>
+</ul>
+<p>ライブラリ名は Three.js（ESM）と GSAP / ScrollTrigger。モデルは GLB。仕様の正は公式ドキュメント。</p>
+<h2>結論</h2>
+<p>トップの3Dは装飾ではない。<strong>ロゴの人物を、会社の顔として置く</strong>。ただし WebGL が落ちても、事業一覧と電話は残す。ビューアは検証用、トップは物語用、と役割を分ける。</p>
+<h2>役割の切り分け（コピペ）</h2>
+<table>
+<thead><tr><th>画面</th><th>目的</th><th>失敗したとき</th></tr></thead>
+<tbody>
+<tr><td>トップヒーロー</td><td>スクロールに合わせてキャラが物語に入る</td><td>SVGの胸像が残る。<code>?nochar3d=1</code> でも同じ</td></tr>
+<tr><td>ビューア</td><td>形状・マテリアルを回して確認する</td><td>トップの本文には影響しない</td></tr>
+<tr><td>事業カード</td><td>7領域へ送る</td><td>3Dと無関係。先に読む</td></tr>
+</tbody>
+</table>
+<p>「全部をトップに埋め込む」と、検証のたびに本番が壊れる。モデルの確認はビューア。</p>
+<h2>意図（なぜGLBか）</h2>
+<p>ネオン・ファントムDJは、顔のないロゴ人物を全身にしたキャラクターです。コートのネオンと金の三日月はロゴの色。トップでは、読み込み中にローダーを出し、使える環境では canvas を SVG の上に重ねます。SVGはレイアウトの箱を渡し続ける、という組み立てです。</p>
+<p>スクロール演出は GSAP。呼吸の動きと、拡大の動きはラッパーを分け、同じ transform を奪い合わないようにしています。ピン留めの区間では、キャラを全画面側へ移してタイムラインを見せます。</p>
+<p>優先順位の目安（実装コメントの要約）:</p>
+<ol>
+<li>フレーム連番があるときはそれを優先し得る</li>
+<li>GLB の3Dタイムライン</li>
+<li>SVG</li>
+</ol>
+<p>ローカルでファイルを直接開く（<code>file://</code>）と GLB と HDRI が読めないことがあります。確認はローカルサーバー。本番と同じく HTTPS で配信する。</p>
+<h2>落とす判断</h2>
+<p>次を満たしたら、3Dを諦めてSVGのまま公開してよい。</p>
+<ul>
+<li>旧ブラウザで import map が使えない</li>
+<li>GLB の読み込み失敗</li>
+<li>利用者が <code>prefers-reduced-motion: reduce</code>（動きをほぼ止める）</li>
+<li>明示的に <code>?nochar3d=1</code></li>
+</ul>
+<p>動きを止めても、<strong>事業7枚と問い合わせは残る</strong>のが合格です。3Dが本体になると、会社サイトとして落ちる。</p>
+<h2>発注・自作のチェック（コピペ）</h2>
+<ul>
+<li>[ ] 3Dなしでも顔（ロゴかイラスト）がある</li>
+<li>[ ] モデル確認用の別URLがある</li>
+<li>[ ] 容量と読み込みの待ちをローダーで説明している</li>
+<li>[ ] スマホでキャラとボタンが重ならない</li>
+<li>[ ] クライアント案件は許可が出るまでトップに出さない</li>
+</ul>
+<p>領域の決め方は <a href="./corporate-site-decisions.html">コーポレートで先に決めること</a>。</p>
+<h2>関連</h2>
+<ul>
+<li><a href="./corporate-site-decisions.html">コーポレートサイトで先に決めること</a></li>
+<li><a href="../../character-design/phantom-dj/viewer.html">3Dビューア</a></li>
+<li><a href="../../services/web/index.html">Web・3D事業</a></li>
+</ul>
+
+    </div>
+  </article>
+
+  <footer class="blog-footer">
+    <p class="footer-text">© 2026 CUCUL FM LLC. All rights reserved.</p>
+  </footer>
+</body>
+</html>

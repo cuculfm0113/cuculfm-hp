@@ -4,18 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>記事一覧 | CUCUL FM</title>
-    <meta name="description" content="CUCUL FMの全ブログ記事一覧。建設業、AI活用、映像制作、犬関連事業、Web開発、アミューズメントコンドミニアムなど幅広いジャンルの記事をお届けします。">
+    <meta name="description" content="CUCUL FMのブログ記事一覧。AI学習、調査・清掃、Web・3D、犬に携わる業務、映像制作の公開記事を掲載しています。">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Orbitron:wght@500;700&family=Bebas+Neue&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <!-- AI記事・カテゴリボタンは整備中のため一時非表示（再開時はこの style ブロックを削除） -->
-    <style>
-        .filter-btn[data-filter="ai"],
-        .article-card[data-category="ai"] {
-            display: none !important;
-        }
-    </style>
 </head>
 <body>
     <!-- ナビゲーション -->
@@ -61,13 +54,11 @@
         <div class="container">
             <div class="filter-wrapper">
                 <button class="filter-btn active" data-filter="all">すべて</button>
-                <button class="filter-btn" data-filter="ai">AI活用</button>
-                <button class="filter-btn" data-filter="construction">建設業</button>
-                <button class="filter-btn" data-filter="video">映像制作</button>
-                <button class="filter-btn" data-filter="web">Web開発</button>
-                <button class="filter-btn" data-filter="dog">犬関連</button>
-                <button class="filter-btn" data-filter="condo">アミューズメント</button>
+                <button class="filter-btn" data-filter="ai">AI学習</button>
                 <button class="filter-btn" data-filter="inspection">調査・清掃</button>
+                <button class="filter-btn" data-filter="dog">犬関連</button>
+                <button class="filter-btn" data-filter="video">映像制作</button>
+                <button class="filter-btn" data-filter="web">Web・3D</button>
             </div>
         </div>
     </section>
@@ -77,693 +68,313 @@
         <div class="container">
             <div class="articles-grid">
 
-                <!-- AI記事 -->
-                <article class="article-card" data-category="ai">
-                    <a href="../blog/ai/basics/ai-tools-comparison.html" class="article-link">
-                        <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop&q=75" alt="AI比較" loading="lazy">
-                            <span class="article-category cat-ai">AI活用</span>
-                        </div>
-                        <div class="article-content">
-                            <time class="article-date">2026.01.01</time>
-                            <h3 class="article-title">ChatGPT・Claude・Gemini徹底比較 - 最適なAIツールの選び方</h3>
-                        </div>
-                    </a>
-                </article>
-
-                <article class="article-card" data-category="ai">
-                    <a href="../blog/ai/obsidian/obsidian-basics.html" class="article-link">
-                        <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?w=600&h=400&fit=crop&q=75" alt="Obsidian" loading="lazy">
-                            <span class="article-category cat-ai">AI活用</span>
-                        </div>
-                        <div class="article-content">
-                            <time class="article-date">2026.01.17</time>
-                            <h3 class="article-title">Obsidian入門（知識管理とAI時代の学習の型）</h3>
-                        </div>
-                    </a>
-                    <a class="article-official-btn" href="https://obsidian.md/" target="_blank" rel="noopener">公式</a>
-                </article>
-
-                <article class="article-card" data-category="ai">
-                    <a href="../blog/ai/superwhisper/superwhisper-basics.html" class="article-link">
-                        <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&h=400&fit=crop&q=75" alt="Superwhisper" loading="lazy">
-                            <span class="article-category cat-ai">AI活用</span>
-                        </div>
-                        <div class="article-content">
-                            <time class="article-date">2026.01.18</time>
-                            <h3 class="article-title">Superwhisper入門（音声入力で文章作成を高速化する）</h3>
-                        </div>
-                    </a>
-                </article>
-
-                <article class="article-card" data-category="ai">
-                    <a href="../blog/ai/aquavoice/aquavoice-basics.html" class="article-link">
-                        <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=600&h=400&fit=crop&q=75" alt="Aqua Voice" loading="lazy">
-                            <span class="article-category cat-ai">AI活用</span>
-                        </div>
-                        <div class="article-content">
-                            <time class="article-date">2026.01.18</time>
-                            <h3 class="article-title">Aqua Voice入門（音声でメモ・文章を作るワークフロー）</h3>
-                        </div>
-                    </a>
-                </article>
-
-                <!-- Manus AI -->
-                <article class="article-card" data-category="ai">
-                    <a href="../blog/ai/manus/manus-basics.html" class="article-link">
-                        <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop&q=75" alt="Manus AI" loading="lazy">
-                            <span class="article-category cat-ai">AI活用</span>
-                        </div>
-                        <div class="article-content">
-                            <time class="article-date">2026.01.01</time>
-                            <h3 class="article-title">Manus AI入門（自律型AIエージェントとは何か）</h3>
-                        </div>
-                    </a>
-                    <a class="article-official-btn" href="https://manus.im/" target="_blank" rel="noopener">公式</a>
-                </article>
-
-                <!-- n8n -->
-                <article class="article-card" data-category="ai">
-                    <a href="../blog/ai/n8n/n8n-basics.html" class="article-link">
-                        <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?w=600&h=400&fit=crop&q=75" alt="n8n" loading="lazy">
-                            <span class="article-category cat-ai">AI活用</span>
-                        </div>
-                        <div class="article-content">
-                            <time class="article-date">2026.01.01</time>
-                            <h3 class="article-title">n8n入門（ノーコード自動化の第一歩）</h3>
-                        </div>
-                    </a>
-                    <a class="article-official-btn" href="https://n8n.io/" target="_blank" rel="noopener">公式</a>
-                </article>
-
-                <!-- Grok -->
-                <article class="article-card" data-category="ai">
-                    <a href="../blog/ai/grok/grok-basics.html" class="article-link">
-                        <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=600&h=400&fit=crop&q=75" alt="Grok" loading="lazy">
-                            <span class="article-category cat-ai">AI活用</span>
-                        </div>
-                        <div class="article-content">
-                            <time class="article-date">2026.01.01</time>
-                            <h3 class="article-title">Grok入門（xAIのチャットAIを始める）</h3>
-                        </div>
-                    </a>
-                    <a class="article-official-btn" href="https://grok.x.ai/" target="_blank" rel="noopener">公式</a>
-                </article>
-
-                <!-- Canva -->
-                <article class="article-card" data-category="ai">
-                    <a href="../blog/ai/canva/canva-basics.html" class="article-link">
-                        <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?w=600&h=400&fit=crop&q=75" alt="Canva" loading="lazy">
-                            <span class="article-category cat-ai">AI活用</span>
-                        </div>
-                        <div class="article-content">
-                            <time class="article-date">2026.01.01</time>
-                            <h3 class="article-title">Canva入門（AIデザインツールで始めるビジュアル作成）</h3>
-                        </div>
-                    </a>
-                    <a class="article-official-btn" href="https://www.canva.com/" target="_blank" rel="noopener">公式</a>
-                </article>
-
-                <article class="article-card" data-category="ai">
-                    <a href="../blog/ai/notebooklm/notebook-lm.html" class="article-link">
-                        <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=600&h=400&fit=crop&q=75" alt="NotebookLM" loading="lazy">
-                            <span class="article-category cat-ai">AI活用</span>
-                        </div>
-                        <div class="article-content">
-                            <time class="article-date">2026.01.01</time>
-                            <h3 class="article-title">NotebookLM完全ガイド - AIがあなたの資料を読み解く</h3>
-                        </div>
-                    </a>
-                    <a class="article-official-btn" href="https://notebooklm.google/" target="_blank" rel="noopener">公式</a>
-                </article>
-
-                <article class="article-card" data-category="ai">
-                    <a href="../blog/ai/cursor/cursor-editor.html" class="article-link">
-                        <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=600&h=400&fit=crop&q=75" alt="Cursor" loading="lazy">
-                            <span class="article-category cat-ai">AI活用</span>
-                        </div>
-                        <div class="article-content">
-                            <time class="article-date">2026.01.01</time>
-                            <h3 class="article-title">万能AIエディタ「Cursor」の魅力</h3>
-                        </div>
-                    </a>
-                    <a class="article-official-btn" href="https://cursor.com/" target="_blank" rel="noopener">公式</a>
-                </article>
-
-                <article class="article-card" data-category="ai">
-                    <a href="../blog/ai/chatgpt/chatgpt-business.html" class="article-link">
-                        <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=600&h=400&fit=crop&q=75" alt="ChatGPT活用" loading="lazy">
-                            <span class="article-category cat-ai">AI活用</span>
-                        </div>
-                        <div class="article-content">
-                            <time class="article-date">2025.12.27</time>
-                            <h3 class="article-title">ChatGPTを活用した業務効率化の実例</h3>
-                        </div>
-                    </a>
-                    <a class="article-official-btn" href="https://chatgpt.com/" target="_blank" rel="noopener">公式</a>
-                </article>
-
+                <!-- AI学習（Wave 2） -->
                 <article class="article-card" data-category="ai">
                     <a href="../blog/ai/basics/ai-introduction.html" class="article-link">
-                        <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=600&h=400&fit=crop&q=75" alt="AI導入" loading="lazy">
-                            <span class="article-category cat-ai">AI活用</span>
+                        <div class="article-image article-image--ai">
+                            <span class="article-category cat-ai">AI学習</span>
                         </div>
                         <div class="article-content">
-                            <time class="article-date">2025.12.22</time>
-                            <h3 class="article-title">中小企業のためのAI導入ガイド</h3>
+                            <time class="article-date">2026.08.18</time>
+                            <h3 class="article-title">中小企業のためのAI導入：1週間で止めても困らない始め方</h3>
+                        </div>
+                    </a>
+                </article>
+
+                <article class="article-card" data-category="ai">
+                    <a href="../blog/ai/basics/ai-tools-comparison.html" class="article-link">
+                        <div class="article-image article-image--ai">
+                            <span class="article-category cat-ai">AI学習</span>
+                        </div>
+                        <div class="article-content">
+                            <time class="article-date">2026.08.18</time>
+                            <h3 class="article-title">用途で選ぶ：ChatGPT・Claude・Gemini・調べものAI</h3>
                         </div>
                     </a>
                 </article>
 
                 <article class="article-card" data-category="ai">
                     <a href="../blog/ai/basics/prompt-engineering.html" class="article-link">
-                        <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=600&h=400&fit=crop&q=75" alt="プロンプト" loading="lazy">
-                            <span class="article-category cat-ai">AI活用</span>
+                        <div class="article-image article-image--ai">
+                            <span class="article-category cat-ai">AI学習</span>
                         </div>
                         <div class="article-content">
-                            <time class="article-date">2025.12.17</time>
-                            <h3 class="article-title">プロンプトエンジニアリング入門</h3>
+                            <time class="article-date">2026.08.18</time>
+                            <h3 class="article-title">プロンプトの型：目的・材料・形式・禁止・確認</h3>
                         </div>
                     </a>
                 </article>
 
                 <article class="article-card" data-category="ai">
-                    <a href="../blog/ai/basics/ai-local-business.html" class="article-link">
-                        <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?w=600&h=400&fit=crop&q=75" alt="地方企業AI" loading="lazy">
-                            <span class="article-category cat-ai">AI活用</span>
+                    <a href="../blog/ai-tools/ai-learning-roadmap.html" class="article-link">
+                        <div class="article-image article-image--ai">
+                            <span class="article-category cat-ai">AI学習</span>
                         </div>
                         <div class="article-content">
-                            <time class="article-date">2025.12.08</time>
-                            <h3 class="article-title">地方企業こそAIを活用すべき理由</h3>
+                            <time class="article-date">2026.08.18</time>
+                            <h3 class="article-title">AI学習ロードマップ：今週・今月・四半期</h3>
                         </div>
                     </a>
                 </article>
 
-                <!-- AIシリーズ（深掘り） -->
                 <article class="article-card" data-category="ai">
                     <a href="../blog/ai/chatgpt/chatgpt-basics.html" class="article-link">
-                        <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop&q=75" alt="ChatGPT業務活用" loading="lazy">
-                            <span class="article-category cat-ai">AI活用</span>
+                        <div class="article-image article-image--ai">
+                            <span class="article-category cat-ai">AI学習</span>
                         </div>
                         <div class="article-content">
-                            <time class="article-date">2026.01.01</time>
-                            <h3 class="article-title">ChatGPT業務活用の始め方（安全ルールと最短の型）</h3>
+                            <time class="article-date">2026.08.18</time>
+                            <h3 class="article-title">ChatGPT業務活用の始め方（安全ルールと3つの型）</h3>
                         </div>
                     </a>
-                    <a class="article-official-btn" href="https://chatgpt.com/" target="_blank" rel="noopener">公式</a>
                 </article>
 
                 <article class="article-card" data-category="ai">
                     <a href="../blog/ai/chatgpt/chatgpt-prompts-practical.html" class="article-link">
-                        <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=600&h=400&fit=crop&q=75" alt="実務プロンプト" loading="lazy">
-                            <span class="article-category cat-ai">AI活用</span>
+                        <div class="article-image article-image--ai">
+                            <span class="article-category cat-ai">AI学習</span>
                         </div>
                         <div class="article-content">
-                            <time class="article-date">2026.01.02</time>
-                            <h3 class="article-title">実務プロンプトの作り方（型・評価・改善の回し方）</h3>
+                            <time class="article-date">2026.08.18</time>
+                            <h3 class="article-title">実務プロンプト：型を固定し、評価して、1行だけ直す</h3>
                         </div>
                     </a>
-                    <a class="article-official-btn" href="https://chatgpt.com/" target="_blank" rel="noopener">公式</a>
                 </article>
 
                 <article class="article-card" data-category="ai">
                     <a href="../blog/ai/chatgpt/chatgpt-workflows-business.html" class="article-link">
-                        <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&h=400&fit=crop&q=75" alt="業務ワークフロー" loading="lazy">
-                            <span class="article-category cat-ai">AI活用</span>
+                        <div class="article-image article-image--ai">
+                            <span class="article-category cat-ai">AI学習</span>
                         </div>
                         <div class="article-content">
-                            <time class="article-date">2026.01.03</time>
-                            <h3 class="article-title">ChatGPT業務別ワークフロー集（メール/議事録/企画/FAQ）</h3>
+                            <time class="article-date">2026.08.18</time>
+                            <h3 class="article-title">ChatGPT業務ワークフロー：メール・議事・日報・FAQ</h3>
                         </div>
                     </a>
-                    <a class="article-official-btn" href="https://chatgpt.com/" target="_blank" rel="noopener">公式</a>
                 </article>
 
                 <article class="article-card" data-category="ai">
                     <a href="../blog/ai/chatgpt/chatgpt-excel-gas.html" class="article-link">
-                        <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop&q=75" alt="スプレッドシート自動化" loading="lazy">
-                            <span class="article-category cat-ai">AI活用</span>
+                        <div class="article-image article-image--ai">
+                            <span class="article-category cat-ai">AI学習</span>
                         </div>
                         <div class="article-content">
-                            <time class="article-date">2026.01.04</time>
-                            <h3 class="article-title">スプレッドシート×ChatGPTで業務を自動化する（関数/GASの作り方）</h3>
+                            <time class="article-date">2026.08.18</time>
+                            <h3 class="article-title">スプレッドシート×ChatGPT：関数とGASはテストシートから</h3>
                         </div>
                     </a>
-                    <a class="article-official-btn" href="https://chatgpt.com/" target="_blank" rel="noopener">公式</a>
                 </article>
 
                 <article class="article-card" data-category="ai">
                     <a href="../blog/ai/claude/claude-basics.html" class="article-link">
-                        <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1526379095098-d400fd0bf935?w=600&h=400&fit=crop&q=75" alt="Claude入門" loading="lazy">
-                            <span class="article-category cat-ai">AI活用</span>
+                        <div class="article-image article-image--ai">
+                            <span class="article-category cat-ai">AI学習</span>
                         </div>
                         <div class="article-content">
-                            <time class="article-date">2026.01.05</time>
-                            <h3 class="article-title">Claudeの使い分け入門（長文に強い理由と安全な運用）</h3>
+                            <time class="article-date">2026.08.19</time>
+                            <h3 class="article-title">Claude業務活用の始め方（長文を壊さない範囲）</h3>
                         </div>
                     </a>
-                    <a class="article-official-btn" href="https://claude.ai/" target="_blank" rel="noopener">公式</a>
                 </article>
 
                 <article class="article-card" data-category="ai">
                     <a href="../blog/ai/claude/claude-longform-writing.html" class="article-link">
-                        <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?w=600&h=400&fit=crop&q=75" alt="長文の作り方" loading="lazy">
-                            <span class="article-category cat-ai">AI活用</span>
+                        <div class="article-image article-image--ai">
+                            <span class="article-category cat-ai">AI学習</span>
                         </div>
                         <div class="article-content">
-                            <time class="article-date">2026.01.06</time>
-                            <h3 class="article-title">Claudeで長文を破綻させない（分割→統合の手順）</h3>
+                            <time class="article-date">2026.08.19</time>
+                            <h3 class="article-title">Claudeで長文を破綻させない：設計図→章→統合</h3>
                         </div>
                     </a>
-                    <a class="article-official-btn" href="https://claude.ai/" target="_blank" rel="noopener">公式</a>
                 </article>
 
                 <article class="article-card" data-category="ai">
                     <a href="../blog/ai/claude/claude-artifacts.html" class="article-link">
-                        <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=400&fit=crop&q=75" alt="Artifacts活用" loading="lazy">
-                            <span class="article-category cat-ai">AI活用</span>
+                        <div class="article-image article-image--ai">
+                            <span class="article-category cat-ai">AI学習</span>
                         </div>
                         <div class="article-content">
-                            <time class="article-date">2026.01.07</time>
-                            <h3 class="article-title">Artifacts活用：成果物をテンプレ化して再利用する（Claude実践）</h3>
+                            <time class="article-date">2026.08.19</time>
+                            <h3 class="article-title">Claude Artifacts：横の窓に出して、版を残す</h3>
                         </div>
                     </a>
-                    <a class="article-official-btn" href="https://claude.ai/" target="_blank" rel="noopener">公式</a>
-                </article>
-
-                <article class="article-card" data-category="ai">
-                    <a href="../blog/ai/cursor/cursor-setup.html" class="article-link">
-                        <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=600&h=400&fit=crop&q=75" alt="Cursor導入" loading="lazy">
-                            <span class="article-category cat-ai">AI活用</span>
-                        </div>
-                        <div class="article-content">
-                            <time class="article-date">2026.01.08</time>
-                            <h3 class="article-title">Cursor導入ガイド（初期設定と安全な進め方）</h3>
-                        </div>
-                    </a>
-                    <a class="article-official-btn" href="https://cursor.com/" target="_blank" rel="noopener">公式</a>
                 </article>
 
                 <article class="article-card" data-category="ai">
                     <a href="../blog/ai/cursor/cursor-for-non-engineers.html" class="article-link">
-                        <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600&h=400&fit=crop&q=75" alt="非エンジニアCursor" loading="lazy">
-                            <span class="article-category cat-ai">AI活用</span>
+                        <div class="article-image article-image--ai">
+                            <span class="article-category cat-ai">AI学習</span>
                         </div>
                         <div class="article-content">
-                            <time class="article-date">2026.01.09</time>
-                            <h3 class="article-title">非エンジニアのためのCursor活用（安全な改善の回し方）</h3>
+                            <time class="article-date">2026.08.19</time>
+                            <h3 class="article-title">非エンジニアのためのCursor：1ファイルだけ直す</h3>
                         </div>
                     </a>
-                    <a class="article-official-btn" href="https://cursor.com/" target="_blank" rel="noopener">公式</a>
+                </article>
+
+                <article class="article-card" data-category="ai">
+                    <a href="../blog/ai/cursor/cursor-setup.html" class="article-link">
+                        <div class="article-image article-image--ai">
+                            <span class="article-category cat-ai">AI学習</span>
+                        </div>
+                        <div class="article-content">
+                            <time class="article-date">2026.08.19</time>
+                            <h3 class="article-title">Cursor導入：フォルダを開いて、1ファイル直すまで</h3>
+                        </div>
+                    </a>
                 </article>
 
                 <article class="article-card" data-category="ai">
                     <a href="../blog/ai/cursor/cursor-productivity-tips.html" class="article-link">
-                        <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=600&h=400&fit=crop&q=75" alt="Cursor実践Tips" loading="lazy">
-                            <span class="article-category cat-ai">AI活用</span>
+                        <div class="article-image article-image--ai">
+                            <span class="article-category cat-ai">AI学習</span>
                         </div>
                         <div class="article-content">
-                            <time class="article-date">2026.01.10</time>
-                            <h3 class="article-title">Cursor実践Tips（品質を落とさず速度を上げる）</h3>
+                            <time class="article-date">2026.08.19</time>
+                            <h3 class="article-title">Cursor実践Tips：速さより、差分のノイズを減らす</h3>
                         </div>
                     </a>
-                    <a class="article-official-btn" href="https://cursor.com/" target="_blank" rel="noopener">公式</a>
-                </article>
-
-                <article class="article-card" data-category="ai">
-                    <a href="../blog/ai/perplexity/perplexity-research.html" class="article-link">
-                        <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&h=400&fit=crop&q=75" alt="Perplexityリサーチ" loading="lazy">
-                            <span class="article-category cat-ai">AI活用</span>
-                        </div>
-                        <div class="article-content">
-                            <time class="article-date">2026.01.11</time>
-                            <h3 class="article-title">Perplexityで“根拠が追える”AIリサーチ（出典確認と比較の型）</h3>
-                        </div>
-                    </a>
-                    <a class="article-official-btn" href="https://www.perplexity.ai/" target="_blank" rel="noopener">公式</a>
-                </article>
-
-                <article class="article-card" data-category="ai">
-                    <a href="../blog/ai/notebooklm/notebooklm-workflows.html" class="article-link">
-                        <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=600&h=400&fit=crop&q=75" alt="NotebookLMワークフロー" loading="lazy">
-                            <span class="article-category cat-ai">AI活用</span>
-                        </div>
-                        <div class="article-content">
-                            <time class="article-date">2026.01.12</time>
-                            <h3 class="article-title">NotebookLMで資料読解を高速化（論点抽出とQ&Aの作法）</h3>
-                        </div>
-                    </a>
-                    <a class="article-official-btn" href="https://notebooklm.google/" target="_blank" rel="noopener">公式</a>
-                </article>
-
-                <article class="article-card" data-category="ai">
-                    <a href="../blog/ai/gemini/gemini-basics.html" class="article-link">
-                        <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?w=600&h=400&fit=crop&q=75" alt="Gemini入門" loading="lazy">
-                            <span class="article-category cat-ai">AI活用</span>
-                        </div>
-                        <div class="article-content">
-                            <time class="article-date">2026.01.13</time>
-                            <h3 class="article-title">Google Gemini入門（できること・安全運用・業務の型）</h3>
-                        </div>
-                    </a>
-                    <a class="article-official-btn" href="https://gemini.google.com/" target="_blank" rel="noopener">公式</a>
                 </article>
 
                 <article class="article-card" data-category="ai">
                     <a href="../blog/ai/gemini/gemini-workspace.html" class="article-link">
-                        <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=600&h=400&fit=crop&q=75" alt="Gemini×Workspace" loading="lazy">
-                            <span class="article-category cat-ai">AI活用</span>
+                        <div class="article-image article-image--ai">
+                            <span class="article-category cat-ai">AI学習</span>
                         </div>
                         <div class="article-content">
-                            <time class="article-date">2026.01.14</time>
-                            <h3 class="article-title">Gemini×Google Workspace活用（Gmail/Docs/Sheetsの実務例）</h3>
+                            <time class="article-date">2026.08.19</time>
+                            <h3 class="article-title">Gemini×Workspace：下書きはサイドパネル、送信は人</h3>
                         </div>
                     </a>
-                    <a class="article-official-btn" href="https://gemini.google.com/" target="_blank" rel="noopener">公式</a>
-                </article>
-
-                <article class="article-card" data-category="ai">
-                    <a href="../blog/ai/gemini/google-ai-studio.html" class="article-link">
-                        <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&h=400&fit=crop&q=75" alt="Google AI Studio" loading="lazy">
-                            <span class="article-category cat-ai">AI活用</span>
-                        </div>
-                        <div class="article-content">
-                            <time class="article-date">2026.01.15</time>
-                            <h3 class="article-title">Google AI Studio入門（プロンプト設計と検証で“再現性”を作る）</h3>
-                        </div>
-                    </a>
-                    <a class="article-official-btn" href="https://aistudio.google.com/" target="_blank" rel="noopener">公式</a>
                 </article>
 
                 <article class="article-card" data-category="ai">
                     <a href="../blog/ai/gemini/google-ai-automation.html" class="article-link">
-                        <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1556761175-4b46a572b786?w=600&h=400&fit=crop&q=75" alt="Google AI自動化" loading="lazy">
-                            <span class="article-category cat-ai">AI活用</span>
+                        <div class="article-image article-image--ai">
+                            <span class="article-category cat-ai">AI学習</span>
                         </div>
                         <div class="article-content">
-                            <time class="article-date">2026.01.16</time>
-                            <h3 class="article-title">Gemini×Googleフォーム/スプレッドシートで業務を自動化する（設計の考え方）</h3>
-                        </div>
-                    </a>
-                    <a class="article-official-btn" href="https://gemini.google.com/" target="_blank" rel="noopener">公式</a>
-                </article>
-
-                <!-- 建設業記事 -->
-                <article class="article-card" data-category="construction">
-                    <a href="../blog/construction/dx-construction.html" class="article-link">
-                        <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&h=400&fit=crop&q=75" alt="建設DX" loading="lazy">
-                            <span class="article-category cat-construction">建設業</span>
-                        </div>
-                        <div class="article-content">
-                            <time class="article-date">2025.12.25</time>
-                            <h3 class="article-title">建設業界のDX化最前線 ー 効率化を実現する最新技術</h3>
+                            <time class="article-date">2026.08.19</time>
+                            <h3 class="article-title">フォーム→シート：Geminiは要約と分類まで、送信は人</h3>
                         </div>
                     </a>
                 </article>
 
-                <article class="article-card" data-category="construction">
-                    <a href="../blog/construction/site-supervisor-tips.html" class="article-link">
-                        <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=600&h=400&fit=crop&q=75" alt="現場監督" loading="lazy">
-                            <span class="article-category cat-construction">建設業</span>
+                <article class="article-card" data-category="ai">
+                    <a href="../blog/ai/perplexity/perplexity-research.html" class="article-link">
+                        <div class="article-image article-image--ai">
+                            <span class="article-category cat-ai">AI学習</span>
                         </div>
                         <div class="article-content">
-                            <time class="article-date">2025.12.20</time>
-                            <h3 class="article-title">現場監督の心得：安全と品質を両立する方法</h3>
+                            <time class="article-date">2026.08.19</time>
+                            <h3 class="article-title">Perplexity：出典リンクを1本開いてから使う</h3>
                         </div>
                     </a>
                 </article>
 
-                <article class="article-card" data-category="construction">
-                    <a href="../blog/construction/smart-construction.html" class="article-link">
-                        <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=600&h=400&fit=crop&q=75" alt="スマート建設" loading="lazy">
-                            <span class="article-category cat-construction">建設業</span>
+                <article class="article-card" data-category="ai">
+                    <a href="../blog/ai/perplexity/perplexity-comparison.html" class="article-link">
+                        <div class="article-image article-image--ai">
+                            <span class="article-category cat-ai">AI学習</span>
                         </div>
                         <div class="article-content">
-                            <time class="article-date">2025.12.15</time>
-                            <h3 class="article-title">スマート建設技術の導入事例</h3>
+                            <time class="article-date">2026.08.19</time>
+                            <h3 class="article-title">Perplexityで比較表：軸を先に固定し、不明は空欄</h3>
                         </div>
                     </a>
                 </article>
 
-                <article class="article-card" data-category="construction">
-                    <a href="../blog/construction/sustainable-construction.html" class="article-link">
-                        <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1518005020951-eccb494ad742?w=600&h=400&fit=crop&q=75" alt="サステナブル建築" loading="lazy">
-                            <span class="article-category cat-construction">建設業</span>
+                <article class="article-card" data-category="ai">
+                    <a href="../blog/ai/notebooklm/notebook-lm.html" class="article-link">
+                        <div class="article-image article-image--ai">
+                            <span class="article-category cat-ai">AI学習</span>
                         </div>
                         <div class="article-content">
-                            <time class="article-date">2025.12.10</time>
-                            <h3 class="article-title">建設業の未来：サステナブル建築への挑戦</h3>
+                            <time class="article-date">2026.08.19</time>
+                            <h3 class="article-title">Gemini Notebook（旧 NotebookLM）：ソースを入れて、引用を開く</h3>
                         </div>
                     </a>
                 </article>
 
-                <!-- 映像制作記事 -->
-                <article class="article-card" data-category="video">
-                    <a href="../blog/video/drone-shooting.html" class="article-link">
-                        <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=600&h=400&fit=crop&q=75" alt="ドローン撮影" loading="lazy">
-                            <span class="article-category cat-video">映像制作</span>
+                <article class="article-card" data-category="ai">
+                    <a href="../blog/ai/notebooklm/notebooklm-workflows.html" class="article-link">
+                        <div class="article-image article-image--ai">
+                            <span class="article-category cat-ai">AI学習</span>
                         </div>
                         <div class="article-content">
-                            <time class="article-date">2025.12.24</time>
-                            <h3 class="article-title">ドローン撮影で差がつく映像表現</h3>
+                            <time class="article-date">2026.08.19</time>
+                            <h3 class="article-title">Gemini Notebook：論点→質問→人が直す</h3>
                         </div>
                     </a>
                 </article>
 
-                <article class="article-card" data-category="video">
-                    <a href="../blog/video/company-video.html" class="article-link">
+                <!-- 調査・清掃（主軸は下水道） -->
+                <article class="article-card" data-category="inspection">
+                    <a href="../blog/inspection/sewer-camera-methods.html" class="article-link">
                         <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=600&h=400&fit=crop&q=75" alt="会社紹介動画" loading="lazy">
-                            <span class="article-category cat-video">映像制作</span>
+                            <img src="../images/gallery/pipe-interior-camera.png" alt="管内カメラ映像" loading="lazy">
+                            <span class="article-category cat-inspection">調査・清掃</span>
                         </div>
                         <div class="article-content">
-                            <time class="article-date">2025.12.19</time>
-                            <h3 class="article-title">会社紹介動画を制作する際のポイント</h3>
+                            <time class="article-date">2026.08.18</time>
+                            <h3 class="article-title">下水道カメラ調査の方式：ミラー・TV・取付管・押し込み</h3>
                         </div>
                     </a>
                 </article>
 
-                <article class="article-card" data-category="video">
-                    <a href="../blog/video/sns-video.html" class="article-link">
+                <article class="article-card" data-category="inspection">
+                    <a href="../blog/inspection/sewer-damage-report.html" class="article-link">
                         <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=600&h=400&fit=crop&q=75" alt="SNS動画" loading="lazy">
-                            <span class="article-category cat-video">映像制作</span>
+                            <img src="../images/gallery/pipe-circular-inspection.png" alt="円形管内調査" loading="lazy">
+                            <span class="article-category cat-inspection">調査・清掃</span>
                         </div>
                         <div class="article-content">
-                            <time class="article-date">2025.12.14</time>
-                            <h3 class="article-title">SNS時代の動画マーケティング戦略</h3>
+                            <time class="article-date">2026.08.18</time>
+                            <h3 class="article-title">管路の損傷判定の見方：報告書の記号と写真</h3>
                         </div>
                     </a>
                 </article>
 
-                <article class="article-card" data-category="video">
-                    <a href="../blog/video/event-coverage.html" class="article-link">
+                <article class="article-card" data-category="inspection">
+                    <a href="../blog/inspection/manhole-safety.html" class="article-link">
                         <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&h=400&fit=crop&q=75" alt="イベント撮影" loading="lazy">
-                            <span class="article-category cat-video">映像制作</span>
+                            <img src="../images/gallery/manhole-work-site.png" alt="マンホール点検作業" loading="lazy">
+                            <span class="article-category cat-inspection">調査・清掃</span>
                         </div>
                         <div class="article-content">
-                            <time class="article-date">2025.12.09</time>
-                            <h3 class="article-title">イベント撮影で大切にしたいこと</h3>
+                            <time class="article-date">2026.08.18</time>
+                            <h3 class="article-title">マンホール作業の安全：酸欠・硫化水素と交通誘導</h3>
                         </div>
                     </a>
                 </article>
 
-                <!-- Web開発記事 -->
-                <article class="article-card" data-category="web">
-                    <a href="../blog/web/website-renewal.html" class="article-link">
+                <article class="article-card" data-category="inspection">
+                    <a href="../blog/inspection/sewer-qualifications.html" class="article-link">
                         <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop&q=75" alt="Webリニューアル" loading="lazy">
-                            <span class="article-category cat-web">Web開発</span>
+                            <img src="../images/gallery/sewer-training-session.png" alt="管路管理の研修" loading="lazy">
+                            <span class="article-category cat-inspection">調査・清掃</span>
                         </div>
                         <div class="article-content">
-                            <time class="article-date">2025.12.26</time>
-                            <h3 class="article-title">Webサイトリニューアルのタイミングと進め方</h3>
+                            <time class="article-date">2026.08.18</time>
+                            <h3 class="article-title">下水道の資格の地図：管理技術認定と管路管理技士</h3>
                         </div>
                     </a>
                 </article>
 
-                <article class="article-card" data-category="web">
-                    <a href="../blog/web/small-business-web.html" class="article-link">
+                <article class="article-card" data-category="inspection">
+                    <a href="../blog/inspection/sewer-exam-study.html" class="article-link">
                         <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600&h=400&fit=crop&q=75" alt="中小企業Web" loading="lazy">
-                            <span class="article-category cat-web">Web開発</span>
+                            <img src="../images/gallery/pipe-inspection-control.png" alt="管内調査の操作" loading="lazy">
+                            <span class="article-category cat-inspection">調査・清掃</span>
                         </div>
                         <div class="article-content">
-                            <time class="article-date">2025.12.21</time>
-                            <h3 class="article-title">中小企業のためのWebサイト活用術</h3>
+                            <time class="article-date">2026.08.18</time>
+                            <h3 class="article-title">下水道資格試験：過去問の解き方と法規の覚え方</h3>
                         </div>
                     </a>
                 </article>
 
-                <article class="article-card" data-category="web">
-                    <a href="../blog/web/seo-basics.html" class="article-link">
-                        <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1562577309-4932fdd64cd1?w=600&h=400&fit=crop&q=75" alt="SEO基本" loading="lazy">
-                            <span class="article-category cat-web">Web開発</span>
-                        </div>
-                        <div class="article-content">
-                            <time class="article-date">2025.12.16</time>
-                            <h3 class="article-title">今さら聞けないSEOの基本</h3>
-                        </div>
-                    </a>
-                </article>
-
-                <article class="article-card" data-category="web">
-                    <a href="../blog/web/wordpress-maintenance.html" class="article-link">
-                        <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=600&h=400&fit=crop&q=75" alt="WordPress" loading="lazy">
-                            <span class="article-category cat-web">Web開発</span>
-                        </div>
-                        <div class="article-content">
-                            <time class="article-date">2025.12.11</time>
-                            <h3 class="article-title">WordPress保守・運用のベストプラクティス</h3>
-                        </div>
-                    </a>
-                </article>
-
-                <!-- 犬関連記事 -->
-                <article class="article-card" data-category="dog">
-                    <a href="../blog/dog/trust-relationship.html" class="article-link">
-                        <div class="article-image">
-                            <img src="../services/dog/images/papillon-closeup.jpg" alt="犬との信頼関係" loading="lazy">
-                            <span class="article-category cat-dog">犬関連</span>
-                        </div>
-                        <div class="article-content">
-                            <time class="article-date">2025.12.26</time>
-                            <h3 class="article-title">愛犬との信頼関係を築く5つのポイント</h3>
-                        </div>
-                    </a>
-                </article>
-
-                <article class="article-card" data-category="dog">
-                    <a href="../blog/dog/puppy-preparation.html" class="article-link">
-                        <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=600&h=400&fit=crop&q=75" alt="子犬準備" loading="lazy">
-                            <span class="article-category cat-dog">犬関連</span>
-                        </div>
-                        <div class="article-content">
-                            <time class="article-date">2025.12.21</time>
-                            <h3 class="article-title">子犬を迎える前に準備すべきこと</h3>
-                        </div>
-                    </a>
-                </article>
-
-                <article class="article-card" data-category="dog">
-                    <a href="../blog/dog/home-grooming.html" class="article-link">
-                        <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?w=600&h=400&fit=crop&q=75" alt="グルーミング" loading="lazy">
-                            <span class="article-category cat-dog">犬関連</span>
-                        </div>
-                        <div class="article-content">
-                            <time class="article-date">2025.12.16</time>
-                            <h3 class="article-title">自宅でできる簡単グルーミング</h3>
-                        </div>
-                    </a>
-                </article>
-
-                <article class="article-card" data-category="dog">
-                    <a href="../blog/dog/seasonal-health-care.html" class="article-link">
-                        <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=600&h=400&fit=crop&q=75" alt="季節の健康管理" loading="lazy">
-                            <span class="article-category cat-dog">犬関連</span>
-                        </div>
-                        <div class="article-content">
-                            <time class="article-date">2025.12.11</time>
-                            <h3 class="article-title">季節ごとの愛犬の健康管理</h3>
-                        </div>
-                    </a>
-                </article>
-
-                <!-- DORMANT: アミューズメントコンドミニアム記事（公開時にコメント解除）
-                <article class="article-card" data-category="condo">
-                    <a href="../blog/condo/amusement-lifestyle.html" class="article-link">
-                        <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&h=400&fit=crop&q=75" alt="アミューズメントコンドミニアム" loading="lazy">
-                            <span class="article-category cat-condo">アミューズメント</span>
-                        </div>
-                        <div class="article-content">
-                            <time class="article-date">2025.12.28</time>
-                            <h3 class="article-title">アミューズメントコンドミニアムで叶える新しいライフスタイル</h3>
-                        </div>
-                    </a>
-                </article>
-
-                <article class="article-card" data-category="condo">
-                    <a href="../blog/condo/second-house.html" class="article-link">
-                        <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop&q=75" alt="セカンドハウス" loading="lazy">
-                            <span class="article-category cat-condo">アミューズメント</span>
-                        </div>
-                        <div class="article-content">
-                            <time class="article-date">2025.12.23</time>
-                            <h3 class="article-title">セカンドハウスとしての活用術</h3>
-                        </div>
-                    </a>
-                </article>
-
-                <article class="article-card" data-category="condo">
-                    <a href="../blog/condo/interior-design.html" class="article-link">
-                        <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1600210492493-0946911123ea?w=600&h=400&fit=crop&q=75" alt="インテリアデザイン" loading="lazy">
-                            <span class="article-category cat-condo">アミューズメント</span>
-                        </div>
-                        <div class="article-content">
-                            <time class="article-date">2025.12.18</time>
-                            <h3 class="article-title">リゾート感を演出するインテリアデザイン</h3>
-                        </div>
-                    </a>
-                </article>
-
-                <article class="article-card" data-category="condo">
-                    <a href="../blog/condo/investment-condo.html" class="article-link">
-                        <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&h=400&fit=crop&q=75" alt="投資コンドミニアム" loading="lazy">
-                            <span class="article-category cat-condo">アミューズメント</span>
-                        </div>
-                        <div class="article-content">
-                            <time class="article-date">2025.12.13</time>
-                            <h3 class="article-title">収益物件としてのコンドミニアム投資</h3>
-                        </div>
-                    </a>
-                </article>
-                DORMANT END -->
-
-                <!-- 調査・清掃記事 -->
                 <article class="article-card" data-category="inspection">
                     <a href="../blog/inspection/solar-panel-cleaning.html" class="article-link">
                         <div class="article-image">
@@ -812,6 +423,151 @@
                         <div class="article-content">
                             <time class="article-date">2025.12.05</time>
                             <h3 class="article-title">雨樋清掃で防ぐ建物トラブル</h3>
+                        </div>
+                    </a>
+                </article>
+
+                <!-- 犬関連 -->
+                <article class="article-card" data-category="dog">
+                    <a href="../blog/dog/trust-relationship.html" class="article-link">
+                        <div class="article-image">
+                            <img src="../services/dog/images/papillon-smile.jpg" alt="来店前の犬" loading="lazy">
+                            <span class="article-category cat-dog">犬関連</span>
+                        </div>
+                        <div class="article-content">
+                            <time class="article-date">2026.08.18</time>
+                            <h3 class="article-title">来店・預かりの前日にやること</h3>
+                        </div>
+                    </a>
+                </article>
+
+                <article class="article-card" data-category="dog">
+                    <a href="../blog/dog/puppy-preparation.html" class="article-link">
+                        <div class="article-image">
+                            <img src="../services/dog/images/black-poodle-ribbon.jpg" alt="子犬を迎える準備" loading="lazy">
+                            <span class="article-category cat-dog">犬関連</span>
+                        </div>
+                        <div class="article-content">
+                            <time class="article-date">2026.08.18</time>
+                            <h3 class="article-title">子犬を迎える前に準備すべきこと</h3>
+                        </div>
+                    </a>
+                </article>
+
+                <article class="article-card" data-category="dog">
+                    <a href="../blog/dog/home-grooming.html" class="article-link">
+                        <div class="article-image">
+                            <img src="../services/dog/images/bichon-white.jpg" alt="自宅グルーミング" loading="lazy">
+                            <span class="article-category cat-dog">犬関連</span>
+                        </div>
+                        <div class="article-content">
+                            <time class="article-date">2026.08.18</time>
+                            <h3 class="article-title">自宅ケアとサロンの境目：グルーミングの道具と手順</h3>
+                        </div>
+                    </a>
+                </article>
+
+                <article class="article-card" data-category="dog">
+                    <a href="../blog/dog/seasonal-health-care.html" class="article-link">
+                        <div class="article-image">
+                            <img src="../images/gallery/dog-run.png" alt="季節の健康管理" loading="lazy">
+                            <span class="article-category cat-dog">犬関連</span>
+                        </div>
+                        <div class="article-content">
+                            <time class="article-date">2026.08.18</time>
+                            <h3 class="article-title">季節ごとの愛犬の健康管理（関東・川口〜桐生）</h3>
+                        </div>
+                    </a>
+                </article>
+
+                <!-- 映像（所持機材シリーズは順次） -->
+                <article class="article-card" data-category="video">
+                    <a href="../blog/video/davinci-resolve-export.html" class="article-link">
+                        <div class="article-image">
+                            <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=600&h=400&fit=crop&q=75" alt="DaVinci Resolve" loading="lazy">
+                            <span class="article-category cat-video">映像制作</span>
+                        </div>
+                        <div class="article-content">
+                            <time class="article-date">2026.08.19</time>
+                            <h3 class="article-title">DaVinci Resolve：カットから書き出しまでの最短手順</h3>
+                        </div>
+                    </a>
+                </article>
+
+                <article class="article-card" data-category="video">
+                    <a href="../blog/video/fx30-a6700.html" class="article-link">
+                        <div class="article-image">
+                            <img src="https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=600&h=400&fit=crop&q=75" alt="FX30とa6700" loading="lazy">
+                            <span class="article-category cat-video">映像制作</span>
+                        </div>
+                        <div class="article-content">
+                            <time class="article-date">2026.08.19</time>
+                            <h3 class="article-title">FX30とa6700の使い分け：現場・ペット・空撮の持ち出し</h3>
+                        </div>
+                    </a>
+                </article>
+
+                <article class="article-card" data-category="video">
+                    <a href="../blog/video/drone-shooting.html" class="article-link">
+                        <div class="article-image">
+                            <img src="https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=600&h=400&fit=crop&q=75" alt="ドローン撮影" loading="lazy">
+                            <span class="article-category cat-video">映像制作</span>
+                        </div>
+                        <div class="article-content">
+                            <time class="article-date">2026.08.19</time>
+                            <h3 class="article-title">ドローン空撮：Air 2Sを出す前に、飛ばしてよいか</h3>
+                        </div>
+                    </a>
+                </article>
+
+                <article class="article-card" data-category="video">
+                    <a href="../blog/video/fpv-safety.html" class="article-link">
+                        <div class="article-image">
+                            <img src="https://images.unsplash.com/photo-1579829366248-204fe8413f31?w=600&h=400&fit=crop&q=75" alt="FPVドローン" loading="lazy">
+                            <span class="article-category cat-video">映像制作</span>
+                        </div>
+                        <div class="article-content">
+                            <time class="article-date">2026.08.19</time>
+                            <h3 class="article-title">FPVは没入の前に、周囲が見えない</h3>
+                        </div>
+                    </a>
+                </article>
+
+                <article class="article-card" data-category="video">
+                    <a href="../blog/video/infrared-reading.html" class="article-link">
+                        <div class="article-image article-image--ai">
+                            <span class="article-category cat-video">映像制作</span>
+                        </div>
+                        <div class="article-content">
+                            <time class="article-date">2026.08.19</time>
+                            <h3 class="article-title">赤外線映像の読み方：色は診断ではない</h3>
+                        </div>
+                    </a>
+                </article>
+
+                <!-- Web・3D -->
+                <article class="article-card" data-category="web">
+                    <a href="../blog/web/corporate-site-decisions.html" class="article-link">
+                        <div class="article-image">
+                            <img src="../services/web/images/pf-cuculfm-top.jpg" alt="コーポレートサイト" loading="lazy">
+                            <span class="article-category cat-web">Web・3D</span>
+                        </div>
+                        <div class="article-content">
+                            <time class="article-date">2026.08.19</time>
+                            <h3 class="article-title">コーポレートサイトで先に決めること（7領域の例）</h3>
+                        </div>
+                    </a>
+                </article>
+
+                <article class="article-card" data-category="web">
+                    <a href="../blog/web/top-3d-intent.html" class="article-link">
+                        <div class="article-image">
+                            <img src="../services/web/images/pf-phantom-dj.jpg" alt="トップの3D" loading="lazy">
+                            <span class="article-category cat-web">Web・3D</span>
+                        </div>
+                        <div class="article-content">
+                            <time class="article-date">2026.08.19</time>
+                            <h3 class="article-title">トップの3Dはどう組んでいるか（演出の意図）</h3>
                         </div>
                     </a>
                 </article>

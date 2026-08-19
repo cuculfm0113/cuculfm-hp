@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cursor実践Tips（品質を落とさず速度を上げる） | CUCUL FM</title>
-  <meta name="description" content="パフォーマンス、アクセシビリティ、セキュリティ（XSS、依存ライブラリ）は段階的に足すとよいです。最初から全部は見ない。">
+  <title>Cursor実践Tips：速さより、差分のノイズを減らす | CUCUL FM</title>
+  <meta name="description" content="依頼の先頭を固定し、1チャットは説明20分以内、レビューはリンク・表示・秘密・余計なdiffの4点。">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="ja_JP">
-  <meta property="og:title" content="Cursor実践Tips（品質を落とさず速度を上げる） | CUCUL FM">
-  <meta property="og:description" content="パフォーマンス、アクセシビリティ、セキュリティ（XSS、依存ライブラリ）は段階的に足すとよいです。最初から全部は見ない。">
-  <meta property="og:image" content="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=1200&amp;h=600&amp;fit=crop">
+  <meta property="og:title" content="Cursor実践Tips：速さより、差分のノイズを減らす | CUCUL FM">
+  <meta property="og:description" content="依頼の先頭を固定し、1チャットは説明20分以内、レビューはリンク・表示・秘密・余計なdiffの4点。">
+  
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Cursor実践Tips（品質を落とさず速度を上げる） | CUCUL FM">
-  <meta name="twitter:description" content="パフォーマンス、アクセシビリティ、セキュリティ（XSS、依存ライブラリ）は段階的に足すとよいです。最初から全部は見ない。">
-  <meta name="twitter:image" content="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=1200&amp;h=600&amp;fit=crop">
-  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Cursor実践Tips（品質を落とさず速度を上げる）", "datePublished": "2026-01-10", "dateModified": "2026-01-10", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=1200&h=600&fit=crop"]}</script>
+  <meta name="twitter:title" content="Cursor実践Tips：速さより、差分のノイズを減らす | CUCUL FM">
+  <meta name="twitter:description" content="依頼の先頭を固定し、1チャットは説明20分以内、レビューはリンク・表示・秘密・余計なdiffの4点。">
+  
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Cursor実践Tips：速さより、差分のノイズを減らす", "datePublished": "2026-08-19", "dateModified": "2026-08-19", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
@@ -34,83 +34,42 @@
   <article class="article-container">
     <header class="article-header">
       <span class="article-category">AI</span>
-      <h1 class="article-title">Cursor実践Tips（品質を落とさず速度を上げる）</h1>
+      <h1 class="article-title">Cursor実践Tips：速さより、差分のノイズを減らす</h1>
       <div class="article-meta">
-        <time class="article-date">2026.01.10</time>
+        <time class="article-date">2026.08.19</time>
         <span class="article-author">ククルFM編集部</span>
       </div>
     </header>
 
-    <div class="article-featured-image"><img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=1200&amp;h=600&amp;fit=crop" alt="開発と改善の高速化" loading="lazy"></div>
+    
 
     <div class="article-content">
-<h2>学習ゴール</h2>
+<h2>この記事でできるようになること / やらないこと</h2>
 <ul>
-<li>依頼文テンプレ、変更粒度、差分レビュー観点、ルール資産化の4要素をセットで運用に落とせる。</li>
-<li>「速さ」と「事故率」のトレードオフをコントロールする週次ルーティンを持てる。</li>
+<li><strong>できること</strong>: 今週、同じ型の依頼を3回使い、戻した回数を1つメモする。</li>
+<li><strong>やらないこと</strong>: ルールファイルの肥大化、速度の自慢。最終確認日: 2026-08-19。操作は <a href="https://cursor.com/" target="_blank" rel="noopener">Cursor</a> が正。</li>
 </ul>
-<h2>前提知識</h2>
-<ul>
-<li>すでにCursorで1回以上、意図した修正が完了した経験があること。</li>
-<li>Gitまたはバックアップのどちらかで戻せる状態を作れること。</li>
-</ul>
-<h2>キーコンセプトと用語</h2>
-<ul>
-<li><strong>依頼文テンプレ</strong>：目的・範囲・制約・期待出力を固定順に並べたもの。</li>
-<li><strong>垂直スライス</strong>：画面1枚横断の小さな変更単位。</li>
-<li><strong>ノイズdiff</strong>：空白変更や並び替えだけの差分。レビュー成本を上げる。</li>
-<li><strong>ルール資産</strong>：<code>.cursor/rules</code> や社内ドキュメントに残した再利用知識。</li>
-</ul>
-<h2>手順（ステップバイステップ）</h2>
+<p>前提は <a href="./cursor-setup.html">セットアップ</a> と <a href="./cursor-for-non-engineers.html">1ファイルだけ</a>。</p>
+<h2>結論</h2>
+<p>速く見える依頼は、空白だけの差分と、触るなと言ったファイルの変更を増やす。テンプレの先頭を短くし、<strong>禁止タッチ</strong>を毎回書く。</p>
+<h2>依頼の先頭（コピペ）</h2>
+<p>目的: ＿＿ ファイル: ＿＿ やってよい: ＿＿ やるな: フォーマット全体、関係ないファイル、＿＿ 確認方法: ＿＿（URLまたは画面）</p>
+<p><code>.cursor/rules</code> に残すなら、上位5行まで。増えたらリンク集へ逃がす。</p>
+<h2>レビュー4点</h2>
 <ol>
-<li><strong>テンプレをスニペット登録</strong>：チャット入力の先頭に毎回付けるブロックを決める。</li>
-<li><strong>タスク分割基準</strong>：1PRまたは1チャットは20分以内で説明できる大きさに。</li>
-<li><strong>レビュー観点の固定</strong>：リンク、表示崩れ、秘密情報、不要diffの4点を初期セット。</li>
-<li><strong>週次ルール磨き</strong>：うまくいった指示を1つだけルール化。</li>
-<li><strong>メトリクス</strong>：「戻し回数」「レビュー指摘件数」を週1でメモ。</li>
+<li>リンクが切れていない</li>
+<li>見出しと余白が崩れていない</li>
+<li>秘密が新しく増えていない</li>
+<li>頼んでいない整形だけになっていない</li>
 </ol>
-<h2>実践ミニ演習</h2>
+<h2>週1メモ（コピペ）</h2>
+<p>戻した回数: ＿＿ 指摘: ＿＿ 残す依頼文1行: ＿＿</p>
+<p>戻しが多い週は、チャットを分ける。速さの指標にしない。</p>
+<h2>公式</h2>
 <ul>
-<li><strong>演習1</strong>：同じバグ修正を「雑依頼」と「テンプレ依頼」で比較し、diff行数を記録。</li>
-<li><strong>演習2</strong>：意図的に整形差分が出やすい依頼をし、制約文で抑制できるか試す。</li>
-<li><strong>演習3</strong>：チームSlackに「今週のベスト依頼文」を投稿する仕組みを5分で設計。</li>
+<li><a href="https://cursor.com/docs" target="_blank" rel="noopener">Cursor Docs</a></li>
 </ul>
-<h2>セルフチェックリスト</h2>
-<ul>
-<li>[ ] 依頼文にファイル名と禁止タッチ領域がある</li>
-<li>[ ] 変更は20分説明以内に収まる</li>
-<li>[ ] diffにノイズが少ない</li>
-<li>[ ] レビュー4観点を見た</li>
-<li>[ ] ルール更新が週1で回っている</li>
-</ul>
-<h2>つまずきポイントと対処</h2>
-<ul>
-<li><strong>スピード優先で品質劣化</strong> → 「テスト手順」「確認URL」を依頼に必須化。</li>
-<li><strong>ルールが肥大化</strong> → 上位5項目だけ残し、あとはリンク集へ。</li>
-<li><strong>チーム差</strong> → ペアレビュー10分を週1、スタイルを揃える。</li>
-</ul>
-<h2>深掘り：レビュー観点の拡張</h2>
-<p>パフォーマンス、アクセシビリティ、セキュリティ（XSS、依存ライブラリ）は段階的に足すとよいです。最初から全部は見ない。</p>
-<h2>Git・チームへの接続</h2>
-<p>複数人で触るならブランチ運用と小さなコミットが必須です。詳細は <a href="./cursor-git-workflow.html">Git連携</a>、運用設計は <a href="./cursor-team-operations.html">チーム運用</a> を参照。</p>
-<h2>運用ノート：スピードと品質のバランス会議</h2>
-<p>週次で「今週の最速PR」と「今週の反省PR」を1本ずつ晒すと、チームの共通感覚が育ちます。メトリクスは<strong>レビュー時間・差分行数・本番障害の有無</strong>の3つに絞ると運用が続く。ルール資産はSlackピン留めではなくリポジトリの<code>docs/</code>に置き、検索性を確保。忙しい週こそテンプレを更新せず、<strong>来週に繰越すルール</strong>を決めて燃え尽きを防ぎます。</p>
-<p>（学習の定着）</p>
-<p>組織学習の観点では、週次15分の振り返りをカレンダーに固定し、うまくいった依頼文や依頼テンプレは共有ドライブへコピーして資産化します。四半期ごとに公式の利用規約と社内ポリシーを突き合わせ、差分があれば短いチケットで追記してください。個人メモでも「日付・用途・入力の要点・出力の使い道」を1セットで残すと検索性が上がり、異動時の引き継ぎもスムーズです。ステークホルダー別の典型的な懸念（経営はROI、情シスは漏洩、現場は手間と心理的負担）を箇条書きで持っておくと、同じ学びを説明する場面でも言い換え疲れが減ります。公開可否が曖昧な資料はそもそもAIに入力しない、と自分で宣言しておく線引きメモがあると、日々の判断が速くなります。</p>
-<p>なお学習効率を上げるには、「読む→15分で演習→翌週に同じ手順でもう一度」をカレンダーに3連続で置き、忘却曲線を意識するのがコツです。複数人で進めるときは教え合うペアと日時を先に仮押さえし、片方が欠席しても演習PDFだけで進められるようにリンク集を1枚添えておくと属人化が進みにくくなります。最後に、成果が出た週は短いログ（良かった依頼1行）を残し、出なかった週は「阻害要因」を1語だけメモして次週の設計に回すと改善が続きます。テンプレが増えすぎたら月1で「使用回数ゼロの章」を削除する掃除日を入れてください。</p>
-<h2>まとめ：次に何をするか</h2>
-<p>依頼テンプレを1枚保存し、来週のタスク5件でコピペ利用してください。初めての複数ファイル改修なら <a href="./cursor-composer.html">Composer</a> を先に読みます。</p>
-<h2>ツール情報（公式リンク）</h2>
-<ul>
-<li><a href="https://cursor.com/" target="_blank" rel="noopener">Cursor（公式）</a></li>
-</ul>
-<h2>権利表記・引用について</h2>
-<p>Cursorは各社の商標または登録商標です。本記事は各社の公式提供ではありません。機能や提供条件は変更される場合があるため、最新情報は公式ページをご確認ください。</p>
-<h2>画像クレジット</h2>
-<p>サムネイル/本文画像はUnsplashの写真を使用しています（ライセンス：<a href="https://unsplash.com/license" target="_blank" rel="noopener">Unsplash License</a>）。</p>
-<h3>お問い合わせ</h3>
-<p>Webサイト運用の効率化、記事量産の仕組み化もお気軽にご相談ください</p>
-<p>📞 090-6262-3842</p>
+<p>本記事は公式提供ではありません。</p>
 
     </div>
   </article>

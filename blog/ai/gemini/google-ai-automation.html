@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gemini×Googleフォーム/スプレッドシートで業務を自動化する（設計の考え方） | CUCUL FM</title>
-  <meta name="description" content="Googleフォームとスプレッドシートは、簡単に「業務の入口」と「データベース」を作れる組み合わせです。">
+  <title>フォーム→シート：Geminiは要約と分類まで、送信は人 | CUCUL FM</title>
+  <meta name="description" content="受付はフォーム、記録はシート、要約と分類の下書きだけGemini。返信の自動送信はしない。">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="ja_JP">
-  <meta property="og:title" content="Gemini×Googleフォーム/スプレッドシートで業務を自動化する（設計の考え方） | CUCUL FM">
-  <meta property="og:description" content="Googleフォームとスプレッドシートは、簡単に「業務の入口」と「データベース」を作れる組み合わせです。">
-  <meta property="og:image" content="https://images.unsplash.com/photo-1556761175-4b46a572b786?w=1200&amp;h=600&amp;fit=crop">
+  <meta property="og:title" content="フォーム→シート：Geminiは要約と分類まで、送信は人 | CUCUL FM">
+  <meta property="og:description" content="受付はフォーム、記録はシート、要約と分類の下書きだけGemini。返信の自動送信はしない。">
+  
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Gemini×Googleフォーム/スプレッドシートで業務を自動化する（設計の考え方） | CUCUL FM">
-  <meta name="twitter:description" content="Googleフォームとスプレッドシートは、簡単に「業務の入口」と「データベース」を作れる組み合わせです。">
-  <meta name="twitter:image" content="https://images.unsplash.com/photo-1556761175-4b46a572b786?w=1200&amp;h=600&amp;fit=crop">
-  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Gemini×Googleフォーム/スプレッドシートで業務を自動化する（設計の考え方）", "datePublished": "2026-01-16", "dateModified": "2026-01-16", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1556761175-4b46a572b786?w=1200&h=600&fit=crop"]}</script>
+  <meta name="twitter:title" content="フォーム→シート：Geminiは要約と分類まで、送信は人 | CUCUL FM">
+  <meta name="twitter:description" content="受付はフォーム、記録はシート、要約と分類の下書きだけGemini。返信の自動送信はしない。">
+  
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "フォーム→シート：Geminiは要約と分類まで、送信は人", "datePublished": "2026-08-19", "dateModified": "2026-08-19", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
@@ -34,108 +34,78 @@
   <article class="article-container">
     <header class="article-header">
       <span class="article-category">AI</span>
-      <h1 class="article-title">Gemini×Googleフォーム/スプレッドシートで業務を自動化する（設計の考え方）</h1>
+      <h1 class="article-title">フォーム→シート：Geminiは要約と分類まで、送信は人</h1>
       <div class="article-meta">
-        <time class="article-date">2026.01.16</time>
+        <time class="article-date">2026.08.19</time>
         <span class="article-author">ククルFM編集部</span>
       </div>
     </header>
 
-    <div class="article-featured-image"><img src="https://images.unsplash.com/photo-1556761175-4b46a572b786?w=1200&amp;h=600&amp;fit=crop" alt="業務自動化の設計" loading="lazy"></div>
+    
 
     <div class="article-content">
-<h2>はじめに</h2>
-<p>Googleフォームとスプレッドシートは、簡単に「業務の入口」と「データベース」を作れる組み合わせです。</p>
-<p>ここにGeminiを組み合わせると、入力内容の要約・分類・返信文の下書きなどを“半自動化”しやすくなります。フォーム項目の粒度とシート列設計が精度を左右するため、本記事ではAIより先に「データの形」を整える手順を多めにしています。学習パートは問い合わせ受付の演習に置き換えれば、そのまま社内勉強会の題材にもなります。</p>
-<h2>基本の設計：フォーム→シート→処理→通知</h2>
+<h2>この記事でできるようになること / やらないこと</h2>
+<ul>
+<li><strong>できること</strong>: 今日、問い合わせ用フォームの項目とシート列を1枚に書き、要約プロンプトを1回試す。</li>
+<li><strong>やらないこと</strong>: Gemini API、夜間バッチの本番、顧客への自動メール。フォームとシートの操作は <a href="https://www.google.com/forms/about/" target="_blank" rel="noopener">Google フォーム</a> と <a href="https://www.google.com/sheets/about/" target="_blank" rel="noopener">スプレッドシート</a> が正。最終確認日: 2026-08-19</li>
+</ul>
+<p>Workspaceの中の下書きは <a href="./gemini-workspace.html">Gemini×Workspace</a>。式とGASのテストは <a href="../chatgpt/chatgpt-excel-gas.html">スプレッドシート×ChatGPT</a>。</p>
+<h2>結論</h2>
+<p>自動化で先に壊れるのはAIではなく <strong>項目の形</strong>。自由記述が多いと要約も分類も揺れる。返信を自動送信すると、誤分類がそのまま顧客に届く。最初の完成形は「人が30秒で判断できる表」まで。</p>
+<h2>設計（この順）</h2>
 <ol>
-<li><strong>フォーム</strong>：入力項目を固定（自由記述は最小化）</li>
-<li><strong>シート</strong>：記録（タイムスタンプ、担当、状態）</li>
-<li><strong>処理</strong>：要約/分類/優先度付け（AIの得意領域）</li>
-<li><strong>通知</strong>：メール/Chat/タスク化（運用に乗せる）</li>
+<li><strong>フォーム</strong>: 選択肢を増やす。自由記述は「要点3行」1欄まで</li>
+<li><strong>シート</strong>: 生データ列は触らない。右に要約 / 分類 / 人の確認</li>
+<li><strong>処理</strong>: 伏せ字の本文だけをGeminiに渡し、要約か分類の <strong>どちらか1つ</strong></li>
+<li><strong>通知</strong>: 人が見てからメール。自動送信はしない</li>
 </ol>
-<p>ステータス列は「新規／対応中／保留／完了」の4つまでに抑えると、ダッシュボードの集計が簡単になります。通知先をSlackにするかメールにするかは、既存のインシデントフローに合わせるのが一番定着します。</p>
-<h2>Geminiに任せると効く処理</h2>
-<ul>
-<li><strong>要約</strong>：長文問い合わせを200字に圧縮</li>
-<li><strong>分類</strong>：カテゴリ（問い合わせ/不具合/要望）に振り分け</li>
-<li><strong>返信下書き</strong>：丁寧文、必要事項の抜けチェック</li>
-</ul>
-<p>同時に三つ走らせるとどこで誤っているか切り分けづらいので、最初の1〜2週間は要約だけに絞る運用が無難です。返信下書きを追加するときは、件名・宛名・添付案内の「定型句テンプレ」を別途用意し、AIには可変部分だけ書かせます。</p>
-<h2>小さく始める（おすすめ手順）</h2>
-<ol>
-<li>まずは“要約”だけを自動化</li>
-<li>次に“分類”を追加</li>
-<li>最後に“返信下書き”を追加（必ず人間が送信）</li>
-</ol>
-<h2>注意点</h2>
-<ul>
-<li><strong>個人情報/顧客情報</strong>の扱い：マスキング・ルール化</li>
-<li><strong>誤分類</strong>：最初は人が修正して学習用ログを残す</li>
-<li><strong>自動送信は避ける</strong>：返信は必ず人間が最終確認</li>
-</ul>
-<p>夜間バッチでAI処理するときも、翌朝の人手レビュー列をスキップしない運用ルールを最初に決めておきます。</p>
-<h2>半自動化の設計思想</h2>
-<p>完全自動を目指さず、「人が30秒で判断できるところまで持っていく」方が安全です。フォーム→シートのフローでは、AI列の右に「担当者コメント」を必ず置き、誤りをその場で修正できるようにします。週次で誤分類率をカウントし、プロンプトよりもフォーム項目の改善を先に検討すると、長期的な精度が伸びやすいです。</p>
-<h2>学習向け（手順・演習・用語・確認・トラブル向け）</h2>
-<h3>実践ステップ</h3>
-<h4>ステップ1：フォーム項目の最小設計</h4>
-<p>自由記述を減らし、選択肢・日付・担当者IDなど構造化できる項目に置き換えます。AIに渡すテキスト量が減るほど要約と分類は安定しやすいです。</p>
-<h4>ステップ2：シート列と「AI出力列」を分離</h4>
-<p>生データ列の右に「要約」「分類」「返信ドラフト」列を用意し、手動確認列（OK/修正）を必ず挟みます。自動で上書きしない運用にします。</p>
-<h4>ステップ3：GASまたは手動バッチで段階導入</h4>
-<p>まずは要約のみを日次バッチで回し、精度が安定してから分類・返信案を追加します。エラー行は別タブに隔離します。</p>
-<h3>演習課題</h3>
-<ol>
-<li>サンプル問い合わせ10件で、200字要約のプロンプトを調整し、担当者が読みやすいか評価する。</li>
-<li>分類ラベルを3つに固定し、混同しやすい境界例を5件作ってテストする。</li>
-<li>返信ドラフト生成後に「必ず人が編集するチェックリスト」を5項目で作る。</li>
-<li>想定問い合わせを「緊急」「通常」「低優先」に振り分け、そのラベルとAIの分類結果を週次で突き合わせる表を作る。</li>
-</ol>
-<h3>用語ミニ辞典</h3>
-<ul>
-<li><strong>Googleフォーム</strong>：入力UIを素早く作れるGoogleのフォーム製品です。</li>
-<li><strong>スプレッドシート</strong>：表形式データの記録・集計基盤。AI出力の置き場所にも向きます。</li>
-<li><strong>GAS</strong>：スプレッドシートと連携してトリガー実行やメール送信などが書けるスクリプト環境です（権限設定に注意）。</li>
-<li><strong>トリガー</strong>：時間主導やフォーム送信後など、処理を起動する条件。</li>
-</ul>
-<h3>セルフチェック</h3>
-<ul>
-<li>[ ] フォーム収集データに不要な個人情報が含まれていない、またはマスキング済み</li>
-<li>[ ] AI出力が上書きされる列がなく、確認列がある</li>
-<li>[ ] 外部への自動メール送信をAIだけに任せていない</li>
-<li>[ ] 誤分類時のエスカレーション先が決まっている</li>
-</ul>
-<h3>トラブルシューティング</h3>
+<p>ステータスは「新規 / 対応中 / 保留 / 完了」の4つまで。</p>
+<h2>シート列（コピペ）</h2>
 <table>
-<thead><tr><th>状況</th><th>対処のヒント</th></tr></thead>
+<thead><tr><th>列</th><th>中身</th><th>誰が書く</th></tr></thead>
 <tbody>
-<tr><td>要約が長すぎる</td><td>文字数上限と「箇条書き3点」の形式をプロンプトに明記</td></tr>
-<tr><td>分類が不安定</td><td>ラベル定義を例文つきで短く固定し、自由記述を減らす</td></tr>
-<tr><td>GASの権限エラー</td><td>実行アカウントとスクリプトの所有権、承認画面を再確認</td></tr>
-<tr><td>運用が回らない</td><td>まず週1の手動運用で慣らし、自動化範囲を広げる</td></tr>
-<tr><td>シートがカオス化</td><td>AI列・人間列・ログ列の位置をテンプレ凍結し、色分けルールを決める</td></tr>
-<tr><td>問い合わせ本文が長大</td><td>フォーム側で「要点3行」欄を必須化し、AIにはそこだけ渡す</td></tr>
+<tr><td>A</td><td>タイムスタンプ</td><td>フォーム</td></tr>
+<tr><td>B</td><td>種別（選択肢）</td><td>フォーム</td></tr>
+<tr><td>C</td><td>要点（3行）</td><td>フォーム</td></tr>
+<tr><td>D</td><td>要約（200字）</td><td>Geminiの下書き → 人</td></tr>
+<tr><td>E</td><td>分類（問い合わせ / 不具合 / 要望）</td><td>Geminiの下書き → 人</td></tr>
+<tr><td>F</td><td>確認（OK / 修正）</td><td>人だけ</td></tr>
+<tr><td>G</td><td>送信済み（空 / 日付）</td><td>人だけ</td></tr>
 </tbody>
 </table>
-<h2>まとめ</h2>
-<p>Googleのツール群は「仕組み化」に強く、Geminiは「言語処理」に強い。両方を組み合わせると、業務フローが一段ラクになります。最初のゴールを「問い合わせ対応時間○分短縮」のように数値化しておくと、改善の優先順位が付けやすくなります。</p>
-<h2>ツール情報（公式リンク）</h2>
+<p>実名と電話は、AIに渡す範囲から外す。渡すなら C 列だけ。</p>
+<h2>要約の依頼（コピペ）</h2>
+<pre><code>入力は次の3行だけ。実名は無い前提。
+出力: 200字以内。決定 / 未決 / 次アクション。
+新しい事実を足さない。不明は不明。
+分類は出さない（今日は要約だけ）。</code></pre>
+<p>最初の2週間は要約だけ。分類を足すのは、人が OK を付けた行が10件を超えてから。</p>
+<h2>やってはいけないこと</h2>
 <ul>
-<li><a href="https://gemini.google.com/" target="_blank" rel="noopener">Gemini（Google）</a></li>
+<li>フォーム送信のたびに返信メールを自動で出す</li>
+<li>生データ列をAI出力で上書きする</li>
+<li>ラベルを毎週増やす</li>
+<li>「緊急」をAIだけが決めて通知する</li>
+</ul>
+<p>GASで時刻トリガーを足す日は、送信先を自分宛てにした版から。<a href="../chatgpt/chatgpt-excel-gas.html">テストシート</a> の段階と同じ。</p>
+<h2>演習</h2>
+<p>架空の問い合わせ5件をシートに手入力する。C列だけ渡して要約を埋める。F列を人が付ける。今日はメールを出さない。</p>
+<h2>チェックリスト</h2>
+<ul>
+<li>[ ] 自由記述が1欄以内</li>
+<li>[ ] 要約列と確認列が分かれている</li>
+<li>[ ] 自動送信が無い</li>
+<li>[ ] 誤った分類のときの次の人（自分でも可）が決まっている</li>
+</ul>
+<h2>公式</h2>
+<ul>
 <li><a href="https://www.google.com/forms/about/" target="_blank" rel="noopener">Google フォーム</a></li>
 <li><a href="https://www.google.com/sheets/about/" target="_blank" rel="noopener">Google スプレッドシート</a></li>
-<li><a href="https://developers.google.com/apps-script" target="_blank" rel="noopener">Google Apps Script（開発者ドキュメント）</a></li>
-<li><a href="https://policies.google.com/terms" target="_blank" rel="noopener">Google 利用規約</a></li>
-<li><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google プライバシーポリシー</a></li>
+<li><a href="https://developers.google.com/apps-script" target="_blank" rel="noopener">Google Apps Script</a></li>
+<li><a href="https://support.google.com/a/users/answer/15146419?hl=ja" target="_blank" rel="noopener">Google Workspace with Gemini の活用</a></li>
+<li><a href="https://gemini.google.com/" target="_blank" rel="noopener">Gemini</a></li>
 </ul>
-<h2>権利表記・引用について</h2>
-<p>Google、Gemini、Google Forms、Google Sheets、Google Apps ScriptはGoogle LLCの商標または登録商標です。本記事は各社の公式提供ではありません。機能や提供条件は変更される場合があるため、最新情報は公式ページをご確認ください。</p>
-<h2>画像クレジット</h2>
-<p>サムネイル/本文画像はUnsplashの写真を使用しています（ライセンス：<a href="https://unsplash.com/license" target="_blank" rel="noopener">Unsplash License</a>）。</p>
-<h3>お問い合わせ</h3>
-<p>フォーム/シート/GASを含めた業務自動化設計もお気軽にご相談ください</p>
-<p>📞 090-6262-3842</p>
+<p>本記事は公式提供ではありません。送信の最終責任は実行する人にあります。</p>
 
     </div>
   </article>

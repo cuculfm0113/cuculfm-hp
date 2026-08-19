@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NotebookLMで資料読解を高速化（論点抽出とQ&amp;Aの作法） | CUCUL FM</title>
-  <meta name="description" content="この流れは読む時間の圧縮であり、責任の圧縮ではない。構造化は任せ、鵜呑みは禁止。">
+  <title>Gemini Notebook：論点→質問→人が直す | CUCUL FM</title>
+  <meta name="description" content="決めたいこと1行を先に書き、全体→数字→例外の順で聞く。要約は人が編んでから会議に出す。">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="ja_JP">
-  <meta property="og:title" content="NotebookLMで資料読解を高速化（論点抽出とQ&amp;Aの作法） | CUCUL FM">
-  <meta property="og:description" content="この流れは読む時間の圧縮であり、責任の圧縮ではない。構造化は任せ、鵜呑みは禁止。">
-  <meta property="og:image" content="https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=1200&amp;h=600&amp;fit=crop">
+  <meta property="og:title" content="Gemini Notebook：論点→質問→人が直す | CUCUL FM">
+  <meta property="og:description" content="決めたいこと1行を先に書き、全体→数字→例外の順で聞く。要約は人が編んでから会議に出す。">
+  
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="NotebookLMで資料読解を高速化（論点抽出とQ&amp;Aの作法） | CUCUL FM">
-  <meta name="twitter:description" content="この流れは読む時間の圧縮であり、責任の圧縮ではない。構造化は任せ、鵜呑みは禁止。">
-  <meta name="twitter:image" content="https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=1200&amp;h=600&amp;fit=crop">
-  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "NotebookLMで資料読解を高速化（論点抽出とQ&Aの作法）", "datePublished": "2026-01-12", "dateModified": "2026-01-12", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=1200&h=600&fit=crop"]}</script>
+  <meta name="twitter:title" content="Gemini Notebook：論点→質問→人が直す | CUCUL FM">
+  <meta name="twitter:description" content="決めたいこと1行を先に書き、全体→数字→例外の順で聞く。要約は人が編んでから会議に出す。">
+  
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Gemini Notebook：論点→質問→人が直す", "datePublished": "2026-08-19", "dateModified": "2026-08-19", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
@@ -34,91 +34,65 @@
   <article class="article-container">
     <header class="article-header">
       <span class="article-category">AI</span>
-      <h1 class="article-title">NotebookLMで資料読解を高速化（論点抽出とQ&amp;Aの作法）</h1>
+      <h1 class="article-title">Gemini Notebook：論点→質問→人が直す</h1>
       <div class="article-meta">
-        <time class="article-date">2026.01.12</time>
+        <time class="article-date">2026.08.19</time>
         <span class="article-author">ククルFM編集部</span>
       </div>
     </header>
 
-    <div class="article-featured-image"><img src="https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=1200&amp;h=600&amp;fit=crop" alt="資料読解と要約" loading="lazy"></div>
+    
 
     <div class="article-content">
-<h2>学習の目標</h2>
+<h2>この記事でできるようになること / やらないこと</h2>
 <ul>
-<li><strong>読み込み→論点→Q&amp;A→要約</strong>の4段をワンセットで回し、会議に持ち込める形にできる。</li>
-<li>「決めたいこと1行」に紐づく<strong>質問順序</strong>を自分用にカスタムできる。</li>
-<li>資料混在・旧版混入・機密越境を<strong>チェックリストで防ぐ</strong>運用を説明できる。</li>
+<li><strong>できること</strong>: 今日、資料2点以内で「決めたいこと」を1行にし、質問を3回まで回す。</li>
+<li><strong>やらないこと</strong>: ソース上限の保証、自動議事録の本番。操作は <a href="https://notebooklm.google/" target="_blank" rel="noopener">Gemini Notebook</a> が正。最終確認日: 2026-08-19</li>
 </ul>
-<h2>前提条件</h2>
-<ul>
-<li>ノートブック運用の初歩ができる。</li>
-<li>アウトプットを「要点3・決定事項・次アクション」形式で受け取れる。</li>
-<li>マスキング方針または社内相談先がある。</li>
-</ul>
-<h2>キーコンセプト</h2>
-<ul>
-<li><strong>単一テーマ</strong>: 混在は論点ボケの母。</li>
-<li><strong>質問の三部曲</strong>: 森林→木（数値）→地面の穴（例外）。</li>
-<li><strong>引用が交通ルール</strong>: 無引用なら赤信号。</li>
-<li><strong>人の捺印</strong>: AIは下書き専用。</li>
-</ul>
-<h2>手順（実践ステップ）</h2>
+<p>前提は <a href="./notebook-lm.html">ソースを入れて引用を開く</a>。ウェブの一次情報探しは <a href="../perplexity/perplexity-research.html">Perplexity</a>。</p>
+<h2>結論</h2>
+<p>読む時間は圧縮してよい。責任は圧縮しない。旧版と新版を同じノートに入れると、どちらの数字か分からなくなる。効かない日は <strong>ソースを半分外す</strong>。</p>
+<h2>手順</h2>
 <ol>
-<li><strong>整流</strong>: ファイル名に版・日付。関係資料だけ投入。</li>
-<li><strong>一文目的</strong>: 決めたいことをチャット先頭に固定。</li>
-<li><strong>論点</strong>: 判断軸を人手で列挙してからAIに渡す。</li>
-<li><strong>Q&amp;A</strong>: 全体→数値前提→例外の順。矛盾を明示的に要求。</li>
-<li><strong>要約硬直化</strong>: 要点3、決定ドラフト、次アクションを生成し人が30%以上編む。</li>
-<li><strong>棚卸</strong>: 古ソース削除。効いた質問を1行テンプレとして保存。</li>
-<li><strong>ふりかえり</strong>: 「原文薄い回答」の原因（ソース不足・曖昧質問）をメモ。</li>
+<li>ファイル名に版と日付。関係ない資料は入れない</li>
+<li>先頭に「決めたいこと（1行）」</li>
+<li>質問は3つまで。順番は固定する</li>
 </ol>
-<h2>演習課題</h2>
+<h2>質問3つ（コピペ）</h2>
+<pre><code>決めたいこと: ＿＿
+ソースに無いことは「ソースにない」。
+
+1. 全体: 共通して言えること / 食い違い / どちらにも書いていないこと
+2. 数字: 表や箇条書きの数値と単位。出典箇所
+3. 例外: 適用外、期限、条件付き、の記述
+
+出力: 要点3 / 決定の下書き / 次アクション（担当は空欄でよい）
+新しい事実を足さない。</code></pre>
+<p>返ってきた要点は、人が直す。目安は <strong>3割以上</strong>（言い切りを疑い、数字を原文で見る）。次アクションに期限を足すのも人。</p>
+<h2>やってはいけないこと</h2>
 <ul>
-<li>実資料3点でパイプライン完走。決定ドラフトを<strong>議事録体裁へ30%リライト</strong>。</li>
-<li>自信ありげだが根拠薄い回答を1つ掘り、追撃質問で埋めよ。</li>
+<li>「業界の今後」などソース外の予測</li>
+<li>v1 と v2 を区別せず入れる</li>
+<li>音声概要を聞いて、原文を開かない</li>
+<li>顧客の実名資料を実験ノートに残す</li>
 </ul>
-<h2>自己チェックリスト</h2>
+<p>外部の相場やニュースが必要になったら、このノートを閉じて <a href="../perplexity/perplexity-research.html">Perplexity</a> へ。結果をまたソースにするかは、入れてよいかを先に判定する。</p>
+<h2>演習</h2>
+<p>公開資料2点（または自社記事2本）。決めたいことを1行。質問1だけ今日やる。質問2は原文を開いてから。</p>
+<h2>チェックリスト</h2>
 <ul>
-<li>[ ] 会議前に目的1文が共有された</li>
-<li>[ ] 重要数値を原文確認した</li>
-<li>[ ] テーマ外を隔離した</li>
-<li>[ ] 次アクションに担当・期限仮がある</li>
-<li>[ ] 失敗プロンプトを記録した</li>
-<li>[ ] 機密を再確認した</li>
-<li>[ ] 外部調査は別ツールに分けた</li>
+<li>[ ] 決めたいことが1行ある</li>
+<li>[ ] 引用を1つ原文で見た</li>
+<li>[ ] テーマ外のファイルを入れてない</li>
+<li>[ ] 会議に出す文を人が直した</li>
 </ul>
-<h2>つまずきポイント（避けたい落とし穴）</h2>
+<h2>公式</h2>
 <ul>
-<li><strong>それっぽい要約</strong>: 引用で縛る。</li>
-<li><strong>v1/v2混線</strong>: 議論が即崩壊。</li>
-<li><strong>規程無視</strong>: ツール以前の問題。</li>
-</ul>
-<h2>まとめ</h2>
-<p>この流れは<strong>読む時間の圧縮</strong>であり、<strong>責任の圧縮ではない</strong>。構造化は任せ、鵜呑みは禁止。</p>
-<h2>振り返りの問い（任意）</h2>
-<ul>
-<li>今日の資料で最も曖昧だったのは全体像か数値か例外か。</li>
-<li>次回はどの質問をテンプレに足すか。</li>
-<li>外部リサーチを併用すべきだったか。</li>
-</ul>
-<h2>ミニレクチャー（30分）</h2>
-<p>実案件のPDF3点でタイマー30分。0–5分でフォルダ整形、5–10分で「決めたいこと一行」、10–20分で質問三部曲、20–27分で要点3＋決定案＋次アクションの生成と赤入れ、最後3分でふりかえりメモ。途中で迷ったら<strong>ソースを1つ削る</strong>のが正解。外部の市場データが必要になったらタブを切り替え、NotebookLM外で調べることを許可する。終了後、テンプレに「今日効いた質問」を1行追記する。週3回繰り返すと手が覚える。</p>
-<p>パイプラインが膠着したら「資料が多すぎる」が原因のことが多い。<strong>半分のソースをいったん外して</strong>同じ質問を投げ、回答の明晰さが戻るか実験する。ステークホルダー別に読みたい論点が違う場合は、同じDriveフォルダからノートブックを複製し、ソース集合だけ変える。この分身戦略は政治調整にも使える。</p>
-<h2>ツール・参考リンク</h2>
-<ul>
-<li><a href="https://notebooklm.google/" target="_blank" rel="noopener">NotebookLM（Google）</a></li>
+<li><a href="https://notebooklm.google/" target="_blank" rel="noopener">Gemini Notebook</a></li>
+<li><a href="https://support.google.com/notebooklm/answer/16164461?hl=ja" target="_blank" rel="noopener">Gemini Notebook の詳細（ヘルプ）</a></li>
 <li><a href="https://policies.google.com/terms" target="_blank" rel="noopener">Google 利用規約</a></li>
-<li><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google プライバシーポリシー</a></li>
 </ul>
-<hr>
-<h2>権利表記・引用について</h2>
-<p>Google、NotebookLMはGoogle LLCの商標または登録商標です。本記事は各社の公式提供ではありません。機能や提供条件は変更される場合があるため、最新情報は公式ページをご確認ください。</p>
-<h2>画像クレジット</h2>
-<p>サムネイル/本文画像はUnsplashの写真を使用しています（ライセンス：<a href="https://unsplash.com/license" target="_blank" rel="noopener">Unsplash License</a>）。</p>
-<h3>お問い合わせ</h3>
-<p>資料作成・調査・議事録のAI活用設計もお気軽にご相談ください</p>
-<p>📞 090-6262-3842</p>
+<p>本記事は公式提供ではありません。</p>
 
     </div>
   </article>

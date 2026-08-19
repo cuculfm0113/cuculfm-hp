@@ -41,7 +41,7 @@ class Article:
 def _strip_markdown(text: str) -> str:
     s = text
     s = re.sub(r"!\[[^\]]*\]\([^)]+\)", "", s)
-    s = re.sub(r"\[[^\]]+\]\([^)]+\)", lambda m: re.sub(r"\[[^\]]+\]\(([^)]+)\)", "", m.group(0)), s)
+    s = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", s)
     s = re.sub(r"`([^`]+)`", r"\1", s)
     s = s.replace("**", "").replace("*", "")
     s = re.sub(r"\s+", " ", s).strip()
@@ -110,6 +110,7 @@ def parse_md(md_path: Path) -> Article:
     date_display = ""
     category = ""
     author = "ククルFM編集部"
+    summary = ""
 
     # Extract header block (until first ---)
     sep_idx = None
@@ -142,6 +143,10 @@ def parse_md(md_path: Path) -> Article:
         if m:
             author = m.group(1).strip()
             continue
+        m = re.match(r"\*\*概要\*\*:\s*(.+?)\s*$", ln.strip())
+        if m:
+            summary = m.group(1).strip()
+            continue
 
     if not title:
         title = md_path.stem
@@ -152,7 +157,7 @@ def parse_md(md_path: Path) -> Article:
         date_display = ""
 
     body_md = "\n".join(body_lines).strip() + "\n"
-    description = _first_paragraph(body_md) or title
+    description = summary or _first_paragraph(body_md) or title
     description = (description[:117] + "…") if len(description) > 120 else description
 
     date_iso = _normalize_date_iso(date_display) if date_display else None
@@ -538,13 +543,23 @@ def render_article(a: Article, out_path: Path) -> str:
 """
 
 
-def build():
+def build(md_files: Optional[List[Path]] = None, allow_all: bool = False):
     if not BLOG_DIR.exists():
         raise SystemExit(f"blog dir not found: {BLOG_DIR}")
 
-    md_files = sorted(BLOG_DIR.glob("**/*.md"))
+    if md_files is None:
+        if not allow_all:
+            raise SystemExit(
+                "全件ビルドは下書きHTMLの noindex を消します。"
+                "対象の .md を指定するか、意図があるときだけ --all を付けてください。"
+            )
+        md_files = sorted(BLOG_DIR.glob("**/*.md"))
+
     count = 0
     for md_path in md_files:
+        md_path = Path(md_path)
+        if not md_path.is_absolute():
+            md_path = ROOT / md_path
         # skip draft storage
         if "note" in md_path.parts:
             continue
@@ -558,6 +573,14 @@ def build():
 
 
 if __name__ == "__main__":
-    build()
+    import sys
+
+    argv = sys.argv[1:]
+    allow_all = "--all" in argv
+    paths = [Path(a) for a in argv if a != "--all"]
+    if paths:
+        build(paths)
+    else:
+        build(allow_all=allow_all)
 
 

@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ホームページ制作・3Dデザイン・アプリ開発 | CUCUL FM</title>
-    <meta name="description" content="ククルFMのWeb・3Dデザイン事業。ホームページ制作、3Dデザイン、Web・アプリ開発をワンストップでご提供。本サイトの3D演出も自社制作です。">
+    <meta name="description" content="ククルFMのWeb・3Dデザイン事業。コーポレートは領域を先に固定。実績は公式サイトとファントムDJ。床LPと犬図鑑は作り変え後に掲載します。">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -46,7 +46,8 @@
             <p class="hero-label">WEB &amp; 3D DESIGN</p>
             <h1 class="hero-title">ホームページ制作・3Dデザイン・アプリ開発</h1>
             <p class="hero-description">
-                企業サイトから3Dビジュアル、Webアプリまで。デザインと実装をワンストップで。
+                先に決めるのはページ数ではなく、事業の数と、トップに出さないものです。
+                公式サイトの3Dと、キャラクターのビューアがいま出せる実績です。
             </p>
         </div>
     </section>
@@ -63,7 +64,7 @@
                         <path d="M8 21H16M12 17V21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                     </svg>
                     <h3 class="feature-title">ホームページ制作</h3>
-                    <p class="feature-text">企画・デザインから公開まで。モダンで美しい企業サイト・ランディングページを制作します（クライアント事例は順次公開）</p>
+                    <p class="feature-text">領域を先に固定し、トップと事業1ページずつで公開する。本サイトの7領域が型です。クライアント事例は許可が出てから掲載します</p>
                 </div>
                 <div class="feature-item">
                     <svg class="feature-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -71,7 +72,7 @@
                         <path d="M12 18H12.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                     </svg>
                     <h3 class="feature-title">3Dデザイン</h3>
-                    <p class="feature-text">キャラクター・プロダクトの3Dモデリングと、Three.jsによるWebサイトへのリアルタイム3D組み込み。本サイトのトップ演出も自社制作です</p>
+                    <p class="feature-text">コンセプトからGLB、Three.jsでの組み込みまで。トップは物語、ビューアは検証。WebGLが落ちてもSVGが残る前提で組みます</p>
                 </div>
                 <div class="feature-item">
                     <svg class="feature-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -79,9 +80,46 @@
                         <path d="M12 19H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                     </svg>
                     <h3 class="feature-title">WEB・アプリ開発</h3>
-                    <p class="feature-text">WebアプリからPWA、業務効率化のカスタムシステムまで。要件定義から運用まで一貫対応</p>
+                    <p class="feature-text">公開に耐えるものだけ実績に出す。作り途中のLPや外部API任せのカタログは、事業ページには残してもここには載せません</p>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container">
+            <p class="section-label">PROCESS</p>
+            <h2 class="section-title">先に決めること</h2>
+            <p class="section-description" style="margin-bottom: 28px; color: var(--color-text-muted);">色やCMSの前に、領域の数・トップに出さないもの・問い合わせを固定します。本サイトでは事業を7つに分け、AIを先頭にしています。</p>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <h3 class="feature-title">01 領域を書き切る</h3>
+                    <p class="feature-text">「何でもやります」をトップに置かない。7枚でも、feat. と一文で主従を付ける</p>
+                </div>
+                <div class="feature-item">
+                    <h3 class="feature-title">02 下層を増やさない</h3>
+                    <p class="feature-text">コーポレートはトップ＋領域1枚が先。このWeb事業も下層を切らず、本ページを厚くする</p>
+                </div>
+                <div class="feature-item">
+                    <h3 class="feature-title">03 実績の許可</h3>
+                    <p class="feature-text">自社サイトと自社キャラ以外のクライアントは、公開許可があるまでカードにしない</p>
+                </div>
+            </div>
+            <p style="margin-top:20px"><a href="../../blog/web/corporate-site-decisions.html">コーポレートサイトで先に決めること →</a></p>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container">
+            <p class="section-label">3D</p>
+            <h2 class="section-title">トップの3Dとビューア</h2>
+            <p class="section-description" style="margin-bottom: 20px; color: var(--color-text-muted);">ネオン・ファントムDJはロゴの人物を全身にしたキャラクターです。トップでは Three.js と GSAP でスクロールに乗せ、確認用の操作はビューアに分けています。GLBが読めない環境ではSVGの胸像が残ります。</p>
+            <ul class="feature-text" style="line-height:1.8;max-width:720px">
+                <li>モデル: GLB（ファントムDJ）。HDRIと合わせてローカルサーバー／HTTPSで確認</li>
+                <li>演出: GSAP ScrollTrigger。呼吸と拡大はラッパーを分けて transform を奪い合わない</li>
+                <li>代替: 読み込み失敗、旧ブラウザ、<code>?nochar3d=1</code>、動きを減らす設定</li>
+            </ul>
+            <p style="margin-top:16px"><a href="../../character-design/phantom-dj/viewer.html">3Dビューアで回す →</a>　<a href="../../blog/web/top-3d-intent.html">演出の意図を読む →</a></p>
         </div>
     </section>
 
@@ -99,7 +137,7 @@
                         <div class="article-content">
                             <p class="article-date">WEB &amp; 3D</p>
                             <h3 class="article-title">CUCUL FM 公式サイト</h3>
-                            <p class="article-excerpt">Three.js × GSAPによる3Dシネマティック演出のコーポレートサイト。企画・デザイン・実装まで完全内製</p>
+                            <p class="article-excerpt">7つの事業領域、Three.js × GSAP のヒーロー、許可のないクライアントは出さない。企画から実装まで内製したコーポレートの型です。</p>
                         </div>
                     </a>
                 </article>
@@ -111,36 +149,12 @@
                         <div class="article-content">
                             <p class="article-date">3D DESIGN</p>
                             <h3 class="article-title">ネオン・ファントムDJ 3Dキャラクター</h3>
-                            <p class="article-excerpt">コンセプトアートから3Dモデリング、Webリアルタイム表示まで一貫制作。クリックで3Dビューアを操作できます</p>
-                        </div>
-                    </a>
-                </article>
-                <article class="article-card">
-                    <a href="/services/dog/pet-floor/">
-                        <div class="article-image">
-                            <img src="images/pf-pet-floor.jpg" alt="CUCULぺットの床 サービスLPの画面" loading="lazy" width="1200" height="750">
-                        </div>
-                        <div class="article-content">
-                            <p class="article-date">WEB</p>
-                            <h3 class="article-title">CUCULぺットの床 施工LP</h3>
-                            <p class="article-excerpt">施工事例ギャラリー・動画を備えたサービスLP。スマートフォン最適化済み</p>
-                        </div>
-                    </a>
-                </article>
-                <article class="article-card">
-                    <a href="/services/dog/breeds/">
-                        <div class="article-image">
-                            <img src="images/pf-dog-breeds.jpg" alt="犬図鑑・犬種大全アプリの画面" loading="lazy" width="1200" height="750">
-                        </div>
-                        <div class="article-content">
-                            <p class="article-date">WEB APP</p>
-                            <h3 class="article-title">犬図鑑 - 犬種大全</h3>
-                            <p class="article-excerpt">検索・絞り込みに対応したインタラクティブな犬種カタログ</p>
+                            <p class="article-excerpt">コンセプトアートからGLB、Webリアルタイム表示まで。クリックでビューアを操作できます。トップとは役割を分けています。</p>
                         </div>
                     </a>
                 </article>
             </div>
-            <p class="section-description" style="margin-top:24px">※ クライアント案件の制作事例は、公開許可の得られたものから順次掲載いたします。</p>
+            <p class="section-description" style="margin-top:24px">ペットの床LPと犬図鑑は事業ページに残していますが、品質を上げてからこちらへ戻します。クライアント案件は公開許可の得られたものから掲載します。</p>
         </div>
     </section>
 
@@ -148,53 +162,29 @@
     <section class="content-section">
         <div class="container">
             <p class="section-label">BLOG & INSIGHTS</p>
-            <h2 class="section-title">技術ブログ</h2>
+            <h2 class="section-title">制作のノート</h2>
             <div class="articles-grid">
                 <article class="article-card">
-                    <a href="../../blog/web/website-renewal.html">
+                    <a href="../../blog/web/corporate-site-decisions.html">
                         <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop" alt="リニューアル">
+                            <img src="images/pf-cuculfm-top.jpg" alt="コーポレートサイト">
                         </div>
                         <div class="article-content">
-                            <p class="article-date">2025.12.26</p>
-                            <h3 class="article-title">Webサイトリニューアルのタイミングと進め方</h3>
-                            <p class="article-excerpt">失敗しないリニューアルのポイント。</p>
+                            <p class="article-date">2026.08.19</p>
+                            <h3 class="article-title">コーポレートサイトで先に決めること</h3>
+                            <p class="article-excerpt">7領域と、トップに出さないものの決め方。</p>
                         </div>
                     </a>
                 </article>
                 <article class="article-card">
-                    <a href="../../blog/web/small-business-web.html">
+                    <a href="../../blog/web/top-3d-intent.html">
                         <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600&h=400&fit=crop" alt="中小企業">
+                            <img src="images/pf-phantom-dj.jpg" alt="トップの3D">
                         </div>
                         <div class="article-content">
-                            <p class="article-date">2025.12.21</p>
-                            <h3 class="article-title">中小企業のためのWebサイト活用術</h3>
-                            <p class="article-excerpt">限られた予算で最大の効果を出す方法。</p>
-                        </div>
-                    </a>
-                </article>
-                <article class="article-card">
-                    <a href="../../blog/web/seo-basics.html">
-                        <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?w=600&h=400&fit=crop" alt="SEO">
-                        </div>
-                        <div class="article-content">
-                            <p class="article-date">2025.12.16</p>
-                            <h3 class="article-title">今さら聞けないSEOの基本</h3>
-                            <p class="article-excerpt">検索上位表示のために必要なこと。</p>
-                        </div>
-                    </a>
-                </article>
-                <article class="article-card">
-                    <a href="../../blog/web/wordpress-maintenance.html">
-                        <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1559028012-481c04fa702d?w=600&h=400&fit=crop" alt="WordPress">
-                        </div>
-                        <div class="article-content">
-                            <p class="article-date">2025.12.11</p>
-                            <h3 class="article-title">WordPress保守・運用のベストプラクティス</h3>
-                            <p class="article-excerpt">安全にサイトを運用するための知識。</p>
+                            <p class="article-date">2026.08.19</p>
+                            <h3 class="article-title">トップの3Dはどう組んでいるか</h3>
+                            <p class="article-excerpt">GLBとSVGフォールバック、ビューアとの役割分担。</p>
                         </div>
                     </a>
                 </article>

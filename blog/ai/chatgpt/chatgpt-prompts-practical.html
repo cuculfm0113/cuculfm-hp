@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>実務プロンプトの作り方（型・評価・改善の回し方） | CUCUL FM</title>
-  <meta name="description" content="分かりやすさ（結論先出し・専門語には括弧解説）、誤解リスク（前提と例外）、実行可能性（次の一手と期限の書き方）の3つは多くの業務文書に転用できます。評価基準は3つに絞るとAIも人もレビューしやすいです。">
+  <title>実務プロンプト：型を固定し、評価して、1行だけ直す | CUCUL FM</title>
+  <meta name="description" content="うまくいった依頼文をテンプレ化し、評価は3点、直すのは1行。市販プロンプト集の暗記はしない。">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="ja_JP">
-  <meta property="og:title" content="実務プロンプトの作り方（型・評価・改善の回し方） | CUCUL FM">
-  <meta property="og:description" content="分かりやすさ（結論先出し・専門語には括弧解説）、誤解リスク（前提と例外）、実行可能性（次の一手と期限の書き方）の3つは多くの業務文書に転用できます。評価基準は3つに絞るとAIも人もレビューしやすいです。">
-  <meta property="og:image" content="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=1200&amp;h=600&amp;fit=crop">
+  <meta property="og:title" content="実務プロンプト：型を固定し、評価して、1行だけ直す | CUCUL FM">
+  <meta property="og:description" content="うまくいった依頼文をテンプレ化し、評価は3点、直すのは1行。市販プロンプト集の暗記はしない。">
+  
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="実務プロンプトの作り方（型・評価・改善の回し方） | CUCUL FM">
-  <meta name="twitter:description" content="分かりやすさ（結論先出し・専門語には括弧解説）、誤解リスク（前提と例外）、実行可能性（次の一手と期限の書き方）の3つは多くの業務文書に転用できます。評価基準は3つに絞るとAIも人もレビューしやすいです。">
-  <meta name="twitter:image" content="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=1200&amp;h=600&amp;fit=crop">
-  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "実務プロンプトの作り方（型・評価・改善の回し方）", "datePublished": "2026-01-02", "dateModified": "2026-01-02", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=1200&h=600&fit=crop"]}</script>
+  <meta name="twitter:title" content="実務プロンプト：型を固定し、評価して、1行だけ直す | CUCUL FM">
+  <meta name="twitter:description" content="うまくいった依頼文をテンプレ化し、評価は3点、直すのは1行。市販プロンプト集の暗記はしない。">
+  
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "実務プロンプト：型を固定し、評価して、1行だけ直す", "datePublished": "2026-08-18", "dateModified": "2026-08-18", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
@@ -34,87 +34,61 @@
   <article class="article-container">
     <header class="article-header">
       <span class="article-category">AI</span>
-      <h1 class="article-title">実務プロンプトの作り方（型・評価・改善の回し方）</h1>
+      <h1 class="article-title">実務プロンプト：型を固定し、評価して、1行だけ直す</h1>
       <div class="article-meta">
-        <time class="article-date">2026.01.02</time>
+        <time class="article-date">2026.08.18</time>
         <span class="article-author">ククルFM編集部</span>
       </div>
     </header>
 
-    <div class="article-featured-image"><img src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=1200&amp;h=600&amp;fit=crop" alt="プロンプト設計" loading="lazy"></div>
+    
 
     <div class="article-content">
-<h2>学習ゴール</h2>
+<h2>この記事でできるようになること / やらないこと</h2>
 <ul>
-<li>実務でブレないプロンプトを「5ブロック（役割・目的・制約・入力・出力形式）」で組み立てられる。</li>
-<li>評価基準を先に渡し、3ターン以内に品質を上げる改善ループを自分の案件で再現できる。</li>
+<li><strong>できること</strong>: うまくいった依頼文をテンプレ化し、次はコピペで始める。</li>
+<li><strong>やらないこと</strong>: プロンプト市販集の暗記。最終確認日: 2026-08-18</li>
 </ul>
-<h2>前提知識</h2>
-<ul>
-<li>ChatGPTの基本操作と、機密情報を入れない運用ルールを既に把握しているとスムーズです。</li>
-<li>「正確な一次情報」はAI任せにせず、公式資料や数値は人が持つ前提です。</li>
-</ul>
-<h2>キーコンセプトと用語</h2>
-<ul>
-<li><strong>仕様書型プロンプト</strong>：出力の要件を箇条書きで書き切るスタイル。</li>
-<li><strong>評価基準</strong>：良い出力の定義（分かりやすさ・誤解リスク・次アクション等）。</li>
-<li><strong>ターン</strong>：やり取り1往復。短いターンを複数回のほうが制御しやすいです。</li>
-<li><strong>出力形式固定</strong>：見出し・表・箇条書きなど形式を指定するとレビューが楽になります。</li>
-</ul>
-<h2>手順（ステップバイステップ）</h2>
+<p>前提: <a href="./chatgpt-basics.html">始め方</a> の3型。骨格は <a href="../basics/prompt-engineering.html">5ブロック</a>。</p>
+<h2>結論</h2>
+<p>再現性は「天才的な一文」ではなく <strong>同じ見出しで何度も出すこと</strong>。評価は3点だけでよい。直すのは1行。</p>
+<h2>テンプレ（コピペ）</h2>
+<pre><code>役割: （例）日本語の事務文を整える。専門家のふりをしない
+目的:
+読者:
+材料:
+出力: 見出し / 字数 / 表なら列名
+禁止: 推測しない、出典を捏造しない、実名を作らない
+評価してほしい観点: （事実の追加がないか、字数、敬語）</code></pre>
+<p>保存場所: メモアプリの「ChatGPT」フォルダに、用途名で1ファイル。日付をファイル名に入れない。用途で探す。</p>
+<h2>評価3点</h2>
 <ol>
-<li><strong>役割を1行</strong>：例）「あなたはBtoBマーケのベテランです」。</li>
-<li><strong>目的を1行</strong>：誰に何を達成させる成果物かを書く。</li>
-<li><strong>制約を列挙</strong>：文字数、トーン、禁止表現、曖昧語の排除、不明点の扱い。</li>
-<li><strong>入力を箇条書き</strong>：事実だけ。足りなければ「不足は質問して」と付記。</li>
-<li><strong>出力形式</strong>：見出し構成か表か、最後にチェックリストを付けるかを指定。</li>
-<li><strong>ターン2</strong>：「評価基準に照らし弱い点を3つ」と返させる。</li>
-<li><strong>ターン3</strong>：弱点を反映した改訂版を出させ、自分が採用判断する。</li>
+<li>材料にない数字・固有名詞が増えていない</li>
+<li>指定した形式を守っている</li>
+<li>受け取った人が次の行動を取れる</li>
 </ol>
-<h2>実践ミニ演習</h2>
+<p>3点中2点が×なら、モデルを変える前に材料を足す。</p>
+<h2>改善の回し方</h2>
+<p>悪い例: 「もっと良く」。 よい例: 「2つ目の見出しを40字以内にする」「ですますに統一する」「未決を先に出す」。</p>
+<p>一度に直す指示は1つ。通った指示だけテンプレに追記する。</p>
+<h2>チームで配るとき</h2>
+<p>テンプレに「入力禁止」を先頭に入れる。成功例は実データではなく、伏せ字のまま共有する。承認が要る文（見積、契約、対外発表）は、AIの出力を下書きと明記する。</p>
+<h2>チェックリスト</h2>
 <ul>
-<li><strong>演習1</strong>：同じ題材で「制約なし1ターン」と「5ブロック2ターン」を比較し、差分をメモする。</li>
-<li><strong>演習2</strong>：比較表プロンプト（候補A/B、軸は費用・リスク・効果）を自作し、末尾に「条件付き推奨」を必須にする。</li>
-<li><strong>演習3</strong>：既存プロンプトに「誤解されそうな表現を指摘し、言い換え3案」を追加する。</li>
+<li>[ ] 用途名で保存した</li>
+<li>[ ] 評価3点を一度使った</li>
+<li>[ ] テンプレに禁止行がある</li>
 </ul>
-<h2>セルフチェックリスト</h2>
+<h2>次</h2>
 <ul>
-<li>[ ] 5ブロックが欠けていない</li>
-<li>[ ] 評価基準がプロンプト内に明文化されている</li>
-<li>[ ] 出力形式が具体的（見出し名まで書いた）</li>
-<li>[ ] 推測と事実の区別ルールがある</li>
-<li>[ ] 最終稿は人が用途に合わせて調整した</li>
+<li><a href="./chatgpt-workflows-business.html">業務ワークフロー</a></li>
 </ul>
-<h2>つまずきポイントと対処</h2>
+<h2>公式</h2>
 <ul>
-<li><strong>依然ブレる</strong> → 禁止事項と「必ず含める見出し」を増やす。入力の事実を増やす。</li>
-<li><strong>長文化</strong> → 「各見出し最大◯字」「総量◯字」を数値で指定。</li>
-<li><strong>テンプレが肥大化</strong> → 共通部分を会社の「依頼メモ」に保管し、案件固有だけ毎回差し替える。</li>
-</ul>
-<h2>深掘り：良い評価基準の例</h2>
-<p>分かりやすさ（結論先出し・専門語には括弧解説）、誤解リスク（前提と例外）、実行可能性（次の一手と期限の書き方）の3つは多くの業務文書に転用できます。評価基準は3つに絞るとAIも人もレビューしやすいです。</p>
-<h2>業務シーン別の適用</h2>
-<p>企画はアイデア数と制約、顧客対応はトーンと禁止表現、社内報告はファクトチェック観点をプロンプトに織り込みます。部門ごとに「評価基準のお気に入り3つ」を決めておくと、チーム内の品質が揃います。</p>
-<h2>運用ノート：テンプレの寿命とバージョン管理</h2>
-<p>プロンプトは一度完成させたら終わりではなく、<strong>法改正・ブランドトーン変更・新商品</strong>のたびに寿命が来ます。おすすめは「v2026.03」のように日付か月でバージョンを切り、変更理由を1行だけ残すことです。社内WikiやNotionに置く場合、<strong>良かった入出力ペア</strong>を1組だけ添付すると新人教育が楽になります。経営層には「テンプレ資産＝属人脱却」と説明し、情務には「入力禁止の例外手続き」とセットで承認してもらうとスケールしやすいです。</p>
-<p>（学習の定着）</p>
-<p>組織学習の観点では、週次15分の振り返りをカレンダーに固定し、うまくいった依頼文や依頼テンプレは共有ドライブへコピーして資産化します。四半期ごとに公式の利用規約と社内ポリシーを突き合わせ、差分があれば短いチケットで追記してください。個人メモでも「日付・用途・入力の要点・出力の使い道」を1セットで残すと検索性が上がり、異動時の引き継ぎもスムーズです。ステークホルダー別の典型的な懸念（経営はROI、情シスは漏洩、現場は手間と心理的負担）を箇条書きで持っておくと、同じ学びを説明する場面でも言い換え疲れが減ります。公開可否が曖昧な資料はそもそもAIに入力しない、と自分で宣言しておく線引きメモがあると、日々の判断が速くなります。</p>
-<h2>まとめ：次に何をするか</h2>
-<p>手元の定例タスク1件を選び、5ブロック化した案を<code>.txt</code>に保存して再利用してください。次は <a href="./chatgpt-workflows-business.html">業務別ワークフロー集</a> でメール・議事録などの型に落とし込みます。</p>
-<h2>ツール情報（公式リンク）</h2>
-<ul>
-<li><a href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPT（OpenAI）</a></li>
-<li><a href="https://platform.openai.com/docs" target="_blank" rel="noopener">OpenAI ドキュメント（開発者向け）</a></li>
+<li><a href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPT</a></li>
 <li><a href="https://openai.com/policies/terms-of-use" target="_blank" rel="noopener">OpenAI 利用規約</a></li>
-<li><a href="https://openai.com/policies/privacy-policy" target="_blank" rel="noopener">OpenAI プライバシーポリシー</a></li>
 </ul>
-<h2>権利表記・引用について</h2>
-<p>ChatGPTはOpenAIの商標または登録商標です。本記事は各社の公式提供ではありません。機能や提供条件は変更される場合があるため、最新情報は公式ページをご確認ください。</p>
-<h2>画像クレジット</h2>
-<p>サムネイル/本文画像はUnsplashの写真を使用しています（ライセンス：<a href="https://unsplash.com/license" target="_blank" rel="noopener">Unsplash License</a>）。</p>
-<h3>お問い合わせ</h3>
-<p>生成AIの業務活用・研修・運用設計のご相談はお気軽にどうぞ</p>
-<p>📞 090-6262-3842</p>
+<p>本記事は公式提供ではありません。</p>
 
     </div>
   </article>

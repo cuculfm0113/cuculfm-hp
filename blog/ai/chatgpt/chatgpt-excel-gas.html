@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>スプレッドシート×ChatGPTで業務を自動化する（関数/GASの作り方） | CUCUL FM</title>
-  <meta name="description" content="目的、シート名と列、判定条件、実行頻度、メール本文テンプレ、エラー時の通知先、停止の仕方。ここまで揃うとレビュー可能なコードが返りやすくなります。">
+  <title>スプレッドシート×ChatGPT：関数とGASはテストシートから | CUCUL FM</title>
+  <meta name="description" content="列名とテスト3行を渡して関数またはGASのたたき台を取る。送信は自分宛てから。APIキーは貼らない。">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="ja_JP">
-  <meta property="og:title" content="スプレッドシート×ChatGPTで業務を自動化する（関数/GASの作り方） | CUCUL FM">
-  <meta property="og:description" content="目的、シート名と列、判定条件、実行頻度、メール本文テンプレ、エラー時の通知先、停止の仕方。ここまで揃うとレビュー可能なコードが返りやすくなります。">
-  <meta property="og:image" content="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&amp;h=600&amp;fit=crop">
+  <meta property="og:title" content="スプレッドシート×ChatGPT：関数とGASはテストシートから | CUCUL FM">
+  <meta property="og:description" content="列名とテスト3行を渡して関数またはGASのたたき台を取る。送信は自分宛てから。APIキーは貼らない。">
+  
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="スプレッドシート×ChatGPTで業務を自動化する（関数/GASの作り方） | CUCUL FM">
-  <meta name="twitter:description" content="目的、シート名と列、判定条件、実行頻度、メール本文テンプレ、エラー時の通知先、停止の仕方。ここまで揃うとレビュー可能なコードが返りやすくなります。">
-  <meta name="twitter:image" content="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&amp;h=600&amp;fit=crop">
-  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "スプレッドシート×ChatGPTで業務を自動化する（関数/GASの作り方）", "datePublished": "2026-01-04", "dateModified": "2026-01-04", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=600&fit=crop"]}</script>
+  <meta name="twitter:title" content="スプレッドシート×ChatGPT：関数とGASはテストシートから | CUCUL FM">
+  <meta name="twitter:description" content="列名とテスト3行を渡して関数またはGASのたたき台を取る。送信は自分宛てから。APIキーは貼らない。">
+  
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "スプレッドシート×ChatGPT：関数とGASはテストシートから", "datePublished": "2026-08-18", "dateModified": "2026-08-18", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
@@ -34,90 +34,80 @@
   <article class="article-container">
     <header class="article-header">
       <span class="article-category">AI</span>
-      <h1 class="article-title">スプレッドシート×ChatGPTで業務を自動化する（関数/GASの作り方）</h1>
+      <h1 class="article-title">スプレッドシート×ChatGPT：関数とGASはテストシートから</h1>
       <div class="article-meta">
-        <time class="article-date">2026.01.04</time>
+        <time class="article-date">2026.08.18</time>
         <span class="article-author">ククルFM編集部</span>
       </div>
     </header>
 
-    <div class="article-featured-image"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&amp;h=600&amp;fit=crop" alt="スプレッドシートの自動化" loading="lazy"></div>
+    
 
     <div class="article-content">
-<h2>学習ゴール</h2>
+<h2>この記事でできるようになること / やらないこと</h2>
 <ul>
-<li>ChatGPTに「要件・入力例・期待結果・環境」を渡してスプレッドシート関数のたたき台を得られる。</li>
-<li>GASの依頼では、トリガー・権限・ログ・誤送信対策まで仕様に含められる。</li>
+<li><strong>できること</strong>: 列構造とテストケースを渡して、関数またはGASのたたき台を取る。送信系は自分宛てだけから始める。</li>
+<li><strong>やらないこと</strong>: 本番顧客への一斉送信、APIキーのチャット貼り付け。最終確認日: 2026-08-18</li>
 </ul>
-<h2>前提知識</h2>
-<ul>
-<li>GoogleスプレッドシートまたはExcelの基本的なセル操作ができること。</li>
-<li>APIキーや個人メールの一括送信など、<strong>誤操作で損害が出うる作業はステージングで試す</strong>前提です。</li>
-</ul>
-<h2>キーコンセプトと用語</h2>
-<ul>
-<li><strong>関数プロトタイプ</strong>：AIが出した式は必ず複数ケースで手計算・再計算検証する。</li>
-<li><strong>GAS</strong>：Googleスプレッドシート上で動くスクリプト。トリガーと権限の説明が必須。</li>
-<li><strong>テストケース</strong>：空欄・異常値・境界日付などを列挙した検証リスト。</li>
-<li><strong>運用設計</strong>：ログ、再実行禁止フラグ、停止手順まで書いたもの。</li>
-</ul>
-<h2>手順（ステップバイステップ）</h2>
+<p>関数とスクリプトの仕様は <a href="https://www.google.com/sheets/about/" target="_blank" rel="noopener">Google スプレッドシート</a> と <a href="https://developers.google.com/apps-script" target="_blank" rel="noopener">Apps Script</a> が正。ChatGPTの出力は下書き。</p>
+<h2>結論</h2>
+<p>自動化で壊れるのは式の上手さより <strong>空欄・日付・権限・二重送信</strong>。AIに渡す前に、列名とサンプル3行と「やってはいけないこと」を書く。</p>
+<h2>関数の依頼（コピペ）</h2>
+<pre><code>環境: Googleスプレッドシート（Excelではない）
+やりたいこと: （一文）
+列: A=日付, B=状態, C=担当 （実名は入れない）
+サンプル3行:
+期待する結果3行:
+空欄のとき: 空白のまま / エラーを出す、のどちらか</code></pre>
+<p>返ってきた式は、別シートにコピーしてから試す。本番列は触らない。</p>
+<h2>GASの依頼（コピペ）</h2>
+<pre><code>目的: 期限3日前かつ未完了の行を、平日9時に自分宛てメール
+シート名と列:
+判定:
+送信先: 最初は自分のアドレスのみ
+本文の型:
+ログ: 実行日時と行番号をログシートへ
+二重実行: 送信済みフラグ列を立てる
+失敗したら: メールせずログだけ
+停止: トリガーを外す手順をコメントで書く</code></pre>
+<p>権限ダイアログは公式の説明を自分で読む。分からなければ導入しない。</p>
+<h2>段階</h2>
 <ol>
-<li><strong>自動化対象を一文で定義</strong>：例）「期限3日前の未完了行を平日9時に自分宛てメール」。</li>
-<li><strong>列構造をテキスト化</strong>：列名とサンプル行を3行分書き出す。</li>
-<li><strong>関数の場合</strong>：やりたい変換を入力例と期待出力で3組示し、環境（Google/Excel）を明記。</li>
-<li><strong>GASの場合</strong>：トリガー、条件、送信先、ログ出力先、失敗時の挙動を箇条書き。</li>
-<li><strong>AIに叩き台を依頼</strong>：コードや式を貼り戻し、まずはコピー用テストシートで実行。</li>
-<li><strong>テスト</strong>：想定外の空欄や日付フォーマットで壊れないか確認。</li>
-<li><strong>本番移行</strong>：送信系はテストアドレスのみ→限定配信→本番の順で拡大。</li>
+<li><code>Logger.log</code> またはフラグだけ</li>
+<li>自分宛て</li>
+<li>社内のテスト用アドレス</li>
+<li>本番（必要なものだけ）</li>
 </ol>
-<h2>実践ミニ演習</h2>
+<p>誤送信より遅い方が安い。</p>
+<h2>演習</h2>
+<ol>
+<li>メール列からドメインだけ抜く式を作らせ、空セルで試す。</li>
+<li>GASメモにログシート名と送信済み列を足して再依頼し、差分を見る。</li>
+<li>同じ要件で短い依頼と長い依頼を比べ、どちらがテストで壊れるか記録する。</li>
+</ol>
+<h2>つまずき</h2>
+<p>式が動かない → 環境（Google / Excel）を最初に固定する。 権限エラー → 実行アカウントと共有範囲。公式ドキュメント。 誤送信が怖い → 送信コードをコメントアウトした版を先に保存する。</p>
+<h2>チェックリスト</h2>
 <ul>
-<li><strong>演習1</strong>：メールアドレス列からドメイン抽出の式をAIに作らせ、空セルと誤フォーマット行で試す。</li>
-<li><strong>演習2</strong>：GAS依頼メモに「ログシート名」「送信済みフラグ列」を足してから再依頼し、差分を比較。</li>
-<li><strong>演習3</strong>：同じ要件でプロンプトを短／長の2パターン試し、どちらが壊れにくいか記録する。</li>
+<li>[ ] テストシートで試した</li>
+<li>[ ] 空欄と日付のテストが3件ある</li>
+<li>[ ] 送信先が自分から始まっている</li>
+<li>[ ] 停止手順がコメントかメモにある</li>
 </ul>
-<h2>セルフチェックリスト</h2>
+<h2>前後</h2>
 <ul>
-<li>[ ] 要件に例外処理（空欄・エラー）が含まれている</li>
-<li>[ ] テストケースが3件以上ある</li>
-<li>[ ] 送信・外部連携は段階的に開放した</li>
-<li>[ ] ログまたはフラグで二重実行を防いだ</li>
-<li>[ ] コード・式の最終責任は人にあると理解している</li>
+<li>戻る: <a href="./chatgpt-workflows-business.html">業務ワークフロー</a></li>
+<li>入口: <a href="./chatgpt-basics.html">始め方</a></li>
+<li>受付フォームの列設計: <a href="../gemini/google-ai-automation.html">フォーム→シート</a></li>
 </ul>
-<h2>つまずきポイントと対処</h2>
+<h2>公式</h2>
 <ul>
-<li><strong>式が環境依存で動かない</strong> → <code>ARRAYFORMULA</code> 等、使う関数空間（Google/Excel）を最初に固定。</li>
-<li><strong>GASが権限エラー</strong> → 実行アカウント・スプレッドシートの共有範囲を確認し、公式ドキュメントの権限説明を自分で読む。</li>
-<li><strong>誤送信</strong> → 最初は <code>Logger.log</code> や下書きのみ、送信先を自分限定にする。</li>
-</ul>
-<h2>深掘り：プロンプトに入れるべきGAS仕様リスト</h2>
-<p>目的、シート名と列、判定条件、実行頻度、メール本文テンプレ、エラー時の通知先、停止の仕方。ここまで揃うとレビュー可能なコードが返りやすくなります。</p>
-<h2>連携の次の一歩</h2>
-<p>定型通知が回ったら、Slackやメールの文面をテンプレ化し、同じ仕様書型でAPI連携記事へ進むと横展開しやすいです。</p>
-<h2>運用ノート：情シス・法務への説明の仕方</h2>
-<p>自動化は便利ですが「誰の権限でメールを送るか」「ログに何が残るか」が懸念になります。説明では<strong>データの最小化</strong>（宛先はテストのみ→段階展開）、<strong>停止手順</strong>（トリガー削除手順のURL）、<strong>再現テスト結果</strong>を1枚にまとめます。Excelマクロと違いGASはWeb連携が容易なので、外向き送信ほど承認ゲートを厚くするのが実務的です。ChatGPTに書かせたコードでも、最終的な責任と運用ドキュメントは人が持つ前提で話すと齟齬が減ります。</p>
-<p>（学習の定着）</p>
-<p>組織学習の観点では、週次15分の振り返りをカレンダーに固定し、うまくいった依頼文や依頼テンプレは共有ドライブへコピーして資産化します。四半期ごとに公式の利用規約と社内ポリシーを突き合わせ、差分があれば短いチケットで追記してください。個人メモでも「日付・用途・入力の要点・出力の使い道」を1セットで残すと検索性が上がり、異動時の引き継ぎもスムーズです。ステークホルダー別の典型的な懸念（経営はROI、情シスは漏洩、現場は手間と心理的負担）を箇条書きで持っておくと、同じ学びを説明する場面でも言い換え疲れが減ります。公開可否が曖昧な資料はそもそもAIに入力しない、と自分で宣言しておく線引きメモがあると、日々の判断が速くなります。</p>
-<h2>まとめ：次に何をするか</h2>
-<p>関数1本とGASメモ1枚を「要件→テスト→運用」の順でフォルダに保存し、来週の定例で使い回してください。APIや連携基盤へ進む場合は <a href="./chatgpt-api-basics.html">API入門</a> を参照します。</p>
-<h2>ツール情報（公式リンク）</h2>
-<ul>
-<li><a href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPT（OpenAI）</a></li>
+<li><a href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPT</a></li>
 <li><a href="https://www.google.com/sheets/about/" target="_blank" rel="noopener">Google スプレッドシート</a></li>
-<li><a href="https://developers.google.com/apps-script" target="_blank" rel="noopener">Google Apps Script（開発者ドキュメント）</a></li>
+<li><a href="https://developers.google.com/apps-script" target="_blank" rel="noopener">Google Apps Script</a></li>
 <li><a href="https://openai.com/policies/terms-of-use" target="_blank" rel="noopener">OpenAI 利用規約</a></li>
-<li><a href="https://openai.com/policies/privacy-policy" target="_blank" rel="noopener">OpenAI プライバシーポリシー</a></li>
-<li><a href="https://policies.google.com/terms" target="_blank" rel="noopener">Google 利用規約</a></li>
-<li><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google プライバシーポリシー</a></li>
 </ul>
-<h2>権利表記・引用について</h2>
-<p>ChatGPTはOpenAIの商標または登録商標です。Google、Google Sheets、Google Apps ScriptはGoogle LLCの商標または登録商標です。本記事は各社の公式提供ではありません。機能や提供条件は変更される場合があるため、最新情報は公式ページをご確認ください。</p>
-<h2>画像クレジット</h2>
-<p>サムネイル/本文画像はUnsplashの写真を使用しています（ライセンス：<a href="https://unsplash.com/license" target="_blank" rel="noopener">Unsplash License</a>）。</p>
-<h3>お問い合わせ</h3>
-<p>スプレッドシート自動化・GAS開発・AI導入のご相談はお気軽にどうぞ</p>
-<p>📞 090-6262-3842</p>
+<p>本記事は公式提供ではありません。コードの最終責任は実行する人にあります。</p>
 
     </div>
   </article>

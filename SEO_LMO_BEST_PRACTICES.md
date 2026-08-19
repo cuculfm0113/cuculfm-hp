@@ -1,5 +1,5 @@
 # CUCUL FM — SEO / LMO ベストプラクティス（サイト全体TODO）
-最終更新: 2026-01-01  
+最終更新: 2026-08-18  
 目的: **Markdown原稿（編集） → 統一デザインHTML（公開）**で運用しつつ、SEO / LMO を最大化する。
 
 ---
@@ -7,7 +7,8 @@
 ## 現在の採用方針（確定）
 - [x] **原稿はMarkdown（`blog/**.md`）を正（Source of Truth）**
 - [x] **公開URLはHTML（`blog/**.html`）を正（Plan A）**
-- [x] **ブログ記事のMarkdown化**（全記事で `.md` が揃っている状態）
+- [x] **ブログ記事のMarkdown化**（公開分は `.md` を正とする。HTMLのみの薄記事は Wave 1 で廃止。ロードマップも MD 化済み）
+- 運用の正: [docs/blog-editorial.md](docs/blog-editorial.md) / [docs/blog-url-map.md](docs/blog-url-map.md)
 
 ---
 

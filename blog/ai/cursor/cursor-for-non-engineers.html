@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>非エンジニアのためのCursor活用（安全な改善の回し方） | CUCUL FM</title>
-  <meta name="description" content="既存のクラス名・構造を維持し、テキストノードだけを変えるのが最も安全です。色や余白を変えたい場合はデザイン担当とルールを決めると衝突が減ります。">
+  <title>非エンジニアのためのCursor：1ファイルだけ直す | CUCUL FM</title>
+  <meta name="description" content="バックアップしてから、触ってよいファイルと禁止を書き、差分を見て適用する。複数ファイルは慣れてから。">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="ja_JP">
-  <meta property="og:title" content="非エンジニアのためのCursor活用（安全な改善の回し方） | CUCUL FM">
-  <meta property="og:description" content="既存のクラス名・構造を維持し、テキストノードだけを変えるのが最も安全です。色や余白を変えたい場合はデザイン担当とルールを決めると衝突が減ります。">
-  <meta property="og:image" content="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=1200&amp;h=600&amp;fit=crop">
+  <meta property="og:title" content="非エンジニアのためのCursor：1ファイルだけ直す | CUCUL FM">
+  <meta property="og:description" content="バックアップしてから、触ってよいファイルと禁止を書き、差分を見て適用する。複数ファイルは慣れてから。">
+  
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="非エンジニアのためのCursor活用（安全な改善の回し方） | CUCUL FM">
-  <meta name="twitter:description" content="既存のクラス名・構造を維持し、テキストノードだけを変えるのが最も安全です。色や余白を変えたい場合はデザイン担当とルールを決めると衝突が減ります。">
-  <meta name="twitter:image" content="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=1200&amp;h=600&amp;fit=crop">
-  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "非エンジニアのためのCursor活用（安全な改善の回し方）", "datePublished": "2026-01-09", "dateModified": "2026-01-09", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://images.unsplash.com/photo-1553877522-43269d4ea984?w=1200&h=600&fit=crop"]}</script>
+  <meta name="twitter:title" content="非エンジニアのためのCursor：1ファイルだけ直す | CUCUL FM">
+  <meta name="twitter:description" content="バックアップしてから、触ってよいファイルと禁止を書き、差分を見て適用する。複数ファイルは慣れてから。">
+  
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "非エンジニアのためのCursor：1ファイルだけ直す", "datePublished": "2026-08-19", "dateModified": "2026-08-19", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
@@ -34,85 +34,46 @@
   <article class="article-container">
     <header class="article-header">
       <span class="article-category">AI</span>
-      <h1 class="article-title">非エンジニアのためのCursor活用（安全な改善の回し方）</h1>
+      <h1 class="article-title">非エンジニアのためのCursor：1ファイルだけ直す</h1>
       <div class="article-meta">
-        <time class="article-date">2026.01.09</time>
+        <time class="article-date">2026.08.19</time>
         <span class="article-author">ククルFM編集部</span>
       </div>
     </header>
 
-    <div class="article-featured-image"><img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=1200&amp;h=600&amp;fit=crop" alt="非エンジニアの業務改善" loading="lazy"></div>
+    
 
     <div class="article-content">
-<h2>学習ゴール</h2>
+<h2>この記事でできるようになること / やらないこと</h2>
 <ul>
-<li>文言修正・リンク差し替え・テンプレコピーによる記事追加など、非エンジニアでも安全にできる作業の範囲を説明できる。</li>
-<li>目的・範囲・差分・ロールバックの4ステップを自分の作業に埋め込める。</li>
+<li><strong>できること</strong>: 今日、HTMLかMarkdownの文言を1箇所だけ直し、表示を目で確認する。</li>
+<li><strong>やらないこと</strong>: 本番直打ち、鍵ファイル、デザインの色変更。画面とモデル名は <a href="https://cursor.com/" target="_blank" rel="noopener">Cursor</a> が正。最終確認日: 2026-08-19</li>
 </ul>
-<h2>前提知識</h2>
-<ul>
-<li>ブラウザでHTMLプレビューできる環境、またはステージングURLがあると安心。</li>
-<li>Gitがわからなくても、バックアップコピーを取る習慣は必須です。</li>
-</ul>
-<h2>キーコンセプトと用語</h2>
-<ul>
-<li><strong>スコープ</strong>：触ってよいファイルと触らないファイルの境界。</li>
-<li><strong>DOMの親子</strong>：HTMLの構造。親タグを壊すとレイアウトが崩れる。</li>
-<li><strong>相対パス</strong>：<code>./</code> や <code>../</code> でリンク先を指す表現。切れやすい。</li>
-<li><strong>ロールバック</strong>：変更前の状態に戻すこと。Undoまたはファイルコピーでも可。</li>
-</ul>
-<h2>手順（ステップバイステップ）</h2>
+<p>導入のフォルダの開き方は <a href="./cursor-setup.html">セットアップ</a>。速さは後で <a href="./cursor-productivity-tips.html">実践Tips</a>。禁止の共通は <a href="../basics/ai-introduction.html">AI導入の始め方</a>。</p>
+<h2>結論</h2>
+<p>非エンジニアが壊すのはコードの難しさではなく <strong>範囲</strong>。1依頼・1ファイル・1目的。適用の前に差分を見る。戻せるコピーが無い日は触らない。</p>
+<h2>依頼の型（コピペ）</h2>
+<p>目的（1行）: ＿＿ 触ってよいファイル: ＿＿ 触ってよい箇所: 見出し「＿＿」の文言だけ 触るな: 他の見出し、CSS、画像パス、＿＿ 確認: そのページをブラウザで開き、リンクを1つクリックする 戻し方: 別名コピーを残してある / Undo</p>
+<h2>手順</h2>
 <ol>
-<li><strong>バックアップ</strong>：対象ファイルを別名コピー。</li>
-<li><strong>目的1行</strong>：例）「料金ページのCTAボタン文言を更新」。</li>
-<li><strong>範囲指定</strong>：ファイル名と、変える見出しまたは行番号をチャットに書く。</li>
-<li><strong>AIに依頼</strong>：変えていい要素／触れ禁止のブロックを明記。</li>
-<li><strong>差分確認</strong>：意図しない箇所の自動整形が混ざっていないか見る。</li>
-<li><strong>表示確認</strong>：ローカルまたはステージングでリンククリックまで実施。</li>
-<li><strong>記録</strong>：変更理由を1行残し、関係者に共有。</li>
+<li>対象ファイルを別名コピー（またはコミットできる人に頼む）</li>
+<li>正しいフォルダを開いているか確認（別サイトを開いていないか）</li>
+<li>上の型をチャットに貼る</li>
+<li>提案の差分に、頼んでいない行が無いか見る</li>
+<li>適用したら、ローカルで表示とリンクを確認</li>
+<li>1行メモ: 日付 / 何を変えたか</li>
 </ol>
-<h2>実践ミニ演習</h2>
+<p><code>.env</code>、パスワード、顧客名簿は貼らない。このホームページの作業でも、公開前の下書きURLで確認する。</p>
+<h2>演習</h2>
+<p>記事の <code>h2</code> を1つだけ変える。他の見出しが動いたら戻す。次に外部リンクを1つ。<code>rel</code> を勝手に消していないか見る。</p>
+<h2>つまずき</h2>
+<p>レイアウトが崩れた → 閉じタグと class を変えていないか差分で見る。 リンク切れ → <code>../</code> の段数を人が数える。 変更が広い → チャットを新しくし、ファイル名を1つに戻す。</p>
+<h2>公式</h2>
 <ul>
-<li><strong>演習1</strong>：<code>h2</code> テキスト1か所だけ変え、他の見出しが変わっていないか確認。</li>
-<li><strong>演習2</strong>：外部リンクを1つ更新し、新規タブ属性や <code>rel</code> 属性が意図通りか確認。</li>
-<li><strong>演習3</strong>：既存記事を複製し、メタ情報だけ差し替える練習（画像パスに注意）。</li>
+<li><a href="https://cursor.com/" target="_blank" rel="noopener">Cursor</a></li>
+<li><a href="https://cursor.com/docs" target="_blank" rel="noopener">Cursor Docs</a></li>
 </ul>
-<h2>セルフチェックリスト</h2>
-<ul>
-<li>[ ] バックアップを取った</li>
-<li>[ ] 触ってよい範囲を文章化した</li>
-<li>[ ] 差分に余計な変更がない</li>
-<li>[ ] 主要導線のリンクをクリックした</li>
-<li>[ ] 関係者へ通知した</li>
-</ul>
-<h2>つまずきポイントと対処</h2>
-<ul>
-<li><strong>レイアウト崩れ</strong> → 閉じタグやクラス名を変えていないかdiffで確認。</li>
-<li><strong>リンク切れ</strong> → 相対パス計算を人が追う。ルート相対なら <code>/</code> 始まりを確認。</li>
-<li><strong>変更が広がる</strong> → チャットを分け、ファイルを分け、1依頼1目的に戻す。</li>
-</ul>
-<h2>深掘り：デザインを壊さないコツ</h2>
-<p>既存のクラス名・構造を維持し、テキストノードだけを変えるのが最も安全です。色や余白を変えたい場合はデザイン担当とルールを決めると衝突が減ります。</p>
-<h2>次の伸ばし方</h2>
-<p>慣れたら <a href="./cursor-productivity-tips.html">実践Tips</a> でレビュー観点を増やし、Gitが使えるなら <a href="./cursor-git-workflow.html">Git連携</a> で履歴管理に進みます。</p>
-<h2>運用ノート：社内CMSとの役割分担</h2>
-<p>CursorでHTMLを直す場合でも、本番反映はCMS経由かGit経由かを<strong>必ず手順書で固定</strong>します。権限の弱い職種ほど、ステージングURLでの確認とダブルチェック人員をセットに。写真差し替えは容量と著作権確認が絡むため、冒頭でスコープ外に切り出すと安全です。「とりあえずAIに投げる」ではなく、<strong>変更管理番号やチケット番号をチャット先頭に置く</strong>と後追いが楽になります。</p>
-<p>（学習の定着）</p>
-<p>組織学習の観点では、週次15分の振り返りをカレンダーに固定し、うまくいった依頼文や依頼テンプレは共有ドライブへコピーして資産化します。四半期ごとに公式の利用規約と社内ポリシーを突き合わせ、差分があれば短いチケットで追記してください。個人メモでも「日付・用途・入力の要点・出力の使い道」を1セットで残すと検索性が上がり、異動時の引き継ぎもスムーズです。ステークホルダー別の典型的な懸念（経営はROI、情シスは漏洩、現場は手間と心理的負担）を箇条書きで持っておくと、同じ学びを説明する場面でも言い換え疲れが減ります。公開可否が曖昧な資料はそもそもAIに入力しない、と自分で宣言しておく線引きメモがあると、日々の判断が速くなります。</p>
-<p>なお学習効率を上げるには、「読む→15分で演習→翌週に同じ手順でもう一度」をカレンダーに3連続で置き、忘却曲線を意識するのがコツです。複数人で進めるときは教え合うペアと日時を先に仮押さえし、片方が欠席しても演習PDFだけで進められるようにリンク集を1枚添えておくと属人化が進みにくくなります。最後に、成果が出た週は短いログ（良かった依頼1行）を残し、出なかった週は「阻害要因」を1語だけメモして次週の設計に回すと改善が続きます。</p>
-<h2>まとめ：次に何をするか</h2>
-<p>今週中に「文言またはリンク」のどちらか1件だけをフロー通りに完了し、つまずきがあればチェックリストに追記してください。</p>
-<h2>ツール情報（公式リンク）</h2>
-<ul>
-<li><a href="https://cursor.com/" target="_blank" rel="noopener">Cursor（公式）</a></li>
-</ul>
-<h2>権利表記・引用について</h2>
-<p>Cursorは各社の商標または登録商標です。本記事は各社の公式提供ではありません。機能や提供条件は変更される場合があるため、最新情報は公式ページをご確認ください。</p>
-<h2>画像クレジット</h2>
-<p>サムネイル/本文画像はUnsplashの写真を使用しています（ライセンス：<a href="https://unsplash.com/license" target="_blank" rel="noopener">Unsplash License</a>）。</p>
-<h3>お問い合わせ</h3>
-<p>Web更新の内製化・記事量産・運用設計のご相談はお気軽にどうぞ</p>
-<p>📞 090-6262-3842</p>
+<p>Cursor は Anysphere の製品です。本記事は公式提供ではありません。</p>
 
     </div>
   </article>
