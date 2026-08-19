@@ -509,13 +509,24 @@ body {
   --color-bg-card:#0d0d1c;
   --color-bg-card-hover:#131328;
 }
-body{
+body.pet-floor-page{
   background:
     radial-gradient(ellipse 80% 50% at 50% 0%,rgba(123,97,255,.12) 0%,transparent 50%),
     radial-gradient(ellipse 60% 40% at 80% 100%,rgba(245,225,0,.08) 0%,transparent 42%),
     linear-gradient(to bottom,#000510 0%,#0a0a1a 55%,#0f0f20 100%);
   background-attachment:scroll;
   background-color:#000510;
+}
+
+/* 汎用の星空ヒーローは使わず、製品の暗い床面とパピヨンに寄せる */
+.pet-floor-page .starry-bg{
+  opacity:0;
+  pointer-events:none;
+}
+.pet-floor-page .service-hero--starry{
+  background:
+    radial-gradient(ellipse 70% 55% at 78% 42%,rgba(90,60,20,.28),transparent 52%),
+    #000510;
 }
 
 /* ---- ヒーロー2カラム(コピー+ファントム・パピヨン) ---- */

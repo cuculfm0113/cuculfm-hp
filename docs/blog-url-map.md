@@ -24,6 +24,8 @@
 - `/blog/video/infrared-reading.html`
 - `/blog/web/corporate-site-decisions.html`
 - `/blog/web/top-3d-intent.html`
+- `/blog/web/pet-floor-lp.html`
+- `/blog/web/breed-catalog-ui.html`
 - `/blog/ai/basics/ai-introduction.html`
 - `/blog/ai/basics/ai-local-business.html`
 - `/blog/ai/basics/ai-tools-comparison.html`
@@ -49,7 +51,7 @@
 
 ## ディスクに残す（未公開・noindex）
 
-なし。床LP・犬図鑑の作り変えは別案件（`services/dog/pet-floor/`・`services/dog/breeds/` は触らない）。
+なし。床LPと犬図鑑は作り変えたうえで `/services/web/` の実績へ戻した。
 
 ## 廃止と 301
 

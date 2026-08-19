@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>犬図鑑 - 犬種大全 | CUCUL FM</title>
-    <meta name="description" content="140犬種を網羅した犬図鑑。犬種ごとの性格・育て方・お手入れ方法を詳しく解説。あなたにぴったりの犬種が見つかります。">
+    <meta name="description" content="FCIの10グループで140犬種を検索・絞り込み。写真は自社で撮れた犬種だけ。性格とお手入れの目安をカードで比較できます。">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -38,8 +38,7 @@
             <p class="hero-label">DOG BREED ENCYCLOPEDIA</p>
             <h1 class="hero-title">犬図鑑</h1>
             <p class="hero-description">
-                FCI（国際畜犬連盟）の10グループに基づき、140犬種を網羅。<br>
-                性格や育て方、お手入れのポイントまで、犬種選びに役立つ情報をお届けします。
+                FCI の10グループで探すための図鑑です。検索と絞り込みが先。写真は自社で撮れた犬種だけ載せ、無いカードはプレースホルダのままにします。
             </p>
             <div class="hero-stats">
                 <div class="hero-stat">
@@ -326,37 +325,16 @@ const GROUPS = {
 
 const SIZE_LABELS = {xs:"超小型犬",s:"小型犬",m:"中型犬",l:"大型犬",xl:"超大型犬"};
 
-/* Dog CEO API breed mapping: our ID → API path */
-const DOG_API = {
-"border-collie":"collie/border","shetland-sheepdog":"sheepdog/shetland","welsh-corgi-pembroke":"pembroke","welsh-corgi-cardigan":"corgi/cardigan","german-shepherd":"german/shepherd","australian-shepherd":"australian/shepherd","rough-collie":"rough/collie","belgian-malinois":"malinois","belgian-tervuren":"tervuren","old-english-sheepdog":"sheepdog/english","bearded-collie":"collie/border","briard":"briard","puli":"komondor","australian-kelpie":"australian/kelpie",
-"bernese-mountain-dog":"mountain/bernese","rottweiler":"rottweiler","great-dane":"dane/great","boxer":"boxer","dobermann":"doberman","st-bernard":"stbernard","newfoundland":"newfoundland","great-pyrenees":"pyrenees","mastiff":"mastiff/english","bullmastiff":"mastiff/bull","cane-corso":"mastiff/english","leonberger":"leonberg","miniature-schnauzer":"schnauzer/miniature","standard-schnauzer":"schnauzer/standard","giant-schnauzer":"schnauzer/giant","bulldog":"bulldog/english","tibetan-mastiff":"mastiff/tibetan","shar-pei":"sharpei",
-"yorkshire-terrier":"terrier/yorkshire","jack-russell-terrier":"terrier/russell","west-highland-white-terrier":"terrier/westhighland","scottish-terrier":"terrier/scottish","airedale-terrier":"airedale","bull-terrier":"bullterrier/staffordshire","cairn-terrier":"terrier/cairn","wire-fox-terrier":"terrier/fox","norfolk-terrier":"terrier/norfolk","staffordshire-bull-terrier":"bullterrier/staffordshire","bedlington-terrier":"terrier/bedlington","irish-terrier":"terrier/irish","kerry-blue-terrier":"terrier/kerryblue",
-"miniature-dachshund":"dachshund","standard-dachshund":"dachshund","kaninchen-dachshund":"dachshund",
-"shiba-inu":"shiba","akita":"akita","japanese-spitz":"spitz/japanese","pomeranian":"pomeranian","samoyed":"samoyed","siberian-husky":"husky","alaskan-malamute":"malamute","chow-chow":"chow","basenji":"basenji","finnish-spitz":"finnish/lapphund",
-"beagle":"beagle","basset-hound":"hound/basset","bloodhound":"hound/blood","dalmatian":"dalmatian","rhodesian-ridgeback":"ridgeback/rhodesian","american-foxhound":"hound/english","otterhound":"otterhound","plott-hound":"hound/plott",
-"irish-setter":"setter/irish","weimaraner":"weimaraner","german-shorthaired-pointer":"pointer/german","brittany":"spaniel/brittany","vizsla":"vizsla","english-setter":"setter/english","gordon-setter":"setter/gordon","german-wirehaired-pointer":"pointer/germanlonghair",
-"golden-retriever":"retriever/golden","labrador-retriever":"labrador","flat-coated-retriever":"retriever/flatcoated","american-cocker-spaniel":"spaniel/cocker","english-cocker-spaniel":"spaniel/cocker","english-springer-spaniel":"springer/english","chesapeake-bay-retriever":"retriever/chesapeake","curly-coated-retriever":"retriever/curly","clumber-spaniel":"clumber","irish-water-spaniel":"spaniel/irish",
-"toy-poodle":"poodle/toy","miniature-poodle":"poodle/miniature","standard-poodle":"poodle/standard","chihuahua":"chihuahua","maltese":"maltese","papillon":"papillon","shih-tzu":"shihtzu","pekingese":"pekinese","cavalier-king-charles-spaniel":"spaniel/blenheim","pug":"pug","french-bulldog":"bulldog/french","boston-terrier":"bulldog/boston","bichon-frise":"frise/bichon","havanese":"havanese","chinese-crested-dog":"mexicanhairless","coton-de-tulear":"cotondetulear","japanese-chin":"spaniel/japanese","lhasa-apso":"lhasa","brussels-griffon":"brabancon","italian-greyhound":"greyhound/italian","affenpinscher":"affenpinscher",
-"greyhound":"greyhound/indian","whippet":"whippet","borzoi":"borzoi","afghan-hound":"hound/afghan","saluki":"saluki","irish-wolfhound":"wolfhound/irish","scottish-deerhound":"deerhound/scottish"
+/* 自社写真がある犬種だけ。外部のランダム画像は使わない */
+const LOCAL_PHOTOS = {
+    papillon: "../../../character-design/phantom-papillon/phantom-papillon-portrait.jpg"
 };
 
-/* Image cache to avoid re-fetching */
-const imgCache = {};
-
 function loadBreedImage(id, imgEl) {
-    if (imgCache[id]) { imgEl.src = imgCache[id]; imgEl.style.display = 'block'; return; }
-    const apiPath = DOG_API[id];
-    if (!apiPath) return; /* No API mapping — keep placeholder */
-    fetch(`https://dog.ceo/api/breed/${apiPath}/images/random`)
-        .then(r => r.json())
-        .then(data => {
-            if (data.status === 'success') {
-                imgCache[id] = data.message;
-                imgEl.src = data.message;
-                imgEl.style.display = 'block';
-            }
-        })
-        .catch(() => {}); /* Fail silently — placeholder stays */
+    const src = LOCAL_PHOTOS[id];
+    if (!src) return;
+    imgEl.src = src;
+    imgEl.style.display = "block";
 }
 
 /* ---------- State ---------- */
@@ -400,7 +378,7 @@ function renderBreeds() {
                 <div class="breed-image">
                     <div class="breed-placeholder" style="--ph-r:${gc.split(',')[0]};--ph-g:${gc.split(',')[1]};--ph-b:${gc.split(',')[2]}">
                         <svg class="breed-placeholder-icon" viewBox="0 0 48 48" fill="none"><path d="M18 8c0-2.5-2.5-4.5-5.5-3.5S7 8 7 11s2.5 5.5 5.5 4.5S18 10.5 18 8z" stroke="currentColor" stroke-width="2"/><path d="M30 8c0-2.5 2.5-4.5 5.5-3.5S41 8 41 11s-2.5 5.5-5.5 4.5S30 10.5 30 8z" stroke="currentColor" stroke-width="2"/><path d="M24 40c8 0 14-6 14-12s-6-10-14-10-14 4-14 10 6 12 14 12z" stroke="currentColor" stroke-width="2"/></svg>
-                        <span class="breed-placeholder-label">PHOTO</span>
+                        <span class="breed-placeholder-label">SOON</span>
                     </div>
                     <img class="breed-api-img" data-breed="${id}" alt="${name}" style="display:none;position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;">
                     <span class="breed-size-badge">${SIZE_LABELS[size]}</span>
@@ -425,7 +403,7 @@ function renderBreeds() {
         </div>`;
     }).join('');
 
-    /* Load images from API after rendering cards */
+    /* Load in-house photos after rendering cards */
     requestAnimationFrame(() => {
         document.querySelectorAll('.breed-api-img').forEach(img => {
             loadBreedImage(img.dataset.breed, img);
