@@ -21,3 +21,7 @@
 
 # Local Netlify folder
 .netlify
+
+# 画像生成/検証パイプラインの依存(npm i で再現)
+scripts/cardgen/node_modules/
+scripts/verify/node_modules/
