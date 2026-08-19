@@ -14,6 +14,55 @@
     <script type="application/ld+json">
     {"@context":"https://schema.org","@type":"WebPage","name":"ペットの床","description":"ククルFMの自社製品ペットの床。UVフロアコーティングの販売・施工。","isPartOf":{"@type":"WebSite","name":"CUCUL FM","url":"https://cucul-fm.com/"}}
     </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "ホーム", "item": "https://cucul-fm.com/"},
+            {"@type": "ListItem", "position": 2, "name": "犬に携わる業務", "item": "https://cucul-fm.com/services/dog/"},
+            {"@type": "ListItem", "position": 3, "name": "CUCULペットの床"}
+        ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "本当に滑りにくくなりますか？",
+                "acceptedAnswer": {"@type": "Answer", "text": "施工後はペット向けフローリング比でおおよそ2倍程度の滑りにくさが目安です。ただし床材の種類・状態や犬の個体差により効果は異なります。"}
+            },
+            {
+                "@type": "Question",
+                "name": "中型犬・大型犬でも意味はありますか？",
+                "acceptedAnswer": {"@type": "Answer", "text": "滑り対策には一定の効果が期待できますが、小型犬と比べると差が出る場合があります。掃除のしやすさや衛生面を重視して導入される飼い主さんも多いです。"}
+            },
+            {
+                "@type": "Question",
+                "name": "費用の目安は？",
+                "acceptedAnswer": {"@type": "Answer", "text": "施工面積やフローリングの種類・下地の状態により異なります。無料のお見積り・現地調査にてご提案します。"}
+            },
+            {
+                "@type": "Question",
+                "name": "床暖房のフローリングでも施工できますか？",
+                "acceptedAnswer": {"@type": "Answer", "text": "床暖房のフローリングにも対応可能です。不燃性樹脂で耐熱性が高く、スチームモップもご利用いただけます。"}
+            },
+            {
+                "@type": "Question",
+                "name": "キズが付いた場合は？",
+                "acceptedAnswer": {"@type": "Answer", "text": "補修に応じられる場合があります。施工上の不具合と判断した場合は保証範囲内で対応するケースもあります。詳細は契約時にご確認ください。"}
+            },
+            {
+                "@type": "Question",
+                "name": "今お住まいの家でも施工できますか？",
+                "acceptedAnswer": {"@type": "Answer", "text": "既存住宅への施工が可能です。UV硬化のため長期間の養生で生活が制限されにくいのが特長です。大型家具の移動サポートはお問い合わせください。"}
+            }
+        ]
+    }
+    </script>
 </head>
 <body>
     <header class="service-header">
@@ -40,17 +89,25 @@
             <div class="shooting-star"></div>
             <div class="moon"></div>
         </div>
-        <div class="container">
-            <a href="../index.html" class="pet-floor-back">
-                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                犬に携わる業務に戻る
-            </a>
-            <p class="hero-label">PRODUCT</p>
-            <div class="pet-floor-badge">CUCUL FM · 自社製品</div>
-            <h1 class="hero-title">CUCULペットの床</h1>
-            <p class="pet-floor-hero-tagline">この家でずっと元気でいてほしい — 床を愛犬の歩行に寄り添う表面へ。</p>
+        <div class="container pet-floor-hero-grid">
+            <div class="pet-floor-hero-copy">
+                <a href="../index.html" class="pet-floor-back">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    犬に携わる業務に戻る
+                </a>
+                <p class="hero-label">PRODUCT</p>
+                <div class="pet-floor-badge">CUCUL FM · 自社製品</div>
+                <p class="pet-floor-hero-en">PET FLOOR <em>COATING</em></p>
+                <h1 class="hero-title">CUCULペットの床</h1>
+                <p class="pet-floor-hero-tagline">この家でずっと元気でいてほしい — 床を愛犬の歩行に寄り添う表面へ。</p>
+                <a href="#pet-floor-cta" class="pet-floor-hero-cta">無料お見積り・現地調査を相談する</a>
+            </div>
+            <figure class="pet-floor-hero-art">
+                <img src="/character-design/phantom-papillon/phantom-papillon-portrait.jpg" alt="ファントム・パピヨン — ククルFMの犬キャラクター" width="900" height="1200" decoding="async">
+                <figcaption>PHANTOM PAPILLON / GUIDE OF DOG SERVICES</figcaption>
+            </figure>
         </div>
     </section>
 
@@ -82,14 +139,14 @@
                 <figure class="pet-floor-ba-pane">
                     <p class="pet-floor-ba-label">BEFORE</p>
                     <div class="pet-floor-ba-frame">
-                        <img src="images/ba-01-before.png" alt="施工前のフローリング" width="1600" height="900" loading="lazy" class="pet-floor-ba-img">
+                        <img src="images/ba-01-before.png" alt="施工前のフローリング" width="800" height="600" loading="lazy" class="pet-floor-ba-img">
                     </div>
                     <figcaption class="pet-floor-ba-caption">施工前</figcaption>
                 </figure>
                 <figure class="pet-floor-ba-pane">
                     <p class="pet-floor-ba-label pet-floor-ba-label--after">AFTER</p>
                     <div class="pet-floor-ba-frame">
-                        <img src="images/ba-01-after.png" alt="施工後のフローリング（コーティング仕上げ）" width="1600" height="900" loading="lazy" class="pet-floor-ba-img">
+                        <img src="images/ba-01-after.png" alt="施工後のフローリング（コーティング仕上げ）" width="800" height="600" loading="lazy" class="pet-floor-ba-img">
                     </div>
                     <figcaption class="pet-floor-ba-caption">施工後</figcaption>
                 </figure>
@@ -143,9 +200,24 @@
         </div>
     </section>
 
+    <section class="content-section pet-floor-flow-section">
+        <div class="container">
+            <p class="section-label">FLOW</p>
+            <h2 class="section-title">施工の流れ — 基本1日で完了</h2>
+            <ol class="pet-floor-flow">
+                <li><span class="pf-step">01</span><h3>養生・清掃</h3><p>家具まわりを保護し、床面の汚れを丁寧に取り除きます。</p></li>
+                <li><span class="pf-step">02</span><h3>下地調整</h3><p>床材の状態を確認し、密着性を高める下処理を行います。</p></li>
+                <li><span class="pf-step">03</span><h3>コーティング塗布</h3><p>UVフロアコーティングを均一に塗り広げます。</p></li>
+                <li><span class="pf-step">04</span><h3>UV硬化</h3><p>専用ライトの照射でその場で硬化。長い乾燥待ちがありません。</p></li>
+                <li><span class="pf-step">05</span><h3>研磨・仕上げ確認</h3><p>表面を整え、仕上がりを確認してお引き渡しです。</p></li>
+            </ol>
+            <p class="pet-floor-note">※ 施工範囲や床の状態により所要時間は前後します。</p>
+        </div>
+    </section>
+
     <!--
-      事例動画: 再生互換のため H.264 の case-video.mp4 を優先（.mov はフォールバック）
-      差し替え: 両方同名で上書きするか、下の source のみ差し替え
+      事例動画: 再生互換のため H.264 の case-video.mp4 を使用
+      差し替え: 同名で上書きするか、下の source を差し替え
       サムネイル: images/case-video-poster.png
     -->
     <section class="content-section pet-floor-cases-section">
@@ -169,7 +241,6 @@
                             aria-label="ペットの床施工後の廊下。小型犬が艶のあるフローリングを歩く様子"
                         >
                             <source src="images/case-video.mp4" type="video/mp4">
-                            <source src="images/case-video.mov" type="video/quicktime">
                         </video>
                     </div>
                     <div class="pet-floor-case__body">
@@ -191,7 +262,7 @@
             <h2 class="section-title">ペットの床について</h2>
             <div class="pet-floor-intro-card">
                 <p>
-                    <strong style="color: var(--color-text);">ペットの床</strong>は、ククルFMがお届けする自社ブランドのフロアコーティングです。犬との暮らしに寄り添う表面仕上げと、日々のお手入れのしやすさを両立し、人とペットが安心して過ごせる住環境づくりをサポートします。
+                    <strong class="pet-floor-intro-card__text">ペットの床</strong>は、ククルFMがお届けする自社ブランドのフロアコーティングです。犬との暮らしに寄り添う表面仕上げと、日々のお手入れのしやすさを両立し、人とペットが安心して過ごせる住環境づくりをサポートします。
                 </p>
             </div>
         </div>
@@ -240,6 +311,17 @@
         </div>
     </section>
 
+    <section class="pet-floor-midcta-section">
+        <div class="container">
+            <div class="pet-floor-midcta">
+                <p>滑りやすさが気になったら、まずは無料の現地調査から。</p>
+                <a href="../../../index.html#contact" class="cta-button">無料お見積り・現地調査を相談する
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
     <section class="content-section">
         <div class="container">
             <p class="section-label">WHY FLOOR</p>
@@ -265,7 +347,7 @@
         <div class="container">
             <p class="section-label">JOINT CARE</p>
             <h2 class="section-title">関節の健康と住環境</h2>
-            <p class="section-description" style="text-align: left; max-width: 42em;">
+            <p class="section-description pet-floor-joint-note">
                 室内犬に多い膝蓋骨内方脱臼や椎間板ヘルニアなどは、一度発症すると完治が難しく長期的なケアが必要になる場合があります。滑りにくい床は「転ばない・急に捻らない」ための予防の一助になります。コーティングは万能ではありませんが、住環境全体の一要素として前向きに検討いただけます。
             </p>
         </div>
@@ -307,7 +389,8 @@
         </div>
     </section>
 
-    <section class="cta-section">
+    <section class="cta-section" id="pet-floor-cta">
+        <span class="pet-floor-cta-wm" aria-hidden="true"><svg viewBox="0 0 120 132" fill="none"><path fill="currentColor" d="M60,38 C55.5,35.5 51,36.5 47.5,39.5 C41,29.5 30.5,19 19.5,16 C12.5,14 7.5,19 10,26 C6.5,30 8.5,36 14.5,37.5 C10.5,42 13.5,48 19.5,48 C16.5,53 21.5,58 27.5,56 C26.5,61 31.5,64 36.5,61.5 C40.5,59 44,58.5 46.5,59.5 C45.5,66 47,73 51,77.5 C54,80.5 57,82 60,82 C63,82 66,80.5 69,77.5 C73,73 74.5,66 73.5,59.5 C76,58.5 79.5,59 83.5,61.5 C88.5,64 93.5,61 92.5,56 C98.5,58 103.5,53 100.5,48 C106.5,48 109.5,42 105.5,37.5 C111.5,36 113.5,30 110,26 C112.5,19 107.5,14 100.5,16 C89.5,19 79,29.5 72.5,39.5 C69,36.5 64.5,35.5 60,38 Z"/><path fill="currentColor" d="M46,79 C52,85 68,85 74,79 C75.5,81.5 76,84 75,86 C66,92.5 54,92.5 45,86 C44,84 44.5,81.5 46,79 Z"/></svg></span>
         <div class="container">
             <h2 class="cta-title">お見積り・ご相談</h2>
             <p class="cta-text">ペットの床の導入について、お気軽にお問い合わせください。</p>
@@ -322,7 +405,7 @@
 
     <footer class="service-footer">
         <div class="container">
-            <p class="footer-text">&copy; 2024 CUCUL FM LLC. All rights reserved.</p>
+            <p class="footer-text">&copy; 2026 CUCUL FM LLC. All rights reserved.</p>
         </div>
     </footer>
     <script>

@@ -140,7 +140,8 @@ img {
     overflow: hidden;
     background: 
         radial-gradient(ellipse 80% 50% at 50% 0%, rgba(123, 97, 255, 0.15) 0%, transparent 50%),
-        radial-gradient(ellipse 60% 40% at 80% 100%, rgba(245, 233, 0, 0.938) 0%, transparent 40%),
+        /* 0.938 は --color-primary の alpha が誤って glow に混入したバグ値(トップ側コメント参照)。.10 に是正 */
+        radial-gradient(ellipse 60% 40% at 80% 100%, rgba(245, 225, 0, 0.10) 0%, transparent 40%),
         linear-gradient(to bottom, #000510 0%, #0a0a1a 50%, #0f0f20 100%);
 }
 
