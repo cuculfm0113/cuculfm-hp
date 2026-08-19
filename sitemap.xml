@@ -14,7 +14,13 @@
   </url>
   <url>
     <loc>https://cucul-fm.com/blog/ai/basics/ai-introduction.html</loc>
-    <lastmod>2026-08-18</lastmod>
+    <lastmod>2026-08-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://cucul-fm.com/blog/ai/basics/ai-local-business.html</loc>
+    <lastmod>2026-08-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -116,25 +122,25 @@
   </url>
   <url>
     <loc>https://cucul-fm.com/blog/inspection/aircon-cleaning.html</loc>
-    <lastmod>2025-03-12</lastmod>
+    <lastmod>2026-08-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://cucul-fm.com/blog/inspection/drone-wall-inspection.html</loc>
-    <lastmod>2025-03-12</lastmod>
+    <lastmod>2026-08-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://cucul-fm.com/blog/inspection/gutter-cleaning.html</loc>
-    <lastmod>2025-03-12</lastmod>
+    <lastmod>2026-08-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://cucul-fm.com/blog/inspection/solar-panel-cleaning.html</loc>
-    <lastmod>2025-03-12</lastmod>
+    <lastmod>2026-08-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -170,6 +176,12 @@
   </url>
   <url>
     <loc>https://cucul-fm.com/blog/ai/cursor/cursor-productivity-tips.html</loc>
+    <lastmod>2026-08-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://cucul-fm.com/blog/ai/gemini/gemini-basics.html</loc>
     <lastmod>2026-08-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>

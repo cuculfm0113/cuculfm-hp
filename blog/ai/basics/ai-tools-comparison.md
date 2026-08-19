@@ -48,7 +48,7 @@
 長い文、トーンの調整、規程や報告書の整合。CUCULの調査報告ドラフト向き。
 
 **Gemini（Google）**  
-すでに Google アカウントでメールと表計算を回している事務所。
+すでに Google アカウントでメールと表計算を回している事務所。アプリ単体は [Geminiの始め方](../gemini/gemini-basics.html)。
 
 **Perplexity**  
 調べものの入口。出たリンクを必ず自分で開く。[出典を1本開く](../perplexity/perplexity-research.html)。

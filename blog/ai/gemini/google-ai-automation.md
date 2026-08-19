@@ -12,7 +12,7 @@
 - **できること**: 今日、問い合わせ用フォームの項目とシート列を1枚に書き、要約プロンプトを1回試す。
 - **やらないこと**: Gemini API、夜間バッチの本番、顧客への自動メール。フォームとシートの操作は [Google フォーム](https://www.google.com/forms/about/) と [スプレッドシート](https://www.google.com/sheets/about/) が正。最終確認日: 2026-08-19
 
-Workspaceの中の下書きは [Gemini×Workspace](./gemini-workspace.html)。式とGASのテストは [スプレッドシート×ChatGPT](../chatgpt/chatgpt-excel-gas.html)。
+アプリ側は [Geminiの始め方](./gemini-basics.html)。Workspaceの中の下書きは [Gemini×Workspace](./gemini-workspace.html)。式とGASのテストは [スプレッドシート×ChatGPT](../chatgpt/chatgpt-excel-gas.html)。
 
 ## 結論
 

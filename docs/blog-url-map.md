@@ -1,4 +1,4 @@
-# ブログ URL 対応表（Wave 8：n8n廃止、映像ドローン / FPV / 赤外線）
+# ブログ URL 対応表（Wave 9：下書き公開・調査二次刷新・コンド廃止）
 
 パスはサイトルートからの HTML。
 
@@ -25,6 +25,7 @@
 - `/blog/web/corporate-site-decisions.html`
 - `/blog/web/top-3d-intent.html`
 - `/blog/ai/basics/ai-introduction.html`
+- `/blog/ai/basics/ai-local-business.html`
 - `/blog/ai/basics/ai-tools-comparison.html`
 - `/blog/ai/basics/prompt-engineering.html`
 - `/blog/ai-tools/ai-learning-roadmap.html`
@@ -38,6 +39,7 @@
 - `/blog/ai/cursor/cursor-for-non-engineers.html`
 - `/blog/ai/cursor/cursor-setup.html`
 - `/blog/ai/cursor/cursor-productivity-tips.html`
+- `/blog/ai/gemini/gemini-basics.html`
 - `/blog/ai/gemini/gemini-workspace.html`
 - `/blog/ai/gemini/google-ai-automation.html`
 - `/blog/ai/perplexity/perplexity-research.html`
@@ -47,23 +49,18 @@
 
 ## ディスクに残す（未公開・noindex）
 
-書き直し後に一覧へ戻す。
-
-ハブ残り: `ai-local-business`
-
-Gemini残り: `gemini-basics`
-
-コンド4本: ファイルのみ残す。sitemap に載せない
+なし。床LP・犬図鑑の作り変えは別案件（`services/dog/pet-floor/`・`services/dog/breeds/` は触らない）。
 
 ## 廃止と 301
 
 - `/blog/dog/dog-care-basics.html` → `/blog/dog/home-grooming.html`
 - `/blog/construction/*` → `/services/construction/`
-- `/blog/web/*` → `/services/web/`
+- `/blog/web/*`（汎用SEO等） → `/services/web/`
 - `/blog/video/company-video.html` `/sns-video.html` `/event-coverage.html` → `/blog/video/drone-shooting.html`
 - `/blog/document/*` `/blog/media/*` → `/services/video/`
 - `/blog/craft/*` `/blog/tools/*` → `/services/tools/`
 - `/blog/custom/*` → `/services/custom/`
+- `/blog/condo/*` → `/services/condo/`
 - `/blog/ai-tools/ai-tools-comparison.html` → `/blog/ai/basics/ai-tools-comparison.html`
 - `/blog/ai-tools/prompt-engineering.html` → `/blog/ai/basics/prompt-engineering.html`
 - `/blog/ai-tools/ai-business-cases.html` → `/blog/ai/basics/ai-introduction.html`

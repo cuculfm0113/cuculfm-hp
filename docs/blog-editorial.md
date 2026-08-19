@@ -16,7 +16,7 @@
 ## 公開と下書き
 
 - **公開**: 記事一覧に出す。sitemap に載せる
-- **下書き（ディスクに残す）**: 書き直し待ち。sitemap に載せない。`<meta name="robots" content="noindex,follow">`
+- **下書き（ディスクに残す）**: 書き直し待ち。sitemap に載せない。`<meta name="robots" content="noindex,follow">`（2026-08-19時点の下書きはなし）
 - **廃止**: ファイル削除。`_redirects` で 301
 
 URL対応は [blog-url-map.md](blog-url-map.md)。

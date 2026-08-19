@@ -64,7 +64,7 @@
 - [用途で選ぶ](./ai-tools-comparison.html)
 - [プロンプトの型](./prompt-engineering.html)
 - [学習の順](../../ai-tools/ai-learning-roadmap.html)
-- ChatGPTで回すなら [始め方](../chatgpt/chatgpt-basics.html)
+- ChatGPTで回すなら [始め方](../chatgpt/chatgpt-basics.html)。少人数の現場事務所なら [制約を先に書く](./ai-local-business.html)
 
 ## 公式
 

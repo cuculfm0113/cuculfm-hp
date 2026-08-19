@@ -12,7 +12,7 @@
 - **できること**: 今日、伏せ字のメモからメール1通、または見出しだけの資料1枚を下書きする。
 - **やらないこと**: 料金表、管理者設定の全解説、スライドとMeet。画面名・可否・プランは [Google Workspace with Gemini の活用](https://support.google.com/a/users/answer/15146419?hl=ja) が正。最終確認日: 2026-08-19
 
-共通の禁止は [AI導入の始め方](../basics/ai-introduction.html)。依頼の骨格は [プロンプトの型](../basics/prompt-engineering.html)。表の式とGASのテストは [スプレッドシート×ChatGPT](../chatgpt/chatgpt-excel-gas.html)。
+アプリ側の始め方は [Geminiの始め方](./gemini-basics.html)。共通の禁止は [AI導入の始め方](../basics/ai-introduction.html)。依頼の骨格は [プロンプトの型](../basics/prompt-engineering.html)。表の式とGASのテストは [スプレッドシート×ChatGPT](../chatgpt/chatgpt-excel-gas.html)。
 
 ## 結論
 

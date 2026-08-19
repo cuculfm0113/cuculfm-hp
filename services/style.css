@@ -398,6 +398,7 @@ img {
 .article-image {
     height: 180px;
     overflow: hidden;
+    background: linear-gradient(160deg, #10161a 0%, #152428 100%);
 }
 
 .article-image img {

@@ -12,7 +12,7 @@
 - **できること**: 今日、熱画像1枚について「いつ・何を見て・何をまだ言わないか」を5行で残す。
 - **やらないこと**: カメラ型番のカタログ、定期報告の代行、足場不要の保証。対象建築物と調査方法は発注仕様と法令が正。最終確認日: 2026-08-19
 
-空撮の可視光は [Air 2S](./drone-shooting.html)。外壁調査の事業側は [調査・清掃](../../services/inspection/index.html) と既存の [ドローン外壁](../inspection/drone-wall-inspection.html)。
+空撮の可視光は [Air 2S](./drone-shooting.html)。外壁調査の事業側は [調査・清掃](../../services/inspection/index.html) と [ドローン外壁（告示とガイドライン）](../inspection/drone-wall-inspection.html)。
 
 ## 結論
 
@@ -51,7 +51,7 @@
 ## 公式・関連
 
 - [調査・清掃事業](../../services/inspection/index.html)
-- [ドローン外壁調査（既存記事）](../inspection/drone-wall-inspection.html)
+- [ドローン外壁調査](../inspection/drone-wall-inspection.html)
 - [無人航空機の登録（国交省）](https://www.mlit.go.jp/koku/drone/)（熱カメラを載せて飛ばす日も、飛行側は同じ）
 
 本記事は診断の代替ではありません。判断の最終責任は調査する人にあります。

@@ -56,6 +56,8 @@ ChatGPTまたはClaudeでメールと議事。Googleの中で下書きする日�
 - [ChatGPTの始め方](../ai/chatgpt/chatgpt-basics.html)
 - [Claudeの始め方](../ai/claude/claude-basics.html)
 - [Cursor（非エンジニア）](../ai/cursor/cursor-for-non-engineers.html)
+- [少人数の現場事務所](../ai/basics/ai-local-business.html)
+- [Geminiの始め方](../ai/gemini/gemini-basics.html)
 - [Gemini×Workspace](../ai/gemini/gemini-workspace.html)
 - [フォーム→シート](../ai/gemini/google-ai-automation.html)
 - [Perplexity](../ai/perplexity/perplexity-research.html)
