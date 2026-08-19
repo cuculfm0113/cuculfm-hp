@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AIツール紹介 / 学習 | CUCUL FM</title>
-    <meta name="description" content="止めても困らない始め方、用途別の選び方、プロンプトの型、ChatGPTの実務まで。公開中のAI学習記事は記事一覧から読めます。">
+    <meta name="description" content="ChatGPT / Claude / Gemini / Cursor などのAIツール紹介と、業務への導入・活用支援。用途に合わせた選び方をご案内します。">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -47,7 +47,7 @@
             <h1 class="hero-title">AIツール紹介 / 学習</h1>
             <p class="hero-description">
                 先に決めるのは速さではなく、止めても事故にならない範囲です。
-                公開中の学習記事は記事一覧の「AI学習」から読めます。
+                ツール選びから業務への落とし込みまで、現場に合わせてご案内します。
             </p>
         </div>
     </section>
@@ -65,7 +65,7 @@
                         <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                     <h3 class="feature-title">13ツールを網羅</h3>
-                    <p class="feature-text">ChatGPT / Claude / Gemini / Cursor など、公開した学習記事の範囲で案内します</p>
+                    <p class="feature-text">ChatGPT / Claude / Gemini / Cursor など、主要ツールを用途別に案内します</p>
                 </div>
                 <div class="feature-item">
                     <svg class="feature-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -74,8 +74,8 @@
                         <path d="M8 11H16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                         <path d="M8 15H13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                     </svg>
-                    <h3 class="feature-title">10ステップで学習</h3>
-                    <p class="feature-text">入門→実務→応用→マスターまで、迷わず学べる体系的なカリキュラム</p>
+                    <h3 class="feature-title">小さく始めて定着</h3>
+                    <p class="feature-text">入門→実務→応用の順に、止めても困らない範囲から段階的に導入します</p>
                 </div>
                 <div class="feature-item">
                     <svg class="feature-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -98,7 +98,6 @@
 
             <div class="tabs" role="tablist" aria-label="AIツール紹介と学習">
                 <button class="tab-btn active" type="button" role="tab" aria-selected="true" aria-controls="tab-tools" data-tab="tools">AIツール紹介</button>
-                <button class="tab-btn" type="button" role="tab" aria-selected="false" aria-controls="tab-learning" data-tab="learning" style="display:none">学習（10ステップ）</button>
             </div>
 
             <div class="tab-panel active" id="tab-tools" role="tabpanel">
@@ -127,110 +126,9 @@
                         </div>
                     </div>
                 </div>
-                <p class="section-description">ハブから調べもの系（Perplexity / Gemini Notebook）まで公開しています。表の自動化はフォーム→シートです。n8n 連載は廃止しました。</p>
-                <p><a href="../../articles/index.html">記事一覧へ →</a></p>
+                <p class="section-description">対話型からリサーチ系・開発系まで、用途に合わせて使い分けるのが近道です。導入のご相談は下記からどうぞ。</p>
             </div>
 
-            <div class="tab-panel" id="tab-learning" role="tabpanel">
-                <div class="series" id="learning-series">
-                    <div class="series-tools" role="tablist" aria-label="学習シリーズ（ツール別）">
-                        <button class="series-tool-btn active" type="button" role="tab" aria-selected="true" data-tool="chatgpt">ChatGPT</button>
-                        <button class="series-tool-btn" type="button" role="tab" aria-selected="false" data-tool="claude">Claude</button>
-                        <button class="series-tool-btn" type="button" role="tab" aria-selected="false" data-tool="cursor">Cursor</button>
-                        <button class="series-tool-btn" type="button" role="tab" aria-selected="false" data-tool="gemini">Gemini</button>
-                        <button class="series-tool-btn" type="button" role="tab" aria-selected="false" data-tool="perplexity">Perplexity</button>
-                        <button class="series-tool-btn" type="button" role="tab" aria-selected="false" data-tool="notebooklm">NotebookLM</button>
-                    </div>
-
-                    <div class="series-layout">
-                        <div class="series-steps" aria-label="工程一覧">
-                            <button class="series-step active" type="button" data-tool="chatgpt" data-index="0" data-kicker="STEP 01 / 入門" data-title="ChatGPT業務活用の始め方（安全ルールと3つの型）" data-desc="入力禁止を固定し、要約・たたき台・チェックの3型から今日1回回します。" data-href="../../blog/ai/chatgpt/chatgpt-basics.html">
-                                <div class="series-step-meta"><span class="series-step-badge">入門</span><span class="series-step-label">STEP 01</span></div>
-                                <div class="series-step-title">ChatGPT業務活用の始め方</div>
-                            </button>
-                            <button class="series-step" type="button" data-tool="chatgpt" data-index="1" data-kicker="STEP 02 / プロンプト" data-title="ChatGPTプロンプト術（精度を上げる5つの型）" data-desc="曖昧な指示を具体化し、出力品質を安定させるプロンプトの型を学びます。" data-href="../../blog/ai/chatgpt/chatgpt-prompts-practical.html">
-                                <div class="series-step-meta"><span class="series-step-badge">プロンプト</span><span class="series-step-label">STEP 02</span></div>
-                                <div class="series-step-title">ChatGPTプロンプト術</div>
-                            </button>
-                            <button class="series-step" type="button" data-tool="chatgpt" data-index="2" data-kicker="STEP 03 / 業務フロー" data-title="ChatGPTで業務フローを効率化（メール・議事録・企画）" data-desc="メール・議事録・企画書など、定型業務をChatGPTで高速化します。" data-href="../../blog/ai/chatgpt/chatgpt-workflows-business.html">
-                                <div class="series-step-meta"><span class="series-step-badge">業務フロー</span><span class="series-step-label">STEP 03</span></div>
-                                <div class="series-step-title">ChatGPTで業務フローを効率化</div>
-                            </button>
-                            <button class="series-step" type="button" data-tool="chatgpt" data-index="3" data-kicker="STEP 04 / 自動化" data-title="スプレッドシート×ChatGPTで業務を自動化する" data-desc="関数・GASを絡めて、定型業務を仕組みとして自動化します。" data-href="../../blog/ai/chatgpt/chatgpt-excel-gas.html">
-                                <div class="series-step-meta"><span class="series-step-badge">自動化</span><span class="series-step-label">STEP 04</span></div>
-                                <div class="series-step-title">スプレッドシート×ChatGPTで業務を</div>
-                            </button>
-                            <button class="series-step" type="button" data-tool="claude" data-index="0" data-kicker="STEP 01 / 入門" data-title="Claude業務活用の始め方（長文を壊さない範囲）" data-desc="禁止1行で始め、骨子→節→人の確認、の順にします。" data-href="../../blog/ai/claude/claude-basics.html">
-                                <div class="series-step-meta"><span class="series-step-badge">入門</span><span class="series-step-label">STEP 01</span></div>
-                                <div class="series-step-title">Claude業務活用の始め方</div>
-                            </button>
-                            <button class="series-step" type="button" data-tool="claude" data-index="1" data-kicker="STEP 02 / 長文" data-title="Claudeで長文を破綻させない：設計図→章→統合" data-desc="5,000字超は設計図を先に固定し、章ごとに出してから統合します。" data-href="../../blog/ai/claude/claude-longform-writing.html">
-                                <div class="series-step-meta"><span class="series-step-badge">長文</span><span class="series-step-label">STEP 02</span></div>
-                                <div class="series-step-title">Claudeで長文を破綻させない</div>
-                            </button>
-                            <button class="series-step" type="button" data-tool="claude" data-index="2" data-kicker="STEP 03 / Artifacts" data-title="Claude Artifacts：横の窓に出して、版を残す" data-desc="繰り返し使う見出しと表を会話の横に出し、公開リンクは公式を確認してからにします。" data-href="../../blog/ai/claude/claude-artifacts.html">
-                                <div class="series-step-meta"><span class="series-step-badge">Artifacts</span><span class="series-step-label">STEP 03</span></div>
-                                <div class="series-step-title">Claude Artifacts</div>
-                            </button>
-                            <button class="series-step" type="button" data-tool="cursor" data-index="0" data-kicker="STEP 01 / 入門" data-title="非エンジニアのためのCursor：1ファイルだけ直す" data-desc="バックアップしてから、触ってよいファイルと禁止を書き、差分を見て適用します。" data-href="../../blog/ai/cursor/cursor-for-non-engineers.html">
-                                <div class="series-step-meta"><span class="series-step-badge">入門</span><span class="series-step-label">STEP 01</span></div>
-                                <div class="series-step-title">非エンジニアのためのCursor</div>
-                            </button>
-                            <button class="series-step" type="button" data-tool="cursor" data-index="1" data-kicker="STEP 02 / 導入" data-title="Cursor導入：フォルダを開いて、1ファイル直すまで" data-desc="公式から入れ、正しいフォルダを開き、秘密を貼らず、差分を見てから適用します。" data-href="../../blog/ai/cursor/cursor-setup.html">
-                                <div class="series-step-meta"><span class="series-step-badge">導入</span><span class="series-step-label">STEP 02</span></div>
-                                <div class="series-step-title">Cursor導入</div>
-                            </button>
-                            <button class="series-step" type="button" data-tool="cursor" data-index="2" data-kicker="STEP 03 / Tips" data-title="Cursor実践Tips：速さより、差分のノイズを減らす" data-desc="依頼の先頭を固定し、レビューはリンク・表示・秘密・余計なdiffの4点にします。" data-href="../../blog/ai/cursor/cursor-productivity-tips.html">
-                                <div class="series-step-meta"><span class="series-step-badge">Tips</span><span class="series-step-label">STEP 03</span></div>
-                                <div class="series-step-title">Cursor実践Tips</div>
-                            </button>
-                            <button class="series-step" type="button" data-tool="gemini" data-index="0" data-kicker="STEP 01 / 入門" data-title="Geminiの始め方：アプリとWorkspaceは別物、禁止は同じ" data-desc="gemini.google.com で禁止1行を固定し、要約・たたき台・チェックのどれかを今日1回回します。Gmailの中のGeminiとは別物です。" data-href="../../blog/ai/gemini/gemini-basics.html">
-                                <div class="series-step-meta"><span class="series-step-badge">入門</span><span class="series-step-label">STEP 01</span></div>
-                                <div class="series-step-title">Geminiの始め方</div>
-                            </button>
-                            <button class="series-step" type="button" data-tool="gemini" data-index="1" data-kicker="STEP 02 / Workspace" data-title="Gemini×Workspace：下書きはサイドパネル、送信は人" data-desc="Gmail・ドキュメント・シートの中で下書きを取り、数字と宛先は人が見てから出します。" data-href="../../blog/ai/gemini/gemini-workspace.html">
-                                <div class="series-step-meta"><span class="series-step-badge">Workspace</span><span class="series-step-label">STEP 02</span></div>
-                                <div class="series-step-title">Gemini×Workspace</div>
-                            </button>
-                            <button class="series-step" type="button" data-tool="gemini" data-index="2" data-kicker="STEP 03 / フォーム" data-title="フォーム→シート：Geminiは要約と分類まで、送信は人" data-desc="受付はフォーム、記録はシート。要約と分類の下書きだけGemini。返信の自動送信はしません。" data-href="../../blog/ai/gemini/google-ai-automation.html">
-                                <div class="series-step-meta"><span class="series-step-badge">フォーム</span><span class="series-step-label">STEP 03</span></div>
-                                <div class="series-step-title">フォーム→シート</div>
-                            </button>
-                            <button class="series-step" type="button" data-tool="perplexity" data-index="0" data-kicker="STEP 01 / 調べもの" data-title="Perplexity：出典リンクを1本開いてから使う" data-desc="答えではなく出典候補を取り、番号付きリンクを自分で開いてから使います。" data-href="../../blog/ai/perplexity/perplexity-research.html">
-                                <div class="series-step-meta"><span class="series-step-badge">調べもの</span><span class="series-step-label">STEP 01</span></div>
-                                <div class="series-step-title">Perplexity：出典を開く</div>
-                            </button>
-                            <button class="series-step" type="button" data-tool="perplexity" data-index="1" data-kicker="STEP 02 / 比較" data-title="Perplexityで比較表：軸を先に固定し、不明は空欄" data-desc="対象と列を人が決めてから表を出させます。無いものは空欄と確認手順です。" data-href="../../blog/ai/perplexity/perplexity-comparison.html">
-                                <div class="series-step-meta"><span class="series-step-badge">比較</span><span class="series-step-label">STEP 02</span></div>
-                                <div class="series-step-title">Perplexityで比較表</div>
-                            </button>
-                            <button class="series-step" type="button" data-tool="notebooklm" data-index="0" data-kicker="STEP 01 / ソース" data-title="Gemini Notebook（旧 NotebookLM）：ソースを入れて、引用を開く" data-desc="手元の資料だけを根拠にし、引用を原文と突き合わせます。" data-href="../../blog/ai/notebooklm/notebook-lm.html">
-                                <div class="series-step-meta"><span class="series-step-badge">ソース</span><span class="series-step-label">STEP 01</span></div>
-                                <div class="series-step-title">ソースを入れて引用を開く</div>
-                            </button>
-                            <button class="series-step" type="button" data-tool="notebooklm" data-index="1" data-kicker="STEP 02 / 読み方" data-title="Gemini Notebook：論点→質問→人が直す" data-desc="決めたいこと1行を先に書き、全体→数字→例外の順で聞きます。" data-href="../../blog/ai/notebooklm/notebooklm-workflows.html">
-                                <div class="series-step-meta"><span class="series-step-badge">読み方</span><span class="series-step-label">STEP 02</span></div>
-                                <div class="series-step-title">論点→質問→人が直す</div>
-                            </button>
-                        </div>
-
-                        <div class="series-detail" aria-live="polite">
-                            <div class="series-detail-kicker" id="series-kicker">STEP 01 / 入門</div>
-                            <h3 class="series-detail-title" id="series-title">ChatGPT業務活用の始め方（安全ルールと3つの型）</h3>
-                            <p class="series-detail-desc" id="series-desc">入力禁止を固定し、要約・たたき台・チェックの3型から今日1回回します。</p>
-                            <a class="shop-link" id="series-link" href="../../blog/ai/chatgpt/chatgpt-basics.html">この記事を読む</a>
-                            <div class="series-controls">
-                                <button class="series-nav-btn" type="button" data-nav="prev">前へ</button>
-                                <button class="series-nav-btn" type="button" data-nav="next">次へ</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div style="margin-top: 28px;">
-                <a href="../../articles/index.html" class="cta-button">全記事一覧を見る</a>
-            </div>
         </div>
     </section>
 
@@ -265,62 +163,6 @@
             });
         });
 
-        // Series
-        const toolBtns = document.querySelectorAll('.series-tool-btn');
-        const allSteps = document.querySelectorAll('.series-step');
-        const kicker = document.getElementById('series-kicker');
-        const title = document.getElementById('series-title');
-        const desc = document.getElementById('series-desc');
-        const link = document.getElementById('series-link');
-
-        function showTool(tool) {
-            toolBtns.forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected', 'false'); });
-            document.querySelector(`.series-tool-btn[data-tool="${tool}"]`).classList.add('active');
-            document.querySelector(`.series-tool-btn[data-tool="${tool}"]`).setAttribute('aria-selected', 'true');
-            allSteps.forEach(s => {
-                s.classList.remove('active');
-                s.style.display = s.dataset.tool === tool ? '' : 'none';
-            });
-            const first = document.querySelector(`.series-step[data-tool="${tool}"]`);
-            if (first) { first.classList.add('active'); updateDetail(first); }
-        }
-
-        function updateDetail(step) {
-            kicker.textContent = step.dataset.kicker;
-            title.textContent = step.dataset.title;
-            desc.textContent = step.dataset.desc;
-            link.href = step.dataset.href;
-        }
-
-        toolBtns.forEach(btn => {
-            btn.addEventListener('click', () => showTool(btn.dataset.tool));
-        });
-
-        allSteps.forEach(step => {
-            step.addEventListener('click', () => {
-                allSteps.forEach(s => s.classList.remove('active'));
-                step.classList.add('active');
-                updateDetail(step);
-            });
-        });
-
-        document.querySelectorAll('.series-nav-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const current = document.querySelector('.series-step.active');
-                if (!current) return;
-                const tool = current.dataset.tool;
-                const steps = Array.from(document.querySelectorAll(`.series-step[data-tool="${tool}"]`));
-                const idx = steps.indexOf(current);
-                let next = btn.dataset.nav === 'next' ? idx + 1 : idx - 1;
-                if (next < 0) next = steps.length - 1;
-                if (next >= steps.length) next = 0;
-                steps.forEach(s => s.classList.remove('active'));
-                steps[next].classList.add('active');
-                updateDetail(steps[next]);
-            });
-        });
-
-        showTool('chatgpt');
     });
     </script>
 </body>
