@@ -11,15 +11,20 @@
     <link rel="stylesheet" href="../style.css">
     <style>
         .event-page {
-            padding: clamp(40px, 8vw, 80px) 0;
+            padding: clamp(110px, 14vw, 150px) 0 clamp(40px, 8vw, 80px);
             min-height: 80vh;
         }
         .event-pdf-container {
             max-width: 900px;
             margin: 0 auto;
-            border-radius: 12px;
+            border-radius: 4px;
             overflow: hidden;
-            border: 1px solid var(--color-border);
+            /* 金縁フレーム(サイト共通プリミティブ)。PDF可読性のため下地は白のまま */
+            border: 1px solid var(--c-gold);
+            box-shadow:
+                0 0 0 3px rgba(20, 16, 9, 0.9),
+                0 0 0 4px var(--c-gold-soft),
+                0 26px 64px -30px rgba(0, 0, 0, 0.95);
             background: #fff;
         }
         .event-pdf-container iframe {
@@ -34,8 +39,9 @@
         }
         .event-header .page-label {
             font-family: var(--font-display);
-            font-size: clamp(0.65rem, 1.5vw, 0.75rem);
-            letter-spacing: 0.15em;
+            font-size: clamp(0.6rem, 1.3vw, 0.7rem);
+            letter-spacing: 0.34em;
+            text-transform: uppercase;
             color: var(--color-primary);
             margin-bottom: 8px;
         }
@@ -52,16 +58,22 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            padding: 12px 24px;
-            background: var(--color-primary);
-            color: var(--color-bg-dark);
-            font-weight: 700;
+            padding: 12px 28px;
+            border: 1px solid var(--color-primary);
+            background: transparent;
+            color: var(--color-primary);
+            font-family: var(--font-display);
+            font-size: 0.78rem;
+            letter-spacing: 0.14em;
+            font-weight: 500;
             text-decoration: none;
-            border-radius: 8px;
-            transition: opacity 0.2s;
+            border-radius: 999px;
+            transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
         }
         .event-download a:hover {
-            opacity: 0.9;
+            background: var(--color-primary);
+            color: #0a0a0f;
+            box-shadow: 0 0 28px -8px var(--color-primary);
         }
     </style>
 </head>
