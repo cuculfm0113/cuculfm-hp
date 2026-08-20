@@ -35,13 +35,13 @@ const CARDS = [
     name: '過去問の塔', flavor: '「過去を解く者だけが、\n未来の管を診る。」',
     template: 'photoPlain', photo: '/images/gallery/pipe-inspection-control.png', crop: { cx: .5, cy: .5, zoom: 1 } },
   { slug: 'solar-panel-cleaning', cat: 'inspection', num: 6, seed: 0x56C6,
-    name: '月光の鏡面', flavor: '「取説が正。屋根に上がらぬ\n賢者の清掃。」', template: 'moonPanels' },
+    name: '陽光の鏡面', flavor: '「取説が正。屋根に上がらぬ\n賢者の清掃。」', template: 'sunPanels', dayScene: true },
   { slug: 'drone-wall-inspection', cat: 'inspection', num: 7, seed: 0x57C7,
-    name: '壁面の斥候', flavor: '「打診に代わる翼。\n条件は告示が定める。」', template: 'droneSentinel' },
+    name: '壁面の斥候', flavor: '「打診に代わる翼。\n条件は告示が定める。」', template: 'droneDaySentinel', dayScene: true },
   { slug: 'aircon-cleaning', cat: 'inspection', num: 8, seed: 0x58C8,
-    name: '白風の祠', flavor: '「フィルターは自分の手で。\n分解洗浄は資格の業。」', template: 'whiteBreeze' },
+    name: '白風の祠', flavor: '「フィルターは自分の手で。\n分解洗浄は資格の業。」', template: 'dayBreeze', dayScene: true },
   { slug: 'gutter-cleaning', cat: 'inspection', num: 9, seed: 0x59C9,
-    name: '雨樋の川守', flavor: '「溢れたあとに見る順番。\n高所を無理しない。」', template: 'rainGutter' },
+    name: '雨樋の川守', flavor: '「溢れたあとに見る順番。\n高所を無理しない。」', template: 'dayGutter', dayScene: true },
   // --- 犬関連 (photo×4=無加工写真。犬写真無加工の掟にも合致) ---
   { slug: 'trust-relationship', cat: 'dog', num: 10, seed: 0x5AD1,
     name: '前日の約束', flavor: '「来店前夜の支度が、\n明日の安心を連れてくる。」',
@@ -168,9 +168,10 @@ await page.evaluate(() => {
     g.drawImage(tex, 0, 0);
     g.globalCompositeOperation = 'source-over';
     g.globalAlpha = 1;
+    const vColor = opts.vignetteColor ?? '6,6,14';
     const v = g.createRadialGradient(W/2, H/2, H*.34, W/2, H/2, H*.86);
-    v.addColorStop(0, 'rgba(6,6,14,0)');
-    v.addColorStop(1, `rgba(6,6,14,${opts.vignette ?? .5})`);
+    v.addColorStop(0, `rgba(${vColor},0)`);
+    v.addColorStop(1, `rgba(${vColor},${opts.vignette ?? .5})`);
     g.fillStyle = v; g.fillRect(0, 0, W, H);
     return out;
   };
@@ -197,6 +198,34 @@ await page.evaluate(() => {
     const bg = g.createLinearGradient(0, 0, 0, H);
     bg.addColorStop(0, top); bg.addColorStop(.55, mid); bg.addColorStop(1, bot);
     g.fillStyle = bg; g.fillRect(0, 0, W, H);
+  };
+
+  /* ============ 昼間シーン用ヘルパー ============ */
+  const daySky = (g, W, H, top = '#7fc4ee', mid = '#bfe4f7', bot = '#eef9fb') => {
+    const bg = g.createLinearGradient(0, 0, 0, H);
+    bg.addColorStop(0, top); bg.addColorStop(.55, mid); bg.addColorStop(1, bot);
+    g.fillStyle = bg; g.fillRect(0, 0, W, H);
+  };
+  window.sunGlow = (g, x, y, r, glow = 1) => {
+    g.save();
+    g.shadowColor = 'rgba(255,245,200,.95)'; g.shadowBlur = 34 * glow;
+    const sun = g.createRadialGradient(x - r * .2, y - r * .2, r * .1, x, y, r);
+    sun.addColorStop(0, '#fffdf2'); sun.addColorStop(.55, '#fff2b0'); sun.addColorStop(1, '#ffd670');
+    g.fillStyle = sun;
+    g.beginPath(); g.arc(x, y, r, 0, Math.PI * 2); g.fill();
+    g.restore();
+  };
+  window.clouds = (g, rnd, n, W, H, yMin, yMax) => {
+    for (let i = 0; i < n; i++) {
+      const cx = rnd() * W, cy = yMin + rnd() * (yMax - yMin);
+      const s = 26 + rnd() * 38;
+      g.fillStyle = `rgba(255,255,255,${(.4 + rnd() * .3).toFixed(2)})`;
+      for (let k = 0; k < 4; k++) {
+        g.beginPath();
+        g.ellipse(cx + (k - 1.5) * s * .5, cy + (rnd() - .5) * 8, s * .6, s * .32, 0, 0, Math.PI * 2);
+        g.fill();
+      }
+    }
   };
 
   /* ============ シーンテンプレート(542×424 の下絵を返す) ============ */
@@ -288,46 +317,40 @@ await page.evaluate(() => {
       return c;
     },
 
-    /* 月光の鏡面(ソーラーパネル清掃) */
-    moonPanels: async (spec) => {
+    /* 陽光の鏡面(ソーラーパネル清掃・昼) */
+    sunPanels: async (spec) => {
       const { AW, AH } = window.DIM;
       const rnd = window.mkRnd(spec.seed);
       const rr = (a, b) => a + (b - a) * rnd();
       const c = document.createElement('canvas'); c.width = AW; c.height = AH;
       const g = c.getContext('2d');
-      nightSky(g, AW, AH, '#050a1a', '#0e1830', '#101426');
-      window.stars(g, rnd, 90, AW, AH * .5);
-      /* 満月(左上) */
-      const mx = AW * .2, my = AH * .2, mr = 46;
-      const halo = g.createRadialGradient(mx, my, mr * .5, mx, my, mr * 3);
-      halo.addColorStop(0, 'rgba(255,240,190,.5)'); halo.addColorStop(1, 'rgba(255,240,190,0)');
-      g.fillStyle = halo; g.fillRect(0, 0, AW, AH);
-      const moon = g.createRadialGradient(mx - 12, my - 12, 4, mx, my, mr);
-      moon.addColorStop(0, '#fff8dd'); moon.addColorStop(.8, '#f2dd9e'); moon.addColorStop(1, '#d8ba6e');
-      g.fillStyle = moon; g.beginPath(); g.arc(mx, my, mr, 0, Math.PI * 2); g.fill();
+      daySky(g, AW, AH, '#7fc4ee', '#bfe4f7', '#eef9fb');
+      window.clouds(g, rnd, 5, AW, AH, AH * .05, AH * .4);
+      /* 太陽(右上) */
+      window.sunGlow(g, AW * .82, AH * .16, 40, 1);
       /* 屋根面(パース付き) */
-      g.fillStyle = '#0c0f18';
+      g.fillStyle = '#2b3442';
       g.beginPath(); g.moveTo(0, AH * .62); g.lineTo(AW, AH * .5); g.lineTo(AW, AH); g.lineTo(0, AH); g.closePath(); g.fill();
-      /* パネル3×2(平行四辺形+月の反射) */
+      /* パネル3×2(平行四辺形+青空の反射) */
       const panel = (px, py, pw, ph, skx) => {
         const grd = g.createLinearGradient(px, py, px + pw * .7, py + ph);
-        grd.addColorStop(0, '#16233c'); grd.addColorStop(.45, '#1d3050'); grd.addColorStop(.55, '#2c4a74'); grd.addColorStop(1, '#101a2e');
+        grd.addColorStop(0, '#274266'); grd.addColorStop(.45, '#345a86'); grd.addColorStop(.55, '#6fa8d8'); grd.addColorStop(1, '#1c2c40');
         g.fillStyle = grd;
         g.beginPath();
         g.moveTo(px, py); g.lineTo(px + pw, py - skx); g.lineTo(px + pw + 14, py - skx + ph); g.lineTo(px + 14, py + ph);
         g.closePath(); g.fill();
-        g.strokeStyle = 'rgba(150,180,220,.4)'; g.lineWidth = 1.6; g.stroke();
-        /* 反射光(月) */
+        g.strokeStyle = 'rgba(210,230,250,.5)'; g.lineWidth = 1.6; g.stroke();
+        /* 反射光(青空+陽光) */
         const rgl = g.createLinearGradient(px, py, px + pw, py + ph);
-        rgl.addColorStop(.3, 'rgba(255,240,190,0)');
-        rgl.addColorStop(.5, `rgba(255,240,190,${rr(.18, .3).toFixed(2)})`);
-        rgl.addColorStop(.7, 'rgba(255,240,190,0)');
+        rgl.addColorStop(.25, 'rgba(255,255,240,0)');
+        rgl.addColorStop(.45, `rgba(255,255,240,${rr(.35, .55).toFixed(2)})`);
+        rgl.addColorStop(.65, 'rgba(255,255,240,0)');
         g.fillStyle = rgl;
         g.beginPath();
         g.moveTo(px, py); g.lineTo(px + pw, py - skx); g.lineTo(px + pw + 14, py - skx + ph); g.lineTo(px + 14, py + ph);
         g.closePath(); g.fill();
         /* セル格子 */
-        g.strokeStyle = 'rgba(90,120,170,.35)'; g.lineWidth = 1;
+        g.strokeStyle = 'rgba(20,30,50,.35)'; g.lineWidth = 1;
         for (let i = 1; i < 4; i++) {
           g.beginPath();
           g.moveTo(px + (pw / 4) * i, py - (skx / 4) * i);
@@ -342,146 +365,145 @@ await page.evaluate(() => {
       panel(AW * .38, AH * .8, 130, 60, 12);
       panel(AW * .66, AH * .76, 130, 60, 12);
       /* 清掃の光跡(スクイジーの一筆) */
-      g.strokeStyle = 'rgba(180,240,255,.5)'; g.lineWidth = 7; g.lineCap = 'round';
-      g.shadowColor = 'rgba(140,240,255,.8)'; g.shadowBlur = 14;
+      g.strokeStyle = 'rgba(255,255,255,.75)'; g.lineWidth = 7; g.lineCap = 'round';
+      g.shadowColor = 'rgba(255,255,255,.9)'; g.shadowBlur = 12;
       g.beginPath(); g.moveTo(AW * .46, AH * .6); g.quadraticCurveTo(AW * .55, AH * .68, AW * .5, AH * .78); g.stroke();
       g.shadowBlur = 0;
-      /* 洗い立ての煌めき */
+      /* 洗い立ての水滴のきらめき */
       for (let i = 0; i < 16; i++) {
         const px = rr(AW * .1, AW * .95), py = rr(AH * .55, AH * .95);
-        g.fillStyle = `rgba(200,245,255,${rr(.4, .85).toFixed(2)})`;
-        g.shadowColor = 'rgba(180,240,255,.9)'; g.shadowBlur = 8;
+        g.fillStyle = `rgba(255,255,255,${rr(.5, .95).toFixed(2)})`;
+        g.shadowColor = 'rgba(255,255,255,.9)'; g.shadowBlur = 8;
         g.beginPath(); g.arc(px, py, rr(1, 2.4), 0, Math.PI * 2); g.fill();
         g.shadowBlur = 0;
       }
       return c;
     },
 
-    /* 壁面の斥候(ドローン外壁調査) */
-    droneSentinel: async (spec) => {
+    /* 壁面の斥候(ドローン外壁調査・昼) */
+    droneDaySentinel: async (spec) => {
       const { AW, AH } = window.DIM;
       const rnd = window.mkRnd(spec.seed);
       const rr = (a, b) => a + (b - a) * rnd();
       const c = document.createElement('canvas'); c.width = AW; c.height = AH;
       const g = c.getContext('2d');
-      nightSky(g, AW, AH, '#070b1c', '#111a34', '#151228');
-      window.stars(g, rnd, 80, AW, AH * .7);
-      window.crescent(g, AW * .14, AH * .16, 30, .8, '#0a0f24');
+      daySky(g, AW, AH, '#79bdea', '#b9e0f4', '#eaf6fb');
+      window.clouds(g, rnd, 4, AW, AH, AH * .05, AH * .3);
+      window.sunGlow(g, AW * .16, AH * .15, 30, .9);
       /* ビル壁面(右側、パース) */
-      g.fillStyle = '#101320';
+      g.fillStyle = '#8b96a8';
       g.beginPath(); g.moveTo(AW * .58, 0); g.lineTo(AW, AH * .08); g.lineTo(AW, AH); g.lineTo(AW * .58, AH); g.closePath(); g.fill();
-      g.strokeStyle = 'rgba(150,170,210,.25)'; g.lineWidth = 1.4;
+      g.strokeStyle = 'rgba(255,255,255,.35)'; g.lineWidth = 1.4;
       g.beginPath(); g.moveTo(AW * .58, 0); g.lineTo(AW * .58, AH); g.stroke();
-      /* 窓格子 */
+      /* 窓格子(ガラスに空を反射) */
       for (let r = 0; r < 7; r++) {
         for (let col = 0; col < 3; col++) {
           const wx = AW * (.63 + col * .12), wy = AH * (.1 + r * .13) + col * 4;
-          const lit = rnd() < .22;
-          g.fillStyle = lit ? `rgba(255,214,120,${rr(.35, .6).toFixed(2)})` : 'rgba(60,80,120,.35)';
+          const sky = rnd() < .55;
+          g.fillStyle = sky ? `rgba(190,225,245,${rr(.55, .85).toFixed(2)})` : 'rgba(120,132,148,.55)';
           g.fillRect(wx, wy, AW * .075, AH * .07);
         }
       }
       /* スキャンビーム(シアンの扇) */
       const dx = AW * .3, dy = AH * .42;
       const beam = g.createLinearGradient(dx, dy, AW * .72, AH * .5);
-      beam.addColorStop(0, 'rgba(0,229,255,.5)'); beam.addColorStop(1, 'rgba(0,229,255,.04)');
+      beam.addColorStop(0, 'rgba(0,190,255,.45)'); beam.addColorStop(1, 'rgba(0,190,255,.05)');
       g.fillStyle = beam;
       g.beginPath(); g.moveTo(dx + 14, dy); g.lineTo(AW * .78, AH * .3); g.lineTo(AW * .78, AH * .68); g.closePath(); g.fill();
       /* スキャン痕(壁面の格子ハイライト) */
-      g.strokeStyle = 'rgba(0,229,255,.55)'; g.lineWidth = 1.4;
+      g.strokeStyle = 'rgba(0,190,255,.6)'; g.lineWidth = 1.4;
       g.strokeRect(AW * .63, AH * .36, AW * .075 * 2.6, AH * .07 * 2.8);
       /* ドローン機体(シルエット+ライト) */
       g.save(); g.translate(dx, dy);
-      g.fillStyle = '#05070d';
+      g.fillStyle = '#20242e';
       g.beginPath(); g.ellipse(0, 0, 26, 10, 0, 0, Math.PI * 2); g.fill();   // 胴
-      g.strokeStyle = '#05070d'; g.lineWidth = 4;
+      g.strokeStyle = '#20242e'; g.lineWidth = 4;
       g.beginPath(); g.moveTo(-24, -4); g.lineTo(-44, -16); g.moveTo(24, -4); g.lineTo(44, -16); g.stroke(); // アーム
-      g.strokeStyle = 'rgba(190,210,240,.8)'; g.lineWidth = 2.4;
+      g.strokeStyle = 'rgba(40,44,54,.85)'; g.lineWidth = 2.4;
       g.beginPath(); g.moveTo(-58, -18); g.lineTo(-30, -18); g.moveTo(30, -18); g.lineTo(58, -18); g.stroke(); // ローター
       g.fillStyle = 'rgba(255,80,80,.9)'; g.shadowColor = 'rgba(255,80,80,.9)'; g.shadowBlur = 8;
       g.beginPath(); g.arc(-20, 4, 2.4, 0, Math.PI * 2); g.fill();
-      g.fillStyle = 'rgba(0,229,255,.95)'; g.shadowColor = 'rgba(0,229,255,.95)'; g.shadowBlur = 10;
+      g.fillStyle = 'rgba(0,190,255,.95)'; g.shadowColor = 'rgba(0,190,255,.95)'; g.shadowBlur = 10;
       g.beginPath(); g.arc(14, 2, 3, 0, Math.PI * 2); g.fill();
       g.shadowBlur = 0; g.restore();
-      /* 地上の常夜灯 */
+      /* 地上のうっすらとした霞み */
       const ground = g.createLinearGradient(0, AH * .86, 0, AH);
-      ground.addColorStop(0, 'rgba(8,10,18,0)'); ground.addColorStop(1, 'rgba(8,10,18,.9)');
+      ground.addColorStop(0, 'rgba(210,225,235,0)'); ground.addColorStop(1, 'rgba(210,225,235,.5)');
       g.fillStyle = ground; g.fillRect(0, AH * .86, AW, AH * .14);
       return c;
     },
 
-    /* 白風の祠(エアコン清掃) */
-    whiteBreeze: async (spec) => {
+    /* 白風の祠(エアコン清掃・昼) */
+    dayBreeze: async (spec) => {
       const { AW, AH } = window.DIM;
       const rnd = window.mkRnd(spec.seed);
       const rr = (a, b) => a + (b - a) * rnd();
       const c = document.createElement('canvas'); c.width = AW; c.height = AH;
       const g = c.getContext('2d');
-      /* 夜の室内(壁) */
+      /* 昼の室内(壁) */
       const bg = g.createLinearGradient(0, 0, 0, AH);
-      bg.addColorStop(0, '#0d0f1e'); bg.addColorStop(.6, '#12142a'); bg.addColorStop(1, '#0a0c18');
+      bg.addColorStop(0, '#cfdfec'); bg.addColorStop(.6, '#b9cddd'); bg.addColorStop(1, '#9db2c4');
       g.fillStyle = bg; g.fillRect(0, 0, AW, AH);
-      /* 窓外の月明かり(左) */
-      g.fillStyle = '#070b18';
+      /* 窓外の青空(左) */
+      g.fillStyle = '#8fcdf0';
       g.fillRect(AW * .05, AH * .18, AW * .2, AH * .5);
-      g.strokeStyle = 'rgba(160,180,220,.3)'; g.lineWidth = 2;
+      g.strokeStyle = 'rgba(255,255,255,.6)'; g.lineWidth = 2;
       g.strokeRect(AW * .05, AH * .18, AW * .2, AH * .5);
       g.beginPath(); g.moveTo(AW * .15, AH * .18); g.lineTo(AW * .15, AH * .68); g.stroke();
-      window.crescent(g, AW * .11, AH * .3, 16, .6, '#070b18');
-      const moonlight = g.createLinearGradient(AW * .07, AH * .3, AW * .3, AH * .9);
-      moonlight.addColorStop(0, 'rgba(200,215,255,.14)'); moonlight.addColorStop(1, 'rgba(200,215,255,0)');
-      g.fillStyle = moonlight;
+      window.sunGlow(g, AW * .11, AH * .28, 14, .7);
+      const daylight = g.createLinearGradient(AW * .07, AH * .3, AW * .3, AH * .9);
+      daylight.addColorStop(0, 'rgba(255,250,225,.35)'); daylight.addColorStop(1, 'rgba(255,250,225,0)');
+      g.fillStyle = daylight;
       g.beginPath(); g.moveTo(AW * .05, AH * .3); g.lineTo(AW * .25, AH * .3); g.lineTo(AW * .42, AH); g.lineTo(AW * .02, AH); g.closePath(); g.fill();
-      /* エアコン本体(右上・祠 — ガンメタルの厨子) */
+      /* エアコン本体(右上・祠) */
       const ax = AW * .5, ay = AH * .13, aw = AW * .4, ah = AH * .15;
       const body = g.createLinearGradient(ax, ay, ax, ay + ah);
-      body.addColorStop(0, '#3a4356'); body.addColorStop(.55, '#232a3a'); body.addColorStop(1, '#12161f');
+      body.addColorStop(0, '#fbfcfe'); body.addColorStop(.55, '#e4e9ef'); body.addColorStop(1, '#c7cfd8');
       g.fillStyle = body;
       g.beginPath(); g.roundRect(ax, ay, aw, ah, 10); g.fill();
-      g.strokeStyle = 'rgba(180,200,230,.4)'; g.lineWidth = 1.4;
+      g.strokeStyle = 'rgba(150,165,185,.5)'; g.lineWidth = 1.4;
       g.beginPath(); g.roundRect(ax, ay, aw, ah, 10); g.stroke();
-      /* 月光のハイライト(上面) */
+      /* 陽光のハイライト(上面) */
       const lid = g.createLinearGradient(0, ay, 0, ay + 8);
-      lid.addColorStop(0, 'rgba(200,220,250,.5)'); lid.addColorStop(1, 'rgba(200,220,250,0)');
+      lid.addColorStop(0, 'rgba(255,255,255,.8)'); lid.addColorStop(1, 'rgba(255,255,255,0)');
       g.fillStyle = lid;
       g.beginPath(); g.roundRect(ax, ay, aw, 10, [10, 10, 0, 0]); g.fill();
       /* 吹き出しルーバー(淡光) */
-      g.fillStyle = 'rgba(160,220,255,.55)';
+      g.fillStyle = 'rgba(140,190,230,.7)';
       g.beginPath(); g.roundRect(ax + 12, ay + ah - 12, aw - 24, 5, 3); g.fill();
-      g.fillStyle = 'rgba(0,229,255,.9)'; g.shadowColor = 'rgba(0,229,255,.9)'; g.shadowBlur = 8;
+      g.fillStyle = 'rgba(0,190,255,.9)'; g.shadowColor = 'rgba(0,190,255,.9)'; g.shadowBlur = 8;
       g.beginPath(); g.arc(ax + aw - 16, ay + 12, 2.4, 0, Math.PI * 2); g.fill();
       g.shadowBlur = 0;
-      /* 白風の渦(細く長い螺旋の帯を月光へ流す) */
+      /* 白風の渦(細く長い螺旋の帯を陽だまりへ流す) */
       g.lineCap = 'round';
       const flow = (sx, sy, scale, alpha, width) => {
-        g.strokeStyle = `rgba(225,242,255,${alpha})`;
+        g.strokeStyle = `rgba(150,190,225,${alpha})`;
         g.lineWidth = width;
-        g.shadowColor = 'rgba(190,235,255,.75)'; g.shadowBlur = 10;
+        g.shadowColor = 'rgba(150,190,225,.5)'; g.shadowBlur = 8;
         g.beginPath();
         g.moveTo(sx, sy);
-        /* S字→カール(左下の月光だまりへ) */
         g.bezierCurveTo(sx - 60 * scale, sy + 60 * scale, sx + 40 * scale, sy + 120 * scale, sx - 50 * scale, sy + 170 * scale);
         g.bezierCurveTo(sx - 110 * scale, sy + 205 * scale, sx - 150 * scale, sy + 165 * scale, sx - 128 * scale, sy + 138 * scale);
         g.bezierCurveTo(sx - 112 * scale, sy + 118 * scale, sx - 86 * scale, sy + 132 * scale, sx - 96 * scale, sy + 152 * scale);
         g.stroke();
       };
-      flow(ax + aw * .28, ay + ah + 4, 1.05, '.5', 3.6);
-      flow(ax + aw * .52, ay + ah + 2, 1.25, '.38', 2.6);
+      flow(ax + aw * .28, ay + ah + 4, 1.05, '.55', 3.6);
+      flow(ax + aw * .52, ay + ah + 2, 1.25, '.4', 2.6);
       flow(ax + aw * .74, ay + ah + 6, .85, '.3', 2);
       /* 渦を渡る微風の小アーク */
       for (let i = 0; i < 9; i++) {
         const px = rr(AW * .3, AW * .86), py = rr(AH * .38, AH * .8);
-        g.strokeStyle = `rgba(210,238,255,${rr(.16, .38).toFixed(2)})`;
+        g.strokeStyle = `rgba(140,180,220,${rr(.18, .4).toFixed(2)})`;
         g.lineWidth = rr(1, 2);
         g.beginPath();
         g.arc(px, py, rr(8, 22), rr(0, Math.PI), rr(Math.PI, Math.PI * 1.9));
         g.stroke();
       }
       g.shadowBlur = 0;
-      /* 霜の結晶粒 */
-      for (let i = 0; i < 22; i++) {
+      /* 冷気の結晶粒 */
+      for (let i = 0; i < 18; i++) {
         const px = rr(AW * .3, AW), py = rr(AH * .3, AH * .95);
-        g.strokeStyle = `rgba(220,245,255,${rr(.35, .8).toFixed(2)})`;
+        g.strokeStyle = `rgba(255,255,255,${rr(.4, .85).toFixed(2)})`;
         g.lineWidth = 1.2;
         const s = rr(2.5, 6);
         g.save(); g.translate(px, py); g.rotate(rr(0, Math.PI));
@@ -490,65 +512,46 @@ await page.evaluate(() => {
         g.moveTo(-s * .6, -s * .6); g.lineTo(s * .6, s * .6); g.moveTo(-s * .6, s * .6); g.lineTo(s * .6, -s * .6);
         g.stroke(); g.restore();
       }
-      /* 床とランプの温かみ(対比) */
-      g.fillStyle = '#0a0810';
+      /* 床(明るい昼の陰影) */
+      g.fillStyle = '#8fa2b4';
       g.fillRect(0, AH * .9, AW, AH * .1);
-      const lamp = g.createRadialGradient(AW * .86, AH * .88, 0, AW * .86, AH * .88, 70);
-      lamp.addColorStop(0, 'rgba(255,190,110,.4)'); lamp.addColorStop(1, 'rgba(255,190,110,0)');
-      g.fillStyle = lamp; g.fillRect(0, 0, AW, AH);
       return c;
     },
 
-    /* 雨樋の川守(雨樋清掃) */
-    rainGutter: async (spec) => {
+    /* 雨樋の川守(雨樋清掃・昼) */
+    dayGutter: async (spec) => {
       const { AW, AH } = window.DIM;
       const rnd = window.mkRnd(spec.seed);
       const rr = (a, b) => a + (b - a) * rnd();
       const c = document.createElement('canvas'); c.width = AW; c.height = AH;
       const g = c.getContext('2d');
-      nightSky(g, AW, AH, '#0a0d1e', '#141a34', '#0e1226');
-      window.stars(g, rnd, 46, AW, AH * .4);
-      /* 雲間の月 */
-      const mx = AW * .74, my = AH * .18, mr = 34;
-      const halo = g.createRadialGradient(mx, my, mr * .4, mx, my, mr * 3.2);
-      halo.addColorStop(0, 'rgba(255,240,190,.45)'); halo.addColorStop(1, 'rgba(255,240,190,0)');
-      g.fillStyle = halo; g.fillRect(0, 0, AW, AH);
-      g.fillStyle = '#f4e2a4';
-      g.beginPath(); g.arc(mx, my, mr, 0, Math.PI * 2); g.fill();
-      for (const [ox, oy, w, h] of [[-.9, .1, 2.6, .5], [.1, .55, 3, .6]]) {
-        g.fillStyle = 'rgba(16,20,40,.75)';
-        g.beginPath(); g.ellipse(mx + mr*ox, my + mr*oy, mr*w, mr*h, 0, 0, Math.PI * 2); g.fill();
-      }
-      /* 雨(斜めの細線) */
-      g.strokeStyle = 'rgba(170,200,240,.3)'; g.lineWidth = 1.2; g.lineCap = 'round';
-      for (let i = 0; i < 70; i++) {
-        const px = rr(0, AW), py = rr(0, AH * .8), L = rr(10, 26);
-        g.beginPath(); g.moveTo(px, py); g.lineTo(px - L * .25, py + L); g.stroke();
-      }
+      daySky(g, AW, AH, '#7cc0ec', '#bfe3f4', '#eef8fa');
+      window.clouds(g, rnd, 6, AW, AH, AH * .02, AH * .4);
+      window.sunGlow(g, AW * .74, AH * .16, 34, .9);
       /* 屋根の斜辺(左上→右下) */
-      g.fillStyle = '#0e1018';
+      g.fillStyle = '#5a6068';
       g.beginPath(); g.moveTo(0, AH * .4); g.lineTo(AW, AH * .62); g.lineTo(AW, AH * .74); g.lineTo(0, AH * .54); g.closePath(); g.fill();
       /* 瓦の線 */
-      g.strokeStyle = 'rgba(140,160,200,.22)'; g.lineWidth = 1.4;
+      g.strokeStyle = 'rgba(255,255,255,.25)'; g.lineWidth = 1.4;
       for (let i = 1; i < 5; i++) {
         g.beginPath(); g.moveTo(0, AH * (.4 + i * .028)); g.lineTo(AW, AH * (.62 + i * .028)); g.stroke();
       }
-      /* 雨樋(月光の川) */
-      g.fillStyle = '#141824';
+      /* 雨樋(陽光の川) */
+      g.fillStyle = '#3d4550';
       g.beginPath(); g.moveTo(0, AH * .54); g.lineTo(AW, AH * .74); g.lineTo(AW, AH * .8); g.lineTo(0, AH * .6); g.closePath(); g.fill();
       const river = g.createLinearGradient(0, AH * .55, AW, AH * .78);
-      river.addColorStop(0, 'rgba(255,235,160,.14)');
-      river.addColorStop(.5, 'rgba(255,235,160,.5)');
-      river.addColorStop(.75, 'rgba(180,230,255,.4)');
-      river.addColorStop(1, 'rgba(180,230,255,.1)');
+      river.addColorStop(0, 'rgba(255,250,230,.3)');
+      river.addColorStop(.5, 'rgba(255,250,230,.7)');
+      river.addColorStop(.75, 'rgba(210,240,255,.6)');
+      river.addColorStop(1, 'rgba(210,240,255,.2)');
       g.fillStyle = river;
       g.beginPath(); g.moveTo(0, AH * .555); g.lineTo(AW, AH * .755); g.lineTo(AW, AH * .785); g.lineTo(0, AH * .585); g.closePath(); g.fill();
       /* 流れの煌めき */
       for (let i = 0; i < 18; i++) {
         const t = rr(0, 1);
         const px = t * AW, py = AH * (.56 + t * .2) + rr(-3, 8);
-        g.fillStyle = `rgba(255,245,200,${rr(.4, .9).toFixed(2)})`;
-        g.shadowColor = 'rgba(255,240,180,.9)'; g.shadowBlur = 7;
+        g.fillStyle = `rgba(255,255,255,${rr(.5, .95).toFixed(2)})`;
+        g.shadowColor = 'rgba(255,255,255,.9)'; g.shadowBlur = 6;
         g.beginPath(); g.arc(px, py, rr(.8, 2.2), 0, Math.PI * 2); g.fill();
         g.shadowBlur = 0;
       }
@@ -563,11 +566,11 @@ await page.evaluate(() => {
       }
       /* 縦樋へ落ちる光 */
       const fall = g.createLinearGradient(AW * .92, AH * .76, AW * .92, AH);
-      fall.addColorStop(0, 'rgba(200,235,255,.45)'); fall.addColorStop(1, 'rgba(200,235,255,.05)');
+      fall.addColorStop(0, 'rgba(230,245,255,.55)'); fall.addColorStop(1, 'rgba(230,245,255,.08)');
       g.fillStyle = fall; g.fillRect(AW * .9, AH * .76, 14, AH * .24);
-      /* 手前の暗部 */
+      /* 手前の地面 */
       const fg = g.createLinearGradient(0, AH * .8, 0, AH);
-      fg.addColorStop(0, 'rgba(6,8,14,0)'); fg.addColorStop(1, 'rgba(6,8,14,.92)');
+      fg.addColorStop(0, 'rgba(200,210,220,0)'); fg.addColorStop(1, 'rgba(160,175,190,.5)');
       g.fillStyle = fg; g.fillRect(0, AH * .7, AW, AH * .3);
       return c;
     },
@@ -745,7 +748,9 @@ for (const spec of targets) {
           ]
         : undefined;
       const painted = window.oilPaint(base, { seed: s.seed ^ 0xA11, passes });
-      art = window.finish(painted, { seed: s.seed ^ 0xF1315, vignette: .42 });
+      art = s.dayScene
+        ? window.finish(painted, { seed: s.seed ^ 0xF1315, vignette: .12, vignetteColor: '110,130,150' })
+        : window.finish(painted, { seed: s.seed ^ 0xF1315, vignette: .42 });
     }
     const card = window.composeCard(art, s);
     return card.toDataURL('image/jpeg', .78);
