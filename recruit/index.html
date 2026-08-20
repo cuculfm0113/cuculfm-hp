@@ -5,562 +5,423 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>アルバイト募集 | CUCUL FM - 好きを仕事に変えよう</title>
     <meta name="description" content="ククルFMでは高校生・大学生のアルバイトを募集中！映像制作、Web開発、AI活用など、将来につながるスキルが身につく実践型インターン。">
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+JP:wght@400;500;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+
     <style>
-        :root {
-            --color-primary: #FF6B35;
-            --color-secondary: #4ECDC4;
-            --color-accent: #FFE66D;
-            --color-dark: #1a1a2e;
-            --color-darker: #16162a;
-            --color-text: #ffffff;
-            --color-text-muted: rgba(255,255,255,0.7);
-            --gradient-main: linear-gradient(135deg, #FF6B35 0%, #F7931E 50%, #FFE66D 100%);
-            --gradient-cool: linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%);
-            --font-display: 'Poppins', sans-serif;
-            --font-body: 'Noto Sans JP', sans-serif;
-        }
+    /* ==========================================================================
+       RECRUIT — シネマティック様式(2026-08-20 全面改修)
+       自己完結インライン。JSゼロ。トップページの世界観トークンに同期。
+       グレインは静的(光過敏配慮)。祖先要素に filter/transform を置かない。
+       ========================================================================== */
+    :root {
+        --bg-dark: #000510;
+        --bg-darker: #02030a;
+        --bg-card: #0d0d1c;
+        --primary: #f5e100;
+        --primary-glow: rgba(245, 225, 0, 0.28);
+        --text: #ffffff;
+        --muted: #8a8a9b;
+        --dim: #5a5a6b;
+        --gold: rgba(212, 160, 23, 0.55);
+        --gold-soft: rgba(212, 160, 23, 0.25);
+        --gold-line: rgba(212, 160, 23, 0.18);
+        --cyan: #00cce6;
+        --font-display: 'Orbitron', sans-serif;
+        --font-heading: 'Bebas Neue', sans-serif;
+        --font-body: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', sans-serif;
+        --pad: clamp(20px, 5vw, 40px);
+    }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
-        html {
-            font-size: 16px;
-            scroll-behavior: smooth;
-        }
+    body {
+        font-family: var(--font-body);
+        color: var(--text);
+        line-height: 1.8;
+        -webkit-font-smoothing: antialiased;
+        background:
+            radial-gradient(ellipse 80% 50% at 50% 0%, rgba(123, 97, 255, 0.12) 0%, transparent 50%),
+            radial-gradient(ellipse 60% 40% at 80% 100%, rgba(245, 225, 0, 0.08) 0%, transparent 42%),
+            linear-gradient(to bottom, #000510 0%, #0a0a1a 55%, #0f0f20 100%);
+        background-color: #000510;
+    }
 
-        body {
-            font-family: var(--font-body);
-            background: var(--color-dark);
-            color: var(--color-text);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
+    /* 星空(背後) / ビネット+静的グレイン(前面・操作透過) */
+    html::before {
+        content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+        background-image:
+            radial-gradient(1px 1px at 9% 20%, rgba(255,255,255,.8), transparent),
+            radial-gradient(1px 1px at 18% 60%, rgba(255,255,255,.55), transparent),
+            radial-gradient(1.5px 1.5px at 27% 33%, rgba(255,255,255,.7), transparent),
+            radial-gradient(1px 1px at 37% 76%, rgba(255,255,255,.45), transparent),
+            radial-gradient(2px 2px at 45% 14%, rgba(245,225,0,.5), transparent),
+            radial-gradient(1px 1px at 54% 48%, rgba(255,255,255,.6), transparent),
+            radial-gradient(1px 1px at 63% 82%, rgba(255,255,255,.5), transparent),
+            radial-gradient(1px 1px at 71% 27%, rgba(255,255,255,.75), transparent),
+            radial-gradient(2px 2px at 79% 63%, rgba(0,245,212,.45), transparent),
+            radial-gradient(1px 1px at 87% 38%, rgba(255,255,255,.65), transparent),
+            radial-gradient(1.5px 1.5px at 94% 72%, rgba(123,97,255,.5), transparent),
+            radial-gradient(ellipse 260px 200px at 90% 3%, rgba(245,240,200,.10), transparent 70%);
+        background-repeat: no-repeat;
+    }
+    body::before {
+        content: ''; position: fixed; inset: 0; z-index: 89; pointer-events: none;
+        box-shadow: inset 0 0 min(38vw, 520px) min(6vw, 80px) rgba(0, 0, 5, 0.42);
+    }
+    body::after {
+        content: ''; position: fixed; inset: 0; z-index: 90; pointer-events: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+        opacity: 0.06; mix-blend-mode: overlay;
+    }
 
-        /* A4縦長コンテナ */
-        .recruit-page {
-            max-width: 595px; /* A4幅 (210mm ≈ 595px @72dpi) */
-            margin: 0 auto;
-            background: var(--color-darker);
-            min-height: 100vh;
-            position: relative;
-        }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; height: auto; display: block; }
 
-        /* ヒーローセクション */
-        .hero {
-            position: relative;
-            padding: 40px 24px 32px;
-            background: var(--gradient-main);
-            text-align: center;
-            overflow: hidden;
-        }
+    .container { max-width: 1000px; margin: 0 auto; padding: 0 var(--pad); }
 
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
-            animation: pulse 4s ease-in-out infinite;
-        }
+    /* ---- ヘッダ ---- */
+    .site-header {
+        position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+        padding: 16px 0;
+        background: rgba(0, 5, 16, 0.92);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--gold-line);
+    }
+    .header-inner { display: flex; align-items: center; justify-content: space-between; }
+    .back-link {
+        display: inline-flex; align-items: center; gap: 8px;
+        font-size: .875rem; color: var(--muted); transition: color .2s ease;
+    }
+    .back-link:hover { color: var(--primary); }
+    .back-link svg { width: 18px; height: 18px; }
+    .header-logo { font-family: var(--font-display); font-size: 1rem; font-weight: 700; letter-spacing: .16em; }
 
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.5; }
-            50% { transform: scale(1.1); opacity: 0.8; }
-        }
+    /* ---- 共通韻律 ---- */
+    .eyebrow {
+        font-family: var(--font-display);
+        font-size: clamp(.56rem, 1.1vw, .7rem);
+        letter-spacing: .34em; text-transform: uppercase;
+        color: var(--muted);
+    }
+    .section { padding: clamp(60px, 10vw, 110px) 0; border-bottom: 1px solid rgba(212, 160, 23, 0.10); }
+    .section-title-en {
+        font-family: var(--font-heading);
+        font-size: clamp(2.2rem, 5.6vw, 3.8rem);
+        line-height: .92; letter-spacing: .04em;
+        margin: 10px 0 6px;
+    }
+    .section-title-en em { font-style: normal; color: var(--primary); }
+    .section-title-ja { font-size: 1.05rem; font-weight: 700; color: var(--muted); margin-bottom: 34px; }
 
-        .hero-badge {
-            display: inline-block;
-            background: var(--color-dark);
-            color: var(--color-accent);
-            font-family: var(--font-display);
-            font-size: 0.7rem;
-            font-weight: 600;
-            padding: 6px 16px;
-            border-radius: 20px;
-            margin-bottom: 16px;
-            letter-spacing: 0.1em;
-            position: relative;
-            z-index: 1;
-        }
+    /* ---- ヒーロー ---- */
+    .hero { padding: 150px 0 90px; border-bottom: 1px solid var(--gold-line); position: relative; overflow: hidden; }
+    .hero-grid {
+        display: grid; grid-template-columns: 1.2fr 1fr;
+        gap: clamp(24px, 4vw, 60px); align-items: center;
+    }
+    .hero h1 {
+        font-family: var(--font-heading);
+        font-size: clamp(3rem, 8.5vw, 6rem);
+        line-height: .92; letter-spacing: .03em;
+        margin: 16px 0 10px;
+    }
+    .hero h1 em { font-style: normal; color: var(--primary); }
+    .hero-ja { font-size: clamp(1.1rem, 2.4vw, 1.5rem); font-weight: 700; margin-bottom: 10px; }
+    .hero-sub { color: var(--muted); max-width: 430px; }
+    .hero-badge {
+        display: inline-flex; align-items: center; gap: .7em;
+        padding: .55em 1.3em;
+        border: 1px solid var(--gold);
+        border-radius: 999px;
+        font-family: var(--font-display); font-size: .66rem; letter-spacing: .28em;
+        color: var(--primary);
+    }
+    .hero-badge::before {
+        content: ''; width: 7px; height: 7px; border-radius: 50%;
+        background: var(--primary); box-shadow: 0 0 10px var(--primary);
+    }
+    .hero-cta-row { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 30px; }
+    .pill-cta {
+        display: inline-flex; align-items: center; gap: .6em;
+        padding: .85em 1.7em; border-radius: 999px;
+        border: 1px solid var(--primary);
+        font-family: var(--font-display); font-size: .74rem; letter-spacing: .16em;
+        color: var(--primary);
+        transition: background-color .3s ease, color .3s ease, box-shadow .3s ease;
+    }
+    .pill-cta:hover { background: var(--primary); color: #0a0a0f; box-shadow: 0 0 28px -8px var(--primary); }
+    .pill-cta svg { width: 15px; height: 15px; }
+    .pill-cta--ghost { border-color: rgba(255, 255, 255, 0.25); color: var(--text); }
+    .pill-cta--ghost:hover { background: rgba(255, 255, 255, 0.92); color: #0a0a0f; box-shadow: none; }
 
-        .hero h1 {
-            font-family: var(--font-body);
-            font-size: clamp(1.8rem, 6vw, 2.2rem);
-            font-weight: 900;
-            line-height: 1.3;
-            margin-bottom: 12px;
-            position: relative;
-            z-index: 1;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-        }
+    .hero-art { position: relative; margin: 0; max-width: 420px; justify-self: end; }
+    .hero-art img {
+        width: 100%; height: auto; border-radius: 6px;
+        border: 1px solid var(--gold);
+        box-shadow: 0 0 0 3px rgba(20, 16, 9, 0.9), 0 0 0 4px var(--gold-soft), 0 26px 64px -30px rgba(0, 0, 0, 0.95);
+    }
+    .hero-art figcaption {
+        margin-top: 10px; text-align: right;
+        font-family: var(--font-display); font-size: .56rem; letter-spacing: .26em;
+        color: var(--dim);
+    }
 
-        .hero h1 .highlight {
-            display: block;
-            font-family: var(--font-display);
-            font-size: clamp(2.2rem, 8vw, 2.8rem);
-            background: linear-gradient(90deg, #fff, #FFE66D);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
+    /* ---- こんな人 ---- */
+    .target-tags { display: flex; flex-wrap: wrap; gap: 12px; margin: 26px 0; }
+    .target-tag {
+        padding: .55em 1.2em;
+        border: 1px solid var(--gold-soft); border-radius: 999px;
+        background: rgba(13, 13, 28, 0.6);
+        font-size: .85rem; color: #e3d6c0;
+    }
+    .target-list { list-style: none; max-width: 640px; }
+    .target-list li {
+        position: relative; padding: 12px 0 12px 30px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        color: var(--muted);
+    }
+    .target-list li::before {
+        content: ''; position: absolute; left: 4px; top: 1.35em;
+        width: 10px; height: 10px;
+        background: linear-gradient(135deg, #d4a017, #f5e100);
+        transform: rotate(45deg);
+    }
 
-        .hero-sub {
-            font-size: 0.9rem;
-            color: rgba(255,255,255,0.9);
-            position: relative;
-            z-index: 1;
-        }
+    /* ---- 職種 = TCGクラスカード ---- */
+    .jobs-note {
+        max-width: 720px; margin-bottom: 14px; color: var(--muted);
+    }
+    .qual-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 36px; }
+    .qual-badge {
+        padding: .4em 1em;
+        border: 1px solid rgba(0, 204, 230, 0.4); border-radius: 999px;
+        font-size: .72rem; letter-spacing: .06em; color: var(--cyan);
+        background: rgba(0, 204, 230, 0.06);
+    }
+    .job-cards {
+        display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: clamp(14px, 2vw, 22px);
+    }
+    .job-card {
+        position: relative;
+        background: linear-gradient(160deg, #0e0e1e, #0a0a16);
+        border: 1px solid rgba(212, 160, 23, 0.25);
+        border-radius: 10px;
+        padding: 24px 22px 20px;
+        box-shadow: 0 14px 34px -26px rgba(0, 0, 0, 0.9);
+        transition: translate .4s cubic-bezier(.16, 1, .3, 1), border-color .4s ease, box-shadow .4s ease;
+    }
+    .job-card:hover {
+        translate: 0 -6px;
+        border-color: rgba(245, 225, 0, 0.5);
+        box-shadow: 0 18px 44px -18px rgba(245, 225, 0, 0.22), 0 16px 40px rgba(0, 0, 0, 0.55);
+    }
+    .job-class {
+        display: inline-block; margin-bottom: 14px;
+        padding: .3em .9em;
+        border: 1px solid var(--gold-soft); border-radius: 4px;
+        font-family: var(--font-display); font-size: .58rem; letter-spacing: .22em;
+        color: #cbbb96; text-transform: uppercase;
+        background: rgba(212, 160, 23, 0.07);
+    }
+    .job-icon {
+        width: 44px; height: 44px; margin-bottom: 14px;
+        display: grid; place-items: center;
+        border: 1px solid var(--gold-soft); border-radius: 8px;
+        background: rgba(212, 160, 23, 0.06);
+        color: var(--primary);
+    }
+    .job-icon svg { width: 24px; height: 24px; }
+    .job-card h3 { font-size: 1.02rem; margin-bottom: 6px; }
+    .job-card p { font-size: .82rem; color: var(--muted); }
+    .job-place {
+        display: inline-block; margin-top: 8px;
+        font-family: var(--font-display); font-size: .6rem; letter-spacing: .14em;
+        color: var(--primary);
+    }
 
-        /* ターゲットセクション */
-        .target-section {
-            padding: 28px 24px;
-            text-align: center;
-            background: var(--color-darker);
-        }
+    /* ---- メリット ---- */
+    .appeal-grid {
+        display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+        gap: clamp(14px, 2vw, 22px);
+    }
+    .appeal-item {
+        background: rgba(13, 13, 28, 0.6);
+        border: 1px solid rgba(212, 160, 23, 0.14);
+        border-radius: 10px;
+        padding: 26px 22px;
+        transition: border-color .4s ease;
+    }
+    .appeal-item:hover { border-color: rgba(245, 225, 0, 0.4); }
+    .appeal-emoji { font-size: 1.6rem; margin-bottom: 12px; }
+    .appeal-item h4 { font-size: .98rem; margin-bottom: 6px; }
+    .appeal-item p { font-size: .82rem; color: var(--muted); }
 
-        .target-label {
-            font-size: 0.75rem;
-            color: var(--color-secondary);
-            letter-spacing: 0.15em;
-            margin-bottom: 8px;
-        }
+    /* ---- 募集要項 ---- */
+    .condition-table {
+        max-width: 720px;
+        border: 1px solid var(--gold-soft); border-radius: 10px;
+        overflow: hidden;
+        background: rgba(13, 13, 28, 0.6);
+    }
+    .condition-row {
+        display: grid; grid-template-columns: 130px 1fr;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .condition-row:last-child { border-bottom: none; }
+    .condition-label {
+        padding: 16px 20px;
+        background: rgba(212, 160, 23, 0.08);
+        font-family: var(--font-display); font-size: .68rem; letter-spacing: .18em;
+        color: #cbbb96;
+        display: flex; align-items: center;
+    }
+    .condition-value { padding: 16px 20px; font-size: .9rem; }
+    .condition-value strong { color: var(--primary); }
 
-        .target-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 16px;
-        }
+    /* ---- CTA ---- */
+    .cta-section { text-align: center; padding: clamp(70px, 11vw, 120px) 0; }
+    .cta-title { font-family: var(--font-heading); font-size: clamp(2rem, 5vw, 3.2rem); line-height: .95; margin: 12px 0 8px; }
+    .cta-title em { font-style: normal; color: var(--primary); }
+    .cta-text { color: var(--muted); margin-bottom: 30px; }
+    .cta-row { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; }
+    .cta-note { margin-top: 18px; font-size: .78rem; color: var(--dim); }
 
-        .target-tags {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
+    /* ---- フッター ---- */
+    .site-footer {
+        padding: 44px 0 40px; text-align: center;
+        border-top: 1px solid var(--gold-line);
+    }
+    .footer-logo { font-family: var(--font-display); font-size: .95rem; letter-spacing: .2em; margin-bottom: 14px; }
+    .footer-address { font-style: normal; font-size: .78rem; color: var(--dim); line-height: 1.9; margin-bottom: 16px; }
+    .footer-link { font-size: .82rem; color: var(--muted); transition: color .2s ease; }
+    .footer-link:hover { color: var(--primary); }
 
-        .target-tag {
-            background: rgba(78, 205, 196, 0.15);
-            border: 1px solid var(--color-secondary);
-            color: var(--color-secondary);
-            padding: 8px 20px;
-            border-radius: 25px;
-            font-size: 0.85rem;
-            font-weight: 700;
-        }
-
-        .target-list {
-            margin-top: 20px;
-            text-align: left;
-            max-width: 400px;
-            margin-left: auto;
-            margin-right: auto;
-            list-style: none;
-        }
-
-        .target-list li {
-            position: relative;
-            padding-left: 24px;
-            margin-bottom: 10px;
-            font-size: 0.85rem;
-            color: var(--color-text-muted);
-            line-height: 1.6;
-        }
-
-        .target-list li::before {
-            content: '✓';
-            position: absolute;
-            left: 0;
-            color: var(--color-primary);
-            font-weight: 700;
-        }
-
-        /* 募集職種セクション */
-        .jobs-section {
-            padding: 28px 24px;
-            background: linear-gradient(180deg, var(--color-dark) 0%, var(--color-darker) 100%);
-        }
-
-        .section-title {
-            font-size: 0.7rem;
-            color: var(--color-primary);
-            letter-spacing: 0.2em;
-            margin-bottom: 6px;
-            text-align: center;
-        }
-
-        .section-heading {
-            font-size: 1.2rem;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .job-cards {
-            display: grid;
-            gap: 12px;
-        }
-
-        .job-card {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 12px;
-            padding: 16px;
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            transition: all 0.3s ease;
-        }
-
-        .job-card:hover {
-            background: rgba(255,107,53,0.1);
-            border-color: var(--color-primary);
-            transform: translateX(4px);
-        }
-
-        .job-icon {
-            width: 44px;
-            height: 44px;
-            background: var(--gradient-main);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .job-icon svg {
-            width: 22px;
-            height: 22px;
-            color: white;
-        }
-
-        .job-info h3 {
-            font-size: 0.95rem;
-            font-weight: 700;
-            margin-bottom: 2px;
-        }
-
-        .job-info p {
-            font-size: 0.75rem;
-            color: var(--color-text-muted);
-        }
-
-        /* 魅力セクション */
-        .appeal-section {
-            padding: 28px 24px;
-            background: var(--color-darker);
-        }
-
-        .appeal-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-
-        .appeal-item {
-            background: linear-gradient(135deg, rgba(78,205,196,0.1) 0%, rgba(68,160,141,0.05) 100%);
-            border: 1px solid rgba(78,205,196,0.3);
-            border-radius: 12px;
-            padding: 16px 12px;
-            text-align: center;
-        }
-
-        .appeal-emoji {
-            font-size: 1.8rem;
-            margin-bottom: 8px;
-        }
-
-        .appeal-item h4 {
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: var(--color-secondary);
-            margin-bottom: 4px;
-        }
-
-        .appeal-item p {
-            font-size: 0.7rem;
-            color: var(--color-text-muted);
-            line-height: 1.5;
-        }
-
-        /* 条件セクション */
-        .conditions-section {
-            padding: 28px 24px;
-            background: var(--color-dark);
-        }
-
-        .condition-table {
-            background: rgba(255,255,255,0.03);
-            border-radius: 12px;
-            overflow: hidden;
-        }
-
-        .condition-row {
-            display: flex;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-        }
-
-        .condition-row:last-child {
-            border-bottom: none;
-        }
-
-        .condition-label {
-            width: 90px;
-            padding: 12px 14px;
-            background: rgba(255,107,53,0.1);
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: var(--color-primary);
-            flex-shrink: 0;
-        }
-
-        .condition-value {
-            padding: 12px 14px;
-            font-size: 0.8rem;
-            flex: 1;
-        }
-
-        .condition-value strong {
-            color: var(--color-accent);
-        }
-
-        /* 求人概要ハイライト */
-        .job-overview-highlight {
-            background: linear-gradient(135deg, rgba(255,107,53,0.2) 0%, rgba(255,230,109,0.15) 100%);
-            border: 2px solid var(--color-primary);
-            border-radius: 12px;
-            padding: 18px 20px;
-            margin-bottom: 20px;
-            position: relative;
-            box-shadow: 0 4px 20px rgba(255,107,53,0.2);
-        }
-
-        .job-overview-highlight::before {
-            content: '✨';
-            position: absolute;
-            top: 12px;
-            right: 16px;
-            font-size: 1.2rem;
-        }
-
-        .job-overview-highlight p {
-            font-size: 0.9rem;
-            line-height: 1.7;
-            color: var(--color-text);
-            margin-bottom: 12px;
-        }
-
-        .job-overview-highlight .qualifications {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 12px;
-        }
-
-        .job-overview-highlight .qual-badge {
-            background: var(--gradient-main);
-            color: var(--color-dark);
-            font-size: 0.75rem;
-            font-weight: 700;
-            padding: 6px 14px;
-            border-radius: 20px;
-        }
-
-        /* CTAセクション */
-        .cta-section {
-            padding: 32px 24px;
-            background: var(--gradient-main);
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .cta-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-        }
-
-        .cta-text {
-            font-size: 1rem;
-            font-weight: 700;
-            margin-bottom: 16px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .cta-phone {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--color-dark);
-            color: var(--color-text);
-            font-family: var(--font-display);
-            font-size: 1.3rem;
-            font-weight: 800;
-            padding: 14px 28px;
-            border-radius: 50px;
-            text-decoration: none;
-            margin-bottom: 12px;
-            position: relative;
-            z-index: 1;
-            transition: transform 0.3s ease;
-        }
-
-        .cta-phone:hover {
-            transform: scale(1.05);
-        }
-
-        .cta-phone svg {
-            width: 20px;
-            height: 20px;
-        }
-
-        .cta-note {
-            font-size: 0.7rem;
-            color: rgba(255,255,255,0.8);
-            position: relative;
-            z-index: 1;
-        }
-
-        /* フッター */
-        .footer {
-            padding: 20px 24px;
-            background: var(--color-darker);
-            text-align: center;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .footer-logo {
-            font-family: var(--font-display);
-            font-size: 1rem;
-            font-weight: 800;
-            color: var(--color-primary);
-            margin-bottom: 6px;
-        }
-
-        .footer-address {
-            font-size: 0.65rem;
-            color: var(--color-text-muted);
-            line-height: 1.6;
-        }
-
-        .footer-link {
-            display: inline-block;
-            margin-top: 12px;
-            font-size: 0.7rem;
-            color: var(--color-secondary);
-            text-decoration: none;
-            border-bottom: 1px solid var(--color-secondary);
-            padding-bottom: 2px;
-        }
-
-        /* レスポンシブ */
-        @media (max-width: 480px) {
-            .recruit-page {
-                max-width: 100%;
-            }
-            
-            .hero {
-                padding: 32px 20px 28px;
-            }
-            
-            .appeal-grid {
-                grid-template-columns: 1fr;
-            }
-        }
+    /* ---- レスポンシブ ---- */
+    @media (max-width: 860px) {
+        .hero-grid { grid-template-columns: 1fr; }
+        .hero-art { max-width: 320px; justify-self: center; }
+    }
+    @media (max-width: 520px) {
+        .hero { padding: 120px 0 70px; }
+        .condition-row { grid-template-columns: 104px 1fr; }
+        .back-link span { display: none; }
+    }
     </style>
 </head>
 <body>
-    <div class="recruit-page">
-        <!-- ヒーロー -->
-        <section class="hero">
-            <span class="hero-badge">🎯 RECRUIT 2026</span>
-            <h1>
-                好きを仕事に<br>変えよう。
-                <span class="highlight">CUCULFMでJOIN US!</span>
-            </h1>
-            <p class="hero-sub">アルバイト募集中</p>
-        </section>
+    <!-- ヘッダ -->
+    <header class="site-header">
+        <div class="container">
+            <div class="header-inner">
+                <a href="../index.html" class="back-link">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>TOP に戻る</span>
+                </a>
+                <div class="header-logo">CUCUL FM</div>
+            </div>
+        </div>
+    </header>
 
-        <!-- ターゲット -->
-        <section class="target-section">
-            <p class="target-label">WHO WE'RE LOOKING FOR</p>
-            <h2 class="target-title">こんな人を探しています！</h2>
+    <!-- ヒーロー -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-grid">
+                <div>
+                    <span class="hero-badge">RECRUIT 2026 — JOIN THE CREW</span>
+                    <h1>TURN YOUR<br><em>PASSION</em><br>INTO WORK</h1>
+                    <p class="hero-ja">好きを仕事に変えよう。アルバイト募集中</p>
+                    <p class="hero-sub">映像、Web、AI、そして犬。現場で使う本物のスキルを、経験者がマンツーマンで教えます。学校優先OK、週1日から。</p>
+                    <div class="hero-cta-row">
+                        <a class="pill-cta" href="tel:090-6262-3842">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+                            090-6262-3842
+                        </a>
+                        <a class="pill-cta pill-cta--ghost" href="../index.html#contact">メールで問い合わせる</a>
+                    </div>
+                </div>
+                <figure class="hero-art">
+                    <img src="../images/news/news-02-recruit.jpg" alt="月光の道を歩む作業者の油彩画" width="840" height="640">
+                    <figcaption>THE MOONLIT ROAD — CUCUL FM ORIGINAL</figcaption>
+                </figure>
+            </div>
+        </div>
+    </section>
+
+    <!-- こんな人 -->
+    <section class="section">
+        <div class="container">
+            <p class="eyebrow">WHO WE'RE LOOKING FOR</p>
+            <h2 class="section-title-en">SEEKING <em>ALLIES</em></h2>
+            <p class="section-title-ja">こんな人を探しています</p>
             <div class="target-tags">
-                <span class="target-tag">🎬 映像に興味がある</span>
-                <span class="target-tag">💻 ITスキルを磨きたい</span>
-                <span class="target-tag">🐕 動物が好き</span>
-                <span class="target-tag">🚀 挑戦したい</span>
+                <span class="target-tag">映像に興味がある</span>
+                <span class="target-tag">ITスキルを磨きたい</span>
+                <span class="target-tag">動物が好き</span>
+                <span class="target-tag">挑戦したい</span>
             </div>
             <ul class="target-list">
                 <li>自発的に学べる人</li>
                 <li>結果がすぐ出なくても粘り強く頑張れる人</li>
                 <li>自分に知見のない分野でも、新しい領域に積極的に取り組める人</li>
             </ul>
-        </section>
+        </div>
+    </section>
 
-        <!-- 募集職種 -->
-        <section class="jobs-section">
-            <p class="section-title">POSITIONS</p>
-            <h2 class="section-heading">募集職種</h2>
-            <div class="job-overview-highlight">
-                <p>YouTube編集や動画撮影、ドローンの操縦、資格取得支援まで行っております。各項目、経験者・資格者が教えますので安心して学べます。</p>
-                <div class="qualifications">
-                    <span class="qual-badge">二等無人航空機操縦士 在籍</span>
-                    <span class="qual-badge">赤外線建物診断技能士 在籍</span>
-                </div>
+    <!-- 募集職種 -->
+    <section class="section">
+        <div class="container">
+            <p class="eyebrow">POSITIONS</p>
+            <h2 class="section-title-en">CHOOSE YOUR <em>CLASS</em></h2>
+            <p class="section-title-ja">募集職種</p>
+            <p class="jobs-note">YouTube編集や動画撮影、ドローンの操縦、資格取得支援まで行っております。各項目、経験者・資格者が教えますので安心して学べます。</p>
+            <div class="qual-row">
+                <span class="qual-badge">二等無人航空機操縦士 在籍</span>
+                <span class="qual-badge">赤外線建物診断技能士 在籍</span>
             </div>
             <div class="job-cards">
                 <div class="job-card">
+                    <span class="job-class">CLASS — 映像</span>
                     <div class="job-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <rect x="2" y="4" width="20" height="16" rx="2"/>
                             <path d="M10 9l5 3-5 3V9z"/>
                         </svg>
                     </div>
-                    <div class="job-info">
-                        <h3>映像制作・アシスタント</h3>
-                        <p>撮影・編集のサポート、ドローン撮影補助</p>
-                    </div>
+                    <h3>映像制作・アシスタント</h3>
+                    <p>撮影・編集のサポート、ドローン撮影補助</p>
                 </div>
                 <div class="job-card">
+                    <span class="job-class">CLASS — WEB</span>
                     <div class="job-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <rect x="2" y="3" width="20" height="14" rx="2"/>
                             <path d="M8 21h8M12 17v4"/>
                         </svg>
                     </div>
-                    <div class="job-info">
-                        <h3>Web制作・SNS運用</h3>
-                        <p>サイト更新、SNS投稿、デザイン制作</p>
-                    </div>
+                    <h3>Web制作・SNS運用</h3>
+                    <p>サイト更新、SNS投稿、デザイン制作</p>
                 </div>
                 <div class="job-card">
+                    <span class="job-class">CLASS — AI</span>
                     <div class="job-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <circle cx="12" cy="12" r="3"/>
                             <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
                         </svg>
                     </div>
-                    <div class="job-info">
-                        <h3>AI活用・データ入力</h3>
-                        <p>AIツール活用、資料作成、リサーチ</p>
-                    </div>
+                    <h3>AI活用・データ入力</h3>
+                    <p>AIツール活用、資料作成、リサーチ</p>
                 </div>
                 <div class="job-card">
+                    <span class="job-class">CLASS — 犬</span>
                     <div class="job-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M10 5.172C10 3.782 8.423 2.679 6.5 3c-2.823.47-4.113 6.006-4 7 .08.703 1.725 1.722 3.656 1 1.261-.472 1.96-1.45 2.344-2.5"/>
@@ -570,30 +431,31 @@
                             <path d="M4.42 11.247A13.152 13.152 0 0 0 4 14.556C4 18.728 7.582 21 12 21s8-2.272 8-6.444a13.152 13.152 0 0 0-.493-3.309"/>
                         </svg>
                     </div>
-                    <div class="job-info">
-                        <h3>犬のお店のスタッフ</h3>
-                        <p>散歩、お世話、グルーミング補助<br><span style="color: #FFE66D; font-size: 0.7rem;">📍 勤務地：群馬県</span></p>
-                    </div>
+                    <h3>犬のお店のスタッフ</h3>
+                    <p>散歩、お世話、グルーミング補助</p>
+                    <span class="job-place">勤務地：群馬県</span>
                 </div>
                 <div class="job-card">
+                    <span class="job-class">CLASS — 開発</span>
                     <div class="job-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M16 18l6-6-6-6"/>
                             <path d="M8 6l-6 6 6 6"/>
                         </svg>
                     </div>
-                    <div class="job-info">
-                        <h3>アプリ・システム開発</h3>
-                        <p>Webアプリ、業務システムの開発補助</p>
-                    </div>
+                    <h3>アプリ・システム開発</h3>
+                    <p>Webアプリ、業務システムの開発補助</p>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- 魅力 -->
-        <section class="appeal-section">
-            <p class="section-title">WHY CUCUL FM?</p>
-            <h2 class="section-heading">働くメリット</h2>
+    <!-- メリット -->
+    <section class="section">
+        <div class="container">
+            <p class="eyebrow">WHY CUCUL FM?</p>
+            <h2 class="section-title-en">LEVEL <em>UP</em></h2>
+            <p class="section-title-ja">働くメリット</p>
             <div class="appeal-grid">
                 <div class="appeal-item">
                     <div class="appeal-emoji">📚</div>
@@ -616,12 +478,15 @@
                     <p>ポートフォリオ作りをサポート</p>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- 条件 -->
-        <section class="conditions-section">
-            <p class="section-title">CONDITIONS</p>
-            <h2 class="section-heading">募集要項</h2>
+    <!-- 募集要項 -->
+    <section class="section">
+        <div class="container">
+            <p class="eyebrow">CONDITIONS</p>
+            <h2 class="section-title-en">QUEST <em>DETAILS</em></h2>
+            <p class="section-title-ja">募集要項</p>
             <div class="condition-table">
                 <div class="condition-row">
                     <div class="condition-label">対象</div>
@@ -644,22 +509,29 @@
                     <div class="condition-value">支給（上限あり）</div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- CTA -->
-        <section class="cta-section">
-            <p class="cta-text">まずは気軽にお問い合わせください！</p>
-            <a href="tel:090-6262-3842" class="cta-phone">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
-                </svg>
-                090-6262-3842
-            </a>
-            <p class="cta-note">受付時間: 平日 10:00〜18:00</p>
-        </section>
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="container">
+            <p class="eyebrow">CONTACT</p>
+            <h2 class="cta-title">READY TO <em>JOIN</em>?</h2>
+            <p class="cta-text">まずは気軽にお問い合わせください</p>
+            <div class="cta-row">
+                <a class="pill-cta" href="tel:090-6262-3842">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+                    090-6262-3842
+                </a>
+                <a class="pill-cta pill-cta--ghost" href="../index.html#contact">メールで問い合わせる</a>
+            </div>
+            <p class="cta-note">電話受付時間: 平日 10:00〜18:00</p>
+        </div>
+    </section>
 
-        <!-- フッター -->
-        <footer class="footer">
+    <!-- フッター -->
+    <footer class="site-footer">
+        <div class="container">
             <div class="footer-logo">CUCUL FM</div>
             <address class="footer-address">
                 ククルFM合同会社<br>
@@ -667,7 +539,7 @@
                 ITSUZAI community base 1号室
             </address>
             <a href="../index.html" class="footer-link">← 会社サイトを見る</a>
-        </footer>
-    </div>
+        </div>
+    </footer>
 </body>
 </html>
