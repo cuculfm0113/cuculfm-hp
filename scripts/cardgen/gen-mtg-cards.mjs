@@ -18,23 +18,22 @@ const CATS = {
   dog: { label: '犬関連', color: '245,225,0', en: 'DOG' },
 };
 const CARDS = [
-  // --- 調査・清掃 (photo×5, procedural×4) ---
+  // --- 調査・清掃 (photo×5=無加工写真, procedural×4) ---
   { slug: 'sewer-camera-methods', cat: 'inspection', num: 1, seed: 0x51C1,
     name: '管の眼', flavor: '「どこまで入り、何を記録するか。\n方式は目的が決める。」',
-    template: 'photoOil', photo: '/images/gallery/pipe-interior-camera.png', crop: { cx: .5, cy: .5, zoom: 1 },
-    tune: { brightness: 1.06, contrast: 1.18, cool: .25, cyan: .22 } },
+    template: 'photoPlain', photo: '/images/gallery/pipe-interior-camera.png', crop: { cx: .5, cy: .5, zoom: 1 } },
   { slug: 'sewer-damage-report', cat: 'inspection', num: 2, seed: 0x52C2,
     name: '損傷の記号', flavor: '「記号は現場の言葉。\n写真がその証人となる。」',
-    template: 'photoOil', photo: '/images/gallery/pipe-circular-inspection.png', crop: { cx: .5, cy: .5, zoom: 1 } },
+    template: 'photoPlain', photo: '/images/gallery/pipe-circular-inspection.png', crop: { cx: .5, cy: .5, zoom: 1 } },
   { slug: 'manhole-safety', cat: 'inspection', num: 3, seed: 0x53C3,
     name: '深淵の作法', flavor: '「開けた穴の下には、\n見えない毒が眠る。」',
-    template: 'photoOil', photo: '/images/gallery/manhole-work-site.png', crop: { cx: .5, cy: .55, zoom: 1.1 } },
+    template: 'photoPlain', photo: '/images/gallery/manhole-work-site.png', crop: { cx: .5, cy: .55, zoom: 1.1 } },
   { slug: 'sewer-qualifications', cat: 'inspection', num: 4, seed: 0x54C4,
     name: '資格の地図', flavor: '「道は一本ではない。\n地図を持つ者は迷わない。」',
-    template: 'photoOil', photo: '/images/gallery/sewer-training-session.png', crop: { cx: .5, cy: .45, zoom: 1.05 } },
+    template: 'photoPlain', photo: '/images/gallery/sewer-training-session.png', crop: { cx: .5, cy: .45, zoom: 1.05 } },
   { slug: 'sewer-exam-study', cat: 'inspection', num: 5, seed: 0x55C5,
     name: '過去問の塔', flavor: '「過去を解く者だけが、\n未来の管を診る。」',
-    template: 'photoOil', photo: '/images/gallery/pipe-inspection-control.png', crop: { cx: .5, cy: .5, zoom: 1 } },
+    template: 'photoPlain', photo: '/images/gallery/pipe-inspection-control.png', crop: { cx: .5, cy: .5, zoom: 1 } },
   { slug: 'solar-panel-cleaning', cat: 'inspection', num: 6, seed: 0x56C6,
     name: '月光の鏡面', flavor: '「取説が正。屋根に上がらぬ\n賢者の清掃。」', template: 'moonPanels' },
   { slug: 'drone-wall-inspection', cat: 'inspection', num: 7, seed: 0x57C7,
@@ -43,27 +42,23 @@ const CARDS = [
     name: '白風の祠', flavor: '「フィルターは自分の手で。\n分解洗浄は資格の業。」', template: 'whiteBreeze' },
   { slug: 'gutter-cleaning', cat: 'inspection', num: 9, seed: 0x59C9,
     name: '雨樋の川守', flavor: '「溢れたあとに見る順番。\n高所を無理しない。」', template: 'rainGutter' },
-  // --- 犬関連 (photo×4) ---
+  // --- 犬関連 (photo×4=無加工写真。犬写真無加工の掟にも合致) ---
   { slug: 'trust-relationship', cat: 'dog', num: 10, seed: 0x5AD1,
     name: '前日の約束', flavor: '「来店前夜の支度が、\n明日の安心を連れてくる。」',
-    template: 'photoOil', photo: '/services/dog/images/papillon-smile.jpg',
-    crop: { cx: .5, cy: .4, zoom: 1.05 }, focus: { x: .5, y: .42, rx: .42, ry: .38 },
-    tune: { brightness: .68, cool: .85, warm: .5, topScrim: .5 } },
+    template: 'photoPlain', photo: '/services/dog/images/papillon-smile.jpg',
+    crop: { cx: .5, cy: .4, zoom: 1.05 } },
   { slug: 'puppy-preparation', cat: 'dog', num: 11, seed: 0x5BD2,
     name: '迎え火の支度', flavor: '「道具、安全、病院、家族の約束。\n新しい家族のために。」',
-    template: 'photoOil', photo: '/services/dog/images/black-poodle-ribbon.jpg',
-    crop: { cx: .5, cy: .46, zoom: 1 }, focus: { x: .5, y: .45, rx: .42, ry: .38 },
-    tune: { brightness: .68, cool: .85, warm: .5, topScrim: .5 } },
+    template: 'photoPlain', photo: '/services/dog/images/black-poodle-ribbon.jpg',
+    crop: { cx: .5, cy: .46, zoom: 1 } },
   { slug: 'home-grooming', cat: 'dog', num: 12, seed: 0x5CD3,
     name: '白雲の手入れ', flavor: '「自宅の手入れとプロの境目。\n道具がそれを教えてくれる。」',
-    template: 'photoOil', photo: '/services/dog/images/bichon-white.jpg',
-    crop: { cx: .5, cy: .38, zoom: 1.05 }, focus: { x: .5, y: .42, rx: .42, ry: .38 },
-    tune: { brightness: .68, cool: .85, warm: .5, topScrim: .5 } },
+    template: 'photoPlain', photo: '/services/dog/images/bichon-white.jpg',
+    crop: { cx: .5, cy: .38, zoom: 1.05 } },
   { slug: 'seasonal-health-care', cat: 'dog', num: 13, seed: 0x5DD4,
     name: '四季の見張り番', flavor: '「夏の熱、冬の冷え。\n季節は犬にも巡る。」',
-    template: 'photoOil', photo: '/services/dog/images/schnauzer.jpg',
-    crop: { cx: .5, cy: .35, zoom: 1.1 }, focus: { x: .5, y: .4, rx: .44, ry: .4 },
-    tune: { brightness: .68, cool: .85, warm: .5, topScrim: .5 } },
+    template: 'photoPlain', photo: '/services/dog/images/schnauzer.jpg',
+    crop: { cx: .48, cy: .45, zoom: 1 } },
 ];
 
 const only = process.argv.slice(2);
@@ -206,6 +201,29 @@ await page.evaluate(() => {
 
   /* ============ シーンテンプレート(542×424 の下絵を返す) ============ */
   window.SCENES = {
+
+    /* 写真そのまま(クロップのみ・無加工。分かりやすさ優先モード) */
+    photoPlain: async (spec) => {
+      const { AW, AH } = window.DIM;
+      const img = new Image();
+      img.src = spec.photo;
+      await img.decode();
+      const NW = img.naturalWidth, NH = img.naturalHeight;
+      const targetAR = AW / AH;
+      let cw = NW / (spec.crop?.zoom ?? 1);
+      let ch = cw / targetAR;
+      if (ch > NH) { ch = NH / (spec.crop?.zoom ?? 1); cw = ch * targetAR; }
+      const cx = (spec.crop?.cx ?? .5) * NW, cy = (spec.crop?.cy ?? .5) * NH;
+      const sx = Math.max(0, Math.min(NW - cw, cx - cw / 2));
+      const sy = Math.max(0, Math.min(NH - ch, cy - ch / 2));
+      const c = document.createElement('canvas'); c.width = AW; c.height = AH;
+      const g = c.getContext('2d');
+      g.imageSmoothingQuality = 'high';
+      g.filter = 'saturate(1.02) contrast(1.03)';
+      g.drawImage(img, sx, sy, cw, ch, 0, 0, AW, AH);
+      g.filter = 'none';
+      return c;
+    },
 
     /* 写真→夜の油彩(クロップ+グレーズ+光粒) */
     photoOil: async (spec) => {
@@ -713,17 +731,22 @@ for (const spec of targets) {
   const cat = CATS[spec.cat];
   const dataUrl = await page.evaluate(async (s) => {
     const base = await window.SCENES[s.template](s);
-    const passes = s.focus
-      ? [
-          { n: 1200, len: 22, w: [5.5, 10], a: [.5, .75], jit: 12 },
-          { n: 2600, len: 13, w: [2.8, 5.5], a: [.45, .72], jit: 9 },
-          { n: 4600, len: 6.5, w: [1.4, 2.8], a: [.4, .7], jit: 7 },
-          { n: 2600, len: 4, w: [1, 1.9], a: [.35, .6], jit: 5,
-            focus: { x: s.focus.x * base.width, y: s.focus.y * base.height, rx: s.focus.rx * base.width, ry: s.focus.ry * base.height } },
-        ]
-      : undefined;
-    const painted = window.oilPaint(base, { seed: s.seed ^ 0xA11, passes });
-    const art = window.finish(painted, { seed: s.seed ^ 0xF1315, vignette: .42 });
+    let art;
+    if (s.template === 'photoPlain') {
+      art = base;   // 無加工写真: 油彩も仕上げも掛けない
+    } else {
+      const passes = s.focus
+        ? [
+            { n: 1200, len: 22, w: [5.5, 10], a: [.5, .75], jit: 12 },
+            { n: 2600, len: 13, w: [2.8, 5.5], a: [.45, .72], jit: 9 },
+            { n: 4600, len: 6.5, w: [1.4, 2.8], a: [.4, .7], jit: 7 },
+            { n: 2600, len: 4, w: [1, 1.9], a: [.35, .6], jit: 5,
+              focus: { x: s.focus.x * base.width, y: s.focus.y * base.height, rx: s.focus.rx * base.width, ry: s.focus.ry * base.height } },
+          ]
+        : undefined;
+      const painted = window.oilPaint(base, { seed: s.seed ^ 0xA11, passes });
+      art = window.finish(painted, { seed: s.seed ^ 0xF1315, vignette: .42 });
+    }
     const card = window.composeCard(art, s);
     return card.toDataURL('image/jpeg', .78);
   }, { ...spec, catLabel: cat.label, catColor: cat.color, catEn: cat.en });
