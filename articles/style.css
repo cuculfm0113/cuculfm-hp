@@ -815,3 +815,124 @@ address {
     }
 }
 
+
+/* ==========================================================================
+   シネマティック/MTGカード・グリッド (2026-08-20)
+   末尾オーバーライド方式。カード画像(images/cards/、630×880)は
+   金縁フレーム・カテゴリ宝石・タイプ行を内蔵するため、CSS側の枠と
+   カテゴリバッジは撤去し「トレカバインダー」の見せ方にする。
+   ========================================================================== */
+:root {
+    --color-bg-dark: #000510;
+    --color-bg-card: #0d0d1c;
+    --color-primary: #f5e100;
+    --c-gold: rgba(212, 160, 23, 0.55);
+    --c-gold-soft: rgba(212, 160, 23, 0.25);
+    --c-cyan: #00cce6;
+}
+
+body {
+    background:
+        radial-gradient(ellipse 80% 50% at 50% 0%, rgba(123, 97, 255, 0.12) 0%, transparent 50%),
+        radial-gradient(ellipse 60% 40% at 80% 100%, rgba(245, 225, 0, 0.08) 0%, transparent 42%),
+        linear-gradient(to bottom, #000510 0%, #0a0a1a 55%, #0f0f20 100%);
+    background-attachment: scroll;
+    background-color: #000510;
+}
+
+/* グリッド: 縦型カード(63:88)を敷き詰める */
+.articles-grid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: clamp(18px, 2.5vw, 28px);
+}
+
+.article-card {
+    background: transparent;
+    border: none;
+    overflow: visible;
+    transition: translate 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.article-card:hover {
+    transform: none;
+    translate: 0 -8px;
+    border-color: transparent;
+    box-shadow: none;
+}
+
+.article-image {
+    position: relative;
+    height: auto;
+    aspect-ratio: 63 / 88;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #0d0d1c;
+    box-shadow: 0 16px 36px -16px rgba(0, 0, 0, 0.85);
+    transition: box-shadow 0.35s ease;
+}
+
+.article-image--ai,
+.article-image--inspection,
+.article-image--video {
+    background: #0d0d1c;
+}
+
+.article-card:hover .article-image {
+    box-shadow:
+        0 24px 52px -18px rgba(245, 225, 0, 0.4),
+        0 18px 40px rgba(0, 0, 0, 0.6);
+}
+
+.article-image img {
+    filter: none;
+}
+
+.article-card:hover .article-image img {
+    transform: scale(1.03);
+    filter: none;
+}
+
+/* カテゴリ宝石はカード画像に内蔵 → バッジは重複のため非表示 */
+.article-image .article-category {
+    display: none;
+}
+
+.article-content {
+    padding: 14px 6px 0;
+    background: transparent;
+}
+
+.article-date {
+    font-size: 0.68rem;
+    letter-spacing: 0.22em;
+    color: var(--c-cyan);
+    opacity: 0.85;
+}
+
+.article-card:hover .article-title {
+    color: var(--color-primary);
+}
+
+/* フィルタピル: 金縁の気配 */
+.filter-btn {
+    font-family: var(--font-display);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    border-color: rgba(212, 160, 23, 0.3);
+}
+
+.filter-btn:hover {
+    border-color: rgba(245, 225, 0, 0.55);
+    color: var(--color-primary);
+}
+
+@media (max-width: 600px) {
+    .articles-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+    }
+
+    .article-content {
+        padding: 10px 2px 0;
+    }
+}

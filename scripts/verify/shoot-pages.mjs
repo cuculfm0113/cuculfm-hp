@@ -36,6 +36,17 @@ for (const u of urls) {
   await page.setViewport({ width: 1440, height: 900 });
   try {
     await page.goto(`http://localhost:8123${u}`, { waitUntil: 'networkidle0', timeout: 30000 });
+    if (process.env.SCROLL) {
+      // lazy画像をロードさせるため下端まで段階スクロール→先頭へ戻す
+      await page.evaluate(async () => {
+        for (let y = 0; y < document.body.scrollHeight; y += 600) {
+          window.scrollTo(0, y);
+          await new Promise(r => setTimeout(r, 120));
+        }
+        window.scrollTo(0, 0);
+      });
+      await new Promise(r => setTimeout(r, 600));
+    }
     await new Promise(r => setTimeout(r, 800));
     await page.screenshot({ path: path.join(OUT, `${name}.png`), fullPage: true });
   } catch (e) { errs.push(`NAV: ${e.message}`); }

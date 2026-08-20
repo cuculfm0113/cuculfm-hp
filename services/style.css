@@ -2342,3 +2342,18 @@ body::after {
     border-color: rgba(245, 225, 0, 0.4);
 }
 
+
+/* 関連記事のMTGカード画像用(images/cards/、枠はカード画像に内蔵) */
+.article-image--card {
+    height: auto;
+    aspect-ratio: 63 / 88;
+    margin: 10px 10px 0;
+    border: none;
+    box-shadow: 0 12px 28px -14px rgba(0, 0, 0, 0.8);
+    border-radius: 6px;
+    background: #0d0d1c;
+}
+
+.article-image--card .article-category {
+    display: none;
+}
