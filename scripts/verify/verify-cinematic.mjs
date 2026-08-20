@@ -130,7 +130,9 @@ for (const u of ['/services/ai-tools/', '/services/construction/', '/services/do
   check('recruit: errors 0', errors.length === 0, errors[0] || '');
   check('recruit: Poppinsリクエスト0', !requests.some(r => r.includes('Poppins')));
   check('recruit: Bebas読込', requests.some(r => r.includes('Bebas')));
-  check('recruit: #contact CTAあり', await page.evaluate(() => !!document.querySelector('a[href="../index.html#contact"]')));
+  // 本番はNetlify Pretty URLsが ../index.html#contact → /#contact に正規化する
+  check('recruit: #contact CTAあり', await page.evaluate(() =>
+    [...document.querySelectorAll('a')].some(a => a.getAttribute('href')?.endsWith('#contact'))));
   await page.close();
 }
 
