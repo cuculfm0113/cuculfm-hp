@@ -350,6 +350,26 @@ main{position:relative;z-index:2}
   box-shadow:0 0 10px var(--t-accent);
   transition:background-color .8s ease,box-shadow .8s ease;
 }
+/* ---- SOUND ボタン（#btn-sound）: .pill を流用し、再生中だけ控えめに発光 ----
+   ・グローバル :focus-visible は border-radius:2px なので、pill 形状に合わせて上書き
+   ・.is-active のドット明滅は「動き」なので reduced-motion で止める
+     （音を鳴らすか否かの判定には prefers-reduced-motion を一切使わない） */
+#btn-sound:focus-visible{border-radius:999px;outline-offset:4px}
+#btn-sound.is-active{
+  border-color:var(--t-accent);
+  color:var(--t-accent);
+  box-shadow:0 0 20px -8px var(--t-accent);
+}
+#btn-sound.is-active .dot{animation:soundPulse 2.6s ease-in-out infinite}
+@keyframes soundPulse{
+  0%,100%{opacity:.5;box-shadow:0 0 7px var(--t-accent)}
+  50%    {opacity:1; box-shadow:0 0 15px var(--t-accent)}
+}
+@media (prefers-reduced-motion: reduce){
+  #btn-sound.is-active .dot{animation:none;opacity:1}
+}
+#btn-sound[disabled]{opacity:.42;cursor:not-allowed}
+#btn-sound[disabled]:hover{border-color:var(--t-line);color:var(--t-text);box-shadow:none}
 
 /* --------------------------------------------------------------------------
    7. HERO
@@ -568,46 +588,12 @@ html[data-theme="red"] .bg-red{opacity:1}
 }
 .emblem-spin{display:block;width:100%;height:100%}
 .emblem-svg{display:block;width:100%;height:100%;overflow:visible}
-.char-hit{
-  position:absolute;left:50%;top:50%;
-  transform:translate(-50%,-50%);
-  width:74%;height:62%;
-  border-radius:44% 44% 40% 40%;
-  cursor:pointer;
-  background:transparent;
-  z-index:3;
-}
-.char-hit:focus-visible{outline:2px solid var(--t-accent);outline-offset:8px}
 .burst{position:absolute;left:50%;top:42%;width:2px;height:2px;z-index:4;pointer-events:none}
 .burst i{
   position:absolute;left:0;top:0;width:7px;height:7px;border-radius:50%;
   background:var(--c-primary);
   box-shadow:0 0 14px var(--c-primary);
   opacity:0;
-}
-.tip-wrap{position:absolute;right:-9%;bottom:27%;z-index:5;display:flex;pointer-events:none}
-.char-tooltip{
-  position:relative;
-  pointer-events:auto;
-  padding:.6em 1.15em;border-radius:8px;
-  background:rgba(10,10,18,.72);
-  border:1px solid var(--t-line);
-  -webkit-backdrop-filter:blur(8px);
-  backdrop-filter:blur(8px);
-  font-family:var(--font-display);
-  font-size:clamp(.52rem,1vw,.66rem);
-  letter-spacing:.14em;white-space:nowrap;
-  color:var(--t-text);
-  cursor:pointer;
-  transition:border-color .3s ease,color .3s ease;
-}
-.char-tooltip:hover{border-color:var(--t-accent);color:var(--t-accent)}
-.char-tooltip::after{
-  content:'';position:absolute;left:-5px;top:50%;
-  width:9px;height:9px;margin-top:-4.5px;
-  background:rgba(10,10,18,.72);
-  border-left:1px solid var(--t-line);border-bottom:1px solid var(--t-line);
-  transform:rotate(45deg);
 }
 
 /* ---- corner copy ---- */
@@ -955,32 +941,6 @@ html[data-theme="red"] .bg-red{opacity:1}
   font-size:.62rem;color:var(--t-dim);letter-spacing:.1em;
   transition:color .8s ease,border-color .8s ease;
 }
-
-/* --------------------------------------------------------------------------
-   11. Trailer dialog
-   -------------------------------------------------------------------------- */
-/* <dialog> 非実装ブラウザで閉状態の中身がページ末尾に露出するのを防ぐ */
-dialog:not([open]){display:none}
-#trailer{
-  width:min(1100px,92vw);
-  padding:0;border:1px solid var(--t-line);border-radius:12px;
-  background:#05060a;color:var(--t-text);
-  overflow:hidden;
-}
-#trailer::backdrop{background:rgba(0,2,8,.86);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
-#trailer video{width:100%;height:auto;background:#000;display:block}
-.tr-bar{
-  display:flex;align-items:center;justify-content:space-between;gap:14px;
-  padding:12px 16px;border-bottom:1px solid var(--t-line);
-  font-family:var(--font-display);font-size:.58rem;letter-spacing:.24em;color:var(--t-muted);
-}
-.tr-close{
-  display:inline-flex;align-items:center;gap:.5em;
-  padding:.45em .9em;border-radius:999px;border:1px solid var(--t-line);
-  font-family:var(--font-display);font-size:.56rem;letter-spacing:.2em;color:var(--t-text);
-  transition:border-color .3s ease,color .3s ease;
-}
-.tr-close:hover{border-color:var(--c-accent);color:var(--c-accent)}
 
 /* --------------------------------------------------------------------------
    11b. NEWS & INFO 帯（現行トップの掲示板A4カードをダーク/セピアで再解釈）
@@ -1465,9 +1425,6 @@ body.idx-locked{overflow:hidden}
   .moon{width:78px;height:78px;top:19%;left:16%}
   .moon::before{width:18px;height:18px;box-shadow:28px 22px 0 5px rgba(180,180,160,.2),11px 36px 0 3px rgba(180,180,160,.25),40px 8px 0 2px rgba(180,180,160,.2)}
   .shooting-star{width:68px}
-  .tip-wrap{right:auto;left:0;width:100%;justify-content:center;bottom:-3%}
-  .char-tooltip{font-size:.5rem}
-  .char-tooltip::after{display:none}
   .foot-in{grid-template-columns:1fr;gap:30px}
   .biz-head{flex-direction:column;align-items:flex-start}
   .news-head{flex-direction:column;align-items:flex-start}
@@ -1511,13 +1468,6 @@ html[data-theme="red"] .c-rim--red{opacity:1}
 .backglow-anchor,.emblem-anchor{transition:top .6s ease,left .6s ease,width .6s ease,height .6s ease}
 .hero-char-wrap.is-3d .backglow-anchor{top:46%;width:108%;height:88%}
 .hero-char-wrap.is-3d .emblem-anchor{left:73%;top:15%;width:19%;height:15.8%}
-.hero-char-wrap.is-3d .char-hit{width:48%;height:86%;border-radius:40%}
-.hero-char-wrap.is-3d .tip-wrap{bottom:33%}
-/* モバイル縦積みでは .is-3d でも既存の下配置（12. Responsive の bottom:-3%）を維持。
-   この上書きが無いと specificity で 33% が勝ち、ツールチップが胴体に重なる */
-@media (max-width:680px){
-  .hero-char-wrap.is-3d .tip-wrap{bottom:-3%}
-}
 /* seq 区間の 3D ステージ（pin 中に #char3d を再親付けして全画面化） */
 #seq-3d{position:absolute;inset:0;z-index:1;display:none;pointer-events:none}
 #seq-3d.is-on{display:block}
@@ -1564,7 +1514,7 @@ html[data-theme="red"] .c-rim--red{opacity:1}
      CONFIG : 編集はここだけ見れば足ります
      --------------------------------------------------------------------------
      [links]
-       PLAY TRAILER  : /videos/PR_cuculfm_MV.mp4   (#trailer dialog で再生)
+       SOUND         : /audio/cuculfm-ambient.mp3  （#site-bgm / #btn-sound で明示再生）
        VIEW BUSINESS : #business
        OUR ROADMAP   : #business  ← TODO: ロードマップページ新設時に差し替え
        INDEX / BUSINESS INDEX : #index-overlay を開く（全リンク網羅のオーバーレイ）
@@ -1591,9 +1541,14 @@ html[data-theme="red"] .c-rim--red{opacity:1}
      [copy]
        corner-left   : SUPPORTING BLUE-COLLAR &amp; AILIFE
        corner-center : CONSTRUCTION &amp; TECH &amp; LIFESTYLE
-       tooltip       : Click anywhere to enable the VIDEO
        theme switch  : PRESS [ENTERBAR] TO SWITCH  （Enter キーで moon / red をトグル）
                        ※ Space は奪わない = 標準のスクロール動作のまま
+     [audio]  アンビエントBGM（autoplay 無し / 初期は無音・停止）
+       ファイル : /audio/cuculfm-ambient.mp3  （差し替え時は同名で上書き）
+       操作     : ヒーローナビの #btn-sound のみ（SOUND OFF ⇄ SOUND ON）
+       音量     : initSound() の VOLUME（既定 0.32）
+       挙動     : タブ非表示で停止。ユーザーが再生を選んでいたセッションだけ復帰時に再開
+                  ※ prefers-reduced-motion は「動き」の設定なので音の可否判定には使わない
      [sequence]  /assets/sequence/frame_0001.png … （未配置。置けば自動で有効化）
      [character] ファントムDJ GLB（module script / ファイル末尾）
        モデル   : /character-design/phantom-dj/model.glb （5.4MB / Meshy製・歩行アニメ内蔵）
@@ -1645,7 +1600,11 @@ html[data-theme="red"] .c-rim--red{opacity:1}
   <div class="hero-top">
     <div class="brand"><span class="bar"></span>CUCULFM.LLC</div>
     <nav class="hero-nav" aria-label="ヒーローナビゲーション">
-      <button class="pill" id="btn-trailer" type="button"><span class="dot"></span>PLAY TRAILER</button>
+      <!-- BGM トグル。autoplay はせず、この明示操作だけで #site-bgm を再生／停止する -->
+      <button class="pill" id="btn-sound" type="button"
+              aria-pressed="false" aria-controls="site-bgm" aria-label="BGMを再生する">
+        <span class="dot"></span><span class="snd-label">SOUND OFF</span>
+      </button>
       <a class="pill" href="#business" data-scroll>VIEW BUSINESS</a>
       <a class="icon-btn" href="https://www.instagram.com/cuculfm_llc/" target="_blank" rel="noopener" aria-label="Instagram（新しいタブで開く）">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5.2"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1.15" fill="currentColor" stroke="none"/></svg>
@@ -1865,9 +1824,8 @@ html[data-theme="red"] .c-rim--red{opacity:1}
       </div><!-- /.char-zoom -->
       </div><!-- /.char-breathe -->
 
+      <!-- burst はテーマ切替（themeFx）の飛散パーティクル。キャラ自体は装飾要素で操作対象ではない -->
       <span class="burst" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
-      <button class="char-hit" id="char-hit" type="button" aria-label="PR動画を再生する"></button>
-      <div class="tip-wrap"><button class="char-tooltip" id="char-tooltip" type="button">Click anywhere to enable the VIDEO</button></div>
     </div>
   </div>
 
@@ -2284,18 +2242,12 @@ html[data-theme="red"] .c-rim--red{opacity:1}
 </div>
 
 <!-- ======================================================================
-     TRAILER MODAL
+     SITE BGM （アンビエント。autoplay は付けない = 初期状態は無音・停止。
+     再生／停止はヒーローナビの #btn-sound だけが行う。音量は initSound() で 0.32）
      ====================================================================== -->
-<dialog id="trailer" aria-label="CUCUL FM PR動画">
-  <div class="tr-bar">
-    <span>PR MOVIE / CUCUL FM.LLC</span>
-    <button class="tr-close" id="trailer-close" type="button">CLOSE ✕</button>
-  </div>
-  <video id="trailer-video" controls playsinline preload="none">
-    <source src="/videos/PR_cuculfm_MV.mp4" type="video/mp4">
-    お使いのブラウザは動画再生に対応していません。
-  </video>
-</dialog>
+<audio id="site-bgm" loop playsinline preload="metadata">
+  <source src="/audio/cuculfm-ambient.mp3" type="audio/mpeg">
+</audio>
 
 <!-- ======================================================================
      FULLSCREEN OVERLAYS （全て fixed + pointer-events:none）
@@ -2556,7 +2508,7 @@ html[data-theme="red"] .c-rim--red{opacity:1}
       new IntersectionObserver(function (es) {
         var last = es[es.length - 1];          /* 最新のエントリ（es[0] は最古のスナップショット） */
         heroVisible = last.intersectionRatio >= 0.5;
-        /* hero が完全に画面外の間は呼吸/リング回転/ツールチップ浮遊を止める */
+        /* hero が完全に画面外の間は呼吸 / リング回転を止める */
         setHeroLoopsPaused(!last.isIntersecting);
       }, { threshold: [0, 0.25, 0.5, 0.75, 1] }).observe(hero);
     }
@@ -2565,9 +2517,7 @@ html[data-theme="red"] .c-rim--red{opacity:1}
       if (e.metaKey || e.ctrlKey || e.altKey || e.shiftKey) { return; }
       if (e.isComposing || e.keyCode === 229) { return; }  /* IME 変換確定の Enter は無視 */
       if (!heroVisible) { return; }                       /* hero 外では無反応 */
-      var dlg = $('#trailer');
-      if (dlg && dlg.open) { return; }                    /* トレーラー再生中は発火させない */
-      if (idxIsOpen()) { return; }                        /* INDEX オーバーレイ表示中も発火させない */
+      if (idxIsOpen()) { return; }                        /* INDEX オーバーレイ表示中は発火させない */
       var a = document.activeElement;
       if (a && a !== document.body) {                     /* 対話要素にフォーカス中は二重発火を避ける */
         if (a.isContentEditable) { return; }
@@ -2692,30 +2642,81 @@ html[data-theme="red"] .c-rim--red{opacity:1}
     window.addEventListener('pagehide', unlock);
   }
 
-  /* ---------------- トレーラーモーダル ---------------- */
-  function initTrailer() {
-    var dlg = $('#trailer'), vid = $('#trailer-video');
-    if (!dlg) { return; }
-    function open() {
-      if (typeof dlg.showModal === 'function') { dlg.showModal(); }
-      else { dlg.setAttribute('open', ''); }
-      if (vid) {
-        var p = vid.play();
-        if (p && typeof p.catch === 'function') { p.catch(function () { }); }
+  /* ---------------- SOUND : アンビエントBGM ----------------
+     ・<audio> に autoplay は付けない。鳴るのは #btn-sound を押したときだけ
+     ・prefers-reduced-motion は「動き」の設定。音の可否判定には使わない
+       （音を止めたい人はボタンで止める / 初期状態がそもそも停止）
+     ・play() の Promise 拒否（ユーザー操作不足・自動再生ポリシー）で
+       表示が ON のまま取り残されないよう、必ず SOUND OFF へ戻す */
+  function initSound() {
+    var audio = $('#site-bgm'), btn = $('#btn-sound');
+    if (!audio || !btn) { return; }
+
+    var VOLUME = 0.32;
+    var label = $('.snd-label', btn);
+    var wantsSound = false;   /* 同一セッションでユーザーが「鳴らす」を選んだか */
+    var dead = false;         /* 音源の読み込み失敗 = 復帰不能 */
+
+    audio.volume = VOLUME;
+
+    function paint(on) {
+      if (dead) { return; }
+      btn.classList.toggle('is-active', on);
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      btn.setAttribute('aria-label', on ? 'BGMを停止する' : 'BGMを再生する');
+      if (label) { label.textContent = on ? 'SOUND ON' : 'SOUND OFF'; }
+    }
+
+    function fail() {
+      if (dead) { return; }
+      dead = true; wantsSound = false;
+      btn.classList.remove('is-active');
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', 'false');
+      btn.setAttribute('aria-label', 'BGMは利用できません');
+      if (label) { label.textContent = 'SOUND UNAVAILABLE'; }
+    }
+
+    /* play() が Promise を返さない旧実装にも耐える */
+    function tryPlay() {
+      var p;
+      try { p = audio.play(); } catch (e) { wantsSound = false; paint(false); return; }
+      if (p && typeof p.then === 'function') {
+        p.then(function () { paint(true); }, function () { wantsSound = false; paint(false); });
       }
     }
-    function close() {
-      if (vid) { vid.pause(); }
-      if (dlg.open && typeof dlg.close === 'function') { dlg.close(); } else { dlg.removeAttribute('open'); }
-    }
-    ['#btn-trailer', '#char-hit', '#char-tooltip'].forEach(function (sel) {
-      var el = $(sel);
-      if (el) { el.addEventListener('click', open); }
+
+    paint(false);
+    if (audio.error) { fail(); }                       /* JS 到達前に失敗していた場合 */
+
+    btn.addEventListener('click', function () {
+      if (dead) { return; }
+      if (audio.paused) {
+        wantsSound = true;
+        paint(true);                                   /* 楽観更新 → 拒否されたら tryPlay が戻す */
+        tryPlay();
+      } else {
+        wantsSound = false;
+        audio.pause();                                 /* pause イベント経由で paint(false) */
+      }
     });
-    var cbtn = $('#trailer-close');
-    if (cbtn) { cbtn.addEventListener('click', close); }
-    dlg.addEventListener('close', function () { if (vid) { vid.pause(); } });   /* Esc 含む */
-    dlg.addEventListener('click', function (e) { if (e.target === dlg) { close(); } });
+
+    /* 実際のメディア状態を唯一の正とする（外部要因の停止も表示に反映される） */
+    audio.addEventListener('play', function () { paint(true); });
+    audio.addEventListener('pause', function () { paint(false); });
+    audio.addEventListener('error', fail);
+    var src = $('source', audio);
+    if (src) { src.addEventListener('error', fail); }  /* 全ソース枯渇前の個別失敗も拾う */
+
+    /* タブ非表示で停止。wantsSound は保持し、復帰時にその人だけ再開を試みる */
+    document.addEventListener('visibilitychange', function () {
+      if (dead) { return; }
+      if (document.hidden) {
+        if (!audio.paused) { audio.pause(); }
+      } else if (wantsSound && audio.paused) {
+        tryPlay();
+      }
+    });
   }
 
   /* ---------------- スムーススクロール ---------------- */
@@ -2807,7 +2808,7 @@ html[data-theme="red"] .c-rim--red{opacity:1}
     /* ---------------- reduced-motion : 全て即時可視・静止 ---------------- */
     mm.add('(prefers-reduced-motion: reduce)', function () {
       gsap.set(['.giant-type .w', '.char-zoom', '.hero-top .brand', '.hero-nav > *',
-        '.corner', '.hero-bottom > *', '.char-tooltip', '.biz-card', '.news-card',
+        '.corner', '.hero-bottom > *', '.biz-card', '.news-card',
         '#about .abt-head', '#about .abt-col', '#contact .ct-in > *',
         '.idx-group h3', '.idx-item', '.seq-cap'],
         { clearProps: 'all' });
@@ -2825,8 +2826,6 @@ html[data-theme="red"] .c-rim--red{opacity:1}
       gsap.set('.giant-type .w', { yPercent: 42, autoAlpha: 0 });
       gsap.set('.char-zoom', { scale: 0.94, autoAlpha: 0, transformOrigin: '50% 58%' });
       gsap.set(['.hero-top .brand', '.hero-nav > *', '.corner', '.hero-bottom > *'], { y: 18, autoAlpha: 0 });
-      /* 配置は .tip-wrap（親div）が担い、GSAP は button 自身の scale/alpha のみ触る */
-      gsap.set('.char-tooltip', { autoAlpha: 0, scale: 0.82, transformOrigin: '50% 50%' });
 
       var intro = gsap.timeline({ paused: true, defaults: { ease: 'power3.out' } });
       intro
@@ -2835,8 +2834,7 @@ html[data-theme="red"] .c-rim--red{opacity:1}
         /* clearProps: インライン transform（translate/rotate/scale:none を含む）を除去しないと
            :hover{transform:translateY(-2px)} が恒久的に効かなくなる */
         .to(['.hero-top .brand', '.hero-nav > *'], { y: 0, autoAlpha: 1, duration: 0.8, stagger: 0.08, clearProps: 'transform' }, 0.5)
-        .to(['.corner', '.hero-bottom > *'], { y: 0, autoAlpha: 1, duration: 0.8, stagger: 0.08 }, 0.72)
-        .to('.char-tooltip', { autoAlpha: 1, scale: 1, duration: 0.6, ease: 'back.out(2)' }, 1.6);
+        .to(['.corner', '.hero-bottom > *'], { y: 0, autoAlpha: 1, duration: 0.8, stagger: 0.08 }, 0.72);
       /* ローダーが消えるのと同時にイントロ開始（mm 再評価で intro が作り直されても
          charGate は解決済みのまま .then が即時発火するだけなので安全） */
       charGate.then(function () { intro.play(); });
@@ -2851,8 +2849,7 @@ html[data-theme="red"] .c-rim--red{opacity:1}
           scaleY: 1.012, y: -4, duration: 3.2, ease: 'sine.inOut',
           repeat: -1, yoyo: true, transformOrigin: '50% 100%'
         }),
-        gsap.to('#char-emblem', { rotation: 360, duration: 90, ease: 'none', repeat: -1, transformOrigin: '50% 50%' }),
-        gsap.to('.char-tooltip', { y: -7, duration: 2.1, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: 2.3 })
+        gsap.to('#char-emblem', { rotation: 360, duration: 90, ease: 'none', repeat: -1, transformOrigin: '50% 50%' })
       );
       /* マウスホイールのドットは CSS @keyframes wheelDot が駆動（reduced-motion はCSS側で停止） */
 
@@ -3130,7 +3127,7 @@ html[data-theme="red"] .c-rim--red{opacity:1}
   cloneCharacter();
   initIndexOverlay();   /* initTheme より先: keydown ガードが参照する idxIsOpen を確定させる */
   initTheme();
-  initTrailer();
+  initSound();
   initSmoothScroll();
   initBizProgressMobile();
 
