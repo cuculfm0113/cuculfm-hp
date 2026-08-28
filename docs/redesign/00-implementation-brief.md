@@ -20,6 +20,8 @@
 8. スパム対策は初期は honeypot のみ（reCAPTCHAはキー取得が必要なため将来オプションとしてドキュメント化）
 9. 法人番号・設立年月日など未確定情報は**推測で埋めず**、`content/site.config.json` の空欄プレースホルダーとし、空欄時はHTML/JSON-LDに出力しない
 10. **公開用メールアドレスは `info@cucul-fm.com`**（2026-08-29 発注者指示により `cuculinfo0113@gmail.com` から変更）。サイト表示・JSON-LD・Netlify Forms の通知先すべてこれを使う。本項は以降の全フェーズで優先する
+    - ただし `/contact/form-handler.js` の mailto 宛先は**本番稼働中のためフェーズ1では変更しない**（2026-08-29 発注者判断）。**フェーズ4の Netlify Forms 化と同時に切り替える**。フェーズ4では form-handler.js を書き換えるため mailto 宛先の設定自体が無くなり、通知先は Netlify 管理画面（`content/site.config.json` の `contact.notifyEmail`）に一本化される
+    - フェーズ4の着手前に、`info@cucul-fm.com` が受信できる状態かを必ず確認すること
 
 ---
 
