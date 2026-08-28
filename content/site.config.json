@@ -33,7 +33,7 @@
     "tel": "090-6262-3842",
     "telHref": "tel:09062623842",
     "telInternational": "+81-90-6262-3842",
-    "email": "cuculinfo0113@gmail.com",
+    "email": "info@cucul-fm.com",
     "businessHours": "",
     "serviceArea": "埼玉県川口市を拠点に、関東近郊を中心として対応しています。オンラインを併用した遠隔でのご相談・支援についても、内容に応じてご相談ください。",
     "sameAs": [
@@ -170,7 +170,7 @@
     },
     "formName": "contact",
     "honeypot": "bot-field",
-    "notifyEmail": "cuculinfo0113@gmail.com",
+    "notifyEmail": "info@cucul-fm.com",
     "subjectPlaceholder": "選択してください",
     "subjects": [
       "現場業務の改善",

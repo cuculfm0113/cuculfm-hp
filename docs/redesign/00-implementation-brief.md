@@ -19,6 +19,7 @@
 7. 特定商取引法ページは今回作らない（EC直販が現状ないため。チェックリストに将来項目として記載のみ）
 8. スパム対策は初期は honeypot のみ（reCAPTCHAはキー取得が必要なため将来オプションとしてドキュメント化）
 9. 法人番号・設立年月日など未確定情報は**推測で埋めず**、`content/site.config.json` の空欄プレースホルダーとし、空欄時はHTML/JSON-LDに出力しない
+10. **公開用メールアドレスは `info@cucul-fm.com`**（2026-08-29 発注者指示により `cuculinfo0113@gmail.com` から変更）。サイト表示・JSON-LD・Netlify Forms の通知先すべてこれを使う。本項は以降の全フェーズで優先する
 
 ---
 
@@ -83,7 +84,7 @@
 - 代表者: 馬場 陽子
 - 代表者経歴（#aboutに既載）: プロセス制御機器メーカーで石油・LNG・化学プラント向け海外プロジェクトにアプリケーションエンジニアとして従事。その後コンサルティング会社数社で電力・ガス・素材業界のDX戦略策定、業務改革、新規事業支援などをEnd to Endで支援。現在はククルFM代表の傍らAIテックカンパニーに従事
 - 所在地: 〒333-0802 埼玉県川口市戸塚東４丁目３２−５ ITSUZAI community base １号室
-- TEL: 090-6262-3842 / メール: cuculinfo0113@gmail.com
+- TEL: 090-6262-3842 / メール: info@cucul-fm.com（2026-08-29 変更。旧 cuculinfo0113@gmail.com）
 - SNS: Instagram `cuculfm_llc` / X `madarame365`
 - ドメイン: cucul-fm.com
 - 法人番号・設立年月日: **未確定（空欄プレースホルダー）**
@@ -257,7 +258,7 @@ netlify deploy --dir=.
 
 実装完了報告時に、以下を発注者への依頼事項として明記すること（07-update-guide.md にも記載）:
 
-1. Netlify管理画面 → Forms → Form notifications で通知先メール（cuculinfo0113@gmail.com）を設定
+1. Netlify管理画面 → Forms → Form notifications で通知先メール（info@cucul-fm.com）を設定。あわせて info@cucul-fm.com が受信できる状態か確認する
 2. GTMコンテナ / GA4プロパティを作成し、IDを `content/site.config.json` に記入 → `node scripts/build-content.mjs` 実行 → 再デプロイ
 3. Bing Webmaster Tools へのサイト登録（Search Console連携インポート可）と AI Performance の確認
 4. Google Business Profile の登録・情報整合性確認
