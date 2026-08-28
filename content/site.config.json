@@ -1,0 +1,305 @@
+{
+  "_note": "サイト全体で共有する設定・会社情報・固定コピーの一元管理ファイル。 固定コピー（messaging / contact / nav）は docs/redesign/00-implementation-brief.md 第8章の要件原文と一字一句一致させること。 未確定の項目は推測で埋めず空文字（配列なら空配列）のままにする。company.achievements は公開できる支援実績が出たときに追加する枠で、架空の実績は入れない。空文字の項目は HTML / JSON-LD に出力されない。 変更後は `node scripts/build-content.mjs` を実行して各HTMLへ反映する。",
+  "site": {
+    "name": "CUCUL FM",
+    "nameJa": "ククルFM",
+    "url": "https://cucul-fm.com",
+    "description": "ククルFM合同会社。建設・インフラ、クリエイティブ・テック、ライフスタイル。テクノロジーを横串に、普段と新しい暮らしをサポートします。",
+    "lang": "ja",
+    "locale": "ja_JP",
+    "titleSuffix": "CUCUL FM.LLC",
+    "defaultOgImage": "/logo/cuculfm.svg",
+    "twitterCard": "summary_large_image"
+  },
+  "company": {
+    "legalName": "ククルFM合同会社",
+    "alternateName": "CUCUL FM.LLC",
+    "brandName": "CUCUL FM",
+    "brandNameJa": "ククルFM",
+    "representative": "馬場 陽子",
+    "representativeRole": "代表",
+    "representativeBio": "プロセス制御機器メーカーにて、石油・LNG・化学プラント向けの海外プロジェクトにアプリケーションエンジニアとして従事。その後、コンサルティング会社数社にて電力・ガス・素材業界のDX戦略策定、業務改革、新規事業支援などをEnd to Endで支援。現在はククルFM代表を務める傍ら、AIテックカンパニーに従事。",
+    "logo": "/logo/cuculfm.svg",
+    "corporateNumber": "",
+    "foundingDate": "",
+    "address": {
+      "postalCode": "333-0802",
+      "addressCountry": "JP",
+      "addressRegion": "埼玉県",
+      "addressLocality": "川口市",
+      "streetAddress": "戸塚東４丁目３２−５",
+      "building": "ITSUZAI community base １号室"
+    },
+    "tel": "090-6262-3842",
+    "telHref": "tel:09062623842",
+    "telInternational": "+81-90-6262-3842",
+    "email": "cuculinfo0113@gmail.com",
+    "businessHours": "",
+    "serviceArea": "埼玉県川口市を拠点に、関東近郊を中心として対応しています。オンラインを併用した遠隔でのご相談・支援についても、内容に応じてご相談ください。",
+    "sameAs": [
+      "https://www.instagram.com/cuculfm_llc/",
+      "https://x.com/madarame365"
+    ],
+    "sns": {
+      "instagram": "https://www.instagram.com/cuculfm_llc/",
+      "x": "https://x.com/madarame365"
+    },
+    "achievements": []
+  },
+  "entity": {
+    "businessDefinition": [
+      "ククルFMは、建設・インフラ、クリエイティブ・テック、",
+      "ライフスタイルの領域で事業を展開する会社である。"
+    ],
+    "fdeDefinition": [
+      "ククルFMは、現場伴走型のFDE・AI実装支援を提供する。",
+      "顧客の業務と現場を理解し、業務フロー整理、データ整備、",
+      "SaaS・AI・Webシステムの設計・実装、運用定着、継続改善まで支援する。"
+    ]
+  },
+  "messaging": {
+    "existingTagline": "普段と新しい暮らしをサポートする会社",
+    "siteTagline": "現場と事業に、技術を定着させる。",
+    "siteTaglineSupport": [
+      "AI・データ・クリエイティブを、",
+      "使われ続ける仕組みへ。"
+    ],
+    "heroTagline": "現場と事業に、技術を定着させる。",
+    "heroLead": [
+      "建設・インフラ、クリエイティブ・テック、ライフスタイル。",
+      "異なる事業を横断し、AI・データ・クリエイティブの力で、",
+      "人と現場がより良く働く仕組みをつくります。"
+    ],
+    "heroCtas": [
+      {
+        "label": "ククルFMの事業を見る",
+        "href": "#business"
+      },
+      {
+        "label": "FDE・AI実装支援を見る",
+        "href": "/fde/",
+        "gaEvent": "click_fde_service"
+      }
+    ],
+    "fdeMain": "現場を知るから、変革を動かせる。",
+    "fdeSub": [
+      [
+        "ククルFMは、業務の現場に入り込み、",
+        "課題整理から、AI・SaaS・データ基盤の設計と実装、",
+        "運用定着、継続改善まで伴走します。"
+      ],
+      [
+        "ツールを導入するだけで終わらせず、",
+        "人が判断しやすく、チームが動きやすく、",
+        "日々の仕事が前に進む仕組みをつくります。"
+      ]
+    ],
+    "philosophy": {
+      "title": "AIはAIらしく、人は人らしく。",
+      "body": [
+        [
+          "AIにすべてを任せるのではなく、",
+          "情報整理、検索、記録、下書き、確認作業をAIが支援し、",
+          "人は判断、対話、創造、現場でしかできない仕事に集中する。"
+        ],
+        [
+          "ククルFMは、技術を人の仕事に置き換えるためではなく、",
+          "人と事業の可能性を広げるために実装します。"
+        ]
+      ]
+    }
+  },
+  "nav": {
+    "items": [
+      {
+        "label": "Our Service",
+        "href": "/#business"
+      },
+      {
+        "label": "FDE・AI実装支援",
+        "href": "/fde/"
+      },
+      {
+        "label": "Construction & Infrastructure",
+        "href": "/#pillar-construction"
+      },
+      {
+        "label": "Creative & Tech",
+        "href": "/#pillar-creative"
+      },
+      {
+        "label": "Lifestyle",
+        "href": "/#pillar-lifestyle"
+      },
+      {
+        "label": "Insights",
+        "href": "/insights/"
+      },
+      {
+        "label": "About Us",
+        "href": "/about/"
+      },
+      {
+        "label": "Contact",
+        "href": "/#contact"
+      }
+    ],
+    "cta": {
+      "label": "相談する",
+      "href": "/#contact"
+    }
+  },
+  "contact": {
+    "heading": "困りごとが整理できていなくても、ご相談ください。",
+    "body": [
+      [
+        "「現場と事務所の連携をもっと良くしたい」",
+        "「情報を探す時間を減らしたい」",
+        "「AIを使いたいが、何から始めればよいか分からない」",
+        "「今の仕事に合うシステムを考えたい」",
+        "「新しい事業やサービスを形にしたい」"
+      ],
+      [
+        "ククルFMは、課題の整理から伴走します。",
+        "現在の仕事の流れと、気になっていることをお聞かせください。"
+      ]
+    ],
+    "cta": {
+      "label": "相談する",
+      "href": "/#contact"
+    },
+    "formName": "contact",
+    "honeypot": "bot-field",
+    "notifyEmail": "cuculinfo0113@gmail.com",
+    "subjectPlaceholder": "選択してください",
+    "subjects": [
+      "現場業務の改善",
+      "AI活用",
+      "Web・業務システム",
+      "データ・情報整理",
+      "資料・映像制作",
+      "新規事業・サービス設計",
+      "その他"
+    ],
+    "fields": [
+      {
+        "name": "company",
+        "label": "会社名または屋号",
+        "type": "text",
+        "required": false,
+        "autocomplete": "organization"
+      },
+      {
+        "name": "name",
+        "label": "お名前",
+        "type": "text",
+        "required": true,
+        "autocomplete": "name"
+      },
+      {
+        "name": "department",
+        "label": "部署・役職",
+        "type": "text",
+        "required": false,
+        "autocomplete": "organization-title"
+      },
+      {
+        "name": "email",
+        "label": "メールアドレス",
+        "type": "email",
+        "required": true,
+        "autocomplete": "email"
+      },
+      {
+        "name": "tel",
+        "label": "電話番号",
+        "type": "tel",
+        "required": false,
+        "autocomplete": "tel"
+      },
+      {
+        "name": "industry",
+        "label": "業種",
+        "type": "text",
+        "required": false,
+        "autocomplete": "off"
+      },
+      {
+        "name": "subject",
+        "label": "ご相談の種類",
+        "type": "select",
+        "required": false,
+        "autocomplete": "off"
+      },
+      {
+        "name": "message",
+        "label": "ご相談内容",
+        "type": "textarea",
+        "required": true,
+        "autocomplete": "off"
+      },
+      {
+        "name": "privacy",
+        "label": "個人情報保護方針への同意",
+        "type": "checkbox",
+        "required": true,
+        "autocomplete": "off"
+      }
+    ]
+  },
+  "services": [
+    {
+      "id": "fde",
+      "name": "FDE・AI実装支援",
+      "url": "/fde/",
+      "description": "現場と業務を理解したうえで、業務フローの整理、データ整備、AI・SaaS・業務システムの設計と実装、運用定着、継続改善まで伴走する支援。"
+    },
+    {
+      "id": "flow-diagnosis",
+      "name": "業務フロー・DX診断",
+      "url": "/fde/",
+      "description": "現場・事務・管理・経営の業務フローを可視化し、情報の分断や属人化などの課題を整理して、着手する業務と改善テーマを決める支援。"
+    },
+    {
+      "id": "ai-adoption",
+      "name": "AI業務活用支援",
+      "url": "/services/ai-tools/",
+      "description": "資料検索、情報整理、記録の要約、帳票の下書きなど、用途を絞ったAI活用の設計と、人が確認・承認する運用ルールづくりの支援。"
+    },
+    {
+      "id": "system-web",
+      "name": "業務システム・Web開発",
+      "url": "/services/ai/",
+      "description": "案件管理、記録、書類、写真、承認、検索、帳票などの業務システムと、Webサイト・アプリケーションの設計・開発。"
+    },
+    {
+      "id": "data-foundation",
+      "name": "データ整理・データ連携支援",
+      "url": "/fde/",
+      "description": "紙、Excel、CSV、写真、PDF、メール、チャット、既存システムに分散した情報を、検索・共有・集計しやすい業務データへ整える支援。"
+    },
+    {
+      "id": "video-document",
+      "name": "映像・資料制作",
+      "url": "/services/video/",
+      "description": "映像制作・編集、資料作成を通じて、社内教育、営業、採用、顧客説明で使える形へ情報を届ける制作支援。"
+    },
+    {
+      "id": "construction",
+      "name": "建設・インフラ関連事業",
+      "url": "/services/construction/",
+      "description": "建設施工、調査・清掃、専門工具・クラフトの販売など、社会基盤を支える事業。"
+    },
+    {
+      "id": "lifestyle",
+      "name": "ライフスタイル関連事業",
+      "url": "/services/dog/",
+      "description": "犬に携わる業務やオーナーズコモンなど、暮らしに寄り添う体験とサービスを提供する事業。"
+    }
+  ],
+  "analytics": {
+    "gtmId": "",
+    "ga4MeasurementId": "",
+    "googleSiteVerification": "4Bl0lbh-c8RHx9Uqb0QgfwSeRcLh8A6mvKFjFsZxSq0"
+  }
+}
