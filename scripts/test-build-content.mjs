@@ -1173,6 +1173,13 @@ test('_redirects が社内向けファイルを配信しない', () => {
     assert(re.test(rd), `${p} を 404! にする行がありません（force の ! が無いと効きません）`);
   }
   assert(!/\s404\s*$/m.test(rd), '404 に force の ! が付いていない行があります');
+  // ルート直下の .md は社内向け。増えたら塞ぎ忘れないよう、ここで検査する
+  for (const f of fs.readdirSync(ROOT).filter((n) => n.endsWith('.md'))) {
+    assert(new RegExp(`^/${f.replace(/[.]/g, '\\$&')}\\s`, 'm').test(rd),
+      `ルート直下の ${f} を 404! にする行がありません`);
+    assert(!/[^\x20-\x7e]/.test(f),
+      `${f} は日本語などの非ASCII名です。_redirects で塞げないので docs/ へ移動してください`);
+  }
   // 3Dキャラのモデルを巻き添えにしていないこと
   assert(!/^\/character-design\/\*/m.test(rd),
     '/character-design/* を丸ごと塞いでいます（トップの3Dキャラ model.glb が読めなくなります）');

@@ -17,7 +17,8 @@
 /AGENTS.md /404.html  404!
 /CLAUDE.md /404.html  404!
 /SEO_LMO_BEST_PRACTICES.md /404.html  404!
-/会社内容.md /404.html  404!
+# 会社内容.md は docs/ へ移動した。日本語ファイル名は _redirects のパス一致が
+# エンコードに左右されて効かなかったため（実際 404! を書いても 200 のままだった）。
 /character-design/phantom-dj/viewer.html            /404.html  404!
 /character-design/phantom-dj/viewer-procedural.html /404.html  404!
 
