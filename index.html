@@ -28,7 +28,11 @@
 
 <link rel="icon" href="/logo/cuculfm.svg" type="image/svg+xml" sizes="any">
 
-<!-- Structured Data (SEO / AI Discoverability) -->
+<!-- Structured Data (SEO / AI Discoverability)
+     マーカー区間は content/site.config.json から生成される。手で書き換えず、
+     値を直したら `node scripts/build-content.mjs` を実行すること。
+     未確定の項目（法人番号・設立年月日）は空欄なので出力されない。 -->
+<!-- BEGIN:jsonld-organization -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -38,25 +42,45 @@
       "@id": "https://cucul-fm.com/#website",
       "url": "https://cucul-fm.com/",
       "name": "CUCUL FM",
-      "description": "普段と新しい暮らしをサポートする会社。建設・インフラ、クリエイティブ・テック、ライフスタイルの3つの柱で、テクノロジーを横串に暮らしと未来をデザインします。",
-      "publisher": { "@id": "https://cucul-fm.com/#organization" },
+      "description": "ククルFM合同会社。建設・インフラ、クリエイティブ・テック、ライフスタイル。テクノロジーを横串に、普段と新しい暮らしをサポートします。",
+      "publisher": {
+        "@id": "https://cucul-fm.com/#organization"
+      },
       "inLanguage": "ja-JP"
     },
     {
       "@type": "Organization",
       "@id": "https://cucul-fm.com/#organization",
       "name": "ククルFM合同会社",
+      "alternateName": [
+        "CUCUL FM.LLC",
+        "CUCUL FM",
+        "ククルFM"
+      ],
       "url": "https://cucul-fm.com/",
       "logo": "https://cucul-fm.com/logo/cuculfm.svg",
-      "description": "普段と新しい暮らしをサポートする会社。建設・インフラ、クリエイティブ・テック、ライフスタイルの3つの柱で、テクノロジーを横串に暮らしと未来をデザインします。",
+      "description": "ククルFMは、建設・インフラ、クリエイティブ・テック、ライフスタイルの領域で事業を展開する会社である。",
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "戸塚東４丁目３２−５ ITSUZAI community base １号室",
         "addressLocality": "川口市",
         "addressRegion": "埼玉県",
-        "postalCode": "333-0802"
+        "postalCode": "333-0802",
+        "addressCountry": "JP"
       },
       "telephone": "+81-90-6262-3842",
+      "email": "info@cucul-fm.com",
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "telephone": "+81-90-6262-3842",
+          "email": "info@cucul-fm.com",
+          "availableLanguage": [
+            "ja"
+          ]
+        }
+      ],
       "sameAs": [
         "https://www.instagram.com/cuculfm_llc/",
         "https://x.com/madarame365"
@@ -65,6 +89,26 @@
   ]
 }
 </script>
+<!-- END:jsonld-organization -->
+<!-- BEGIN:jsonld-webpage -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "https://cucul-fm.com/#webpage",
+  "url": "https://cucul-fm.com/",
+  "name": "CUCUL FM.LLC | 普段と新しい暮らしをサポートする会社",
+  "description": "ククルFM合同会社。建設・インフラ、クリエイティブ・テック、ライフスタイル。テクノロジーを横串に、普段と新しい暮らしをサポートします。",
+  "isPartOf": {
+    "@id": "https://cucul-fm.com/#website"
+  },
+  "about": {
+    "@id": "https://cucul-fm.com/#organization"
+  },
+  "inLanguage": "ja-JP"
+}
+</script>
+<!-- END:jsonld-webpage -->
 <link rel="dns-prefetch" href="https://fonts.googleapis.com">
 <link rel="dns-prefetch" href="https://fonts.gstatic.com">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -772,7 +816,9 @@ html[data-theme="red"] .bg-red{opacity:1}
   margin-top:clamp(28px,3.4vw,44px);
   display:flex;justify-content:center;flex-wrap:wrap;gap:14px;
 }
-.btn-stm{
+/* 主CTAの共通形。#statement / FDE横断 / ロードマップで同じ見た目にそろえる
+   （既存の .btn-call / .btn-submit と同じ「枠線 → ホバーで塗り」。塗りボタンは使わない） */
+.btn-stm,.btn-fde,.btn-roadmap{
   display:inline-flex;align-items:center;justify-content:center;gap:.6em;
   padding:1em 2.1em;border-radius:999px;
   border:1px solid var(--t-accent);
@@ -784,7 +830,9 @@ html[data-theme="red"] .bg-red{opacity:1}
   box-shadow:0 0 32px -12px var(--t-accent);
   transition:background-color .35s ease,color .35s ease,box-shadow .35s ease,border-color .8s ease;
 }
-.btn-stm:hover,.btn-stm:focus-visible{
+.btn-stm:hover,.btn-stm:focus-visible,
+.btn-fde:hover,.btn-fde:focus-visible,
+.btn-roadmap:hover,.btn-roadmap:focus-visible{
   background:var(--t-accent);color:#0a0a0f;box-shadow:0 0 42px -8px var(--t-accent);
 }
 /* 副次CTA: 主CTAと同じ形で、色だけ落として優先度差を出す */
@@ -877,9 +925,11 @@ html[data-theme="red"] .bg-red{opacity:1}
 /* --------------------------------------------------------------------------
    9. OUR BUSINESS
    -------------------------------------------------------------------------- */
+/* 上パディングは直前の #fde-cross が持つ（既存の #news / #about と同じ「下だけ」の連なり）。
+   ここに上パディングを残すと FDE横断セクションとの間に二重の余白ができる */
 #business{
   position:relative;
-  padding:clamp(90px,13vw,170px) 0 clamp(80px,11vw,140px);
+  padding:0 0 clamp(80px,11vw,140px);
 }
 .biz-head{
   max-width:var(--container);margin:0 auto;
@@ -1024,6 +1074,411 @@ html[data-theme="red"] .bg-red{opacity:1}
 .biz-progress .lab{
   display:flex;justify-content:space-between;margin-top:10px;
   font-family:var(--font-display);font-size:.5rem;letter-spacing:.28em;color:var(--t-dim);
+}
+
+/* --------------------------------------------------------------------------
+   9b. 追加セクション共通（FDE横断 / 課題提起 / ロードマップ / 活用テーマ / FAQ）
+       ・見出しは既存の .biz-head / .news-head と同じ骨格
+         （eyebrow → Bebas の英語 h2 → 日本語リード）
+       ・ただし日本語側は要件上「見出し」なので、.lead より一段強く出す
+       ・縦の余白は既存の連なりに合わせ「上パディングは持たず下だけ」で繋ぐ
+   -------------------------------------------------------------------------- */
+.fde-in,.fde-steps-in,.pillar-in,.svc-in,.biz-sub,
+.chal-in,.rm-in,.uc-in,.faq-in{
+  max-width:var(--container);margin:0 auto;
+  padding:0 var(--pad);
+}
+.chal-head,.rm-head-sec,.uc-head,.faq-head{
+  display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;
+  margin-bottom:clamp(26px,3.6vw,46px);
+}
+.chal-head h2,.rm-head-sec h2,.uc-head h2,.faq-head h2{
+  font-family:var(--font-heading);
+  font-size:clamp(2rem,5.4vw,4.2rem);
+  line-height:.92;letter-spacing:.02em;
+  color:var(--t-text);
+  transition:color .8s ease;
+}
+.chal-head h2 em,.rm-head-sec h2 em,.uc-head h2 em,.faq-head h2 em{
+  font-style:normal;color:var(--t-accent);transition:color .8s ease;
+}
+.chal-head .lead,.rm-head-sec .lead,.uc-head .lead,.faq-head .lead{
+  max-width:560px;
+  font-size:clamp(.95rem,1.7vw,1.2rem);
+  line-height:1.9;letter-spacing:.03em;
+  color:var(--t-text);
+  transition:color .8s ease;
+}
+/* #business 内の小見出し（3つの事業領域 / 各事業のご紹介 / 提供サービス） */
+.biz-sub{margin-bottom:clamp(18px,2.4vw,28px)}
+.biz-sub--svc{margin-top:clamp(46px,6vw,84px)}
+.biz-sub h3{
+  margin-top:.4em;
+  font-family:var(--font-body);font-weight:700;
+  font-size:clamp(1rem,1.8vw,1.25rem);letter-spacing:.06em;
+  color:var(--t-text);
+  transition:color .8s ease;
+}
+/* 3本柱と提供サービスの間に挟まる7カードは、上下に少し余白を入れて塊を分ける */
+.biz-scroller{margin-top:0}
+.pillar-in{margin-bottom:clamp(46px,6vw,84px)}
+
+/* ---- FDE横断セクション ---- */
+#fde-cross{
+  position:relative;
+  padding:clamp(90px,13vw,170px) 0 clamp(70px,10vw,130px);
+}
+.fde-in{max-width:min(980px,var(--container))}
+.fde-heading{
+  margin-top:.5em;
+  font-family:var(--font-body);font-weight:700;
+  font-size:clamp(1.35rem,3.2vw,2.4rem);
+  line-height:1.55;letter-spacing:.04em;
+  color:var(--t-text);
+  transition:color .8s ease;
+}
+/* 句読点の切れ目でだけ改行させる（語中で割れるのを防ぐ。.stm-title と同じ扱い） */
+.fde-heading span{display:inline-block}
+.fde-body{margin-top:clamp(20px,2.6vw,32px)}
+.fde-body p{
+  font-size:clamp(.82rem,1.25vw,.95rem);
+  line-height:2.15;letter-spacing:.03em;
+  color:var(--t-muted);
+  transition:color .8s ease;
+}
+.fde-body p+p{margin-top:1.5em}
+/* 順序に意味があるので ol。番号は .step-no / .rm-no が担うので既定のマーカーは消す
+   （グローバルの ul{list-style:none} は ol には効かない） */
+.fde-steps,.rm-list{list-style:none}
+.fde-steps{
+  margin-top:clamp(38px,5vw,64px);
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:clamp(14px,1.8vw,26px);
+}
+.step-card{
+  padding:clamp(20px,2.4vw,32px);
+  border:1px solid var(--t-line);border-radius:14px;
+  background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,0));
+  transition:border-color .45s ease,transform .45s ease;
+}
+.step-card:hover{border-color:var(--t-accent);transform:translateY(-4px)}
+.step-no{
+  display:block;
+  font-family:var(--font-heading);
+  font-size:clamp(1.8rem,4vw,2.8rem);line-height:1;
+  color:var(--t-accent);opacity:.8;
+  transition:color .8s ease;
+}
+.step-en{
+  margin-top:.5em;
+  font-family:var(--font-display);font-weight:700;
+  font-size:clamp(.66rem,1vw,.78rem);
+  letter-spacing:.24em;text-transform:uppercase;
+  color:var(--t-dim);
+  transition:color .8s ease;
+}
+.step-ja{
+  margin-top:.7em;
+  font-family:var(--font-body);font-weight:700;
+  font-size:clamp(.95rem,1.6vw,1.12rem);
+  line-height:1.6;letter-spacing:.04em;
+  color:var(--t-text);
+  transition:color .8s ease;
+}
+.step-body{
+  margin-top:.9em;
+  font-size:clamp(.76rem,1.15vw,.86rem);
+  line-height:2;letter-spacing:.02em;
+  color:var(--t-muted);
+  transition:color .8s ease;
+}
+/* CTA は .btn-stm と同じ形。中央に置くため display だけ上書きする */
+.btn-fde,.btn-roadmap{
+  display:flex;width:fit-content;max-width:100%;
+  margin:clamp(32px,4.2vw,56px) auto 0;
+  text-align:center;
+}
+
+/* ---- 3本柱 ---- */
+.pillar-grid{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:clamp(14px,1.8vw,26px);
+}
+.pillar-card{
+  padding:clamp(22px,2.6vw,34px);
+  border:1px solid var(--t-line);border-radius:14px;
+  background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,0));
+  transition:border-color .45s ease,transform .45s ease;
+}
+.pillar-card:hover{border-color:var(--t-accent);transform:translateY(-4px)}
+.pillar-ja{
+  margin-top:.55em;
+  font-family:var(--font-body);font-weight:700;
+  font-size:clamp(1.05rem,1.9vw,1.3rem);letter-spacing:.05em;
+  color:var(--t-text);
+  transition:color .8s ease;
+}
+.pillar-body{
+  margin-top:1em;
+  font-size:clamp(.78rem,1.2vw,.88rem);line-height:2.05;
+  color:var(--t-muted);
+  transition:color .8s ease;
+}
+.pillar-note{
+  margin-top:clamp(16px,2vw,24px);padding-top:clamp(14px,1.8vw,20px);
+  border-top:1px solid var(--t-line);
+  transition:border-color .8s ease;
+}
+.pillar-note-label{
+  font-family:var(--font-display);
+  font-size:clamp(.55rem,.9vw,.64rem);letter-spacing:.18em;
+  color:var(--t-accent);
+  transition:color .8s ease;
+}
+.pillar-note-body{
+  margin-top:.7em;
+  font-size:clamp(.74rem,1.1vw,.83rem);line-height:1.95;
+  color:var(--t-dim);
+  transition:color .8s ease;
+}
+.pillar-links{margin-top:clamp(16px,2vw,22px);display:flex;flex-wrap:wrap;gap:8px}
+.pillar-links a{
+  display:inline-block;
+  padding:.45em 1em;border-radius:999px;
+  border:1px solid var(--t-line);
+  font-size:clamp(.66rem,1vw,.74rem);letter-spacing:.04em;
+  color:var(--t-muted);
+  transition:border-color .3s ease,color .3s ease;
+}
+.pillar-links a:hover,.pillar-links a:focus-visible{border-color:var(--t-accent);color:var(--t-accent)}
+
+/* ---- 提供サービス（Service 構造化データと一致する可視リスト） ---- */
+.svc-list{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:0 clamp(24px,3.2vw,56px);
+  border-top:1px solid var(--t-line);
+  transition:border-color .8s ease;
+}
+.svc-item{
+  padding:clamp(16px,2vw,24px) 0;
+  border-bottom:1px solid var(--t-line);
+  transition:border-color .8s ease;
+}
+.svc-name{
+  display:inline-block;
+  font-weight:700;font-size:clamp(.86rem,1.4vw,1rem);letter-spacing:.04em;
+  color:var(--t-text);
+  transition:color .3s ease;
+}
+.svc-name:hover,.svc-name:focus-visible{color:var(--t-accent)}
+.svc-desc{
+  margin-top:.6em;
+  font-size:clamp(.74rem,1.1vw,.83rem);line-height:1.95;
+  color:var(--t-dim);
+  transition:color .8s ease;
+}
+
+/* ---- 課題提起 ---- */
+#challenges{position:relative;padding:0 0 clamp(80px,11vw,140px)}
+.chal-grid{
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:clamp(12px,1.5vw,20px);
+}
+.chal-card{
+  display:flex;flex-direction:column;gap:.8em;
+  padding:clamp(18px,2.2vw,26px);
+  border:1px solid var(--t-line);border-radius:12px;
+  background:rgba(255,255,255,.02);
+  transition:border-color .45s ease,transform .45s ease;
+}
+.chal-card:hover{border-color:var(--t-accent);transform:translateY(-3px)}
+.chal-no{
+  font-family:var(--font-heading);
+  font-size:clamp(1.1rem,2vw,1.5rem);line-height:1;
+  color:var(--t-accent);opacity:.75;
+  transition:color .8s ease;
+}
+.chal-text{
+  font-size:clamp(.76rem,1.15vw,.86rem);
+  line-height:1.95;letter-spacing:.02em;
+  color:var(--t-text);
+  transition:color .8s ease;
+}
+.chal-closing{
+  margin-top:clamp(30px,4vw,50px);
+  text-align:center;
+  font-size:clamp(.86rem,1.4vw,1.02rem);
+  line-height:2.1;letter-spacing:.04em;
+  color:var(--t-text);
+  transition:color .8s ease;
+}
+
+/* ---- 12か月ロードマップ ---- */
+#roadmap{position:relative;padding:0 0 clamp(80px,11vw,140px)}
+.rm-intro{
+  max-width:760px;margin-bottom:clamp(30px,4vw,50px);
+  font-size:clamp(.82rem,1.25vw,.94rem);
+  line-height:2.1;letter-spacing:.03em;
+  color:var(--t-muted);
+  transition:color .8s ease;
+}
+.rm-list{display:grid;gap:clamp(12px,1.6vw,20px)}
+.rm-item{position:relative;padding-left:clamp(26px,3.4vw,48px)}
+/* タイムラインの縦線と節点（装飾） */
+.rm-item::before{
+  content:'';position:absolute;left:clamp(6px,.9vw,12px);
+  top:1.9em;bottom:calc(-1 * clamp(12px,1.6vw,20px));
+  width:1px;background:var(--t-line);
+  transition:background-color .8s ease;
+}
+.rm-item:last-child::before{display:none}
+.rm-item::after{
+  content:'';position:absolute;left:calc(clamp(6px,.9vw,12px) - 3px);top:1.5em;
+  width:7px;height:7px;border-radius:50%;
+  background:var(--t-accent);box-shadow:0 0 12px var(--t-accent);
+  transition:background-color .8s ease,box-shadow .8s ease;
+}
+.rm-details{
+  border:1px solid var(--t-line);border-radius:14px;
+  background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,0));
+  transition:border-color .45s ease;
+}
+/* 矢印は絶対配置（.faq-q と同じ扱い）。flex の中に置くと、見出しが折り返す
+   狭い画面で矢印だけ次の行へ落ちる */
+.rm-head{
+  position:relative;
+  display:flex;align-items:baseline;gap:clamp(10px,1.6vw,20px);flex-wrap:wrap;
+  padding:clamp(16px,2vw,24px) clamp(40px,5vw,52px) clamp(16px,2vw,24px) clamp(18px,2.2vw,30px);
+  cursor:pointer;list-style:none;
+}
+.rm-head::-webkit-details-marker{display:none}
+.rm-head::after{
+  content:'';position:absolute;right:clamp(18px,2.2vw,30px);top:50%;
+  width:9px;height:9px;
+  border-right:1px solid var(--t-dim);border-bottom:1px solid var(--t-dim);
+  transform:translateY(-70%) rotate(45deg);
+  transition:transform .3s ease,border-color .8s ease;
+}
+.rm-details[open] .rm-head::after{transform:translateY(-30%) rotate(-135deg)}
+.rm-details:hover{border-color:rgba(255,255,255,.2)}
+.rm-no{
+  font-family:var(--font-heading);
+  font-size:clamp(1.4rem,2.6vw,2rem);line-height:1;
+  color:var(--t-accent);
+  transition:color .8s ease;
+}
+.rm-range{
+  font-family:var(--font-display);
+  font-size:clamp(.62rem,.95vw,.72rem);letter-spacing:.18em;
+  color:var(--t-dim);
+  transition:color .8s ease;
+}
+.rm-title{
+  font-weight:700;font-size:clamp(.92rem,1.6vw,1.14rem);letter-spacing:.04em;
+  color:var(--t-text);
+  transition:color .8s ease;
+}
+.rm-detail{
+  padding:0 clamp(18px,2.2vw,30px) clamp(20px,2.4vw,30px);
+  display:grid;grid-template-columns:1.35fr 1fr;gap:clamp(20px,3vw,44px);
+}
+.rm-tasks li{
+  position:relative;padding-left:1.1em;
+  font-size:clamp(.76rem,1.15vw,.86rem);line-height:1.95;
+  color:var(--t-muted);
+  transition:color .8s ease;
+}
+.rm-tasks li+li{margin-top:.5em}
+.rm-tasks li::before{
+  content:'';position:absolute;left:0;top:.95em;
+  width:5px;height:1px;background:var(--t-accent);opacity:.85;
+  transition:background-color .8s ease;
+}
+.rm-deliv-label{
+  font-family:var(--font-display);
+  font-size:clamp(.55rem,.9vw,.64rem);letter-spacing:.2em;
+  color:var(--t-accent);
+  transition:color .8s ease;
+}
+.rm-chips{margin-top:.9em;display:flex;flex-wrap:wrap;gap:7px}
+.rm-chip{
+  padding:.4em .9em;border-radius:999px;
+  border:1px solid var(--t-line);
+  font-size:clamp(.64rem,.95vw,.72rem);letter-spacing:.03em;
+  color:var(--t-dim);
+  transition:border-color .8s ease,color .8s ease;
+}
+
+/* ---- 活用テーマ ---- */
+#usecases{position:relative;padding:0 0 clamp(80px,11vw,140px)}
+.uc-note{
+  display:inline-block;
+  margin-bottom:clamp(20px,2.6vw,30px);
+  padding:.45em 1.1em;border-radius:999px;
+  border:1px solid var(--t-line);
+  font-size:clamp(.66rem,1vw,.74rem);letter-spacing:.06em;
+  color:var(--t-dim);
+  transition:color .8s ease,border-color .8s ease;
+}
+.uc-list{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:0 clamp(24px,3.2vw,56px);
+  border-top:1px solid var(--t-line);
+  transition:border-color .8s ease;
+}
+.uc-item{
+  position:relative;
+  padding:clamp(14px,1.8vw,20px) 0 clamp(14px,1.8vw,20px) 1.7em;
+  border-bottom:1px solid var(--t-line);
+  font-size:clamp(.78rem,1.2vw,.88rem);
+  line-height:1.95;letter-spacing:.02em;
+  color:var(--t-muted);
+  transition:color .8s ease,border-color .8s ease;
+}
+.uc-item::before{
+  content:'';position:absolute;left:.35em;top:calc(clamp(14px,1.8vw,20px) + .8em);
+  width:6px;height:6px;border-radius:50%;
+  border:1px solid var(--t-accent);
+  transition:border-color .8s ease;
+}
+
+/* ---- FAQ ---- */
+#faq{position:relative;padding:0 0 clamp(80px,11vw,140px)}
+.faq-in{max-width:min(1040px,var(--container))}
+.faq-list{border-top:1px solid var(--t-line);transition:border-color .8s ease}
+.faq-item{border-bottom:1px solid var(--t-line);transition:border-color .8s ease}
+.faq-q{
+  position:relative;
+  display:flex;align-items:flex-start;gap:.75em;
+  padding:clamp(16px,2vw,22px) 2.6em clamp(16px,2vw,22px) 0;
+  cursor:pointer;list-style:none;
+  font-weight:700;font-size:clamp(.84rem,1.35vw,.97rem);
+  line-height:1.8;letter-spacing:.03em;
+  color:var(--t-text);
+  transition:color .3s ease;
+}
+.faq-q::-webkit-details-marker{display:none}
+.faq-q::before{
+  content:'Q';flex:0 0 auto;
+  font-family:var(--font-display);font-size:.85em;
+  color:var(--t-accent);
+  transition:color .8s ease;
+}
+.faq-q::after{
+  content:'';position:absolute;right:.5em;top:50%;
+  width:9px;height:9px;
+  border-right:1px solid var(--t-dim);border-bottom:1px solid var(--t-dim);
+  transform:translateY(-70%) rotate(45deg);
+  transition:transform .3s ease,border-color .8s ease;
+}
+.faq-item[open] .faq-q::after{transform:translateY(-30%) rotate(-135deg)}
+.faq-q:hover{color:var(--t-accent)}
+.faq-a{padding:0 2.6em clamp(20px,2.4vw,28px) 1.85em}
+.faq-a p{
+  font-size:clamp(.78rem,1.2vw,.88rem);
+  line-height:2.05;letter-spacing:.02em;
+  color:var(--t-muted);
+  transition:color .8s ease;
 }
 
 /* --------------------------------------------------------------------------
@@ -1538,6 +1993,7 @@ body.idx-locked{overflow:hidden}
   .biz-card{padding:14px;min-height:270px}
 }
 @media (max-width:1199px){
+  .chal-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .idx-cols{grid-template-columns:1fr 1fr;gap:clamp(22px,3vw,40px)}
   .idx-group--services{grid-column:1 / -1}
   .foot-in{grid-template-columns:1fr 1fr}
@@ -1564,6 +2020,11 @@ body.idx-locked{overflow:hidden}
   .giant-type{font-size:clamp(3.4rem,15vw,8rem);white-space:normal;line-height:.92}
   .seq-cap--2{left:var(--pad);right:auto;text-align:left}
   .news-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .fde-steps{grid-template-columns:1fr}
+  .pillar-grid{grid-template-columns:1fr}
+  .rm-detail{grid-template-columns:1fr}
+  .svc-list{grid-template-columns:1fr}
+  .uc-list{grid-template-columns:1fr}
 }
 @media (max-width:680px){
   .hero-top{flex-direction:column;align-items:flex-start;gap:14px}
@@ -1587,6 +2048,14 @@ body.idx-locked{overflow:hidden}
   .idx-group--services{grid-column:auto}
   .idx-item .ja{margin-left:.7em;text-align:left}
   .idx-item{flex-wrap:wrap}
+  .chal-grid{grid-template-columns:1fr}
+  .chal-head,.rm-head-sec,.uc-head,.faq-head{flex-direction:column;align-items:flex-start}
+  .chal-closing{text-align:left}
+  /* 原文の改行位置は広い画面向け。狭い画面では <br> を無効化して自然に流す
+     （#statement と同じ扱い。テキスト自体は1文字も変えない） */
+  .fde-body p br,.step-body br,.pillar-body br,.pillar-note-body br,
+  .chal-closing br,.rm-intro br{display:none}
+  .btn-fde,.btn-roadmap{width:100%}
 }
 
 
@@ -2094,7 +2563,57 @@ html[data-theme="red"] .c-rim--red{opacity:1}
 </section>
 
 <!-- ======================================================================
+     FDE & AI IMPLEMENTATION （3事業を横断する技術セクション）
+     ・要件では4本目の事業柱として切り離さず、3事業を横断する帯として置く
+     ・見出し・本文・3ステップは content/pillars.json の crossSection から生成
+     ・初期状態で可視。GSAP は gsap.from で後から掛けるだけなので JS 無効でも読める
+     ====================================================================== -->
+<section id="fde-cross" aria-labelledby="fde-heading">
+  <div class="fde-in">
+    <!-- BEGIN:fde-cross -->
+    <p class="eyebrow">FDE &amp; AI IMPLEMENTATION</p>
+    <h2 class="fde-heading" id="fde-heading"><span>技術を、</span><span>現場で使われる仕組みへ。</span></h2>
+    <div class="fde-body">
+      <p>良いツールも、現場の仕事に合わなければ使われ続けません。</p>
+      <p>ククルFMは、業務の流れ、利用する人、既存の情報、<br>組織ごとの判断やルールを理解したうえで、<br>AI・SaaS・Webシステム・データベース・映像・資料を組み合わせます。</p>
+      <p>構想だけで終わらせず、<br>導入、教育、運用、改善まで。<br>事業と現場に、技術を定着させます。</p>
+    </div>
+    <!-- END:fde-cross -->
+  </div>
+  <div class="fde-steps-in">
+    <!-- BEGIN:fde-steps -->
+    <ol class="fde-steps">
+      <li class="step-card">
+        <span class="step-no" aria-hidden="true">01</span>
+        <p class="step-en">Understand</p>
+        <h3 class="step-ja">現場と事業を理解する</h3>
+        <p class="step-body">現場、事務、管理、経営の業務フローを整理し、<br>情報の分断、属人化、転記、確認待ち、手戻りなどの課題を見つけます。</p>
+      </li>
+      <li class="step-card">
+        <span class="step-no" aria-hidden="true">02</span>
+        <p class="step-en">Build</p>
+        <h3 class="step-ja">仕組みを設計・実装する</h3>
+        <p class="step-body">既製SaaS、AI、Web、業務システム、データベース、<br>地図・位置情報、映像、帳票設計を組み合わせ、<br>本当に必要な形へ実装します。</p>
+      </li>
+      <li class="step-card">
+        <span class="step-no" aria-hidden="true">03</span>
+        <p class="step-en">Embed</p>
+        <h3 class="step-ja">使われ続ける状態へ育てる</h3>
+        <p class="step-body">試験運用、操作説明、運用ルール、利用状況の確認、<br>継続改善を通じて、仕組みを現場と組織に定着させます。</p>
+      </li>
+    </ol>
+    <a class="btn-fde" href="/fde/" data-ga-event="click_fde_service">FDE・AI実装支援の詳細を見る</a>
+    <!-- END:fde-steps -->
+  </div>
+</section>
+
+<!-- ======================================================================
      OUR BUSINESS
+     ・冒頭に3本柱（#pillar-construction / #pillar-creative / #pillar-lifestyle）。
+       この3つの id はグローバルナビが指しているので変更しないこと
+     ・既存の7カードスクローラーは「各事業のご紹介」としてそのまま維持
+     ・末尾の「提供サービス」8件は Service 構造化データと同一データから生成する
+       （画面に出していない内容を構造化データに書かないため、両者は必ずセットで置く）
      ====================================================================== -->
 <section id="business" aria-labelledby="biz-title">
   <div class="biz-head">
@@ -2105,6 +2624,67 @@ html[data-theme="red"] .c-rim--red{opacity:1}
     <p class="lead">AI × 現場。建設・インフラからライフスタイルまで、AIを駆使してブルーカラーの仕事をビルドアップする——ククルFM合同会社の7つの領域。</p>
   </div>
 
+  <div class="biz-sub">
+    <p class="eyebrow">THREE PILLARS</p>
+    <h3>3つの事業領域</h3>
+  </div>
+  <div class="pillar-in">
+    <!-- BEGIN:pillars -->
+    <div class="pillar-grid">
+      <article class="pillar-card" id="pillar-construction">
+        <p class="eyebrow">CONSTRUCTION &amp; INFRASTRUCTURE</p>
+        <h3 class="pillar-ja">建設・インフラ</h3>
+        <p class="pillar-body">社会基盤を支える建設施工、調査・清掃、工具・クラフト。<br>実務で培った知識を生かし、安全性、品質、効率を支えるサービスを提供します。</p>
+        <div class="pillar-note">
+          <p class="pillar-note-label">FDE・AI実装支援とのつながり</p>
+          <p class="pillar-note-body">現場記録、写真・動画、点検・調査、台帳、報告、進捗管理など、<br>現場に根ざしたDX・AI実装も支援します。</p>
+        </div>
+        <ul class="pillar-links">
+          <li><a href="/services/construction/">建設業</a></li>
+          <li><a href="/services/inspection/">調査・清掃</a></li>
+          <li><a href="/services/tools/">専門工具販売</a></li>
+          <li><a href="/services/craft/">オリジナルクラフト販売</a></li>
+          <li><a href="/services/custom/">オーダーメイド製品販売</a></li>
+        </ul>
+      </article>
+      <article class="pillar-card" id="pillar-creative">
+        <p class="eyebrow">CREATIVE &amp; TECH</p>
+        <h3 class="pillar-ja">クリエイティブ・テック</h3>
+        <p class="pillar-body">映像、資料、Web、AI、メディア。<br>伝える力と技術を掛け合わせ、事業の課題を解決し、<br>新しい価値の届け方を設計します。</p>
+        <div class="pillar-note">
+          <p class="pillar-note-label">FDE・AI実装支援とのつながり</p>
+          <p class="pillar-note-body">業務フローの設計、AI活用、情報整理、Webシステム、<br>データベース、社内外への情報発信まで、一貫した仕組みづくりを支援します。</p>
+        </div>
+        <ul class="pillar-links">
+          <li><a href="/services/ai/">DX・業務効率化システム開発</a></li>
+          <li><a href="/services/web/">ホームページ制作・3Dデザイン・アプリ開発</a></li>
+          <li><a href="/services/video/">映像制作・編集</a></li>
+          <li><a href="/services/document/">資料作成</a></li>
+          <li><a href="/services/ai-tools/">AIツール紹介 / 学習</a></li>
+          <li><a href="/services/media/">メディア運営</a></li>
+        </ul>
+      </article>
+      <article class="pillar-card" id="pillar-lifestyle">
+        <p class="eyebrow">LIFESTYLE</p>
+        <h3 class="pillar-ja">ライフスタイル</h3>
+        <p class="pillar-body">犬に関わる事業をはじめ、<br>「好きなことを形にする」体験とサービスを提供します。<br>暮らしに寄り添い、日常に新しい価値と彩りを加えます。</p>
+        <div class="pillar-note">
+          <p class="pillar-note-label">FDE・AI実装支援とのつながり</p>
+          <p class="pillar-note-body">顧客との接点、予約・記録・コミュニティ・情報発信など、<br>サービス事業の運営を支える仕組みづくりにも取り組みます。</p>
+        </div>
+        <ul class="pillar-links">
+          <li><a href="/services/dog/">犬に携わる業務</a></li>
+          <li><a href="/services/condo/">オーナーズコモン</a></li>
+        </ul>
+      </article>
+    </div>
+    <!-- END:pillars -->
+  </div>
+
+  <div class="biz-sub">
+    <p class="eyebrow">SERVICE LIST</p>
+    <h3>各事業のご紹介</h3>
+  </div>
   <div class="biz-scroller" id="biz-scroller">
     <div class="biz-grid">
 
@@ -2172,10 +2752,364 @@ html[data-theme="red"] .c-rim--red{opacity:1}
     <div class="rail"><i id="biz-line"></i></div>
     <div class="lab"><span>01 feat. AI</span><span>07 DOG</span></div>
   </div>
+
+  <div class="biz-sub biz-sub--svc">
+    <p class="eyebrow">WHAT WE PROVIDE</p>
+    <h3 id="svc-title">提供サービス</h3>
+  </div>
+  <div class="svc-in" aria-labelledby="svc-title">
+    <!-- BEGIN:services -->
+    <ul class="svc-list">
+      <li class="svc-item" id="svc-fde">
+        <a class="svc-name" href="/fde/">FDE・AI実装支援</a>
+        <p class="svc-desc">現場と業務を理解したうえで、業務フローの整理、データ整備、AI・SaaS・業務システムの設計と実装、運用定着、継続改善まで伴走する支援。</p>
+      </li>
+      <li class="svc-item" id="svc-flow-diagnosis">
+        <a class="svc-name" href="/fde/">業務フロー・DX診断</a>
+        <p class="svc-desc">現場・事務・管理・経営の業務フローを可視化し、情報の分断や属人化などの課題を整理して、着手する業務と改善テーマを決める支援。</p>
+      </li>
+      <li class="svc-item" id="svc-ai-adoption">
+        <a class="svc-name" href="/services/ai-tools/">AI業務活用支援</a>
+        <p class="svc-desc">資料検索、情報整理、記録の要約、帳票の下書きなど、用途を絞ったAI活用の設計と、人が確認・承認する運用ルールづくりの支援。</p>
+      </li>
+      <li class="svc-item" id="svc-system-web">
+        <a class="svc-name" href="/services/ai/">業務システム・Web開発</a>
+        <p class="svc-desc">案件管理、記録、書類、写真、承認、検索、帳票などの業務システムと、Webサイト・アプリケーションの設計・開発。</p>
+      </li>
+      <li class="svc-item" id="svc-data-foundation">
+        <a class="svc-name" href="/fde/">データ整理・データ連携支援</a>
+        <p class="svc-desc">紙、Excel、CSV、写真、PDF、メール、チャット、既存システムに分散した情報を、検索・共有・集計しやすい業務データへ整える支援。</p>
+      </li>
+      <li class="svc-item" id="svc-video-document">
+        <a class="svc-name" href="/services/video/">映像・資料制作</a>
+        <p class="svc-desc">映像制作・編集、資料作成を通じて、社内教育、営業、採用、顧客説明で使える形へ情報を届ける制作支援。</p>
+      </li>
+      <li class="svc-item" id="svc-construction">
+        <a class="svc-name" href="/services/construction/">建設・インフラ関連事業</a>
+        <p class="svc-desc">建設施工、調査・清掃、専門工具・クラフトの販売など、社会基盤を支える事業。</p>
+      </li>
+      <li class="svc-item" id="svc-lifestyle">
+        <a class="svc-name" href="/services/dog/">ライフスタイル関連事業</a>
+        <p class="svc-desc">犬に携わる業務やオーナーズコモンなど、暮らしに寄り添う体験とサービスを提供する事業。</p>
+      </li>
+    </ul>
+    <!-- END:services -->
+  </div>
+  <!-- 画面に出している上の一覧と同一データから生成する構造化データ -->
+  <!-- BEGIN:jsonld-services -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Service",
+        "@id": "https://cucul-fm.com/#service-fde",
+        "name": "FDE・AI実装支援",
+        "description": "現場と業務を理解したうえで、業務フローの整理、データ整備、AI・SaaS・業務システムの設計と実装、運用定着、継続改善まで伴走する支援。",
+        "url": "https://cucul-fm.com/fde/",
+        "provider": {
+          "@id": "https://cucul-fm.com/#organization"
+        }
+      },
+      {
+        "@type": "Service",
+        "@id": "https://cucul-fm.com/#service-flow-diagnosis",
+        "name": "業務フロー・DX診断",
+        "description": "現場・事務・管理・経営の業務フローを可視化し、情報の分断や属人化などの課題を整理して、着手する業務と改善テーマを決める支援。",
+        "url": "https://cucul-fm.com/fde/",
+        "provider": {
+          "@id": "https://cucul-fm.com/#organization"
+        }
+      },
+      {
+        "@type": "Service",
+        "@id": "https://cucul-fm.com/#service-ai-adoption",
+        "name": "AI業務活用支援",
+        "description": "資料検索、情報整理、記録の要約、帳票の下書きなど、用途を絞ったAI活用の設計と、人が確認・承認する運用ルールづくりの支援。",
+        "url": "https://cucul-fm.com/services/ai-tools/",
+        "provider": {
+          "@id": "https://cucul-fm.com/#organization"
+        }
+      },
+      {
+        "@type": "Service",
+        "@id": "https://cucul-fm.com/#service-system-web",
+        "name": "業務システム・Web開発",
+        "description": "案件管理、記録、書類、写真、承認、検索、帳票などの業務システムと、Webサイト・アプリケーションの設計・開発。",
+        "url": "https://cucul-fm.com/services/ai/",
+        "provider": {
+          "@id": "https://cucul-fm.com/#organization"
+        }
+      },
+      {
+        "@type": "Service",
+        "@id": "https://cucul-fm.com/#service-data-foundation",
+        "name": "データ整理・データ連携支援",
+        "description": "紙、Excel、CSV、写真、PDF、メール、チャット、既存システムに分散した情報を、検索・共有・集計しやすい業務データへ整える支援。",
+        "url": "https://cucul-fm.com/fde/",
+        "provider": {
+          "@id": "https://cucul-fm.com/#organization"
+        }
+      },
+      {
+        "@type": "Service",
+        "@id": "https://cucul-fm.com/#service-video-document",
+        "name": "映像・資料制作",
+        "description": "映像制作・編集、資料作成を通じて、社内教育、営業、採用、顧客説明で使える形へ情報を届ける制作支援。",
+        "url": "https://cucul-fm.com/services/video/",
+        "provider": {
+          "@id": "https://cucul-fm.com/#organization"
+        }
+      },
+      {
+        "@type": "Service",
+        "@id": "https://cucul-fm.com/#service-construction",
+        "name": "建設・インフラ関連事業",
+        "description": "建設施工、調査・清掃、専門工具・クラフトの販売など、社会基盤を支える事業。",
+        "url": "https://cucul-fm.com/services/construction/",
+        "provider": {
+          "@id": "https://cucul-fm.com/#organization"
+        }
+      },
+      {
+        "@type": "Service",
+        "@id": "https://cucul-fm.com/#service-lifestyle",
+        "name": "ライフスタイル関連事業",
+        "description": "犬に携わる業務やオーナーズコモンなど、暮らしに寄り添う体験とサービスを提供する事業。",
+        "url": "https://cucul-fm.com/services/dog/",
+        "provider": {
+          "@id": "https://cucul-fm.com/#organization"
+        }
+      }
+    ]
+  }
+  </script>
+  <!-- END:jsonld-services -->
 </section>
 
 <!-- ======================================================================
-     NEWS & INFO （#business 直下の横帯。現行トップ「掲示板」A4カードの再解釈）
+     CHALLENGES （課題提起。業種を限定しない8つの課題カード + 締め文）
+     ====================================================================== -->
+<section id="challenges" aria-labelledby="chal-title">
+  <div class="chal-in">
+    <!-- BEGIN:challenges -->
+    <div class="chal-head">
+      <div>
+        <p class="eyebrow">CHALLENGES</p>
+        <h2 id="chal-title">COMMON <em>ISSUES</em></h2>
+      </div>
+      <p class="lead">こんな課題はありませんか。</p>
+    </div>
+    <ul class="chal-grid">
+      <li class="chal-card">
+        <span class="chal-no" aria-hidden="true">01</span>
+        <p class="chal-text">現場の情報が紙、Excel、写真、チャット、メール、PDFに分散している</p>
+      </li>
+      <li class="chal-card">
+        <span class="chal-no" aria-hidden="true">02</span>
+        <p class="chal-text">必要な資料や過去の記録を探すだけで時間がかかる</p>
+      </li>
+      <li class="chal-card">
+        <span class="chal-no" aria-hidden="true">03</span>
+        <p class="chal-text">現場と事務所、担当者と管理者の間で、同じ情報を何度も入力・確認している</p>
+      </li>
+      <li class="chal-card">
+        <span class="chal-no" aria-hidden="true">04</span>
+        <p class="chal-text">仕事の進め方や判断基準が、特定の経験者に依存している</p>
+      </li>
+      <li class="chal-card">
+        <span class="chal-no" aria-hidden="true">05</span>
+        <p class="chal-text">システムを入れたが、現場では使われず、結局元の運用に戻っている</p>
+      </li>
+      <li class="chal-card">
+        <span class="chal-no" aria-hidden="true">06</span>
+        <p class="chal-text">AIを使いたいが、どこから始めればよいか分からない</p>
+      </li>
+      <li class="chal-card">
+        <span class="chal-no" aria-hidden="true">07</span>
+        <p class="chal-text">業務は忙しいため、大規模なシステム導入は現実的ではない</p>
+      </li>
+      <li class="chal-card">
+        <span class="chal-no" aria-hidden="true">08</span>
+        <p class="chal-text">事業の成長に合わせ、情報管理と仕事の進め方を整えたい</p>
+      </li>
+    </ul>
+    <p class="chal-closing">ククルFMは、ツールありきでは考えません。<br>今ある仕事、情報、人の動きを理解し、<br>無理なく続けられる仕組みから一緒につくります。</p>
+    <!-- END:challenges -->
+  </div>
+</section>
+
+<!-- ======================================================================
+     12-MONTH ROADMAP （4フェーズ。本文は常にHTML内にあり、details は生成時 open。
+     狭い画面でだけ initRoadmapFold() が2つ目以降を畳む = JS無効でも全文読める）
+     ====================================================================== -->
+<section id="roadmap" aria-labelledby="roadmap-title">
+  <div class="rm-in">
+    <!-- BEGIN:roadmap -->
+    <div class="rm-head-sec">
+      <div>
+        <p class="eyebrow">12-MONTH ROADMAP</p>
+        <h2 id="roadmap-title">HOW WE <em>WORK</em></h2>
+      </div>
+      <p class="lead">12か月で、現場の課題を使われる仕組みへ。</p>
+    </div>
+    <p class="rm-intro">最初から完璧な仕組みを目指すのではなく、<br>優先度の高い業務から始めます。<br>現場で試し、改善し、データと運用を育てながら、<br>継続的に成果を生む業務基盤へつなげます。</p>
+    <ol class="rm-list">
+      <li class="rm-item" id="roadmap-1">
+        <details class="rm-details" open>
+          <summary class="rm-head">
+            <span class="rm-no" aria-hidden="true">01</span>
+            <span class="rm-range">1〜3か月</span>
+            <span class="rm-title">現場課題を、実装できる要件へ</span>
+          </summary>
+          <div class="rm-detail">
+            <ul class="rm-tasks">
+              <li>現場、事務、管理、経営の業務フローを可視化する</li>
+              <li>紙、Excel、メール、チャット、写真、PDF、既存ツールなどの情報分断を整理する</li>
+              <li>二重入力、転記、確認待ち、手戻り、属人化などの課題を特定する</li>
+              <li>業務時間、対応日数、差戻し、入力漏れなど、改善対象のKPIを3つ程度に絞る</li>
+              <li>最初に対象とする1つの業務、帳票、部門、拠点、顧客対応プロセスを選定する</li>
+            </ul>
+            <div class="rm-deliv">
+              <p class="rm-deliv-label">成果物</p>
+              <ul class="rm-chips">
+                <li class="rm-chip">現状業務フロー</li>
+                <li class="rm-chip">課題と優先順位の整理</li>
+                <li class="rm-chip">データ一覧</li>
+                <li class="rm-chip">要件定義のたたき台</li>
+                <li class="rm-chip">KPI設計</li>
+                <li class="rm-chip">導入ロードマップ</li>
+              </ul>
+            </div>
+          </div>
+        </details>
+      </li>
+      <li class="rm-item" id="roadmap-2">
+        <details class="rm-details" open>
+          <summary class="rm-head">
+            <span class="rm-no" aria-hidden="true">02</span>
+            <span class="rm-range">4〜6か月</span>
+            <span class="rm-title">最小構成を作り、実務で動かす</span>
+          </summary>
+          <div class="rm-detail">
+            <ul class="rm-tasks">
+              <li>対象業務に必要な案件管理、記録、書類、写真、承認、検索、帳票などの最小機能を設計する</li>
+              <li>役割ごとに、入力項目、画面、権限、承認フローを整える</li>
+              <li>Excel、CSV、クラウドストレージ、既存SaaS、既存システムとの連携方法を検討する</li>
+              <li>1つの現場、部門、業務工程、または顧客対応で試験運用する</li>
+              <li>AIは、資料検索、情報整理、議事録・記録の要約、帳票の下書きなど、明確な1用途から始める</li>
+              <li>AIの出力は、必ず人が確認・承認する運用とする</li>
+            </ul>
+            <div class="rm-deliv">
+              <p class="rm-deliv-label">成果物</p>
+              <ul class="rm-chips">
+                <li class="rm-chip">最小実用プロダクト</li>
+                <li class="rm-chip">初期データ・マスタ</li>
+                <li class="rm-chip">操作マニュアル</li>
+                <li class="rm-chip">試験運用レポート</li>
+                <li class="rm-chip">改善項目リスト</li>
+              </ul>
+            </div>
+          </div>
+        </details>
+      </li>
+      <li class="rm-item" id="roadmap-3">
+        <details class="rm-details" open>
+          <summary class="rm-head">
+            <span class="rm-no" aria-hidden="true">03</span>
+            <span class="rm-range">7〜9か月</span>
+            <span class="rm-title">現場に定着させ、利用範囲を広げる</span>
+          </summary>
+          <div class="rm-detail">
+            <ul class="rm-tasks">
+              <li>現場担当者、事務担当者、管理者向けに、操作説明と運用ルールを整備する</li>
+              <li>利用時の負担、入力漏れ、例外処理、画面の使いやすさを改善する</li>
+              <li>別の現場、部門、拠点、協力会社、サービスへ段階的に展開する</li>
+              <li>個別の要望と、組織全体で標準化すべき機能・運用を分けて整理する</li>
+              <li>利用率、入力率、問い合わせ、データ品質を確認する</li>
+              <li>導入効果をKPIで中間評価する</li>
+            </ul>
+            <div class="rm-deliv">
+              <p class="rm-deliv-label">成果物</p>
+              <ul class="rm-chips">
+                <li class="rm-chip">運用ルール</li>
+                <li class="rm-chip">教育資料</li>
+                <li class="rm-chip">権限・承認設計</li>
+                <li class="rm-chip">改善済み機能</li>
+                <li class="rm-chip">中間効果レポート</li>
+                <li class="rm-chip">横展開計画</li>
+              </ul>
+            </div>
+          </div>
+        </details>
+      </li>
+      <li class="rm-item" id="roadmap-4">
+        <details class="rm-details" open>
+          <summary class="rm-head">
+            <span class="rm-no" aria-hidden="true">04</span>
+            <span class="rm-range">10〜12か月</span>
+            <span class="rm-title">成果を可視化し、継続改善できる体制へ</span>
+          </summary>
+          <div class="rm-detail">
+            <ul class="rm-tasks">
+              <li>導入前後の業務時間、対応・提出日数、差戻し、再入力、確認工数などを比較する</li>
+              <li>現場、管理者、経営者の視点で、継続すべき運用と改善点を整理する</li>
+              <li>データ活用の範囲を、進捗、品質、原価、顧客対応、営業、保全、事業判断へ広げる</li>
+              <li>次年度のDX・AI活用ロードマップと投資優先順位を策定する</li>
+              <li>担当者個人に依存しない、社内の運用体制を整える</li>
+            </ul>
+            <div class="rm-deliv">
+              <p class="rm-deliv-label">成果物</p>
+              <ul class="rm-chips">
+                <li class="rm-chip">導入成果レポート</li>
+                <li class="rm-chip">KPI評価</li>
+                <li class="rm-chip">改善バックログ</li>
+                <li class="rm-chip">次年度DX・AI活用計画</li>
+                <li class="rm-chip">社内運用体制案</li>
+                <li class="rm-chip">継続支援プラン</li>
+              </ul>
+            </div>
+          </div>
+        </details>
+      </li>
+    </ol>
+    <a class="btn-roadmap" href="#contact" data-scroll data-ga-event="click_roadmap">自社に合わせた進め方を相談する</a>
+    <!-- END:roadmap -->
+  </div>
+</section>
+
+<!-- ======================================================================
+     USE CASES （活用テーマ。実績ではなく活用イメージである旨を必ず明記する）
+     ====================================================================== -->
+<section id="usecases" aria-labelledby="uc-title">
+  <div class="uc-in">
+    <!-- BEGIN:usecases -->
+    <div class="uc-head">
+      <div>
+        <p class="eyebrow">USE CASES</p>
+        <h2 id="uc-title">WHERE TO <em>START</em></h2>
+      </div>
+      <p class="lead">現場と事業の、こんな仕事から始められます。</p>
+    </div>
+    <p class="uc-note">※実績ではなく活用イメージです</p>
+    <ul class="uc-list">
+      <li class="uc-item">現場記録、作業報告、点検情報、写真、動画、書類を案件・顧客単位で整理する</li>
+      <li class="uc-item">Excelや紙で管理している台帳を、検索・共有・履歴確認・集計しやすい形に整える</li>
+      <li class="uc-item">現場や外出先から、スマートフォン・タブレットで記録・報告できるようにする</li>
+      <li class="uc-item">報告書、議事録、提案書、点検記録などの下書きをAIで支援する</li>
+      <li class="uc-item">過去の資料、案件履歴、ノウハウ、マニュアルを横断検索できるようにする</li>
+      <li class="uc-item">問い合わせ、案件、作業、顧客、担当者、書類をつなぎ、対応漏れを減らす</li>
+      <li class="uc-item">業務の進捗や品質を、管理者がリアルタイムに把握しやすくする</li>
+      <li class="uc-item">映像、写真、資料、Webを活用し、社内教育、営業、採用、顧客説明を改善する</li>
+      <li class="uc-item">予約、顧客管理、サービス記録、情報発信などを整え、サービス運営を改善する</li>
+      <li class="uc-item">地図・位置情報と現場・設備・顧客情報を結び付け、運用や計画に活用する</li>
+    </ul>
+    <!-- END:usecases -->
+  </div>
+</section>
+
+<!-- ======================================================================
+     NEWS & INFO （現行トップ「掲示板」A4カードの再解釈）
      ====================================================================== -->
 <section id="news" aria-labelledby="news-title">
   <div class="news-head">
@@ -2246,7 +3180,7 @@ html[data-theme="red"] .c-rim--red{opacity:1}
         <div class="spec-row"><dt>運営会社</dt><dd>ククルFM合同会社</dd></div>
         <div class="spec-row"><dt>代表者</dt><dd>馬場 陽子</dd></div>
         <div class="spec-row"><dt>経歴</dt><dd>プロセス制御機器メーカーにて、石油・LNG・化学プラント向けの海外プロジェクトにアプリケーションエンジニアとして従事。その後、コンサルティング会社数社にて電力・ガス・素材業界のDX戦略策定、業務改革、新規事業支援などをEnd to Endで支援。現在はククルFM代表を務める傍ら、AIテックカンパニーに従事。</dd></div>
-        <div class="spec-row"><dt>事業内容</dt><dd>【建設・インフラ】建設業 / 調査・清掃<br>【クリエイティブ・テック】映像制作 / 資料作成 / DX・業務効率化システム開発 / Web開発 / 3Dデザイン / メディア運営<br>【ライフスタイル】犬関連事業 / オーナーズコモン等</dd></div>
+        <div class="spec-row"><dt>事業内容</dt><dd>【FDE・AI実装支援】現場伴走型のAI・DX実装支援（3事業を横断）<br>【建設・インフラ】建設業 / 調査・清掃<br>【クリエイティブ・テック】映像制作 / 資料作成 / DX・業務効率化システム開発 / Web開発 / 3Dデザイン / メディア運営<br>【ライフスタイル】犬関連事業 / オーナーズコモン等</dd></div>
         <div class="spec-row"><dt>所在地</dt><dd>〒333-0802<br>埼玉県川口市戸塚東４丁目３２−５<br>ITSUZAI community base １号室</dd></div>
         <div class="spec-row"><dt>連絡先</dt><dd><a href="tel:09062623842">090-6262-3842</a></dd></div>
       </dl>
@@ -2276,6 +3210,121 @@ html[data-theme="red"] .c-rim--red{opacity:1}
       </div>
     </div>
   </div>
+</section>
+
+<!-- ======================================================================
+     FAQ （details アコーディオン。JS 無効でも開閉・閲覧できる）
+     ・FAQPage 構造化データは同じ content/faq-top.json から生成するので、
+       画面に出していない設問がマークアップに混ざることはない
+     ====================================================================== -->
+<section id="faq" aria-labelledby="faq-title">
+  <div class="faq-in">
+    <!-- BEGIN:faq-top -->
+    <div class="faq-head">
+      <div>
+        <p class="eyebrow">FAQ</p>
+        <h2 id="faq-title">FREQUENTLY ASKED <em>QUESTIONS</em></h2>
+      </div>
+      <p class="lead">よくあるご質問</p>
+    </div>
+    <div class="faq-list">
+      <details class="faq-item" id="faq-what-is-fde">
+        <summary class="faq-q">FDEとは何ですか？</summary>
+        <div class="faq-a"><p>FDEは、現場や事業の課題を理解したうえで、AI・SaaS・データ・システムを活用する仕組みを設計・実装し、導入後の定着・改善まで伴走する役割です。ククルFMでは、分かりやすく「現場伴走型のAI・DX実装支援」と表現しています。</p></div>
+      </details>
+      <details class="faq-item" id="faq-other-industries">
+        <summary class="faq-q">建設・インフラ以外の業種でも相談できますか？</summary>
+        <div class="faq-a"><p>はい。現場業務と事務・管理業務の連携、情報の分散、属人化、帳票作成、顧客対応、データ活用などに課題がある事業であれば、業種を問わずご相談いただけます。</p></div>
+      </details>
+      <details class="faq-item" id="faq-no-it-staff">
+        <summary class="faq-q">ITに詳しい社員がいなくても大丈夫ですか？</summary>
+        <div class="faq-a"><p>はい。まずは現在の業務の進め方と、紙・Excel・写真・書類・既存ツールなどの状態を確認します。専門用語に偏らず、優先順位と最初の一歩を整理します。</p></div>
+      </details>
+      <details class="faq-item" id="faq-keep-existing">
+        <summary class="faq-q">今使っているExcelやシステムを、すべて置き換える必要がありますか？</summary>
+        <div class="faq-a"><p>いいえ。既存の運用やデータを活かし、負荷と効果の大きい部分から段階的に改善します。必要に応じて既存SaaSやExcel、CSVなどとの連携も検討します。</p></div>
+      </details>
+      <details class="faq-item" id="faq-ai-and-judgement">
+        <summary class="faq-q">AIに業務の判断を任せることになりますか？</summary>
+        <div class="faq-a"><p>いいえ。AIは、検索、整理、要約、下書きなどを補助する用途から活用します。品質・安全・顧客対応に関わる最終判断は、人が確認・承認する運用を前提に設計します。</p></div>
+      </details>
+      <details class="faq-item" id="faq-small-start">
+        <summary class="faq-q">小さなテーマから始められますか？</summary>
+        <div class="faq-a"><p>はい。1つの帳票、1つの現場、1つの部門、1つの業務プロセスなど、効果を検証しやすい範囲から始めることを推奨します。</p></div>
+      </details>
+      <details class="faq-item" id="faq-early-stage">
+        <summary class="faq-q">相談段階でも問い合わせできますか？</summary>
+        <div class="faq-a"><p>はい。「何をデジタル化すべきか分からない」「AIを使える業務があるか知りたい」といった構想段階からご相談いただけます。</p></div>
+      </details>
+    </div>
+    <!-- END:faq-top -->
+  </div>
+  <!-- BEGIN:jsonld-faq-top -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "FDEとは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "FDEは、現場や事業の課題を理解したうえで、AI・SaaS・データ・システムを活用する仕組みを設計・実装し、導入後の定着・改善まで伴走する役割です。ククルFMでは、分かりやすく「現場伴走型のAI・DX実装支援」と表現しています。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "建設・インフラ以外の業種でも相談できますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい。現場業務と事務・管理業務の連携、情報の分散、属人化、帳票作成、顧客対応、データ活用などに課題がある事業であれば、業種を問わずご相談いただけます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "ITに詳しい社員がいなくても大丈夫ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい。まずは現在の業務の進め方と、紙・Excel・写真・書類・既存ツールなどの状態を確認します。専門用語に偏らず、優先順位と最初の一歩を整理します。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "今使っているExcelやシステムを、すべて置き換える必要がありますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "いいえ。既存の運用やデータを活かし、負荷と効果の大きい部分から段階的に改善します。必要に応じて既存SaaSやExcel、CSVなどとの連携も検討します。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "AIに業務の判断を任せることになりますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "いいえ。AIは、検索、整理、要約、下書きなどを補助する用途から活用します。品質・安全・顧客対応に関わる最終判断は、人が確認・承認する運用を前提に設計します。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "小さなテーマから始められますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい。1つの帳票、1つの現場、1つの部門、1つの業務プロセスなど、効果を検証しやすい範囲から始めることを推奨します。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "相談段階でも問い合わせできますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい。「何をデジタル化すべきか分からない」「AIを使える業務があるか知りたい」といった構想段階からご相談いただけます。"
+        }
+      }
+    ]
+  }
+  </script>
+  <!-- END:jsonld-faq-top -->
 </section>
 
 <!-- ======================================================================
@@ -2346,6 +3395,7 @@ html[data-theme="red"] .c-rim--red{opacity:1}
     <nav class="foot-col" aria-labelledby="foot-h-services">
       <h3 id="foot-h-services">Services</h3>
       <ul class="foot-list">
+        <li><a href="/fde/"><span class="en">FDE</span>FDE・AI実装支援</a></li>
         <li><a href="/services/ai/"><span class="en">DX</span>DX・業務効率化システム開発</a></li>
         <li><a href="/services/construction/"><span class="en">CONSTRUCTION</span>建設業</a></li>
         <li><a href="/services/inspection/"><span class="en">INSPECTION</span>調査・清掃</a></li>
@@ -2361,12 +3411,15 @@ html[data-theme="red"] .c-rim--red{opacity:1}
     <nav class="foot-col" aria-labelledby="foot-h-news">
       <h3 id="foot-h-news">News &amp; Company</h3>
       <ul class="foot-list">
+        <li><a href="/insights/"><span class="en">INSIGHTS</span>現場DX・AI活用の記事</a></li>
         <li><a href="/articles/"><span class="en">ARTICLES</span>記事一覧</a></li>
         <li><a href="/recruit/"><span class="en">RECRUIT</span>採用情報</a></li>
         <li><a href="/event/"><span class="en">EVENT</span>イベント</a></li>
         <li><a href="/services/dog/#puppies"><span class="en">PUPPIES</span>子犬情報</a></li>
-        <li><a href="#about" data-scroll><span class="en">ABOUT</span>会社情報</a></li>
+        <li><a href="/about/"><span class="en">ABOUT</span>会社概要</a></li>
+        <li><a href="#about" data-scroll><span class="en">PROFILE</span>会社情報</a></li>
         <li><a href="#contact" data-scroll><span class="en">CONTACT</span>お問い合わせ</a></li>
+        <li><a href="/privacy/"><span class="en">PRIVACY</span>プライバシーポリシー</a></li>
       </ul>
       <div class="foot-sns">
         <a href="https://www.instagram.com/cuculfm_llc/" target="_blank" rel="noopener" aria-label="Instagram（新しいタブで開く）">
@@ -2406,30 +3459,34 @@ html[data-theme="red"] .c-rim--red{opacity:1}
 
         <nav class="idx-group idx-group--services" aria-labelledby="idx-h-services">
           <h3 id="idx-h-services">Services</h3>
-          <a class="idx-item" href="/services/ai/"><span class="n">01</span><span class="en">DX</span><span class="ja">DX・業務効率化システム開発</span></a>
-          <a class="idx-item" href="/services/construction/"><span class="n">02</span><span class="en">CONSTRUCTION</span><span class="ja">建設業</span></a>
-          <a class="idx-item" href="/services/inspection/"><span class="n">03</span><span class="en">INSPECTION</span><span class="ja">調査・清掃</span></a>
-          <a class="idx-item" href="/services/tools/"><span class="n">04</span><span class="en">TOOLS</span><span class="ja">工具販売</span></a>
-          <a class="idx-item" href="/services/craft/"><span class="n">05</span><span class="en">CRAFT</span><span class="ja">オリジナルクラフト</span></a>
-          <a class="idx-item" href="/services/video/"><span class="n">06</span><span class="en">VIDEO</span><span class="ja">映像制作・編集</span></a>
-          <a class="idx-item" href="/services/document/"><span class="n">07</span><span class="en">DOCUMENT</span><span class="ja">資料作成</span></a>
-          <a class="idx-item" href="/services/web/"><span class="n">08</span><span class="en">WEB</span><span class="ja">Web制作・3D・アプリ開発</span></a>
-          <a class="idx-item" href="/services/dog/"><span class="n">09</span><span class="en">DOG</span><span class="ja">犬に携わる業務</span></a>
+          <a class="idx-item" href="/fde/"><span class="n">01</span><span class="en">FDE</span><span class="ja">FDE・AI実装支援</span></a>
+          <a class="idx-item" href="/services/ai/"><span class="n">02</span><span class="en">DX</span><span class="ja">DX・業務効率化システム開発</span></a>
+          <a class="idx-item" href="/services/construction/"><span class="n">03</span><span class="en">CONSTRUCTION</span><span class="ja">建設業</span></a>
+          <a class="idx-item" href="/services/inspection/"><span class="n">04</span><span class="en">INSPECTION</span><span class="ja">調査・清掃</span></a>
+          <a class="idx-item" href="/services/tools/"><span class="n">05</span><span class="en">TOOLS</span><span class="ja">工具販売</span></a>
+          <a class="idx-item" href="/services/craft/"><span class="n">06</span><span class="en">CRAFT</span><span class="ja">オリジナルクラフト</span></a>
+          <a class="idx-item" href="/services/video/"><span class="n">07</span><span class="en">VIDEO</span><span class="ja">映像制作・編集</span></a>
+          <a class="idx-item" href="/services/document/"><span class="n">08</span><span class="en">DOCUMENT</span><span class="ja">資料作成</span></a>
+          <a class="idx-item" href="/services/web/"><span class="n">09</span><span class="en">WEB</span><span class="ja">Web制作・3D・アプリ開発</span></a>
+          <a class="idx-item" href="/services/dog/"><span class="n">10</span><span class="en">DOG</span><span class="ja">犬に携わる業務</span></a>
         </nav>
 
         <nav class="idx-group" aria-labelledby="idx-h-news">
           <h3 id="idx-h-news">News &amp; Info</h3>
-          <a class="idx-item" href="/articles/"><span class="n">01</span><span class="en">ARTICLES</span><span class="ja">記事一覧</span></a>
-          <a class="idx-item" href="/recruit/"><span class="n">02</span><span class="en">RECRUIT</span><span class="ja">採用情報</span></a>
-          <a class="idx-item" href="/event/"><span class="n">03</span><span class="en">EVENT</span><span class="ja">イベント</span></a>
-          <a class="idx-item" href="/services/dog/#puppies"><span class="n">04</span><span class="en">PUPPIES</span><span class="ja">子犬情報</span></a>
+          <a class="idx-item" href="/insights/"><span class="n">01</span><span class="en">INSIGHTS</span><span class="ja">現場DX・AI活用の記事</span></a>
+          <a class="idx-item" href="/articles/"><span class="n">02</span><span class="en">ARTICLES</span><span class="ja">記事一覧</span></a>
+          <a class="idx-item" href="/recruit/"><span class="n">03</span><span class="en">RECRUIT</span><span class="ja">採用情報</span></a>
+          <a class="idx-item" href="/event/"><span class="n">04</span><span class="en">EVENT</span><span class="ja">イベント</span></a>
+          <a class="idx-item" href="/services/dog/#puppies"><span class="n">05</span><span class="en">PUPPIES</span><span class="ja">子犬情報</span></a>
         </nav>
 
         <nav class="idx-group" aria-labelledby="idx-h-company">
           <h3 id="idx-h-company">Company</h3>
-          <a class="idx-item" href="#about" data-scroll><span class="n">01</span><span class="en">ABOUT</span><span class="ja">会社情報</span></a>
-          <a class="idx-item" href="#contact" data-scroll><span class="n">02</span><span class="en">CONTACT</span><span class="ja">お問い合わせ</span></a>
-          <a class="idx-item" href="tel:09062623842"><span class="n">03</span><span class="en">TEL</span><span class="ja">090-6262-3842</span></a>
+          <a class="idx-item" href="/about/"><span class="n">01</span><span class="en">ABOUT</span><span class="ja">会社概要</span></a>
+          <a class="idx-item" href="#about" data-scroll><span class="n">02</span><span class="en">PROFILE</span><span class="ja">会社情報</span></a>
+          <a class="idx-item" href="#contact" data-scroll><span class="n">03</span><span class="en">CONTACT</span><span class="ja">お問い合わせ</span></a>
+          <a class="idx-item" href="tel:09062623842"><span class="n">04</span><span class="en">TEL</span><span class="ja">090-6262-3842</span></a>
+          <a class="idx-item" href="/privacy/"><span class="n">05</span><span class="en">PRIVACY</span><span class="ja">プライバシーポリシー</span></a>
           <p class="idx-note">〒333-0802<br>埼玉県川口市戸塚東４丁目３２−５<br>ITSUZAI community base １号室</p>
           <div class="idx-sns">
             <a href="https://www.instagram.com/cuculfm_llc/" target="_blank" rel="noopener" aria-label="Instagram（新しいタブで開く）">
@@ -2993,6 +4050,25 @@ html[data-theme="red"] .c-rim--red{opacity:1}
     }, { passive: true });
   }
 
+  /* ---------------- ロードマップ: 狭い画面でだけ畳む ----------------
+     本文は常に HTML 内に存在させる方針なので、生成側（build-content.mjs）は
+     <details> を必ず open で出す。JS が動く狭い画面でだけ2つ目以降を閉じて
+     縦の長さを抑える。JS 無効・GSAP 断のどちらでも全文が読める状態は変わらない。
+     一度畳んだら再適用しない（利用者が開いたものを resize で閉じ直さない）。 */
+  function initRoadmapFold() {
+    var items = $$('.rm-details');
+    if (!items.length || !window.matchMedia) { return; }
+    var mq = window.matchMedia('(max-width:900px)');
+    var done = false;
+    function apply() {
+      if (done || !mq.matches) { return; }
+      done = true;
+      items.forEach(function (d, i) { if (i > 0) { d.open = false; } });
+    }
+    apply();
+    if (mq.addEventListener) { mq.addEventListener('change', apply); }
+  }
+
   /* ======================================================================
      GSAP（未ロードなら何もしない = 非表示の焼き付きも起きない）
      ====================================================================== */
@@ -3046,7 +4122,10 @@ html[data-theme="red"] .c-rim--red{opacity:1}
       gsap.set(['.giant-type .w', '.char-zoom', '.hero-top .brand', '.hero-nav > *',
         '.corner', '.hero-bottom > *', '.biz-card', '.news-card',
         '#about .abt-head', '#about .abt-col', '#contact .ct-in > *',
-        '.idx-group h3', '.idx-item', '.seq-cap', '#statement .stm-in > *'],
+        '.idx-group h3', '.idx-item', '.seq-cap', '#statement .stm-in > *',
+        '#fde-cross .fde-in > *', '.step-card', '.btn-fde',
+        '.pillar-card', '.svc-item', '.chal-card', '.chal-closing',
+        '.rm-item', '.btn-roadmap', '.uc-item', '.faq-item'],
         { clearProps: 'all' });
       gsap.set('#biz-line', { scaleX: 1 });
     });
@@ -3104,12 +4183,47 @@ html[data-theme="red"] .c-rim--red{opacity:1}
         scrollTrigger: { trigger: '#statement', start: 'top 82%', once: true }
       });
 
-      /* --- T6 : BUSINESS --- */
+      /* --- T5d : FDE横断セクション（3事業を横串に通す帯） --- */
+      gsap.from('#fde-cross .fde-in > *', {
+        y: 26, autoAlpha: 0, duration: 0.9, stagger: 0.1, ease: 'power2.out', clearProps: 'transform',
+        scrollTrigger: { trigger: '#fde-cross', start: 'top 78%', once: true }
+      });
+      gsap.from(['.step-card', '.btn-fde'], {
+        y: 34, autoAlpha: 0, duration: 0.85, stagger: 0.1, ease: 'power2.out', clearProps: 'transform',
+        scrollTrigger: { trigger: '.fde-steps-in', start: 'top 82%', once: true }
+      });
+
+      /* --- T6 : BUSINESS ---
+         トリガーは #business ではなく .biz-scroller。3本柱が上に入って
+         セクションが長くなったため、#business 基準だと画面外で reveal が
+         終わってしまい、カードに到達したときには動きが残らない */
       /* clearProps: インライン transform を残すと :hover の translate:0 -6px に勝ち続け、
          カードが +40px ずれたまま固着して hover リフトも死ぬ */
+      gsap.from('.pillar-card', {
+        y: 40, autoAlpha: 0, duration: 0.85, stagger: 0.12, ease: 'power2.out', clearProps: 'transform',
+        scrollTrigger: { trigger: '.pillar-in', start: 'top 80%', once: true }
+      });
       gsap.from('.biz-card', {
         y: 40, autoAlpha: 0, duration: 0.85, stagger: 0.12, ease: 'power2.out', clearProps: 'transform',
-        scrollTrigger: { trigger: '#business', start: 'top 75%', once: true }
+        scrollTrigger: { trigger: '.biz-scroller', start: 'top 85%', once: true }
+      });
+      gsap.from('.svc-item', {
+        y: 28, autoAlpha: 0, duration: 0.75, stagger: 0.06, ease: 'power2.out', clearProps: 'transform',
+        scrollTrigger: { trigger: '.svc-in', start: 'top 85%', once: true }
+      });
+
+      /* --- T6b : 課題提起 / ロードマップ / 活用テーマ（T6 と同じ reveal パターン） --- */
+      gsap.from(['.chal-card', '.chal-closing'], {
+        y: 34, autoAlpha: 0, duration: 0.8, stagger: 0.07, ease: 'power2.out', clearProps: 'transform',
+        scrollTrigger: { trigger: '#challenges', start: 'top 80%', once: true }
+      });
+      gsap.from(['.rm-item', '.btn-roadmap'], {
+        y: 34, autoAlpha: 0, duration: 0.8, stagger: 0.1, ease: 'power2.out', clearProps: 'transform',
+        scrollTrigger: { trigger: '#roadmap', start: 'top 80%', once: true }
+      });
+      gsap.from('.uc-item', {
+        y: 24, autoAlpha: 0, duration: 0.7, stagger: 0.05, ease: 'power2.out', clearProps: 'transform',
+        scrollTrigger: { trigger: '#usecases', start: 'top 82%', once: true }
       });
 
       /* --- T7 : NEWS 帯（T6 と同じ reveal パターン。clearProps も同じ理由で必須） --- */
@@ -3124,6 +4238,10 @@ html[data-theme="red"] .c-rim--red{opacity:1}
         y: 40, autoAlpha: 0, duration: 0.85, stagger: 0.12, ease: 'power2.out', clearProps: 'transform',
         scrollTrigger: { trigger: '#about', start: 'top 78%', once: true }
       });
+      gsap.from('.faq-item', {
+        y: 24, autoAlpha: 0, duration: 0.7, stagger: 0.06, ease: 'power2.out', clearProps: 'transform',
+        scrollTrigger: { trigger: '#faq', start: 'top 82%', once: true }
+      });
       gsap.from('#contact .ct-in > *', {
         y: 34, autoAlpha: 0, duration: 0.8, stagger: 0.08, ease: 'power2.out', clearProps: 'transform',
         scrollTrigger: { trigger: '#contact', start: 'top 80%', once: true }
@@ -3133,11 +4251,13 @@ html[data-theme="red"] .c-rim--red{opacity:1}
       return function () { heroLoops.length = 0; };
     });
 
-    /* プログレスライン（デスクトップのみ scrub。モバイルは scrollLeft 比率） */
+    /* プログレスライン（デスクトップのみ scrub。モバイルは scrollLeft 比率）
+       トリガーは7カードのスクローラー。#business は3本柱と提供サービスを含んで
+       縦に長くなったので、それ基準だとラインが7カードの手前で振り切れる */
     mm.add('(prefers-reduced-motion: no-preference) and (min-width: 1200px)', function () {
       gsap.fromTo('#biz-line', { scaleX: 0 }, {
         scaleX: 1, ease: 'none', transformOrigin: 'left center',
-        scrollTrigger: { trigger: '#business', start: 'top 72%', end: 'bottom 92%', scrub: 0.4 }
+        scrollTrigger: { trigger: '.biz-scroller', start: 'top 88%', end: 'bottom 80%', scrub: 0.4 }
       });
     });
 
@@ -3376,6 +4496,7 @@ html[data-theme="red"] .c-rim--red{opacity:1}
   initSmoothScroll();
   initBizProgressMobile();
   initGlobalNav();
+  initRoadmapFold();
 
   /* GSAP は defer なので DOMContentLoaded 前に必ず実行済み。失敗時は initAnimations 冒頭の
      ガードが無害に抜ける。 */

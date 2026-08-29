@@ -297,6 +297,14 @@
       "description": "犬に携わる業務やオーナーズコモンなど、暮らしに寄り添う体験とサービスを提供する事業。"
     }
   ],
+  "pages": {
+    "_note": "WebPage 構造化データのページ定義。キーは HTML の相対パス。name / description は各HTMLの <title> / <meta name=\"description\"> と一字一句そろえること（画面と構造化データを食い違わせない）。新規ページを作ったフェーズでここに追記する。",
+    "index.html": {
+      "path": "/",
+      "name": "CUCUL FM.LLC | 普段と新しい暮らしをサポートする会社",
+      "description": "ククルFM合同会社。建設・インフラ、クリエイティブ・テック、ライフスタイル。テクノロジーを横串に、普段と新しい暮らしをサポートします。"
+    }
+  },
   "analytics": {
     "gtmId": "",
     "ga4MeasurementId": "",

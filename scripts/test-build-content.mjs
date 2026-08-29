@@ -388,8 +388,9 @@ const withMarkers = (() => {
     if (i < 0) throw new Error(`挿入位置が見つかりません: ${needle}`);
     s = `${s.slice(0, i)}${block}${s.slice(i)}`;
   };
-  // JSON-LD（既存の WebSite + Organization ブロックの直前）
-  insertBefore('<script type="application/ld+json">',
+  // JSON-LD（head の preconnect 群の直前 = 既存マーカー区間の外側。
+  // index.html 側の jsonld-organization の内側に入れると入れ子になってしまう）
+  insertBefore('<link rel="dns-prefetch" href="https://fonts.googleapis.com">',
     '<!-- BEGIN:jsonld-organization -->\n<!-- END:jsonld-organization -->\n');
   // 本文セクション群（</main> の直前 = 既存セクションの後ろ）
   const keys = ['pillars', 'fde-cross', 'fde-steps', 'challenges', 'roadmap', 'usecases',
@@ -402,7 +403,9 @@ const withMarkers = (() => {
   return s;
 })();
 
-const injected = injectFile(withMarkers, C, 'index.html(test)');
+// rel は 'index.html' のまま渡す。jsonld-webpage は ctx.file をキーに
+// site.config.json の pages を引くので、別名にすると定義なしエラーになる
+const injected = injectFile(withMarkers, C, 'index.html');
 
 test('注入時にエラーが出ない', () => {
   assertEq(injected.errors.length, 0, `注入エラー: ${injected.errors.join(' / ')}`);
@@ -431,7 +434,7 @@ test('既存の演出・アンカー・フォームが残っている', () => {
 });
 
 test('2回流しても結果が変わらない（冪等）', () => {
-  const again = injectFile(injected.next, C, 'index.html(test2)');
+  const again = injectFile(injected.next, C, 'index.html');
   assertEq(again.errors.length, 0, `2回目でエラー: ${again.errors.join(' / ')}`);
   assertEq(again.next, injected.next, '2回目の注入で内容が変化しました');
 });
@@ -821,6 +824,172 @@ test('グローバルナビがヒーロー通過で出て、戻すと消える�
 test('固定ヘッダー分のアンカー余白がある（深リンクがバーに潜らない）', () => {
   assert(/html\{scroll-padding-top:/.test(INDEX),
     'html への scroll-padding-top がありません（#contact 等がヘッダーの下に隠れます）');
+});
+
+/* ==========================================================================
+   6c. トップページのセクション構成・構造化データ（フェーズ3）
+   ========================================================================== */
+/** データ側の素の文字列を、生成HTML内での表記に合わせる */
+const escText = (s) => String(s)
+  .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+  .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+
+/** index.html に入っている JSON-LD をすべてパースしたもの */
+const INDEX_LD = [...INDEX.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+  .map((m, i) => {
+    try { return JSON.parse(m[1]); } catch (e) { throw new Error(`index.html の ${i + 1} 番目の JSON-LD が壊れています: ${e.message}`); }
+  });
+/** @graph を展開した全ノード */
+const LD_NODES = INDEX_LD.flatMap((n) => (n['@graph'] ? n['@graph'] : [n]));
+
+test('セクションが要件どおりの順序で並んでいる', () => {
+  const want = ['hero', 'statement', 'seq', 'fde-cross', 'business',
+    'challenges', 'roadmap', 'usecases', 'news', 'about', 'faq', 'contact'];
+  const got = [...INDEX.matchAll(/<section id="([a-z0-9-]+)"/g)].map((m) => m[1]);
+  assertEq(JSON.stringify(got), JSON.stringify(want), 'セクションの並びが要件と違います');
+});
+
+test('グローバルナビのページ内リンク先がすべて存在する', () => {
+  const anchors = [...INDEX.matchAll(/<a class="gnav-(?:link|cta)" href="#([a-z0-9-]+)"/g)].map((m) => m[1]);
+  assert(anchors.length >= 5, `ナビのページ内リンクが見つかりません（${anchors.length}件）`);
+  for (const id of anchors) {
+    assert(INDEX.includes(`id="${id}"`), `ナビのリンク先 #${id} がページ内に存在しません`);
+  }
+  // 3本柱のアンカーは要件で指定された固定 id
+  for (const id of ['pillar-construction', 'pillar-creative', 'pillar-lifestyle']) {
+    assert(anchors.includes(id), `ナビが #${id} を指していません`);
+    assert(INDEX.includes(`id="${id}"`), `#${id} がページ内に存在しません`);
+  }
+});
+
+test('トップ内のCTAはページを再読込しない（/# ではなく # + data-scroll）', () => {
+  const bad = [...INDEX.matchAll(/href="(\/#[a-z0-9-]+)"/g)].map((m) => m[1]);
+  assertEq(bad.length, 0,
+    `トップに /# リンクが残っています（押すとヒーローの3D・イントロがやり直しになる）: ${bad.join(', ')}`);
+  assert(/<a class="btn-roadmap" href="#contact" data-scroll/.test(INDEX),
+    'ロードマップCTAがページ内スクロールになっていません');
+  // 下層ページでは逆に /#contact のまま（ページ間リンクなので落としてはいけない）
+  const sub = injectFile('<div><!-- BEGIN:roadmap --><!-- END:roadmap --></div>', C, 'fde/index.html');
+  assertEq(sub.errors.length, 0, `下層ページの生成でエラー: ${sub.errors.join(' / ')}`);
+  assert(sub.next.includes('href="/#contact"'), '下層ページで /#contact がページ内アンカーに落ちています');
+  assert(!sub.next.includes('data-scroll'), '下層ページのCTAに data-scroll が付いています');
+});
+
+/** タグを外し実体参照を戻した index.html の素のテキスト。
+ *  見出しは語中改行を防ぐために <span> で割ってあるので、タグ込みの includes では拾えない */
+const INDEX_TEXT = INDEX.replace(/<[^>]+>/g, '')
+  .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"')
+  .replace(/&#39;/g, "'").replace(/&amp;/g, '&');
+
+test('新セクションの本文が JS 無しで index.html に存在する', () => {
+  const need = [
+    C.pillars.crossSection.heading,
+    ...C.pillars.crossSection.steps.map((s) => s.ja),
+    ...C.pillars.pillars.map((p) => p.ja),
+    ...C.challenges.items,
+    ...C.usecases.items,
+    C.usecases.note,
+    ...C.roadmap.phases.flatMap((p) => [p.title, ...p.items, ...p.deliverables]),
+    ...C.faqTop.items.flatMap((it) => [it.q, it.a]),
+    ...C.config.services.flatMap((s) => [s.name, s.description]),
+  ];
+  for (const t of need) {
+    assert(INDEX_TEXT.includes(t), `本文が index.html にありません: ${String(t).slice(0, 34)}…`);
+  }
+});
+
+test('Service 8件は可視リストと構造化データが揃っている', () => {
+  assertEq((INDEX.match(/class="svc-item"/g) || []).length, 8, '可視の提供サービスが8件ではありません');
+  const services = LD_NODES.filter((n) => n['@type'] === 'Service');
+  assertEq(services.length, 8, 'Service 構造化データが8件ではありません');
+  for (const s of services) {
+    assert(INDEX.includes(escText(s.name)), `Service "${s.name}" が画面に出ていません`);
+    assert(INDEX.includes(escText(s.description)), `Service "${s.name}" の説明が画面に出ていません`);
+  }
+});
+
+test('WebPage 構造化データが title / meta description と一致する', () => {
+  const page = LD_NODES.find((n) => n['@type'] === 'WebPage');
+  assert(page, 'WebPage の JSON-LD がありません');
+  assertEq(page.name, INDEX.match(/<title>([^<]*)<\/title>/)[1], 'WebPage の name が <title> と違います');
+  assertEq(page.description, INDEX.match(/<meta name="description" content="([^"]*)">/)[1],
+    'WebPage の description が meta description と違います');
+  assertEq(page.url, 'https://cucul-fm.com/', 'WebPage の url が違います');
+});
+
+test('トップに必要な構造化データが揃っている', () => {
+  for (const t of ['WebSite', 'Organization', 'WebPage', 'Service', 'FAQPage']) {
+    assert(LD_NODES.some((n) => n['@type'] === t), `${t} の構造化データがありません`);
+  }
+  const faq = LD_NODES.find((n) => n['@type'] === 'FAQPage');
+  assertEq(faq.mainEntity.length, C.faqTop.items.length, 'FAQPage の設問数が表示と違います');
+});
+
+test('index.html の Organization が強化され、未確定情報は入っていない', () => {
+  const org = LD_NODES.find((n) => n['@type'] === 'Organization');
+  assert(org, 'Organization がありません');
+  assertEq(org.email, C.config.company.email, '公開用メールアドレスが違います');
+  assert(org.alternateName.includes('CUCUL FM.LLC'), 'alternateName に CUCUL FM.LLC がありません');
+  assert(Array.isArray(org.contactPoint) && org.contactPoint.length === 1, 'contactPoint がありません');
+  assert(!('foundingDate' in org), '未確定の設立年月日が出力されています');
+  assert(!('taxID' in org), '未確定の法人番号が出力されています');
+});
+
+test('#about の事業内容に FDE・AI実装支援が入っている', () => {
+  const m = INDEX.match(/<dt>事業内容<\/dt><dd>([\s\S]*?)<\/dd>/);
+  assert(m, '事業内容の行が見つかりません');
+  assert(m[1].includes('FDE・AI実装支援'), '事業内容に FDE・AI実装支援が追記されていません');
+});
+
+test('フッターとINDEXオーバーレイに新規ページへの導線がある', () => {
+  const foot = INDEX.slice(INDEX.indexOf('<footer class="site-footer">'), INDEX.indexOf('</footer>'));
+  const idx = INDEX.slice(INDEX.indexOf('id="index-overlay"'), INDEX.indexOf('<audio id="site-bgm"'));
+  for (const href of ['/fde/', '/insights/', '/about/', '/privacy/']) {
+    assert(foot.includes(`href="${href}"`), `フッターに ${href} へのリンクがありません`);
+    assert(idx.includes(`href="${href}"`), `INDEXオーバーレイに ${href} へのリンクがありません`);
+  }
+  // 既存の深リンク（下層19ページが依存）は残っている
+  for (const href of ['#about', '#contact']) {
+    assert(idx.includes(`href="${href}" data-scroll`), `INDEXオーバーレイから ${href} が消えました`);
+  }
+});
+
+test('ロードマップの折りたたみは JS 無効時に本文を隠さない', () => {
+  assertEq((INDEX.match(/<details class="rm-details" open>/g) || []).length, C.roadmap.phases.length,
+    'ロードマップの details が全フェーズ open で出力されていません');
+  const start = INDEX.indexOf('function initRoadmapFold()');
+  assert(start > 0, 'initRoadmapFold が index.html にありません');
+  const src = INDEX.slice(start, INDEX.indexOf('function initAnimations()'));
+  assert(!/gsap|ScrollTrigger/.test(src), 'initRoadmapFold が GSAP を参照しています');
+  assert(INDEX.includes('initRoadmapFold();'), 'initRoadmapFold() が呼ばれていません');
+});
+
+test('新セクションの reveal は gsap.from（GSAP が落ちても可視のまま）', () => {
+  const triggers = ['#fde-cross', '.fde-steps-in', '.pillar-in', '.biz-scroller', '.svc-in',
+    '#challenges', '#roadmap', '#usecases', '#faq'];
+  for (const trg of triggers) {
+    const re = new RegExp(`gsap\\.from\\([^;]*?trigger: '${trg.replace(/[.#]/g, '\\$&')}'`);
+    assert(re.test(INDEX), `${trg} の reveal が gsap.from で登録されていません`);
+  }
+});
+
+test('新セクションが reduced-motion で即時可視になる', () => {
+  const start = INDEX.indexOf("mm.add('(prefers-reduced-motion: reduce)'");
+  assert(start > 0, 'reduced-motion の打ち消しブロックがありません');
+  const src = INDEX.slice(start, INDEX.indexOf("mm.add('(prefers-reduced-motion: no-preference)'"));
+  for (const sel of ['.pillar-card', '.step-card', '.chal-card', '.rm-item',
+    '.uc-item', '.faq-item', '.svc-item']) {
+    assert(src.includes(`'${sel}'`), `reduced-motion の打ち消しに ${sel} がありません`);
+  }
+});
+
+test('jsonld-webpage は pages 未定義のページでエラーになる', () => {
+  const src = '<div><!-- BEGIN:jsonld-webpage --><!-- END:jsonld-webpage --></div>';
+  const r = injectFile(src, C, 'nowhere/index.html');
+  assert(r.errors.length > 0, '未定義ページでエラーになりません（空の WebPage を黙って出さない）');
+  assertEq(r.next, src, 'エラーなのに内容が書き換えられました');
+  const ok = injectFile(src, C, 'index.html');
+  assertEq(ok.errors.length, 0, `定義済みページでエラー: ${ok.errors.join(' / ')}`);
 });
 
 /* ==========================================================================

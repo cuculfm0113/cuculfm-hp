@@ -119,6 +119,21 @@ const abs = (c, p) => {
   return `${c.config.site.url.replace(/\/$/, '')}${p.startsWith('/') ? p : `/${p}`}`;
 };
 
+/** ctx.file を必ず "/" 区切りの相対パスにする（Windows の \ 区切りでもキーが一致するように） */
+const relOf = (ctx) => String((ctx && ctx.file) || '').replace(/\\/g, '/');
+
+/**
+ * リンク（ナビ・CTA）の href と付随属性。
+ * ・トップページでは `/#contact` を `#contact` に落とす。`/#…` のままだと
+ *   ページ全体が再読込され、ヒーローの3D・イントロがやり直しになる
+ * ・ページ内アンカーには data-scroll を付け、既存の initSmoothScroll に拾わせる
+ */
+const linkAttrs = (href, ctx) => {
+  const onTop = relOf(ctx) === 'index.html';
+  const v = onTop && href.startsWith('/#') ? href.slice(1) : href;
+  return v.startsWith('#') ? `href="${esc(v)}" data-scroll` : `href="${esc(v)}"`;
+};
+
 /* ==========================================================================
    2. データ読み込み
    ========================================================================== */
@@ -163,6 +178,7 @@ export const validate = (c) => {
     ['config.nav.items', c.config?.nav?.items],
     ['config.contact.subjects', c.config?.contact?.subjects],
     ['config.services', c.config?.services],
+    ['config.pages', c.config?.pages && Object.keys(c.config.pages).filter((k) => !k.startsWith('_'))],
     ['pillars.pillars', c.pillars?.pillars],
     ['pillars.crossSection.steps', c.pillars?.crossSection?.steps],
     ['challenges.items', c.challenges?.items],
@@ -173,6 +189,16 @@ export const validate = (c) => {
   ];
   for (const [label, v] of need) if (isBlank(v)) errors.push(`必須データが空です: ${label}`);
   if (errors.length) return { errors, warnings };
+
+  // --- WebPage のページ定義（欠けたまま出すと空の構造化データになる） ---
+  // "_" 始まりのキーは注記。ページ定義としては扱わない
+  for (const [key, p] of Object.entries(c.config.pages)) {
+    if (key.startsWith('_')) continue;
+    for (const f of ['path', 'name', 'description']) {
+      if (isBlank(p[f])) errors.push(`config.pages["${key}"].${f} が空です`);
+    }
+    if (p.path && !p.path.startsWith('/')) errors.push(`config.pages["${key}"].path は "/" で始めてください: ${p.path}`);
+  }
 
   // --- 活用テーマは「実績ではない」注記が必須（要件: 実績と誤認させない） ---
   if (isBlank(c.usecases.note)) errors.push('usecases.json の note（活用イメージである旨の注記）が空です');
@@ -250,14 +276,7 @@ const sectionHead = (cls, section, headingJa, titleId) => [
 /* ---- グローバルヘッダーのナビゲーション ---- */
 const renderNav = (c, ctx) => {
   const { items, cta } = c.config.nav;
-  // トップページでは `/#business` を `#business` に落とす。
-  // `/#…` のままだとページ全体が再読込され、ヒーローの3D・イントロがやり直しになる。
-  const onTop = ctx && ctx.file === 'index.html';
-  const href = (h) => (onTop && h.startsWith('/#') ? h.slice(1) : h);
-  const attrs = (h) => {
-    const v = href(h);
-    return v.startsWith('#') ? `href="${esc(v)}" data-scroll` : `href="${esc(v)}"`;
-  };
+  const attrs = (h) => linkAttrs(h, ctx);
   return [
     '<nav class="gnav-nav" aria-label="グローバルナビゲーション">',
     '  <ul class="gnav-list">',
@@ -269,10 +288,10 @@ const renderNav = (c, ctx) => {
 };
 
 /* ---- ヒーロー追加コピー（既存ビジュアル・既存メッセージの下に置く想定） ---- */
-const renderHeroCopy = (c) => {
+const renderHeroCopy = (c, ctx) => {
   const m = c.config.messaging;
   // 見出しは h2。h1 はヒーローの .giant-type（CUCUL FM.LLC）が持つため増やさない。
-  const attrs = (h) => (h.startsWith('#') ? `href="${esc(h)}" data-scroll` : `href="${esc(h)}"`);
+  const attrs = (h) => linkAttrs(h, ctx);
   return [
     `<h2 class="stm-title" id="stm-title">${jpPhrases(m.heroTagline).map((t) => `<span>${esc(t)}</span>`).join('')}</h2>`,
     ...para('stm-lead', m.heroLead),
@@ -334,7 +353,9 @@ const renderFdeCross = (c) => {
   const x = c.pillars.crossSection;
   return [
     `<p class="eyebrow">${esc(x.sectionName)}</p>`,
-    `<h2 class="fde-heading">${esc(x.heading)}</h2>`,
+    // 見出しは句読点で分割した inline-block にする（.stm-title と同じ。
+    // 「仕組み/へ。」のような語中改行を防ぐ。文字は1文字も足し引きしない）
+    `<h2 class="fde-heading" id="fde-heading">${jpPhrases(x.heading).map((t) => `<span>${esc(t)}</span>`).join('')}</h2>`,
     '<div class="fde-body">',
     ...paras('', x.body).map((l) => `  ${l}`),
     '</div>',
@@ -342,7 +363,7 @@ const renderFdeCross = (c) => {
 };
 
 /* ---- 01 Understand / 02 Build / 03 Embed ---- */
-const renderFdeSteps = (c) => {
+const renderFdeSteps = (c, ctx) => {
   const x = c.pillars.crossSection;
   return [
     '<ol class="fde-steps">',
@@ -355,7 +376,7 @@ const renderFdeSteps = (c) => {
       '  </li>',
     ]),
     '</ol>',
-    `<a class="btn-fde" href="${esc(x.cta.href)}" data-ga-event="click_fde_service">${esc(x.cta.label)}</a>`,
+    `<a class="btn-fde" ${linkAttrs(x.cta.href, ctx)} data-ga-event="click_fde_service">${esc(x.cta.label)}</a>`,
   ];
 };
 
@@ -377,7 +398,7 @@ const renderChallenges = (c) => {
 };
 
 /* ---- 12か月ロードマップ（本文は常にHTML内に存在。details は既定で open） ---- */
-const renderRoadmap = (c) => {
+const renderRoadmap = (c, ctx) => {
   const d = c.roadmap;
   return [
     ...sectionHead('rm-head-sec', d.section, d.heading, 'roadmap-title'),
@@ -406,7 +427,7 @@ const renderRoadmap = (c) => {
       '  </li>',
     ]),
     '</ol>',
-    `<a class="btn-roadmap" href="${esc(d.cta.href)}" data-ga-event="click_roadmap">${esc(d.cta.label)}</a>`,
+    `<a class="btn-roadmap" ${linkAttrs(d.cta.href, ctx)} data-ga-event="click_roadmap">${esc(d.cta.label)}</a>`,
   ];
 };
 
@@ -563,6 +584,32 @@ const renderJsonLdServices = (c) => {
   });
 };
 
+/* ---- JSON-LD: WebPage ----
+   ページごとの name / description は site.config.json の pages に置き、キーは
+   HTML の相対パス（"index.html" など）。マーカーは全ページ共通の1キーで済み、
+   どのページを描いているかは injectFile が渡す ctx.file から決まる。
+   pages に無いファイルへ置かれたらエラーにする（空の WebPage を黙って出さない）。 */
+const renderJsonLdWebPage = (c, ctx) => {
+  const key = relOf(ctx);
+  const p = (c.config.pages || {})[key];
+  if (!p) {
+    throw new Error(`site.config.json の pages に "${key}" の定義がありません`);
+  }
+  const site = c.config.site;
+  const url = abs(c, p.path);
+  return jsonLdScript({
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    '@id': `${url}#webpage`,
+    url,
+    name: p.name,
+    description: p.description,
+    isPartOf: { '@id': `${site.url}/#website` },
+    about: { '@id': `${site.url}/#organization` },
+    inLanguage: 'ja-JP',
+  });
+};
+
 /* ---- JSON-LD: FAQPage（表示中のFAQと同一データから生成） ---- */
 const renderJsonLdFaq = (data) => jsonLdScript({
   '@context': 'https://schema.org',
@@ -593,6 +640,7 @@ const RENDERERS = {
   'contact-copy': { desc: '問い合わせセクションの見出し・本文', render: renderContactCopy },
   'contact-subjects': { desc: 'ご相談の種類 <option> 群', render: renderContactSubjects },
   'jsonld-organization': { desc: 'JSON-LD: WebSite + Organization（index.html の既存ブロックを囲んで置き換える）', render: renderJsonLdOrganization },
+  'jsonld-webpage': { desc: 'JSON-LD: WebPage（site.config.json の pages[相対パス] から生成）', render: renderJsonLdWebPage },
   'jsonld-services': { desc: 'JSON-LD: Service 8件', render: renderJsonLdServices },
   'jsonld-faq-top': { desc: 'JSON-LD: FAQPage（トップ）', render: (c) => renderJsonLdFaq(c.faqTop) },
   'jsonld-faq-fde': { desc: 'JSON-LD: FAQPage（/fde/）', render: (c) => renderJsonLdFaq(c.faqFde) },
