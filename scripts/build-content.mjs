@@ -228,10 +228,18 @@ export const validate = (c) => {
     if (isBlank(c.config.contact.errors && c.config.contact.errors[k])) errors.push(`contact.errors.${k} が空です`);
   }
 
-  // --- GTM ID は生成タグへそのまま埋め込むので、書式を確かめてから通す ---
+  // --- 計測 ID は生成タグへそのまま埋め込むので、書式を確かめてから通す ---
   const gtm = c.config.analytics.gtmId;
   if (!isBlank(gtm) && !/^GTM-[A-Z0-9]+$/.test(gtm)) {
     errors.push(`analytics.gtmId の書式が不正です（GTM-XXXXXXX 形式）: ${gtm}`);
+  }
+  const ga4 = c.config.analytics.ga4MeasurementId;
+  if (!isBlank(ga4) && !/^G-[A-Z0-9]+$/.test(ga4)) {
+    errors.push(`analytics.ga4MeasurementId の書式が不正です（G-XXXXXXXXXX 形式）: ${ga4}`);
+  }
+  if (!isBlank(gtm) && !isBlank(ga4)) {
+    warnings.push('analytics に gtmId と ga4MeasurementId の両方が設定されています。'
+      + '二重計測を避けるため GTM を優先し、gtag.js は出力しません（GA4 の設定は GTM 側で行ってください）');
   }
 
   // --- 活用テーマは「実績ではない」注記が必須（要件: 実績と誤認させない） ---
@@ -283,7 +291,9 @@ export const validate = (c) => {
   const pending = [];
   if (isBlank(c.config.company.corporateNumber)) pending.push('company.corporateNumber');
   if (isBlank(c.config.company.foundingDate)) pending.push('company.foundingDate');
-  if (isBlank(c.config.analytics.gtmId)) pending.push('analytics.gtmId');
+  if (isBlank(c.config.analytics.gtmId) && isBlank(c.config.analytics.ga4MeasurementId)) {
+    pending.push('analytics.gtmId / analytics.ga4MeasurementId（どちらか入れば計測が有効になります）');
+  }
   if (pending.length) warnings.push(`未設定のため出力を省略: ${pending.join(', ')}`);
 
   return { errors, warnings };
@@ -620,18 +630,33 @@ const renderContactConfig = (c) => {
 };
 
 /* ---- 計測タグ（全ページ共通。</head> の直前に置く） ----
-   GTM ID が空のうちは GTM を読み込まない。js/analytics.js は常に読む（dataLayer に
-   積むだけなので、後から GTM を入れてもイベント設計を変えずに拾える）。 */
+   どちらの ID も空のうちは外部タグを一切読み込まない。js/analytics.js は常に読む。
+
+   ID を入れたときの分岐:
+   ・gtmId あり  … GTM を読む。GA4 の設定は GTM 側で行う想定なので gtag.js は出さない
+   ・gtmId なし + ga4MeasurementId あり
+                 … gtag.js を直接読み、`CUCULFM.directGa4` を立てる。
+                   これで analytics.js が dataLayer と gtag の両方へイベントを送り、
+                   GTM の画面設定なしに GA4 のイベントとして届く
+   両方入っている場合に gtag.js も出すと、GTM 側のトリガーと二重に計上されるので出さない。 */
 const renderAnalytics = (c) => {
-  const id = c.config.analytics.gtmId;
+  const { gtmId, ga4MeasurementId } = c.config.analytics;
   const lines = ['<script>window.dataLayer=window.dataLayer||[];</script>'];
-  if (id) {
+  if (gtmId) {
     lines.push(
       '<!-- Google Tag Manager -->',
       '<script>(function(w,d,s,l,i){w[l].push({\'gtm.start\':new Date().getTime(),event:\'gtm.js\'});'
       + 'var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!=\'dataLayer\'?\'&l=\'+l:\'\';'
       + 'j.async=true;j.src=\'https://www.googletagmanager.com/gtm.js?id=\'+i+dl;'
-      + `f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${id}');</script>`,
+      + `f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${gtmId}');</script>`,
+    );
+  } else if (ga4MeasurementId) {
+    lines.push(
+      '<!-- Google tag (gtag.js) -->',
+      `<script async src="https://www.googletagmanager.com/gtag/js?id=${ga4MeasurementId}"></script>`,
+      '<script>function gtag(){dataLayer.push(arguments)}gtag(\'js\',new Date());'
+      + `gtag('config','${ga4MeasurementId}');`
+      + 'window.CUCULFM=window.CUCULFM||{};window.CUCULFM.directGa4=true;</script>',
     );
   }
   lines.push('<script src="/js/analytics.js" defer></script>');

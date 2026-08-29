@@ -2,10 +2,15 @@
    CUCUL FM - 計測（dataLayer へのイベント送出）
    ==========================================================================
 
-   ・GTM が入っていなくても安全に動く。このファイルは window.dataLayer に
-     push するだけで、GTM コンテナの読み込みは行わない
-     （GTM スニペットは content/site.config.json の analytics.gtmId が
-       設定されたときだけ、build-content.mjs が各HTMLへ書き出す）
+   ・タグが1つも入っていなくても安全に動く。このファイル自身は外部スクリプトを
+     読み込まず、window.dataLayer に push するだけ
+     （GTM / gtag.js のスニペットは content/site.config.json の analytics に
+       ID が入ったときだけ、build-content.mjs が各HTMLへ書き出す）
+   ・GA4 を GTM 無しで直接使う構成のときは、生成側が window.CUCULFM.directGa4 を
+     立てる。そのときだけ gtag('event', ...) も呼び、GTM の画面設定なしに
+     下記のイベントが GA4 に届くようにする。
+     GTM 運用時に無条件で gtag を呼ぶと、GTM 側のトリガーと二重に計上されるため
+     必ずこのフラグで守ること
    ・計測が本文の機能を止めないよう、送出は必ず try/catch で囲む
    ・イベント名は docs/redesign/06-analytics.md の一覧と対応する
 
@@ -39,6 +44,12 @@
         }
       }
       dl.push(payload);
+
+      /* GTM を使わず GA4 を直接読んでいる構成のときだけ、GA4 のイベントとしても送る。
+         GTM 運用時は GTM 側のトリガーが同じ dataLayer を見るので、ここでは送らない */
+      if (window.CUCULFM && window.CUCULFM.directGa4 && typeof window.gtag === 'function') {
+        window.gtag('event', name, params || {});
+      }
     } catch (e) { /* 計測の失敗で本文機能を止めない */ }
   }
 

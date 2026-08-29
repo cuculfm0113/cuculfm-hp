@@ -1105,16 +1105,80 @@ test('計測タグが全公開ページに入っている', () => {
     assert(!rendered.includes('googletagmanager'), 'GTM ID が空なのに GTM を読み込んでいます');
   }
   assert(rendered.includes('/js/analytics.js'), 'analytics.js を読み込んでいません');
-  // ID を入れれば GTM が出る
-  const withId = structuredClone(C);
-  withId.config.analytics.gtmId = 'GTM-ABC1234';
-  const on = resolveRenderer('analytics').render(withId, { file: 'index.html' }).join('\n');
-  assert(on.includes('googletagmanager.com/gtm.js'), 'GTM ID を入れても GTM が出力されません');
-  assert(on.includes('GTM-ABC1234'), 'GTM ID が反映されていません');
-  // 不正な ID は素通ししない（生成タグへそのまま埋め込むため）
-  const bad = structuredClone(C);
-  bad.config.analytics.gtmId = "x';alert(1)//";
-  assert(validate(bad).errors.some((e) => e.includes('gtmId')), '不正な GTM ID がエラーになりません');
+  if (!C.config.analytics.ga4MeasurementId) {
+    assert(!rendered.includes('gtag/js'), '測定ID が空なのに gtag.js を読み込んでいます');
+  }
+});
+
+/** analytics マーカーを、指定した計測IDで描いた結果 */
+const renderAnalyticsWith = (ids) => {
+  const c = structuredClone(C);
+  Object.assign(c.config.analytics, ids);
+  return { html: resolveRenderer('analytics').render(c, { file: 'index.html' }).join('\n'), c };
+};
+
+test('GA4 の測定IDだけで gtag.js が入り、GTM は要らない', () => {
+  const { html } = renderAnalyticsWith({ gtmId: '', ga4MeasurementId: 'G-ABCD123456' });
+  assert(html.includes('googletagmanager.com/gtag/js?id=G-ABCD123456'), 'gtag.js が出力されていません');
+  assert(html.includes("gtag('config','G-ABCD123456')"), 'GA4 の config が出力されていません');
+  assert(!html.includes('gtm.js'), 'GTM を使わない構成なのに GTM が出力されています');
+  assert(html.includes('CUCULFM.directGa4=true'),
+    'directGa4 フラグが立っていません（analytics.js が GA4 へ直接送れません）');
+});
+
+test('GTM の ID だけなら GTM を読み、gtag.js は出さない', () => {
+  const { html } = renderAnalyticsWith({ gtmId: 'GTM-ABC1234', ga4MeasurementId: '' });
+  assert(html.includes('googletagmanager.com/gtm.js'), 'GTM が出力されていません');
+  assert(html.includes('GTM-ABC1234'), 'GTM ID が反映されていません');
+  assert(!html.includes('gtag/js'), 'GTM 構成なのに gtag.js も出力されています');
+  assert(!html.includes('directGa4'),
+    'GTM 構成で directGa4 が立っています（GTM のトリガーと二重に計上されます）');
+});
+
+test('両方入っていたら GTM を優先し、二重計測にならない', () => {
+  const { html, c } = renderAnalyticsWith({ gtmId: 'GTM-ABC1234', ga4MeasurementId: 'G-ABCD123456' });
+  assert(html.includes('gtm.js'), 'GTM が出力されていません');
+  assert(!html.includes('gtag/js'), '両方設定時に gtag.js も出力されています（二重計測）');
+  assert(!html.includes('directGa4'), '両方設定時に directGa4 が立っています（二重計測）');
+  assert(validate(c).warnings.some((w) => w.includes('二重計測')), '両方設定時の警告が出ていません');
+});
+
+test('不正な計測IDは素通ししない（生成タグへ直接埋め込むため）', () => {
+  for (const [key, value] of [['gtmId', "x';alert(1)//"], ['ga4MeasurementId', "G-x';alert(1)//"],
+    ['ga4MeasurementId', 'UA-12345-1']]) {
+    const bad = structuredClone(C);
+    bad.config.analytics = { gtmId: '', ga4MeasurementId: '', googleSiteVerification: '' };
+    bad.config.analytics[key] = value;
+    assert(validate(bad).errors.some((e) => e.includes(key)),
+      `不正な ${key} (${value}) がエラーになりません`);
+  }
+});
+
+test('analytics.js の gtag 送信は directGa4 で守られている', () => {
+  assert(ANALYTICS_JS.includes('window.CUCULFM.directGa4'),
+    'analytics.js が directGa4 を見ていません');
+  // ガード無しの gtag 呼び出しが無いこと（GTM 運用時の二重計上を防ぐ）
+  const calls = [...ANALYTICS_JS.matchAll(/window\.gtag\(/g)];
+  assertEq(calls.length, 1, 'gtag の呼び出し箇所が1つではありません');
+  const guard = ANALYTICS_JS.indexOf('window.CUCULFM.directGa4');
+  assert(guard >= 0 && guard < calls[0].index, 'gtag 呼び出しが directGa4 のガードより前にあります');
+});
+
+test('_redirects が社内向けファイルを配信しない', () => {
+  const rd = read('_redirects');
+  for (const p of ['/docs/*', '/content/*', '/scripts/*', '/CLAUDE.md', '/AGENTS.md']) {
+    const re = new RegExp(`^${p.replace(/[*./]/g, '\\$&')}\\s+\\S+\\s+404`, 'm');
+    assert(re.test(rd), `${p} を 404 にする行がありません`);
+  }
+  // 3Dキャラのモデルを巻き添えにしていないこと
+  assert(!/^\/character-design\/\*/m.test(rd),
+    '/character-design/* を丸ごと塞いでいます（トップの3Dキャラ model.glb が読めなくなります）');
+  assert(fs.existsSync(path.join(ROOT, 'character-design/phantom-dj/model.glb')),
+    'model.glb の場所が変わっています。_redirects の除外範囲を見直してください');
+  // サイトが実行時に参照しているパスを塞いでいないこと
+  for (const live of ['/js/analytics.js', '/contact/form-handler.js', '/services/style.css']) {
+    assert(!rd.includes(live), `${live} は実際に配信が必要なので塞いではいけません`);
+  }
 });
 
 test('/privacy/ が要件の項目を満たしている', () => {
