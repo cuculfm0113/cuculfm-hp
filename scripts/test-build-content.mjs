@@ -1167,9 +1167,12 @@ test('analytics.js の gtag 送信は directGa4 で守られている', () => {
 test('_redirects が社内向けファイルを配信しない', () => {
   const rd = read('_redirects');
   for (const p of ['/docs/*', '/content/*', '/scripts/*', '/CLAUDE.md', '/AGENTS.md']) {
-    const re = new RegExp(`^${p.replace(/[*./]/g, '\\$&')}\\s+\\S+\\s+404`, 'm');
-    assert(re.test(rd), `${p} を 404 にする行がありません`);
+    // 末尾の `!`（force）が無いと、実在するファイルにはルールが適用されない
+    // （Netlify の shadowing）。`!` 無しでデプロイして全パス 200 のままだった実績あり
+    const re = new RegExp(`^${p.replace(/[*./]/g, '\\$&')}\\s+\\S+\\s+404!`, 'm');
+    assert(re.test(rd), `${p} を 404! にする行がありません（force の ! が無いと効きません）`);
   }
+  assert(!/\s404\s*$/m.test(rd), '404 に force の ! が付いていない行があります');
   // 3Dキャラのモデルを巻き添えにしていないこと
   assert(!/^\/character-design\/\*/m.test(rd),
     '/character-design/* を丸ごと塞いでいます（トップの3Dキャラ model.glb が読めなくなります）');

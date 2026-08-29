@@ -3,19 +3,23 @@
 # `netlify deploy` はリポジトリ直下を丸ごと配信するため、実装ブリーフ・設定ファイル・
 # ビルドスクリプトが公開URLで読める状態だった。ファイル自体は残るが配信だけ止める。
 #
+# 末尾の `!` は force。これが無いとルールは実在するファイルに適用されない
+# （Netlify の shadowing: ファイルが在ればそちらが優先される）。実際 `!` 無しで
+# デプロイしたところ、全パスが 200 のままだった。
+#
 # 注意: /character-design/* を丸ごと塞がないこと。
 #       トップの3Dキャラが /character-design/phantom-dj/model.glb を読んでいる。
 #       ここで塞ぐのは開発用ビューアの2ファイルだけ。
 # ============================================================================
-/docs/*    /404.html  404
-/content/* /404.html  404
-/scripts/* /404.html  404
-/AGENTS.md /404.html  404
-/CLAUDE.md /404.html  404
-/SEO_LMO_BEST_PRACTICES.md /404.html  404
-/会社内容.md /404.html  404
-/character-design/phantom-dj/viewer.html            /404.html  404
-/character-design/phantom-dj/viewer-procedural.html /404.html  404
+/docs/*    /404.html  404!
+/content/* /404.html  404!
+/scripts/* /404.html  404!
+/AGENTS.md /404.html  404!
+/CLAUDE.md /404.html  404!
+/SEO_LMO_BEST_PRACTICES.md /404.html  404!
+/会社内容.md /404.html  404!
+/character-design/phantom-dj/viewer.html            /404.html  404!
+/character-design/phantom-dj/viewer-procedural.html /404.html  404!
 
 # 旧プレビューURL(トップ昇格に伴い本体へ)
 /top-v2/* / 301
