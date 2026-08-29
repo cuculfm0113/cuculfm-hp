@@ -198,6 +198,40 @@ export const validate = (c) => {
       if (isBlank(p[f])) errors.push(`config.pages["${key}"].${f} が空です`);
     }
     if (p.path && !p.path.startsWith('/')) errors.push(`config.pages["${key}"].path は "/" で始めてください: ${p.path}`);
+    if (p.breadcrumb !== undefined) {
+      if (!Array.isArray(p.breadcrumb) || p.breadcrumb.length < 2) {
+        errors.push(`config.pages["${key}"].breadcrumb は2件以上の配列にしてください`);
+      } else {
+        p.breadcrumb.forEach((b, i) => {
+          if (isBlank(b.name) || isBlank(b.path)) errors.push(`config.pages["${key}"].breadcrumb[${i}] の name/path が空です`);
+        });
+        const tail = p.breadcrumb[p.breadcrumb.length - 1];
+        if (tail && tail.path !== p.path) {
+          errors.push(`config.pages["${key}"].breadcrumb の末尾 (${tail.path}) がページ自身の path (${p.path}) と違います`);
+        }
+      }
+    }
+  }
+
+  // --- フォーム項目（form-handler.js とマークアップ生成の前提） ---
+  const fieldTypes = new Set(['text', 'email', 'tel', 'select', 'textarea', 'checkbox']);
+  const seenNames = new Set();
+  for (const [i, f] of c.config.contact.fields.entries()) {
+    if (isBlank(f.name) || isBlank(f.label)) { errors.push(`contact.fields[${i}] の name/label が空です`); continue; }
+    if (!fieldTypes.has(f.type)) errors.push(`contact.fields[${i}] (${f.name}) の type "${f.type}" は扱えません`);
+    if (seenNames.has(f.name)) errors.push(`contact.fields の name が重複しています: ${f.name}`);
+    seenNames.add(f.name);
+    if (f.name === c.config.contact.honeypot) errors.push(`contact.fields の name が honeypot と衝突しています: ${f.name}`);
+    if (f.name === 'form-name') errors.push('contact.fields に "form-name" は使えません（Netlify Forms の予約名）');
+  }
+  for (const k of ['required', 'requiredSelect', 'requiredCheck', 'email', 'submitting', 'success', 'failure']) {
+    if (isBlank(c.config.contact.errors && c.config.contact.errors[k])) errors.push(`contact.errors.${k} が空です`);
+  }
+
+  // --- GTM ID は生成タグへそのまま埋め込むので、書式を確かめてから通す ---
+  const gtm = c.config.analytics.gtmId;
+  if (!isBlank(gtm) && !/^GTM-[A-Z0-9]+$/.test(gtm)) {
+    errors.push(`analytics.gtmId の書式が不正です（GTM-XXXXXXX 形式）: ${gtm}`);
   }
 
   // --- 活用テーマは「実績ではない」注記が必須（要件: 実績と誤認させない） ---
@@ -500,19 +534,150 @@ const renderCompanySpec = (c) => {
 };
 
 /* ---- 問い合わせフォームの「ご相談の種類」選択肢 ---- */
-const renderContactSubjects = (c) => {
+const subjectOptions = (c) => {
   const ct = c.config.contact;
   return [
     `<option value="">${esc(ct.subjectPlaceholder)}</option>`,
     ...ct.subjects.map((s) => `<option value="${esc(s)}">${esc(s)}</option>`),
   ];
 };
+const renderContactSubjects = (c) => subjectOptions(c);
+
+/**
+ * ラベルの一部だけをリンクにする（「個人情報保護方針への同意」の前半だけ /privacy/ へ）。
+ * ラベル文字列そのものは1文字も変えないので、要件のフォーム項目名と一致したままになる。
+ */
+const labelWithLink = (label, link) => {
+  if (!link || !link.text) return esc(label);
+  const i = label.indexOf(link.text);
+  if (i < 0) return esc(label);
+  return esc(label.slice(0, i))
+    + `<a href="${esc(link.href)}">${esc(link.text)}</a>`
+    + esc(label.slice(i + link.text.length));
+};
+
+/* ---- 問い合わせフォームの入力項目（site.config.json の contact.fields から生成） ----
+   ・required / type="email" は HTML 側に残す = JS 無効でもブラウザ標準の検証が働く。
+     JS が動くときは form-handler.js が form.noValidate を立てて自前のインライン表示に切り替える
+   ・各項目にエラー表示用の <p class="field-error"> を必ず1つ持たせ、aria-describedby で結ぶ */
+const renderContactFields = (c) => {
+  const ct = c.config.contact;
+  return ct.fields.flatMap((f) => {
+    const errId = `err-${f.name}`;
+    const attrs = [
+      `id="${esc(f.name)}"`,
+      `name="${esc(f.name)}"`,
+      f.autocomplete ? `autocomplete="${esc(f.autocomplete)}"` : '',
+      f.required ? 'required aria-required="true"' : '',
+      `aria-describedby="${esc(errId)}"`,
+    ].filter(Boolean).join(' ');
+    const ph = f.placeholder ? ` placeholder="${esc(f.placeholder)}"` : '';
+    const star = f.required ? ' <span class="required">*</span>' : '';
+    const err = `  <p class="field-error" id="${esc(errId)}" role="alert" hidden></p>`;
+
+    if (f.type === 'checkbox') {
+      return [
+        '<div class="form-group form-group--check">',
+        '  <label class="check-label">',
+        // value にラベルをそのまま入れる = 通知メールで何に同意したかが読める
+        `    <input type="checkbox" ${attrs} value="${esc(f.label)}">`,
+        `    <span>${labelWithLink(f.label, f.link)}${star}</span>`,
+        '  </label>',
+        err,
+        '</div>',
+      ];
+    }
+    const control = f.type === 'textarea'
+      ? [`  <textarea ${attrs} rows="5"${ph}></textarea>`]
+      : f.type === 'select'
+        ? [`  <select ${attrs}>`, ...subjectOptions(c).map((o) => `    ${o}`), '  </select>']
+        : [`  <input type="${esc(f.type)}" ${attrs}${ph}>`];
+    return [
+      '<div class="form-group">',
+      `  <label for="${esc(f.name)}">${esc(f.label)}${star}</label>`,
+      ...control,
+      err,
+      '</div>',
+    ];
+  });
+};
+
+/* ---- form-handler.js が読む設定（フォーム名・honeypot 名・画面に出す文言） ----
+   .js は build-content の対象外なので、設定は HTML 側に JSON で置いて渡す。
+   これで文言も site.config.json 側の一元管理に乗る。 */
+const renderContactConfig = (c) => {
+  const ct = c.config.contact;
+  const json = JSON.stringify({
+    formName: ct.formName,
+    honeypot: ct.honeypot,
+    messages: ct.errors,
+  }, null, 2).replace(/</g, '\\u003c');   // </script> で脱出されないように
+  return [
+    '<script type="application/json" id="contact-config">',
+    ...json.split('\n'),
+    '</script>',
+  ];
+};
+
+/* ---- 計測タグ（全ページ共通。</head> の直前に置く） ----
+   GTM ID が空のうちは GTM を読み込まない。js/analytics.js は常に読む（dataLayer に
+   積むだけなので、後から GTM を入れてもイベント設計を変えずに拾える）。 */
+const renderAnalytics = (c) => {
+  const id = c.config.analytics.gtmId;
+  const lines = ['<script>window.dataLayer=window.dataLayer||[];</script>'];
+  if (id) {
+    lines.push(
+      '<!-- Google Tag Manager -->',
+      '<script>(function(w,d,s,l,i){w[l].push({\'gtm.start\':new Date().getTime(),event:\'gtm.js\'});'
+      + 'var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!=\'dataLayer\'?\'&l=\'+l:\'\';'
+      + 'j.async=true;j.src=\'https://www.googletagmanager.com/gtm.js?id=\'+i+dl;'
+      + `f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${id}');</script>`,
+    );
+  }
+  lines.push('<script src="/js/analytics.js" defer></script>');
+  return lines;
+};
+
+/* ---- パンくず（表示用。BreadcrumbList と同じ site.config.json の pages から生成） ---- */
+const breadcrumbOf = (c, ctx) => {
+  const key = relOf(ctx);
+  const p = (c.config.pages || {})[key];
+  if (!p) throw new Error(`site.config.json の pages に "${key}" の定義がありません`);
+  if (!Array.isArray(p.breadcrumb) || p.breadcrumb.length === 0) {
+    throw new Error(`site.config.json の pages["${key}"].breadcrumb がありません`);
+  }
+  return p.breadcrumb;
+};
+const renderBreadcrumb = (c, ctx) => {
+  const items = breadcrumbOf(c, ctx);
+  const last = items.length - 1;
+  return [
+    '<nav class="breadcrumb" aria-label="パンくずリスト">',
+    '  <ol>',
+    ...items.map((b, i) => (i === last
+      ? `    <li><span aria-current="page">${esc(b.name)}</span></li>`
+      : `    <li><a href="${esc(b.path)}">${esc(b.name)}</a></li>`)),
+    '  </ol>',
+    '</nav>',
+  ];
+};
+const renderJsonLdBreadcrumb = (c, ctx) => jsonLdScript({
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: breadcrumbOf(c, ctx).map((b, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: b.name,
+    item: abs(c, b.path),
+  })),
+});
 
 /* ---- 問い合わせセクションの見出し・本文 ---- */
 const renderContactCopy = (c) => {
   const ct = c.config.contact;
   return [
-    `<h2 class="ct-heading">${esc(ct.heading)}</h2>`,
+    // 句読点で分割した inline-block（語中改行を防ぐ。文字は1文字も足し引きしない）
+    `<h2 class="ct-heading">${jpPhrases(ct.heading).map((t) => `<span>${esc(t)}</span>`).join('')}</h2>`,
     ...paras('ct-body', ct.body),
   ];
 };
@@ -639,11 +804,16 @@ const RENDERERS = {
   'company-spec': { desc: '会社概要テーブル（空欄項目は出力しない）', render: renderCompanySpec },
   'contact-copy': { desc: '問い合わせセクションの見出し・本文', render: renderContactCopy },
   'contact-subjects': { desc: 'ご相談の種類 <option> 群', render: renderContactSubjects },
+  'contact-fields': { desc: '問い合わせフォームの入力項目9つ（contact.fields から生成）', render: renderContactFields },
+  'contact-config': { desc: 'form-handler.js が読む設定JSON（フォーム名・honeypot・文言）', render: renderContactConfig },
+  'analytics': { desc: '計測タグ（dataLayer + GTM + /js/analytics.js）。</head> 直前に置く', render: renderAnalytics },
+  'breadcrumb': { desc: 'パンくず（pages[相対パス].breadcrumb から生成）', render: renderBreadcrumb },
   'jsonld-organization': { desc: 'JSON-LD: WebSite + Organization（index.html の既存ブロックを囲んで置き換える）', render: renderJsonLdOrganization },
   'jsonld-webpage': { desc: 'JSON-LD: WebPage（site.config.json の pages[相対パス] から生成）', render: renderJsonLdWebPage },
   'jsonld-services': { desc: 'JSON-LD: Service 8件', render: renderJsonLdServices },
   'jsonld-faq-top': { desc: 'JSON-LD: FAQPage（トップ）', render: (c) => renderJsonLdFaq(c.faqTop) },
   'jsonld-faq-fde': { desc: 'JSON-LD: FAQPage（/fde/）', render: (c) => renderJsonLdFaq(c.faqFde) },
+  'jsonld-breadcrumb': { desc: 'JSON-LD: BreadcrumbList（表示用 breadcrumb と同一データ）', render: renderJsonLdBreadcrumb },
 };
 
 /**
@@ -703,6 +873,7 @@ const LD_PAIRS = {
   'jsonld-faq-top': 'faq-top',
   'jsonld-faq-fde': 'faq-fde',
   'jsonld-services': 'services',
+  'jsonld-breadcrumb': 'breadcrumb',
 };
 
 /**

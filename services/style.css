@@ -2343,6 +2343,137 @@ body::after {
 }
 
 
+/* ==========================================================================
+   パンくず + 文書ページ（/privacy/ ほか。改修フェーズ4で追加）
+   ・パンくずは表示と BreadcrumbList 構造化データを同じデータから生成する
+   ・.doc-* は規約・方針のような読み物用の最小セット
+   ========================================================================== */
+.breadcrumb {
+    padding-top: 12px;
+    font-size: 0.75rem;
+    color: var(--color-text-dim);
+}
+
+.breadcrumb ol {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0 8px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.breadcrumb li + li::before {
+    content: '/';
+    margin-right: 8px;
+    color: var(--color-text-dim);
+    opacity: 0.6;
+}
+
+.breadcrumb a {
+    color: var(--color-text-muted);
+    transition: var(--transition-fast);
+}
+
+.breadcrumb a:hover {
+    color: var(--color-primary);
+}
+
+.breadcrumb [aria-current="page"] {
+    color: var(--color-text);
+}
+
+.doc-body {
+    max-width: 760px;
+}
+
+.doc-body > * + * {
+    margin-top: 1.15em;
+}
+
+.doc-body p,
+.doc-body li {
+    font-size: 0.95rem;
+    line-height: 2;
+    color: var(--color-text-muted);
+}
+
+.doc-body h3 {
+    margin-top: 2em;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--color-text);
+    letter-spacing: 0.03em;
+}
+
+.doc-list {
+    padding-left: 1.3em;
+    list-style: none;
+}
+
+.doc-list li {
+    position: relative;
+    padding-left: 0.2em;
+}
+
+.doc-list li + li {
+    margin-top: 0.5em;
+}
+
+.doc-list li::before {
+    content: '';
+    position: absolute;
+    left: -1.1em;
+    top: 1em;
+    width: 6px;
+    height: 1px;
+    background: var(--color-primary);
+    opacity: 0.85;
+}
+
+.doc-dl {
+    border-top: 1px solid var(--color-border);
+}
+
+.doc-dl > div {
+    display: grid;
+    grid-template-columns: clamp(96px, 22vw, 150px) 1fr;
+    gap: 12px;
+    padding: 0.9em 0;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.doc-dl dt {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--color-text-dim);
+}
+
+.doc-dl dd {
+    font-size: 0.9rem;
+    line-height: 1.9;
+    color: var(--color-text);
+}
+
+.doc-dl a {
+    color: var(--color-primary);
+}
+
+.doc-updated {
+    margin-top: 2.5em;
+    font-size: 0.75rem;
+    color: var(--color-text-dim);
+}
+
+@media (max-width: 560px) {
+    .doc-dl > div {
+        grid-template-columns: 1fr;
+        gap: 4px;
+    }
+}
+
 /* 関連記事のMTGカード画像用(images/cards/、枠はカード画像に内蔵) */
 .article-image--card {
     height: auto;

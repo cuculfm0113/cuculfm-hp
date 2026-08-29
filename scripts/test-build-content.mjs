@@ -371,8 +371,9 @@ test('FAQの共通設問がトップと /fde/ で一致している', () => {
 const INDEX = read('index.html');
 /** index.html が実際に持っているマーカー数（フェーズが進むほど増える） */
 const INDEX_MARKERS = [...INDEX.matchAll(/<!--\s*BEGIN:([A-Za-z0-9_.:@-]+)\s*-->/g)].length;
-/** マーカーを持たない実ファイル（下層ページ）。「触らない」ことの検証に使う */
-const NO_MARKER_FILE = 'services/ai/index.html';
+/** マーカーを持たない実ファイル。「触らない」ことの検証に使う。
+ *  フェーズ4で全公開ページに計測マーカーが入ったので、対象はキャラ確認用ビューアだけになった */
+const NO_MARKER_FILE = 'character-design/phantom-dj/viewer.html';
 const NO_MARKER_HTML = read(NO_MARKER_FILE);
 /** マーカー区間の中身を伏せ字にして、外側だけを比較できるようにする */
 const blankMarkers = (s) => s.replace(
@@ -990,6 +991,179 @@ test('jsonld-webpage は pages 未定義のページでエラーになる', () =
   assertEq(r.next, src, 'エラーなのに内容が書き換えられました');
   const ok = injectFile(src, C, 'index.html');
   assertEq(ok.errors.length, 0, `定義済みページでエラー: ${ok.errors.join(' / ')}`);
+});
+
+/* ==========================================================================
+   6d. Netlify Forms / プライバシーポリシー / 計測（フェーズ4）
+   ========================================================================== */
+const PRIVACY = read('privacy/index.html');
+const HANDLER = read('contact/form-handler.js');
+const ANALYTICS_JS = read('js/analytics.js');
+/** 計測マーカーを入れる対象（build-content が走査する公開ページ） */
+const PUBLIC_PAGES = (() => {
+  const skip = new Set(['.git', '.netlify', '.claude', 'node_modules', '__pycache__',
+    'scripts', 'docs', 'note', 'content', 'character-design']);
+  const out = [];
+  const walk = (dir) => {
+    for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+      if (e.isDirectory()) { if (!skip.has(e.name)) walk(path.join(dir, e.name)); }
+      else if (e.isFile() && e.name.endsWith('.html')) out.push(path.relative(ROOT, path.join(dir, e.name)));
+    }
+  };
+  walk(ROOT);
+  return out.sort();
+})();
+
+test('フォームが Netlify Forms の検出条件を満たしている', () => {
+  const ct = C.config.contact;
+  const form = INDEX.match(/<form id="contactForm"[\s\S]*?<\/form>/);
+  assert(form, '#contactForm が見つかりません');
+  const html = form[0];
+  assert(html.includes(`name="${ct.formName}"`), `form の name が config の formName (${ct.formName}) と違います`);
+  assert(html.includes('method="POST"'), 'method="POST" がありません');
+  assert(html.includes('data-netlify="true"'), 'data-netlify="true" がありません（Netlify がフォームを検出できません）');
+  assert(html.includes(`netlify-honeypot="${ct.honeypot}"`), `netlify-honeypot が config の honeypot (${ct.honeypot}) と違います`);
+  assert(html.includes(`<input type="hidden" name="form-name" value="${ct.formName}">`),
+    'hidden の form-name がありません（JS 送信では必須）');
+  assert(new RegExp(`name="${ct.honeypot}"`).test(html), `honeypot の入力欄 (${ct.honeypot}) がありません`);
+  // mailto 方式の名残が残っていないこと
+  assert(!/mailto:[^"]*gmail/.test(INDEX + HANDLER), '旧 mailto 宛先（gmail）が残っています');
+  assert(!HANDLER.includes('cuculinfo0113'), 'form-handler.js に旧アドレスが残っています');
+});
+
+test('フォーム項目が要件の9つ・config と一致する', () => {
+  const form = INDEX.match(/<form id="contactForm"[\s\S]*?<\/form>/)[0];
+  const want = C.config.contact.fields;
+  assertEq(want.length, 9, 'フォーム項目が9つではありません');
+  for (const f of want) {
+    assert(form.includes(`name="${f.name}"`), `入力欄 ${f.name} がありません`);
+    assert(form.includes(`id="err-${f.name}"`), `${f.name} のエラー表示欄がありません`);
+    // ラベル文字列は要件の項目名そのまま（タグを外して照合する）
+    const text = form.replace(/<[^>]+>/g, '');
+    assert(text.includes(f.label), `ラベル「${f.label}」が画面に出ていません`);
+  }
+  // 必須項目は HTML 側にも required を残す（JS 無効時はブラウザが検証する）
+  for (const f of want.filter((x) => x.required)) {
+    const re = new RegExp(`(id|name)="${f.name}"[^>]*required`);
+    assert(re.test(form), `${f.name} に required がありません（JS 無効時に検証されません）`);
+  }
+  assert(/<select id="subject"[\s\S]*?<\/select>/.test(form), 'ご相談の種類が select になっていません');
+  const opts = form.match(/<select id="subject"[\s\S]*?<\/select>/)[0].match(/<option/g) || [];
+  assertEq(opts.length, C.config.contact.subjects.length + 1, '選択肢の数が違います（プレースホルダー込み）');
+});
+
+test('同意チェックから /privacy/ へリンクしている', () => {
+  const form = INDEX.match(/<form id="contactForm"[\s\S]*?<\/form>/)[0];
+  assert(/<input type="checkbox" id="privacy"[^>]*required/.test(form), '同意チェックが必須になっていません');
+  assert(form.includes('<a href="/privacy/">個人情報保護方針</a>'), '同意欄から /privacy/ へのリンクがありません');
+  assert(fs.existsSync(path.join(ROOT, 'privacy/index.html')), '/privacy/ のページがありません');
+});
+
+test('form-handler.js が alert を使わずインライン表示する', () => {
+  assert(!/\balert\s*\(/.test(HANDLER), 'alert が残っています（インライン表示にすること）');
+  assert(HANDLER.includes('noValidate'), 'JS 有効時にブラウザ標準の検証を止めていません');
+  assert(/fetch\(/.test(HANDLER), 'fetch で送信していません');
+  assert(HANDLER.includes('application/x-www-form-urlencoded'), '送信の Content-Type が要件と違います');
+  assert(/button\.disabled\s*=\s*true/.test(HANDLER), '送信中にボタンを無効化していません');
+  for (const ev of ['contact_form_submit', 'contact_form_success']) {
+    assert(HANDLER.includes(ev), `${ev} を送出していません`);
+  }
+});
+
+test('画面に出す文言は site.config.json 由来（form-handler に直書きしない）', () => {
+  const cfgBlock = INDEX.match(/<script type="application\/json" id="contact-config">([\s\S]*?)<\/script>/);
+  assert(cfgBlock, 'contact-config の JSON がありません');
+  const parsed = JSON.parse(cfgBlock[1]);
+  assertEq(parsed.formName, C.config.contact.formName, 'formName が config と違います');
+  assertEq(parsed.honeypot, C.config.contact.honeypot, 'honeypot が config と違います');
+  assertEq(JSON.stringify(parsed.messages), JSON.stringify(C.config.contact.errors), '文言が config と違います');
+  // 失敗時メッセージは電話番号を含むので、config 側の番号と食い違っていないこと
+  assert(parsed.messages.failure.includes(C.config.company.tel),
+    '失敗メッセージの電話番号が config と一致しません');
+});
+
+test('計測イベントが要件の一覧をすべて実装している', () => {
+  const want = ['contact_form_view', 'contact_form_start', 'contact_form_submit', 'contact_form_success',
+    'click_phone', 'click_email', 'click_consultation_cta', 'click_fde_service', 'click_roadmap',
+    'scroll_depth_50', 'scroll_depth_90'];
+  const src = ANALYTICS_JS + HANDLER + INDEX;
+  for (const ev of want) assert(src.includes(ev), `計測イベント ${ev} の実装が見当たりません`);
+  // data-ga-event で送るイベントは、実際にその属性を持つ要素がトップにあること
+  for (const ev of ['click_consultation_cta', 'click_fde_service', 'click_roadmap', 'click_phone']) {
+    assert(INDEX.includes(`data-ga-event="${ev}"`), `${ev} を発火する要素がトップにありません`);
+  }
+  assert(ANALYTICS_JS.includes('IntersectionObserver'), 'contact_form_view が IntersectionObserver で実装されていません');
+});
+
+test('計測タグが全公開ページに入っている', () => {
+  const missing = PUBLIC_PAGES.filter((rel) => !read(rel).includes('<!-- BEGIN:analytics -->'));
+  assert(missing.length === 0, `計測マーカーが無いページ: ${missing.join(', ')}`);
+  assert(PUBLIC_PAGES.length >= 38, `公開ページの数が想定より少ないです: ${PUBLIC_PAGES.length}`);
+  // GTM ID が空のうちは GTM を読み込まない
+  const rendered = resolveRenderer('analytics').render(C, { file: 'index.html' }).join('\n');
+  if (!C.config.analytics.gtmId) {
+    assert(!rendered.includes('googletagmanager'), 'GTM ID が空なのに GTM を読み込んでいます');
+  }
+  assert(rendered.includes('/js/analytics.js'), 'analytics.js を読み込んでいません');
+  // ID を入れれば GTM が出る
+  const withId = structuredClone(C);
+  withId.config.analytics.gtmId = 'GTM-ABC1234';
+  const on = resolveRenderer('analytics').render(withId, { file: 'index.html' }).join('\n');
+  assert(on.includes('googletagmanager.com/gtm.js'), 'GTM ID を入れても GTM が出力されません');
+  assert(on.includes('GTM-ABC1234'), 'GTM ID が反映されていません');
+  // 不正な ID は素通ししない（生成タグへそのまま埋め込むため）
+  const bad = structuredClone(C);
+  bad.config.analytics.gtmId = "x';alert(1)//";
+  assert(validate(bad).errors.some((e) => e.includes('gtmId')), '不正な GTM ID がエラーになりません');
+});
+
+test('/privacy/ が要件の項目を満たしている', () => {
+  const text = PRIVACY.replace(/<[^>]+>/g, '');
+  for (const need of ['利用目的', '第三者', 'Cookie', 'Google アナリティクス', 'お問い合わせ窓口', '開示']) {
+    assert(text.includes(need), `プライバシーポリシーに「${need}」の記載がありません`);
+  }
+  assert(text.includes(C.config.company.legalName), '事業者名が出ていません');
+  assert(text.includes(C.config.company.email), '問い合わせ用メールアドレスが出ていません');
+  // mailto の href とテキストが食い違わないこと
+  const mailtos = [...PRIVACY.matchAll(/href="mailto:([^"]+)"/g)].map((m) => m[1]);
+  assert(mailtos.length > 0, 'mailto リンクがありません');
+  for (const m of mailtos) assertEq(m, C.config.company.email, 'mailto の宛先が config と違います');
+  assertEq((PRIVACY.match(/<h1/g) || []).length, 1, 'H1 が1つではありません');
+  assert(PRIVACY.includes('rel="canonical" href="https://cucul-fm.com/privacy/"'), 'canonical がありません');
+  assert(PRIVACY.includes('og:title'), 'OGP がありません');
+});
+
+test('/privacy/ のパンくずが表示と構造化データで一致する', () => {
+  const nav = PRIVACY.match(/<nav class="breadcrumb"[\s\S]*?<\/nav>/);
+  assert(nav, '表示用のパンくずがありません');
+  const shown = [...nav[0].matchAll(/<li>(?:<a [^>]*>|<span [^>]*>)([^<]+)</g)].map((m) => m[1]);
+  const blocks = [...PRIVACY.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+    .map((m) => JSON.parse(m[1]));
+  const ld = blocks.find((n) => n['@type'] === 'BreadcrumbList');
+  assert(ld, 'BreadcrumbList の JSON-LD がありません');
+  assertEq(JSON.stringify(shown), JSON.stringify(ld.itemListElement.map((i) => i.name)),
+    'パンくずの表示と BreadcrumbList が一致しません');
+  assertEq(ld.itemListElement[ld.itemListElement.length - 1].item, 'https://cucul-fm.com/privacy/',
+    'BreadcrumbList の末尾がページ自身の URL ではありません');
+  const page = blocks.find((n) => n['@type'] === 'WebPage');
+  assert(page, 'WebPage の JSON-LD がありません');
+  assertEq(page.name, PRIVACY.match(/<title>([^<]*)<\/title>/)[1], 'WebPage の name が <title> と違います');
+});
+
+test('BreadcrumbList だけを置いて表示用が無いページはエラーになる', () => {
+  const only = '<div><!-- BEGIN:jsonld-breadcrumb --><!-- END:jsonld-breadcrumb --></div>';
+  const r = injectFile(only, C, 'privacy/index.html');
+  assert(r.errors.length > 0, '表示用パンくずが無いのにエラーになりません');
+  const noBc = '<div><!-- BEGIN:breadcrumb --><!-- END:breadcrumb --></div>';
+  const r2 = injectFile(noBc, C, 'index.html');
+  assert(r2.errors.length > 0, 'breadcrumb 定義の無いページでエラーになりません');
+});
+
+test('form-handler.js と analytics.js が外部ライブラリに依存していない', () => {
+  for (const [name, src] of [['form-handler.js', HANDLER], ['analytics.js', ANALYTICS_JS]]) {
+    assert(!/\bimport\s|\brequire\s*\(/.test(src), `${name} が外部モジュールを読み込んでいます`);
+    assert(!/\$\(|jQuery/.test(src), `${name} が jQuery を使っています`);
+  }
 });
 
 /* ==========================================================================

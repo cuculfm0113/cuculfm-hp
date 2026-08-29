@@ -1752,11 +1752,26 @@ html[data-theme="red"] .bg-red{opacity:1}
   transition:color .8s ease;
 }
 .ct-in h2 em{font-style:normal;color:var(--t-accent);transition:color .8s ease}
-.ct-desc{
+/* 要件の見出し・本文（content/site.config.json の contact から生成）。
+   英語の巨大タイポ（.ct-in h2）はセクションのラベル、こちらが読ませる見出し。
+   セレクタは .ct-in h2 と同じ詳細度以上にすること（.ct-heading だけだと
+   Bebas の 4.2rem 指定に負けて和文が巨大化する） */
+.ct-in .ct-heading{
+  margin-top:.9em;
+  font-family:var(--font-body);font-weight:700;
+  font-size:clamp(1.02rem,2.2vw,1.5rem);
+  line-height:1.7;letter-spacing:.04em;
+  color:var(--t-text);
+  transition:color .8s ease;
+}
+/* 句読点の切れ目でだけ改行させる（.stm-title / .fde-heading と同じ扱い） */
+.ct-heading span{display:inline-block}
+.ct-body{
   margin-top:1.3em;
   font-size:clamp(.78rem,1.4vw,.92rem);line-height:2;color:var(--t-muted);
   transition:color .8s ease;
 }
+.ct-body+.ct-body{margin-top:1.5em}
 .btn-call{
   display:inline-flex;align-items:center;gap:.7em;
   margin-top:clamp(24px,3.4vw,38px);
@@ -1794,7 +1809,7 @@ html[data-theme="red"] .bg-red{opacity:1}
   transition:color .8s ease;
 }
 .form-group .required{color:var(--c-accent)}
-.form-group input,.form-group textarea{
+.form-group input,.form-group textarea,.form-group select{
   width:100%;padding:.8em 1em;
   background:rgba(255,255,255,.04);
   border:1px solid var(--t-line);border-radius:9px;
@@ -1802,11 +1817,66 @@ html[data-theme="red"] .bg-red{opacity:1}
   transition:border-color .3s ease,box-shadow .3s ease;
 }
 .form-group input::placeholder,.form-group textarea::placeholder{color:var(--t-dim);opacity:.8}
-.form-group input:focus,.form-group textarea:focus{
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{
   outline:none;border-color:var(--t-accent);
   box-shadow:0 0 20px -10px var(--t-accent);
 }
 .form-group textarea{resize:vertical;min-height:120px}
+/* select: 端末標準の矢印を消して、他の入力欄と同じ枠にそろえる */
+.form-group select{
+  appearance:none;-webkit-appearance:none;
+  padding-right:2.6em;cursor:pointer;
+  background-image:linear-gradient(45deg,transparent 50%,var(--t-dim) 50%),
+                   linear-gradient(135deg,var(--t-dim) 50%,transparent 50%);
+  background-position:calc(100% - 1.25em) 1.25em,calc(100% - 1em) 1.25em;
+  background-size:5px 5px,5px 5px;
+  background-repeat:no-repeat;
+}
+/* option は OS 側の描画。暗い背景でも読めるよう明示する */
+.form-group select option{background:var(--t-bg-1);color:var(--t-text)}
+
+/* 個人情報保護方針への同意（チェックボックス） */
+.form-group--check{margin-top:22px}
+.check-label{
+  display:flex;align-items:flex-start;gap:.7em;
+  margin-bottom:0;cursor:pointer;
+  font-size:.78rem;line-height:1.8;color:var(--t-muted);
+  transition:color .8s ease;
+}
+/* 端末標準の白い四角のままだと暗い面から浮くので、他の入力欄と同じ枠にそろえる */
+.check-label input[type="checkbox"]{
+  appearance:none;-webkit-appearance:none;
+  position:relative;
+  width:18px;height:18px;flex:0 0 auto;margin:.25em 0 0;
+  border:1px solid var(--t-line);border-radius:4px;
+  background:rgba(255,255,255,.04);
+  cursor:pointer;
+  transition:border-color .3s ease,background-color .3s ease;
+}
+.check-label input[type="checkbox"]:hover{border-color:var(--t-accent)}
+.check-label input[type="checkbox"]:checked{background:var(--t-accent);border-color:var(--t-accent)}
+.check-label input[type="checkbox"]:checked::after{
+  content:'';position:absolute;left:5px;top:1px;
+  width:5px;height:10px;
+  border:solid var(--t-bg-0);border-width:0 2px 2px 0;
+  transform:rotate(45deg);
+}
+.check-label a{color:var(--t-accent);text-decoration:underline;text-underline-offset:3px}
+.check-label a:hover{opacity:.8}
+
+/* 項目ごとのエラー（form-handler.js が hidden を外して文言を入れる。alert は使わない） */
+.field-error{
+  margin-top:6px;
+  font-size:.72rem;line-height:1.6;
+  color:var(--c-accent);
+}
+.field-error[hidden]{display:none}
+.form-group .is-invalid{
+  border-color:rgba(255,107,107,.75);
+  box-shadow:0 0 18px -10px var(--c-accent);
+}
+/* honeypot（人間には見せない。hidden 属性が効くので描画されない） */
+.hp-field{display:none}
 .btn-submit{
   display:inline-flex;align-items:center;gap:.65em;
   margin-top:4px;
@@ -2129,6 +2199,12 @@ html[data-theme="red"] .c-rim--red{opacity:1}
 
 /* GSAP CDN 失敗時: CSS 初期状態は「可視」なのでそのまま読める */
 </style>
+
+<!-- 計測。GTM ID が content/site.config.json に入るまで GTM は読み込まれない -->
+<!-- BEGIN:analytics -->
+<script>window.dataLayer=window.dataLayer||[];</script>
+<script src="/js/analytics.js" defer></script>
+<!-- END:analytics -->
 </head>
 <body>
 <!-- ==========================================================================
@@ -3334,42 +3410,113 @@ html[data-theme="red"] .c-rim--red{opacity:1}
   <div class="ct-in">
     <p class="eyebrow">CONTACT</p>
     <h2 id="ct-title">GET IN <em>TOUCH</em></h2>
-    <p class="ct-desc">
-      お客様一人ひとりのニーズに寄り添い、個別のニーズに応じた柔軟な対応をいたします。<br>
-      ご相談・資料請求・お見積りなど、お気軽にご連絡ください。
-    </p>
-    <a class="btn-call" href="tel:09062623842">
+    <!-- BEGIN:contact-copy -->
+    <h2 class="ct-heading"><span>困りごとが整理できていなくても、</span><span>ご相談ください。</span></h2>
+    <p class="ct-body">「現場と事務所の連携をもっと良くしたい」<br>「情報を探す時間を減らしたい」<br>「AIを使いたいが、何から始めればよいか分からない」<br>「今の仕事に合うシステムを考えたい」<br>「新しい事業やサービスを形にしたい」</p>
+    <p class="ct-body">ククルFMは、課題の整理から伴走します。<br>現在の仕事の流れと、気になっていることをお聞かせください。</p>
+    <!-- END:contact-copy -->
+    <a class="btn-call" href="tel:09062623842" data-ga-event="click_phone">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3h3l1.5 4.2-2 1.4a12.5 12.5 0 0 0 6.3 6.3l1.4-2L21 14.4v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4.6 5.2 2 2 0 0 1 6.6 3z"/></svg>
-      CALL: 090-6262-3842
+      CALL: <!-- BEGIN:cfg:company.tel -->090-6262-3842<!-- END:cfg:company.tel -->
     </a>
 
     <div class="ct-form-box">
       <p class="eyebrow">MAIL CONTACT</p>
       <h3 class="form-title">メールでのお問い合わせ</h3>
-      <!-- 送信は /contact/form-handler.js（mailto方式）。id/name は handler の契約なので変更不可 -->
-      <form id="contactForm" class="contact-form">
+      <!-- 送信は /contact/form-handler.js（Netlify Forms へ fetch POST）。
+           name="contact" / data-netlify / netlify-honeypot / hidden form-name は
+           Netlify のフォーム検出とひも付けの契約なので変更しないこと。値は
+           content/site.config.json の contact.formName / honeypot と一致させる（テストが照合する）。
+           通知先メールは Netlify 管理画面 → Forms → Form notifications で設定する。 -->
+      <form id="contactForm" class="contact-form" name="contact" method="POST" action="/"
+            data-netlify="true" netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="contact">
+        <!-- スパム対策の空欄（人間には見えない。埋まっていたら Netlify 側が弾く） -->
+        <p class="hp-field" hidden aria-hidden="true">
+          <label>この欄は入力しないでください<input name="bot-field" tabindex="-1" autocomplete="off"></label>
+        </p>
+        <!-- BEGIN:contact-fields -->
+        <div class="form-group">
+          <label for="company">会社名または屋号</label>
+          <input type="text" id="company" name="company" autocomplete="organization" aria-describedby="err-company" placeholder="株式会社〇〇 / 〇〇工務店">
+          <p class="field-error" id="err-company" role="alert" hidden></p>
+        </div>
         <div class="form-group">
           <label for="name">お名前 <span class="required">*</span></label>
-          <input type="text" id="name" name="name" required placeholder="山田 太郎">
+          <input type="text" id="name" name="name" autocomplete="name" required aria-required="true" aria-describedby="err-name" placeholder="山田 太郎">
+          <p class="field-error" id="err-name" role="alert" hidden></p>
+        </div>
+        <div class="form-group">
+          <label for="department">部署・役職</label>
+          <input type="text" id="department" name="department" autocomplete="organization-title" aria-describedby="err-department" placeholder="総務部 / 現場責任者">
+          <p class="field-error" id="err-department" role="alert" hidden></p>
         </div>
         <div class="form-group">
           <label for="email">メールアドレス <span class="required">*</span></label>
-          <input type="email" id="email" name="email" required placeholder="example@email.com">
+          <input type="email" id="email" name="email" autocomplete="email" required aria-required="true" aria-describedby="err-email" placeholder="example@email.com">
+          <p class="field-error" id="err-email" role="alert" hidden></p>
         </div>
         <div class="form-group">
-          <label for="subject">件名</label>
-          <input type="text" id="subject" name="subject" placeholder="お問い合わせの件名">
+          <label for="tel">電話番号</label>
+          <input type="tel" id="tel" name="tel" autocomplete="tel" aria-describedby="err-tel" placeholder="090-0000-0000">
+          <p class="field-error" id="err-tel" role="alert" hidden></p>
         </div>
         <div class="form-group">
-          <label for="message">お問い合わせ内容 <span class="required">*</span></label>
-          <textarea id="message" name="message" rows="5" required placeholder="お問い合わせ内容をご記入ください"></textarea>
+          <label for="industry">業種</label>
+          <input type="text" id="industry" name="industry" autocomplete="off" aria-describedby="err-industry" placeholder="建設 / 設備 / 保守点検 / 物流 など">
+          <p class="field-error" id="err-industry" role="alert" hidden></p>
         </div>
+        <div class="form-group">
+          <label for="subject">ご相談の種類</label>
+          <select id="subject" name="subject" autocomplete="off" aria-describedby="err-subject">
+            <option value="">選択してください</option>
+            <option value="現場業務の改善">現場業務の改善</option>
+            <option value="AI活用">AI活用</option>
+            <option value="Web・業務システム">Web・業務システム</option>
+            <option value="データ・情報整理">データ・情報整理</option>
+            <option value="資料・映像制作">資料・映像制作</option>
+            <option value="新規事業・サービス設計">新規事業・サービス設計</option>
+            <option value="その他">その他</option>
+          </select>
+          <p class="field-error" id="err-subject" role="alert" hidden></p>
+        </div>
+        <div class="form-group">
+          <label for="message">ご相談内容 <span class="required">*</span></label>
+          <textarea id="message" name="message" autocomplete="off" required aria-required="true" aria-describedby="err-message" rows="5" placeholder="現在の仕事の流れと、気になっていることをお聞かせください"></textarea>
+          <p class="field-error" id="err-message" role="alert" hidden></p>
+        </div>
+        <div class="form-group form-group--check">
+          <label class="check-label">
+            <input type="checkbox" id="privacy" name="privacy" autocomplete="off" required aria-required="true" aria-describedby="err-privacy" value="個人情報保護方針への同意">
+            <span><a href="/privacy/">個人情報保護方針</a>への同意 <span class="required">*</span></span>
+          </label>
+          <p class="field-error" id="err-privacy" role="alert" hidden></p>
+        </div>
+        <!-- END:contact-fields -->
         <button type="submit" class="btn-submit">
           送信する
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
         </button>
       </form>
       <p class="form-note">※ 送信後、担当者よりご連絡いたします</p>
+      <!-- form-handler.js が読む設定（文言・フォーム名）。site.config.json から生成 -->
+      <!-- BEGIN:contact-config -->
+      <script type="application/json" id="contact-config">
+      {
+        "formName": "contact",
+        "honeypot": "bot-field",
+        "messages": {
+          "required": "入力してください",
+          "requiredSelect": "選択してください",
+          "requiredCheck": "同意が必要です",
+          "email": "メールアドレスの形式が正しくありません",
+          "submitting": "送信中...",
+          "success": "お問い合わせを受け付けました。担当者より折り返しご連絡いたします。",
+          "failure": "送信に失敗しました。お手数ですが、お電話（090-6262-3842）でご連絡ください。"
+        }
+      }
+      </script>
+      <!-- END:contact-config -->
     </div>
   </div>
 </section>

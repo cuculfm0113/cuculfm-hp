@@ -187,42 +187,48 @@
         "label": "会社名または屋号",
         "type": "text",
         "required": false,
-        "autocomplete": "organization"
+        "autocomplete": "organization",
+        "placeholder": "株式会社〇〇 / 〇〇工務店"
       },
       {
         "name": "name",
         "label": "お名前",
         "type": "text",
         "required": true,
-        "autocomplete": "name"
+        "autocomplete": "name",
+        "placeholder": "山田 太郎"
       },
       {
         "name": "department",
         "label": "部署・役職",
         "type": "text",
         "required": false,
-        "autocomplete": "organization-title"
+        "autocomplete": "organization-title",
+        "placeholder": "総務部 / 現場責任者"
       },
       {
         "name": "email",
         "label": "メールアドレス",
         "type": "email",
         "required": true,
-        "autocomplete": "email"
+        "autocomplete": "email",
+        "placeholder": "example@email.com"
       },
       {
         "name": "tel",
         "label": "電話番号",
         "type": "tel",
         "required": false,
-        "autocomplete": "tel"
+        "autocomplete": "tel",
+        "placeholder": "090-0000-0000"
       },
       {
         "name": "industry",
         "label": "業種",
         "type": "text",
         "required": false,
-        "autocomplete": "off"
+        "autocomplete": "off",
+        "placeholder": "建設 / 設備 / 保守点検 / 物流 など"
       },
       {
         "name": "subject",
@@ -236,16 +242,30 @@
         "label": "ご相談内容",
         "type": "textarea",
         "required": true,
-        "autocomplete": "off"
+        "autocomplete": "off",
+        "placeholder": "現在の仕事の流れと、気になっていることをお聞かせください"
       },
       {
         "name": "privacy",
         "label": "個人情報保護方針への同意",
         "type": "checkbox",
         "required": true,
-        "autocomplete": "off"
+        "autocomplete": "off",
+        "link": {
+          "text": "個人情報保護方針",
+          "href": "/privacy/"
+        }
       }
-    ]
+    ],
+    "errors": {
+      "required": "入力してください",
+      "requiredSelect": "選択してください",
+      "requiredCheck": "同意が必要です",
+      "email": "メールアドレスの形式が正しくありません",
+      "submitting": "送信中...",
+      "success": "お問い合わせを受け付けました。担当者より折り返しご連絡いたします。",
+      "failure": "送信に失敗しました。お手数ですが、お電話（090-6262-3842）でご連絡ください。"
+    }
   },
   "services": [
     {
@@ -303,6 +323,21 @@
       "path": "/",
       "name": "CUCUL FM.LLC | 普段と新しい暮らしをサポートする会社",
       "description": "ククルFM合同会社。建設・インフラ、クリエイティブ・テック、ライフスタイル。テクノロジーを横串に、普段と新しい暮らしをサポートします。"
+    },
+    "privacy/index.html": {
+      "path": "/privacy/",
+      "name": "プライバシーポリシー | CUCUL FM.LLC",
+      "description": "ククルFM合同会社の個人情報保護方針。お問い合わせでいただく個人情報の取得目的・利用範囲・第三者提供の考え方と、アクセス解析ツールの利用について記載しています。",
+      "breadcrumb": [
+        {
+          "name": "ホーム",
+          "path": "/"
+        },
+        {
+          "name": "プライバシーポリシー",
+          "path": "/privacy/"
+        }
+      ]
     }
   },
   "analytics": {

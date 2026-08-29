@@ -15,6 +15,11 @@
         .error-desc { color: var(--color-text-muted); margin-bottom: 32px; max-width: 400px; margin-left: auto; margin-right: auto; }
         .error-btns { display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; }
     </style>
+<!-- 計測。GTM ID が content/site.config.json に入るまで GTM は読み込まれない -->
+<!-- BEGIN:analytics -->
+<script>window.dataLayer=window.dataLayer||[];</script>
+<script src="/js/analytics.js" defer></script>
+<!-- END:analytics -->
 </head>
 <body>
     <nav class="navbar">

@@ -28,6 +28,18 @@
     発注者の指示「既存デザインの再現性は最優先」に従い、ヒーローの描画は1px も変えない方を選んだ。
     検証: 変更前後のファーストビューを画素比較し、1440px・1280px とも差分 0px であることを確認済み。
     グローバルヘッダーはヒーロー通過後に出る固定バーなので、ファーストビューには影響しない。
+12. **フォームの mailto 方式は廃止した**（2026-08-29 フェーズ4）。`/contact/form-handler.js` は
+    Netlify Forms への fetch POST に置き換わり、送信先メールの設定はコードから無くなった。
+    通知先は Netlify 管理画面 → Forms → Form notifications で設定する（`contact.notifyEmail` = `info@cucul-fm.com` が正）。
+    - あわせて未使用だった `/contact/send.php` を削除した。Netlify では PHP が動かず、
+      公開ディレクトリからソースが読める状態で、しかも旧宛先 `contact@cuculfm.info` が書かれていたため。
+    - **`info@cucul-fm.com` の受信可否は未確認**。本番デプロイ前に必ず確認すること
+      （確認できるまでは電話 090-6262-3842 が唯一確実な導線になる）。
+13. **計測は「dataLayer に積む」と「GTM を読み込む」を分けた**（2026-08-29 フェーズ4）。
+    `/js/analytics.js` は全ページ共通で読み込まれ、GTM の有無に関係なく dataLayer へイベントを積む。
+    GTM コンテナのスニペットは `analytics.gtmId` が入っているときだけ `<!-- BEGIN:analytics -->` が書き出す。
+    発注者が ID を記入 → `node scripts/build-content.mjs` → 再デプロイ、で全ページに反映される。
+    要件の一覧に無い `contact_form_error`（送信失敗）を1つ追加している。失敗が無言で消えるのを避けるため。
 
 ---
 
