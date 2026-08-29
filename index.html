@@ -126,6 +126,8 @@
   --t-dim:#80809a;          /* WCAG AA 4.5:1 以上（theme-layer 最明部 #0f0f20 基準） */
   --t-line:rgba(255,255,255,.10);
   --t-pill:rgba(255,255,255,.05);
+  /* 固定ヘッダーの下地。--t-pill(.05) では本文が透けて読めないため専用に持つ */
+  --t-bar:rgba(5,7,20,.78);
 }
 html[data-theme="red"]{
   --t-bg-0:#160208;
@@ -148,6 +150,7 @@ html[data-theme="red"]{
   --t-dim:#a87a84;          /* 同上（red の最明部 #2a0714 基準） */
   --t-line:rgba(255,190,190,.14);
   --t-pill:rgba(255,120,120,.07);
+  --t-bar:rgba(22,4,10,.80);
 }
 
 /* --------------------------------------------------------------------------
@@ -155,6 +158,9 @@ html[data-theme="red"]{
    -------------------------------------------------------------------------- */
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+/* 固定ヘッダー(#gnav 45〜54px)の下にアンカー着地点が潜らないようにする。
+   scrollIntoView / フラグメント遷移の双方に効く */
+html{scroll-padding-top:clamp(58px,4.6vw,68px)}
 body{
   font-family:var(--font-body);
   background:var(--t-bg-0);
@@ -651,6 +657,152 @@ html[data-theme="red"] .bg-red{opacity:1}
 @keyframes wheelDot{0%{transform:translateY(0);opacity:0}14%{opacity:1}72%,100%{transform:translateY(13px);opacity:0}}
 .hero-bottom .end{text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
 
+/* --------------------------------------------------------------------------
+   7b. GLOBAL NAV （ヒーロー通過後に降りてくる固定バー）
+       ・z-index 48 = vignette(49)/grain(50) の下。他の本文と同じ空気にするため
+         あえてフィルム層の下に置く。INDEX overlay(62) は上に被さる
+       ・既存の .pill / .brand と同じ語彙（font-display / letter-spacing / --t-line）
+       ・既定は非表示。JS が .is-on を付けて出す（noscript は常時表示にフォールバック）
+   -------------------------------------------------------------------------- */
+.gnav{
+  position:fixed;top:0;left:0;right:0;z-index:48;
+  background:var(--t-bar);
+  border-bottom:1px solid var(--t-line);
+  -webkit-backdrop-filter:blur(10px);
+  backdrop-filter:blur(10px);
+  transform:translateY(-101%);
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:transform .45s cubic-bezier(.22,.61,.36,1),opacity .45s ease,
+             visibility .45s,background-color .8s ease,border-color .8s ease;
+}
+.gnav.is-on{transform:none;opacity:1;visibility:visible;pointer-events:auto}
+.gnav-in{
+  max-width:var(--container);margin:0 auto;
+  padding:10px var(--pad);
+  display:flex;align-items:center;gap:clamp(12px,2vw,26px);
+}
+.gnav-brand{
+  display:flex;align-items:center;gap:10px;flex:0 0 auto;
+  font-family:var(--font-display);font-weight:700;
+  font-size:clamp(.66rem,1.1vw,.8rem);letter-spacing:.2em;
+  color:var(--t-text);transition:color .8s ease;
+}
+.gnav-brand .bar{width:20px;height:2px;background:var(--c-primary);box-shadow:0 0 12px var(--c-primary-glow)}
+.gnav-nav{margin-left:auto;min-width:0}
+.gnav-list{
+  display:flex;align-items:center;gap:clamp(10px,1.5vw,22px);
+  flex-wrap:nowrap;
+}
+.gnav-link{
+  display:block;white-space:nowrap;
+  font-family:var(--font-display);
+  font-size:clamp(.58rem,.7vw,.66rem);
+  letter-spacing:.14em;text-transform:uppercase;
+  color:var(--t-dim);
+  transition:color .3s ease;
+}
+.gnav-link:hover,.gnav-link:focus-visible{color:var(--t-accent)}
+.gnav-cta{
+  flex:0 0 auto;
+  display:inline-flex;align-items:center;
+  padding:.6em 1.3em;border-radius:999px;
+  border:1px solid var(--t-accent);
+  background:transparent;
+  font-family:var(--font-display);
+  font-size:clamp(.68rem,.9vw,.76rem);
+  letter-spacing:.16em;
+  color:var(--t-accent);
+  white-space:nowrap;
+  transition:background-color .3s ease,color .3s ease,box-shadow .3s ease,border-color .8s ease;
+}
+.gnav-cta:hover,.gnav-cta:focus-visible{
+  background:var(--t-accent);color:var(--t-bg-0);
+  box-shadow:0 0 22px -6px var(--t-accent);
+}
+.gnav-menu{display:none;flex:0 0 auto}
+/* 1279px 以下はナビを畳み、既存の INDEX オーバーレイをメニューとして使う。
+   8項目の英語ラベルは長く、1200px 台では詰まって可読性が落ちるため早めに畳む。
+   「相談する」は畳まず常時見える位置に残す（要件） */
+@media (max-width:1279px){
+  .gnav-nav{display:none}
+  .gnav-menu{display:inline-flex}
+  .gnav-in{gap:12px}
+  .gnav-cta{margin-left:auto}
+}
+@media (max-width:420px){
+  .gnav-brand{font-size:.6rem;letter-spacing:.14em}
+  .gnav-in{padding:8px var(--pad)}
+}
+@media (prefers-reduced-motion:reduce){
+  .gnav{transition:opacity .01s linear,visibility .01s}
+}
+
+/* --------------------------------------------------------------------------
+   7c. STATEMENT （ヒーロー直下の補強キャッチ）
+       ヒーローは 100svh に構図が詰まりきっており、内側に本文を足すと
+       キャラクターと下部バーの配置が崩れる。よって #hero の直後に独立した帯として置き、
+       ヒーローの見え方は一切変えない
+   -------------------------------------------------------------------------- */
+#statement{
+  position:relative;
+  padding:clamp(74px,11vw,140px) 0 clamp(60px,9vw,120px);
+}
+.stm-in{
+  max-width:min(900px,var(--container));margin:0 auto;
+  padding:0 var(--pad);
+  text-align:center;
+}
+.stm-title{
+  font-family:var(--font-body);font-weight:700;
+  font-size:clamp(1.5rem,3.6vw,2.7rem);
+  line-height:1.5;letter-spacing:.04em;
+  color:var(--t-text);
+  transition:color .8s ease;
+}
+/* 句読点の切れ目でだけ改行させる（語中で割れるのを防ぐ） */
+.stm-title span{display:inline-block}
+.stm-lead{
+  margin-top:clamp(18px,2.4vw,28px);
+  font-size:clamp(.86rem,1.1vw,1rem);
+  line-height:2.15;letter-spacing:.04em;
+  color:var(--t-dim);
+  transition:color .8s ease;
+}
+.stm-cta{
+  margin-top:clamp(28px,3.4vw,44px);
+  display:flex;justify-content:center;flex-wrap:wrap;gap:14px;
+}
+.btn-stm{
+  display:inline-flex;align-items:center;justify-content:center;gap:.6em;
+  padding:1em 2.1em;border-radius:999px;
+  border:1px solid var(--t-accent);
+  background:transparent;
+  font-family:var(--font-display);font-weight:700;
+  font-size:clamp(.72rem,1.1vw,.82rem);
+  letter-spacing:.16em;
+  color:var(--t-accent);
+  box-shadow:0 0 32px -12px var(--t-accent);
+  transition:background-color .35s ease,color .35s ease,box-shadow .35s ease,border-color .8s ease;
+}
+.btn-stm:hover,.btn-stm:focus-visible{
+  background:var(--t-accent);color:#0a0a0f;box-shadow:0 0 42px -8px var(--t-accent);
+}
+/* 副次CTA: 主CTAと同じ形で、色だけ落として優先度差を出す */
+.btn-stm--ghost{
+  border-color:var(--t-line);color:var(--t-text);box-shadow:none;
+}
+.btn-stm--ghost:hover,.btn-stm--ghost:focus-visible{
+  background:transparent;border-color:var(--t-accent);color:var(--t-accent);
+  box-shadow:0 0 26px -10px var(--t-accent);
+}
+@media (max-width:680px){
+  /* 原文の改行位置は広い画面向け。狭い画面では <br> を無効化して自然に流す
+     （テキスト自体は変えない） */
+  .stm-lead br{display:none}
+  .stm-lead{line-height:2;text-align:left}
+  .stm-cta{flex-direction:column;align-items:stretch}
+  .btn-stm{justify-content:center}
+}
 /* --------------------------------------------------------------------------
    8. SEQUENCE section (pin 対象。内側に position:fixed は絶対に置かない)
    -------------------------------------------------------------------------- */
@@ -1577,6 +1729,39 @@ html[data-theme="red"] .c-rim--red{opacity:1}
 <div class="beam beam--a" aria-hidden="true"><i></i></div>
 <div class="beam beam--b" aria-hidden="true"><i></i></div>
 
+<!-- ======================================================================
+     GLOBAL NAV （ヒーロー通過後に降りてくる固定バー / body 直下 = #seq の pin 区間外）
+     ・表示切替は initGlobalNav() の scroll 監視。GSAP に依存しない
+       （CDN が落ちてもナビだけは出る）
+     ・モバイルは既存の #index-overlay をメニューとして流用（data-idx-open）
+     ・ナビ項目は content/site.config.json の nav から生成（マーカー区間）
+     ====================================================================== -->
+<header class="gnav" id="gnav">
+  <div class="gnav-in">
+    <a class="gnav-brand" href="#hero" data-scroll><span class="bar" aria-hidden="true"></span>CUCULFM.LLC</a>
+    <!-- BEGIN:nav -->
+    <nav class="gnav-nav" aria-label="グローバルナビゲーション">
+      <ul class="gnav-list">
+        <li><a class="gnav-link" href="#business" data-scroll>Our Service</a></li>
+        <li><a class="gnav-link" href="/fde/">FDE・AI実装支援</a></li>
+        <li><a class="gnav-link" href="#pillar-construction" data-scroll>Construction &amp; Infrastructure</a></li>
+        <li><a class="gnav-link" href="#pillar-creative" data-scroll>Creative &amp; Tech</a></li>
+        <li><a class="gnav-link" href="#pillar-lifestyle" data-scroll>Lifestyle</a></li>
+        <li><a class="gnav-link" href="/insights/">Insights</a></li>
+        <li><a class="gnav-link" href="/about/">About Us</a></li>
+        <li><a class="gnav-link" href="#contact" data-scroll>Contact</a></li>
+      </ul>
+    </nav>
+    <a class="gnav-cta" href="#contact" data-scroll data-ga-event="click_consultation_cta">相談する</a>
+    <!-- END:nav -->
+    <button class="pill pill--menu gnav-menu" id="btn-index-gnav" type="button"
+            data-idx-open aria-haspopup="dialog" aria-expanded="false" aria-controls="index-overlay">
+      <span class="mn" aria-hidden="true"><i></i><i></i><i></i></span>MENU
+    </button>
+  </div>
+</header>
+<noscript><style>.gnav{transform:none;opacity:1;visibility:visible;pointer-events:auto}</style></noscript>
+
 <main>
 
 <!-- ======================================================================
@@ -1852,6 +2037,26 @@ html[data-theme="red"] .c-rim--red{opacity:1}
   </div>
 
   <p class="sr-only" id="theme-live" role="status" aria-live="polite"></p>
+</section>
+
+<!-- ======================================================================
+     STATEMENT （サイト全体の補強キャッチ）
+     ・#hero は 100svh に構図が詰まりきっているため、内側ではなく直後の帯として置く
+       = ヒーローの見え方（キャラ・巨大タイポ・下部バーの位置）は一切変えない
+     ・本文は content/site.config.json の messaging から生成（マーカー区間）
+     ・JS 無効でも読める（初期状態で可視。フェードは GSAP が後から掛ける）
+     ====================================================================== -->
+<section id="statement" aria-labelledby="stm-title">
+  <div class="stm-in">
+    <!-- BEGIN:hero-copy -->
+    <h2 class="stm-title" id="stm-title"><span>現場と事業に、</span><span>技術を定着させる。</span></h2>
+    <p class="stm-lead">建設・インフラ、クリエイティブ・テック、ライフスタイル。<br>異なる事業を横断し、AI・データ・クリエイティブの力で、<br>人と現場がより良く働く仕組みをつくります。</p>
+    <div class="stm-cta">
+      <a class="btn-stm" href="#business" data-scroll>ククルFMの事業を見る</a>
+      <a class="btn-stm btn-stm--ghost" href="/fde/" data-ga-event="click_fde_service">FDE・AI実装支援を見る</a>
+    </div>
+    <!-- END:hero-copy -->
+  </div>
 </section>
 
 <!-- ======================================================================
@@ -2739,6 +2944,37 @@ html[data-theme="red"] .c-rim--red{opacity:1}
   }
 
   /* ---------------- BUSINESS 横スクロール時のプログレス（rAFスロットル） ---------------- */
+  /* ---------------- グローバルナビ: ヒーローを通過したら出す ----------------
+     GSAP/ScrollTrigger には依存しない。CDN が落ちても、reduced-motion でも
+     ナビだけは確実に機能させるため、rAF スロットルの scroll 監視で完結させる。
+     しきい値にヒステリシス（出す/引っ込めるで別の値）を持たせ、境界での明滅を防ぐ。 */
+  function initGlobalNav() {
+    var bar = $('#gnav'), hero = $('#hero');
+    if (!bar) { return; }
+    var ticking = false, on = false;
+    function threshold() {
+      /* ヒーロー下端。ヒーローが無い下層ページでは 1画面分を目安にする */
+      return hero ? hero.offsetHeight - 80 : Math.round(window.innerHeight * 0.6);
+    }
+    function apply() {
+      ticking = false;
+      var t = threshold();
+      var y = window.scrollY || window.pageYOffset || 0;
+      var next = on ? y > t - 120 : y > t;   /* 出したら少し戻しても消さない */
+      if (next === on) { return; }
+      on = next;
+      bar.classList.toggle('is-on', on);
+    }
+    function onScroll() {
+      if (ticking) { return; }
+      ticking = true;
+      window.requestAnimationFrame(apply);
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    apply();   /* 再読込時に途中位置から始まる場合に備えて初期評価 */
+  }
+
   function initBizProgressMobile() {
     var sc = $('#biz-scroller'), line = $('#biz-line');
     if (!sc || !line) { return; }
@@ -2810,7 +3046,7 @@ html[data-theme="red"] .c-rim--red{opacity:1}
       gsap.set(['.giant-type .w', '.char-zoom', '.hero-top .brand', '.hero-nav > *',
         '.corner', '.hero-bottom > *', '.biz-card', '.news-card',
         '#about .abt-head', '#about .abt-col', '#contact .ct-in > *',
-        '.idx-group h3', '.idx-item', '.seq-cap'],
+        '.idx-group h3', '.idx-item', '.seq-cap', '#statement .stm-in > *'],
         { clearProps: 'all' });
       gsap.set('#biz-line', { scaleX: 1 });
     });
@@ -2858,6 +3094,15 @@ html[data-theme="red"] .c-rim--red{opacity:1}
       gsap.to('.giant-type', { yPercent: 15, ease: 'none', scrollTrigger: hp });
       gsap.to('.hero-char-wrap', { yPercent: 8, ease: 'none', scrollTrigger: hp });
       gsap.to('.hero-sky', { yPercent: 4, ease: 'none', scrollTrigger: hp });
+
+      /* --- T5b : STATEMENT（ヒーロー直下の補強キャッチ） ---
+         gsap.from を使うので、JS が動かない/GSAP が落ちた場合は
+         最初から可視のまま残る（重要本文を JS 依存にしない）。
+         clearProps は T6/T7 と同じ理由（インライン transform を残さない）で必須。 */
+      gsap.from('#statement .stm-in > *', {
+        y: 26, autoAlpha: 0, duration: 0.9, stagger: 0.12, ease: 'power2.out', clearProps: 'transform',
+        scrollTrigger: { trigger: '#statement', start: 'top 82%', once: true }
+      });
 
       /* --- T6 : BUSINESS --- */
       /* clearProps: インライン transform を残すと :hover の translate:0 -6px に勝ち続け、
@@ -3130,6 +3375,7 @@ html[data-theme="red"] .c-rim--red{opacity:1}
   initSound();
   initSmoothScroll();
   initBizProgressMobile();
+  initGlobalNav();
 
   /* GSAP は defer なので DOMContentLoaded 前に必ず実行済み。失敗時は initAnimations 冒頭の
      ガードが無害に抜ける。 */

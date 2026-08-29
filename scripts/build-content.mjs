@@ -51,22 +51,30 @@ const esc = (s) => String(s)
 /** 見出しなど、<em>/<strong>/<br> のみ許可してエスケープする（データ側の装飾タグ用） */
 const rich = (s) => esc(s).replace(/&lt;(\/?)(em|strong|br)\s*\/?&gt;/g, (_m, slash, tag) => `<${slash}${tag}>`);
 
-/** 行配列 → <p class="cls">行1<br>\n行2</p> の行リスト */
+/**
+ * 行配列 → <p class="cls">行1<br>行2</p>（1行で出す）
+ * 改行して書くと <br> の直後の改行+インデントが空白1文字として描画されるため、
+ * 「狭い画面では br を display:none で無効化して自然に流す」ができなくなる。
+ * 生成物なので1行が長くなること自体は許容する。
+ */
 const para = (cls, arrOrStr) => {
   const arr = Array.isArray(arrOrStr) ? arrOrStr : [arrOrStr];
   const ls = arr.map(esc);
-  const open = cls ? `<p class="${cls}">` : '<p>';
   if (ls.length === 0) return [];
-  if (ls.length === 1) return [`${open}${ls[0]}</p>`];
-  return [
-    `${open}${ls[0]}<br>`,
-    ...ls.slice(1, -1).map((s) => `${s}<br>`),
-    `${ls[ls.length - 1]}</p>`,
-  ];
+  const open = cls ? `<p class="${cls}">` : '<p>';
+  return [`${open}${ls.join('<br>')}</p>`];
 };
 
 /** 段落配列（行配列の配列）→ <p>…</p> の連続 */
 const paras = (cls, arr) => arr.flatMap((p) => para(cls, p));
+
+/**
+ * 和文の折り返し位置を句読点に限定するための分割。
+ * 「現場と事業に、技術を定着させる。」→ 「現場と事業に、」「技術を定着させる。」
+ * 各片を inline-block にすると、語の途中（例:「定着さ/せる」）で改行されなくなる。
+ * 文字は1文字も足し引きしないので、原文との一致は保たれる。
+ */
+const jpPhrases = (s) => String(s).split(/(?<=[、。])/).filter(Boolean);
 
 /** 行配列を1行の <br> 連結にする（見出し等の短い用途） */
 const brJoin = (arr) => (Array.isArray(arr) ? arr : [arr]).map(esc).join('<br>');
@@ -240,28 +248,38 @@ const sectionHead = (cls, section, headingJa, titleId) => [
 ];
 
 /* ---- グローバルヘッダーのナビゲーション ---- */
-const renderNav = (c) => {
+const renderNav = (c, ctx) => {
   const { items, cta } = c.config.nav;
+  // トップページでは `/#business` を `#business` に落とす。
+  // `/#…` のままだとページ全体が再読込され、ヒーローの3D・イントロがやり直しになる。
+  const onTop = ctx && ctx.file === 'index.html';
+  const href = (h) => (onTop && h.startsWith('/#') ? h.slice(1) : h);
+  const attrs = (h) => {
+    const v = href(h);
+    return v.startsWith('#') ? `href="${esc(v)}" data-scroll` : `href="${esc(v)}"`;
+  };
   return [
-    '<ul class="gnav-list">',
-    ...items.map((it) => `  <li><a class="gnav-link" href="${esc(it.href)}">${esc(it.label)}</a></li>`),
-    '</ul>',
-    `<a class="gnav-cta" href="${esc(cta.href)}" data-ga-event="click_consultation_cta">${esc(cta.label)}</a>`,
+    '<nav class="gnav-nav" aria-label="グローバルナビゲーション">',
+    '  <ul class="gnav-list">',
+    ...items.map((it) => `    <li><a class="gnav-link" ${attrs(it.href)}>${esc(it.label)}</a></li>`),
+    '  </ul>',
+    '</nav>',
+    `<a class="gnav-cta" ${attrs(cta.href)} data-ga-event="click_consultation_cta">${esc(cta.label)}</a>`,
   ];
 };
 
 /* ---- ヒーロー追加コピー（既存ビジュアル・既存メッセージの下に置く想定） ---- */
 const renderHeroCopy = (c) => {
   const m = c.config.messaging;
+  // 見出しは h2。h1 はヒーローの .giant-type（CUCUL FM.LLC）が持つため増やさない。
+  const attrs = (h) => (h.startsWith('#') ? `href="${esc(h)}" data-scroll` : `href="${esc(h)}"`);
   return [
-    '<div class="hero-add">',
-    `  <p class="hero-add-title">${esc(m.heroTagline)}</p>`,
-    ...para('hero-add-lead', m.heroLead).map((l) => `  ${l}`),
-    '  <div class="hero-add-cta">',
+    `<h2 class="stm-title" id="stm-title">${jpPhrases(m.heroTagline).map((t) => `<span>${esc(t)}</span>`).join('')}</h2>`,
+    ...para('stm-lead', m.heroLead),
+    '<div class="stm-cta">',
     // 計測イベント名はデータ側（site.config.json の heroCtas[].gaEvent）で持つ。
     // href の文字列一致で判定すると、リンク先を変えた瞬間に計測が無言で外れるため。
-    ...m.heroCtas.map((b, i) => `    <a class="btn-hero${i === 0 ? '' : ' btn-hero--ghost'}" href="${esc(b.href)}"${b.gaEvent ? ` data-ga-event="${esc(b.gaEvent)}"` : ''}>${esc(b.label)}</a>`),
-    '  </div>',
+    ...m.heroCtas.map((b, i) => `  <a class="btn-stm${i === 0 ? '' : ' btn-stm--ghost'}" ${attrs(b.href)}${b.gaEvent ? ` data-ga-event="${esc(b.gaEvent)}"` : ''}>${esc(b.label)}</a>`),
     '</div>',
   ];
 };
@@ -703,7 +721,7 @@ export const injectFile = (src, content, rel = '(memory)') => {
     keys.push(key);
     let lines;
     try {
-      lines = r.render(content);
+      lines = r.render(content, { file: rel });
     } catch (e) {
       errors.push(`${rel}: マーカー "${key}" の生成に失敗しました: ${e.message}`);
       return match;

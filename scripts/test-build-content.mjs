@@ -369,6 +369,11 @@ test('FAQの共通設問がトップと /fde/ で一致している', () => {
    3. マーカー注入が index.html を壊さないこと
    ========================================================================== */
 const INDEX = read('index.html');
+/** index.html が実際に持っているマーカー数（フェーズが進むほど増える） */
+const INDEX_MARKERS = [...INDEX.matchAll(/<!--\s*BEGIN:([A-Za-z0-9_.:@-]+)\s*-->/g)].length;
+/** マーカーを持たない実ファイル（下層ページ）。「触らない」ことの検証に使う */
+const NO_MARKER_FILE = 'services/ai/index.html';
+const NO_MARKER_HTML = read(NO_MARKER_FILE);
 /** マーカー区間の中身を伏せ字にして、外側だけを比較できるようにする */
 const blankMarkers = (s) => s.replace(
   /(<!--\s*BEGIN:([A-Za-z0-9_.:@-]+)\s*-->)[\s\S]*?(<!--\s*END:\2\s*-->)/g,
@@ -401,7 +406,8 @@ const injected = injectFile(withMarkers, C, 'index.html(test)');
 
 test('注入時にエラーが出ない', () => {
   assertEq(injected.errors.length, 0, `注入エラー: ${injected.errors.join(' / ')}`);
-  assert(injected.keys.length === 14, `処理されたマーカー数が想定と違います: ${injected.keys.length}`);
+  assertEq(injected.keys.length, 14 + INDEX_MARKERS,
+    `処理されたマーカー数が想定と違います（挿入14 + index.html 既存${INDEX_MARKERS}）`);
 });
 
 test('マーカー区間の外側は1バイトも変わらない', () => {
@@ -447,14 +453,21 @@ test('マーカー検出と置換の判定が一致する（空白違いを取�
     assert(r.next.includes('uc-list'), `生成物が入っていません: ${JSON.stringify(begin)}`);
   }
   assert(!hasMarker('<div><!-- END:usecases --></div>'), 'END だけでマーカー扱いになりました');
-  assert(!hasMarker(read('index.html')), '現状の index.html にマーカーがあると判定されました');
+  assert(!hasMarker(NO_MARKER_HTML), `${NO_MARKER_FILE} にマーカーがあると判定されました`);
 });
 
 test('マーカーが無いファイルは一切変化しない', () => {
-  const r = injectFile(INDEX, C, 'index.html(no-marker)');
+  const r = injectFile(NO_MARKER_HTML, C, NO_MARKER_FILE);
   assertEq(r.errors.length, 0, 'マーカー無しでエラーが出ました');
-  assertEq(r.next, INDEX, 'マーカーが無いのに内容が変わりました');
+  assertEq(r.next, NO_MARKER_HTML, 'マーカーが無いのに内容が変わりました');
   assertEq(r.keys.length, 0, 'マーカーが無いのにキーが処理されました');
+});
+
+test('index.html は build-content を流しても差分が出ない（同期済み）', () => {
+  const r = injectFile(INDEX, C, 'index.html');
+  assertEq(r.errors.length, 0, `エラー: ${r.errors.join(' / ')}`);
+  assertEq(r.next, INDEX, 'index.html が content/*.json と同期していません（build-content.mjs を実行してください）');
+  assert(r.keys.length > 0, 'index.html にマーカーが1つもありません');
 });
 
 test('インライン展開が働き、未確定値は何も出力しない', () => {
@@ -765,6 +778,49 @@ test('見出しの装飾タグは <em>/<strong>/<br> だけ許可される', () 
   const html = resolveRenderer('challenges').render(hc).join('\n');
   // 見出しは esc() 経由なので装飾タグも含めすべてエスケープされる（本文は素通しにしない）
   assert(!html.includes('<script>'), '見出しから <script> が素通ししました');
+});
+
+/* ==========================================================================
+   6b. グローバルナビの表示切替（フェーズ2）
+   ========================================================================== */
+test('グローバルナビが GSAP に依存していない', () => {
+  const start = INDEX.indexOf('function initGlobalNav()');
+  assert(start > 0, 'initGlobalNav が index.html にありません');
+  const src = INDEX.slice(start, INDEX.indexOf('function initBizProgressMobile()'));
+  assert(!/gsap|ScrollTrigger/.test(src),
+    'initGlobalNav が GSAP を参照しています（CDN 断でナビが出なくなる）');
+  assert(INDEX.includes('initGlobalNav();'), 'initGlobalNav() が呼ばれていません');
+  assert(INDEX.includes('<noscript><style>.gnav{'), 'JS 無効時のフォールバックがありません');
+});
+
+test('グローバルナビがヒーロー通過で出て、戻すと消える（ヒステリシスあり）', () => {
+  const start = INDEX.indexOf('function initGlobalNav()');
+  const src = INDEX.slice(start, INDEX.indexOf('function initBizProgressMobile()'));
+  const cls = new Set();
+  const handlers = {};
+  const bar = { classList: { toggle: (n, v) => { if (v) cls.add(n); else cls.delete(n); } } };
+  const hero = { offsetHeight: 900 };
+  const $sel = (sel) => (sel === '#gnav' ? bar : sel === '#hero' ? hero : null);
+  const win = {
+    scrollY: 0,
+    innerHeight: 900,
+    requestAnimationFrame: (f) => f(),
+    addEventListener: (t, f) => { (handlers[t] = handlers[t] || []).push(f); },
+  };
+  // eslint-disable-next-line no-new-func
+  new Function('$', 'window', `${src}; return initGlobalNav;`)($sel, win)();
+  const at = (y) => { win.scrollY = y; (handlers.scroll || []).forEach((f) => f()); return cls.has('is-on'); };
+  assertEq(at(0), false, '最上部でバーが出ています');
+  assertEq(at(819), false, 'ヒーロー内でバーが出ています');
+  assertEq(at(821), true, 'ヒーローを通過してもバーが出ません');
+  assertEq(at(760), true, '少し戻しただけでバーが消えました（ヒステリシスが効いていない）');
+  assertEq(at(700), false, '十分戻してもバーが消えません');
+  assert(handlers.scroll && handlers.resize, 'scroll / resize の購読がありません');
+});
+
+test('固定ヘッダー分のアンカー余白がある（深リンクがバーに潜らない）', () => {
+  assert(/html\{scroll-padding-top:/.test(INDEX),
+    'html への scroll-padding-top がありません（#contact 等がヘッダーの下に隠れます）');
 });
 
 /* ==========================================================================
