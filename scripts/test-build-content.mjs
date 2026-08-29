@@ -1100,9 +1100,11 @@ test('計測タグが全公開ページに入っている', () => {
   assert(missing.length === 0, `計測マーカーが無いページ: ${missing.join(', ')}`);
   assert(PUBLIC_PAGES.length >= 38, `公開ページの数が想定より少ないです: ${PUBLIC_PAGES.length}`);
   // GTM ID が空のうちは GTM を読み込まない
+  // （gtag.js も googletagmanager.com から配信されるので、ドメイン名では区別できない。
+  //   GTM は gtm.js、GA4 直結は gtag/js で見分ける）
   const rendered = resolveRenderer('analytics').render(C, { file: 'index.html' }).join('\n');
   if (!C.config.analytics.gtmId) {
-    assert(!rendered.includes('googletagmanager'), 'GTM ID が空なのに GTM を読み込んでいます');
+    assert(!rendered.includes('gtm.js'), 'GTM ID が空なのに GTM を読み込んでいます');
   }
   assert(rendered.includes('/js/analytics.js'), 'analytics.js を読み込んでいません');
   if (!C.config.analytics.ga4MeasurementId) {
