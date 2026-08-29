@@ -324,6 +324,37 @@
       "name": "CUCUL FM.LLC | 普段と新しい暮らしをサポートする会社",
       "description": "ククルFM合同会社。建設・インフラ、クリエイティブ・テック、ライフスタイル。テクノロジーを横串に、普段と新しい暮らしをサポートします。"
     },
+    "fde/index.html": {
+      "path": "/fde/",
+      "name": "FDE・AI実装支援（現場伴走型のAI・DX実装支援） | CUCUL FM.LLC",
+      "description": "ククルFMの現場伴走型のAI・DX実装支援。業務の現場に入り込み、課題整理から、AI・SaaS・データ基盤の設計と実装、運用定着、継続改善まで伴走します。進め方の3ステップ、12か月ロードマップ、AI・データの取扱い方針を掲載しています。",
+      "breadcrumb": [
+        {
+          "name": "ホーム",
+          "path": "/"
+        },
+        {
+          "name": "FDE・AI実装支援",
+          "path": "/fde/"
+        }
+      ]
+    },
+    "about/index.html": {
+      "path": "/about/",
+      "type": "AboutPage",
+      "name": "会社概要 | CUCUL FM.LLC",
+      "description": "ククルFM合同会社（CUCUL FM.LLC）の会社概要。建設・インフラ、クリエイティブ・テック、ライフスタイルの3つの事業と、それらを横断するFDE・AI実装支援の考え方、会社情報、対応地域、お問い合わせ方法を掲載しています。",
+      "breadcrumb": [
+        {
+          "name": "ホーム",
+          "path": "/"
+        },
+        {
+          "name": "会社概要",
+          "path": "/about/"
+        }
+      ]
+    },
     "privacy/index.html": {
       "path": "/privacy/",
       "name": "プライバシーポリシー | CUCUL FM.LLC",

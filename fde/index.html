@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FDE・AI実装支援（現場伴走型のAI・DX実装支援） | CUCUL FM.LLC</title>
+    <meta name="description" content="ククルFMの現場伴走型のAI・DX実装支援。業務の現場に入り込み、課題整理から、AI・SaaS・データ基盤の設計と実装、運用定着、継続改善まで伴走します。進め方の3ステップ、12か月ロードマップ、AI・データの取扱い方針を掲載しています。">
+    <link rel="canonical" href="https://cucul-fm.com/fde/">
+
+    <!-- Open Graph / SNS Share -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://cucul-fm.com/fde/">
+    <meta property="og:title" content="FDE・AI実装支援（現場伴走型のAI・DX実装支援） | CUCUL FM.LLC">
+    <meta property="og:description" content="ククルFMの現場伴走型のAI・DX実装支援。業務の現場に入り込み、課題整理から、AI・SaaS・データ基盤の設計と実装、運用定着、継続改善まで伴走します。進め方の3ステップ、12か月ロードマップ、AI・データの取扱い方針を掲載しています。">
+    <meta property="og:image" content="https://cucul-fm.com/logo/cuculfm.svg">
+    <meta property="og:locale" content="ja_JP">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="FDE・AI実装支援（現場伴走型のAI・DX実装支援） | CUCUL FM.LLC">
+    <meta name="twitter:description" content="ククルFMの現場伴走型のAI・DX実装支援。業務の現場に入り込み、課題整理から、AI・SaaS・データ基盤の設計と実装、運用定着、継続改善まで伴走します。進め方の3ステップ、12か月ロードマップ、AI・データの取扱い方針を掲載しています。">
+    <meta name="twitter:image" content="https://cucul-fm.com/logo/cuculfm.svg">
+    <link rel="icon" href="/logo/cuculfm.svg" type="image/svg+xml" sizes="any">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+JP:wght@300;400;500;700&family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="/services/style.css">
+
+    <!-- 構造化データ。中身は content/ から生成する（手で書き換えない）
+         Service は画面の「サービス定義」ブロックと同じデータから作っている -->
+    <!-- BEGIN:jsonld-webpage -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "@id": "https://cucul-fm.com/fde/#webpage",
+      "url": "https://cucul-fm.com/fde/",
+      "name": "FDE・AI実装支援（現場伴走型のAI・DX実装支援） | CUCUL FM.LLC",
+      "description": "ククルFMの現場伴走型のAI・DX実装支援。業務の現場に入り込み、課題整理から、AI・SaaS・データ基盤の設計と実装、運用定着、継続改善まで伴走します。進め方の3ステップ、12か月ロードマップ、AI・データの取扱い方針を掲載しています。",
+      "isPartOf": {
+        "@id": "https://cucul-fm.com/#website"
+      },
+      "about": {
+        "@id": "https://cucul-fm.com/#organization"
+      },
+      "inLanguage": "ja-JP"
+    }
+    </script>
+    <!-- END:jsonld-webpage -->
+    <!-- BEGIN:jsonld-breadcrumb -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "ホーム",
+          "item": "https://cucul-fm.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "FDE・AI実装支援",
+          "item": "https://cucul-fm.com/fde/"
+        }
+      ]
+    }
+    </script>
+    <!-- END:jsonld-breadcrumb -->
+    <!-- BEGIN:jsonld-service-fde -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "@id": "https://cucul-fm.com/#service-fde",
+      "name": "FDE・AI実装支援",
+      "description": "現場と業務を理解したうえで、業務フローの整理、データ整備、AI・SaaS・業務システムの設計と実装、運用定着、継続改善まで伴走する支援。",
+      "url": "https://cucul-fm.com/fde/",
+      "provider": {
+        "@id": "https://cucul-fm.com/#organization"
+      },
+      "areaServed": "埼玉県川口市を拠点に、関東近郊を中心として対応しています。オンラインを併用した遠隔でのご相談・支援についても、内容に応じてご相談ください。"
+    }
+    </script>
+    <!-- END:jsonld-service-fde -->
+
+    <!-- 計測 -->
+    <!-- BEGIN:analytics -->
+    <script>window.dataLayer=window.dataLayer||[];</script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RGHFB3LGED"></script>
+    <script>function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-RGHFB3LGED');window.CUCULFM=window.CUCULFM||{};window.CUCULFM.directGa4=true;</script>
+    <script src="/js/analytics.js" defer></script>
+    <!-- END:analytics -->
+</head>
+<body>
+    <!-- Header -->
+    <header class="service-header">
+        <div class="container">
+            <div class="header-content">
+                <a href="/" class="back-link">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>TOP に戻る</span>
+                </a>
+                <div class="header-logo">CUCUL FM</div>
+                <a class="header-cta" href="/#contact" data-ga-event="click_consultation_cta">相談する</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="service-hero fde-hero">
+        <div class="container">
+            <!-- BEGIN:breadcrumb -->
+            <nav class="breadcrumb" aria-label="パンくずリスト">
+              <ol>
+                <li><a href="/">ホーム</a></li>
+                <li><span aria-current="page">FDE・AI実装支援</span></li>
+              </ol>
+            </nav>
+            <!-- END:breadcrumb -->
+            <p class="hero-label">FDE &amp; AI IMPLEMENTATION</p>
+            <!-- BEGIN:fde-lead -->
+            <h1 class="fde-main">現場を知るから、変革を動かせる。</h1>
+            <div class="fde-sub">
+              <p>ククルFMは、業務の現場に入り込み、<br>課題整理から、AI・SaaS・データ基盤の設計と実装、<br>運用定着、継続改善まで伴走します。</p>
+              <p>ツールを導入するだけで終わらせず、<br>人が判断しやすく、チームが動きやすく、<br>日々の仕事が前に進む仕組みをつくります。</p>
+            </div>
+            <!-- END:fde-lead -->
+            <p class="hero-plain">サイト内では「現場伴走型のAI・DX実装支援」と呼んでいます。</p>
+            <div class="hero-actions">
+                <a class="cta-button" href="/#contact" data-ga-event="click_consultation_cta">相談する</a>
+                <a class="cta-button cta-button--ghost" href="#roadmap">12か月の進め方を見る</a>
+            </div>
+            <p class="page-meta">公開日: 2026年8月29日　最終更新日: 2026年8月29日　監修: ククルFM合同会社 代表 馬場 陽子</p>
+        </div>
+    </section>
+
+    <!-- 思想 -->
+    <section class="content-section" id="philosophy" aria-labelledby="philosophy-title">
+        <div class="container">
+            <p class="section-label">PHILOSOPHY</p>
+            <h2 class="section-title" id="philosophy-title">支援の前提にしている考え方</h2>
+            <!-- BEGIN:philosophy -->
+            <blockquote class="philosophy">
+              <p class="philosophy-title">AIはAIらしく、人は人らしく。</p>
+              <p class="philosophy-body">AIにすべてを任せるのではなく、<br>情報整理、検索、記録、下書き、確認作業をAIが支援し、<br>人は判断、対話、創造、現場でしかできない仕事に集中する。</p>
+              <p class="philosophy-body">ククルFMは、技術を人の仕事に置き換えるためではなく、<br>人と事業の可能性を広げるために実装します。</p>
+            </blockquote>
+            <!-- END:philosophy -->
+        </div>
+    </section>
+
+    <!-- 立ち位置 -->
+    <section class="content-section" id="position" aria-labelledby="position-title">
+        <div class="container">
+            <p class="section-label">POSITION</p>
+            <h2 class="section-title" id="position-title">ククルFMの立ち位置</h2>
+            <p class="section-description">
+                ククルFMは、現場や事業の実務を理解してから、最適な技術・運用・仕組みを設計し、実装し、
+                定着まで伴走するチームです。次のどれか一つに収まる会社ではありません。
+            </p>
+            <ul class="pos-grid">
+                <li class="pos-card">
+                    <p class="pos-not"><span class="pos-not-mark">NOT</span>単なるAIツール販売会社</p>
+                    <p class="pos-text">ツールを納めて終わりにしません。どの業務で、誰が、どこまでAIに任せ、どこから人が判断するのかを一緒に決めるところまでが支援の範囲です。</p>
+                </li>
+                <li class="pos-card">
+                    <p class="pos-not"><span class="pos-not-mark">NOT</span>単なるWeb制作会社</p>
+                    <p class="pos-text">見た目と公開だけで終わらせません。その裏側にある業務の流れ、記録の残し方、データの持ち方まで含めて設計します。</p>
+                </li>
+                <li class="pos-card">
+                    <p class="pos-not"><span class="pos-not-mark">NOT</span>単なる受託開発会社</p>
+                    <p class="pos-text">仕様どおりに作ることだけを役割にしません。そもそも何を作るべきか、既存の運用やSaaSで済ませられないかから一緒に考えます。</p>
+                </li>
+                <li class="pos-card">
+                    <p class="pos-not"><span class="pos-not-mark">NOT</span>単なるITコンサルティング会社</p>
+                    <p class="pos-text">提案書だけを納品しません。整理した内容を実際に動く仕組みにし、現場で使われる状態になるまで関わります。</p>
+                </li>
+            </ul>
+            <div class="pos-claim">
+                <p class="pos-claim-label">ククルFMが提供するもの</p>
+                <p class="pos-claim-text">現場伴走型のAI・DX実装支援</p>
+                <p class="pos-claim-note">
+                    業務を理解し、使われる仕組みへ変える支援です。導入から定着・改善まで伴走します。
+                    このような役割は、海外では FDE（Forward Deployed Engineer）と呼ばれることがありますが、
+                    呼び名よりも「現場の仕事が前に進むかどうか」を基準に考えています。
+                </p>
+            </div>
+            <!-- BEGIN:service-fde -->
+            <dl class="doc-dl svc-def">
+              <div><dt>サービス名</dt><dd>FDE・AI実装支援</dd></div>
+              <div><dt>支援内容</dt><dd>現場と業務を理解したうえで、業務フローの整理、データ整備、AI・SaaS・業務システムの設計と実装、運用定着、継続改善まで伴走する支援。</dd></div>
+              <div><dt>提供</dt><dd>ククルFM合同会社</dd></div>
+              <div><dt>対応地域</dt><dd>埼玉県川口市を拠点に、関東近郊を中心として対応しています。オンラインを併用した遠隔でのご相談・支援についても、内容に応じてご相談ください。</dd></div>
+            </dl>
+            <!-- END:service-fde -->
+        </div>
+    </section>
+
+    <!-- 対象業種 -->
+    <section class="content-section" id="industries" aria-labelledby="industries-title">
+        <div class="container">
+            <p class="section-label">INDUSTRIES</p>
+            <h2 class="section-title" id="industries-title">対象とする業種</h2>
+            <p class="section-description">
+                建設・インフラの現場を強みとして持っていますが、対象を特定の業界に限定していません。
+                現場業務と事務・管理業務の連携、情報の分散、属人化に課題を持つ事業者を広く対象としています。
+            </p>
+            <ul class="service-tags industry-tags">
+                <li class="service-tag">下水道</li>
+                <li class="service-tag">建設</li>
+                <li class="service-tag">設備</li>
+                <li class="service-tag">保守点検</li>
+                <li class="service-tag">清掃</li>
+                <li class="service-tag">物流</li>
+                <li class="service-tag">製造</li>
+                <li class="service-tag">不動産・施設管理</li>
+                <li class="service-tag">クリエイティブ事業</li>
+                <li class="service-tag">地域事業</li>
+                <li class="service-tag">サービス業</li>
+            </ul>
+            <p class="industry-note">上記は展開できる領域の例です。ここに挙げていない業種でも、まずはご相談ください。</p>
+            <div class="industry-why">
+                <h3 class="industry-why-title">建設・インフラを強みとしている理由</h3>
+                <p class="industry-why-text">
+                    ククルFM自身が、下水道の調査・清掃や建設施工を実務として行っています。
+                    現場で記録がどう残り、写真や書類がどこで滞り、事務所での確認にどれだけ手間がかかるかを、
+                    自社の仕事として知っていることが出発点です。
+                </p>
+                <p class="industry-why-text">
+                    加えて代表は、プラント向けの海外プロジェクトにアプリケーションエンジニアとして携わり、
+                    その後コンサルティング会社で電力・ガス・素材業界のDX戦略策定や業務改革を支援してきました。
+                    現場の手ざわりと、事業側の意思決定の両方から業務を見られることを、支援の土台にしています。
+                </p>
+                <ul class="industry-links">
+                    <li><a href="/services/inspection/">調査・清掃の事業を見る</a></li>
+                    <li><a href="/services/construction/">建設業の事業を見る</a></li>
+                    <li><a href="/about/">会社概要を見る</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3ステップ詳細 -->
+    <section class="content-section" id="steps" aria-labelledby="steps-title">
+        <div class="container">
+            <p class="section-label">HOW WE WORK</p>
+            <h2 class="section-title" id="steps-title">進め方の3ステップ</h2>
+            <p class="section-description">
+                理解する、つくる、定着させる。この順番を飛ばさないことを大切にしています。
+            </p>
+            <!-- BEGIN:fde-steps-detail -->
+            <ol class="fde-steps fde-steps--detail">
+              <li class="step-card">
+                <span class="step-no" aria-hidden="true">01</span>
+                <p class="step-en">Understand</p>
+                <h3 class="step-ja">現場と事業を理解する</h3>
+                <p class="step-body">現場、事務、管理、経営の業務フローを整理し、<br>情報の分断、属人化、転記、確認待ち、手戻りなどの課題を見つけます。</p>
+                <p class="step-detail-label">この段階ですること</p>
+                <ul class="step-detail">
+                  <li>現場、事務所、管理、経営のそれぞれで、実際に何をどの順番で行っているかを伺います</li>
+                  <li>紙、Excel、写真、チャット、メール、PDF、既存ツールのどこに情報が置かれているかを一覧にします</li>
+                  <li>同じ情報を何度も入力している箇所、確認待ちで止まる箇所、担当者しか分からない判断を洗い出します</li>
+                  <li>改善の対象と優先順位、最初に着手する業務の範囲を、関係者と話し合ったうえで決めます</li>
+                </ul>
+              </li>
+              <li class="step-card">
+                <span class="step-no" aria-hidden="true">02</span>
+                <p class="step-en">Build</p>
+                <h3 class="step-ja">仕組みを設計・実装する</h3>
+                <p class="step-body">既製SaaS、AI、Web、業務システム、データベース、<br>地図・位置情報、映像、帳票設計を組み合わせ、<br>本当に必要な形へ実装します。</p>
+                <p class="step-detail-label">この段階ですること</p>
+                <ul class="step-detail">
+                  <li>既製のSaaSで足りる範囲と、個別につくる必要がある範囲を分けて判断します</li>
+                  <li>役割ごとに、入力項目、画面、権限、承認の流れを設計します</li>
+                  <li>既存のExcelやCSV、クラウドストレージ、稼働中のシステムとのつなぎ方を検討します</li>
+                  <li>AIは、検索、整理、要約、下書きなど用途を絞って組み込み、人が確認・承認する手順もあわせて設計します</li>
+                </ul>
+              </li>
+              <li class="step-card">
+                <span class="step-no" aria-hidden="true">03</span>
+                <p class="step-en">Embed</p>
+                <h3 class="step-ja">使われ続ける状態へ育てる</h3>
+                <p class="step-body">試験運用、操作説明、運用ルール、利用状況の確認、<br>継続改善を通じて、仕組みを現場と組織に定着させます。</p>
+                <p class="step-detail-label">この段階ですること</p>
+                <ul class="step-detail">
+                  <li>1つの現場、部門、業務工程で試験運用し、実務の中で使いにくい箇所を直します</li>
+                  <li>現場担当者、事務担当者、管理者それぞれの立場に合わせた操作説明と運用ルールを整えます</li>
+                  <li>利用状況と入力の状態を確認し、使われていない機能や続かない運用を見直します</li>
+                  <li>個別の要望と、組織全体で標準化すべきことを分けて整理し、次の改善につなげます</li>
+                </ul>
+              </li>
+            </ol>
+            <!-- END:fde-steps-detail -->
+        </div>
+    </section>
+
+    <!-- 12か月ロードマップ -->
+    <section class="content-section" id="roadmap" aria-labelledby="roadmap-title">
+        <div class="container">
+            <!-- BEGIN:roadmap -->
+            <div class="rm-head-sec">
+              <div>
+                <p class="eyebrow">12-MONTH ROADMAP</p>
+                <h2 id="roadmap-title">HOW WE <em>WORK</em></h2>
+              </div>
+              <p class="lead">12か月で、現場の課題を使われる仕組みへ。</p>
+            </div>
+            <p class="rm-intro">最初から完璧な仕組みを目指すのではなく、<br>優先度の高い業務から始めます。<br>現場で試し、改善し、データと運用を育てながら、<br>継続的に成果を生む業務基盤へつなげます。</p>
+            <ol class="rm-list">
+              <li class="rm-item" id="roadmap-1">
+                <details class="rm-details" open>
+                  <summary class="rm-head">
+                    <span class="rm-no" aria-hidden="true">01</span>
+                    <span class="rm-range">1〜3か月</span>
+                    <span class="rm-title">現場課題を、実装できる要件へ</span>
+                  </summary>
+                  <div class="rm-detail">
+                    <ul class="rm-tasks">
+                      <li>現場、事務、管理、経営の業務フローを可視化する</li>
+                      <li>紙、Excel、メール、チャット、写真、PDF、既存ツールなどの情報分断を整理する</li>
+                      <li>二重入力、転記、確認待ち、手戻り、属人化などの課題を特定する</li>
+                      <li>業務時間、対応日数、差戻し、入力漏れなど、改善対象のKPIを3つ程度に絞る</li>
+                      <li>最初に対象とする1つの業務、帳票、部門、拠点、顧客対応プロセスを選定する</li>
+                    </ul>
+                    <div class="rm-deliv">
+                      <p class="rm-deliv-label">成果物</p>
+                      <ul class="rm-chips">
+                        <li class="rm-chip">現状業務フロー</li>
+                        <li class="rm-chip">課題と優先順位の整理</li>
+                        <li class="rm-chip">データ一覧</li>
+                        <li class="rm-chip">要件定義のたたき台</li>
+                        <li class="rm-chip">KPI設計</li>
+                        <li class="rm-chip">導入ロードマップ</li>
+                      </ul>
+                    </div>
+                  </div>
+                </details>
+              </li>
+              <li class="rm-item" id="roadmap-2">
+                <details class="rm-details" open>
+                  <summary class="rm-head">
+                    <span class="rm-no" aria-hidden="true">02</span>
+                    <span class="rm-range">4〜6か月</span>
+                    <span class="rm-title">最小構成を作り、実務で動かす</span>
+                  </summary>
+                  <div class="rm-detail">
+                    <ul class="rm-tasks">
+                      <li>対象業務に必要な案件管理、記録、書類、写真、承認、検索、帳票などの最小機能を設計する</li>
+                      <li>役割ごとに、入力項目、画面、権限、承認フローを整える</li>
+                      <li>Excel、CSV、クラウドストレージ、既存SaaS、既存システムとの連携方法を検討する</li>
+                      <li>1つの現場、部門、業務工程、または顧客対応で試験運用する</li>
+                      <li>AIは、資料検索、情報整理、議事録・記録の要約、帳票の下書きなど、明確な1用途から始める</li>
+                      <li>AIの出力は、必ず人が確認・承認する運用とする</li>
+                    </ul>
+                    <div class="rm-deliv">
+                      <p class="rm-deliv-label">成果物</p>
+                      <ul class="rm-chips">
+                        <li class="rm-chip">最小実用プロダクト</li>
+                        <li class="rm-chip">初期データ・マスタ</li>
+                        <li class="rm-chip">操作マニュアル</li>
+                        <li class="rm-chip">試験運用レポート</li>
+                        <li class="rm-chip">改善項目リスト</li>
+                      </ul>
+                    </div>
+                  </div>
+                </details>
+              </li>
+              <li class="rm-item" id="roadmap-3">
+                <details class="rm-details" open>
+                  <summary class="rm-head">
+                    <span class="rm-no" aria-hidden="true">03</span>
+                    <span class="rm-range">7〜9か月</span>
+                    <span class="rm-title">現場に定着させ、利用範囲を広げる</span>
+                  </summary>
+                  <div class="rm-detail">
+                    <ul class="rm-tasks">
+                      <li>現場担当者、事務担当者、管理者向けに、操作説明と運用ルールを整備する</li>
+                      <li>利用時の負担、入力漏れ、例外処理、画面の使いやすさを改善する</li>
+                      <li>別の現場、部門、拠点、協力会社、サービスへ段階的に展開する</li>
+                      <li>個別の要望と、組織全体で標準化すべき機能・運用を分けて整理する</li>
+                      <li>利用率、入力率、問い合わせ、データ品質を確認する</li>
+                      <li>導入効果をKPIで中間評価する</li>
+                    </ul>
+                    <div class="rm-deliv">
+                      <p class="rm-deliv-label">成果物</p>
+                      <ul class="rm-chips">
+                        <li class="rm-chip">運用ルール</li>
+                        <li class="rm-chip">教育資料</li>
+                        <li class="rm-chip">権限・承認設計</li>
+                        <li class="rm-chip">改善済み機能</li>
+                        <li class="rm-chip">中間効果レポート</li>
+                        <li class="rm-chip">横展開計画</li>
+                      </ul>
+                    </div>
+                  </div>
+                </details>
+              </li>
+              <li class="rm-item" id="roadmap-4">
+                <details class="rm-details" open>
+                  <summary class="rm-head">
+                    <span class="rm-no" aria-hidden="true">04</span>
+                    <span class="rm-range">10〜12か月</span>
+                    <span class="rm-title">成果を可視化し、継続改善できる体制へ</span>
+                  </summary>
+                  <div class="rm-detail">
+                    <ul class="rm-tasks">
+                      <li>導入前後の業務時間、対応・提出日数、差戻し、再入力、確認工数などを比較する</li>
+                      <li>現場、管理者、経営者の視点で、継続すべき運用と改善点を整理する</li>
+                      <li>データ活用の範囲を、進捗、品質、原価、顧客対応、営業、保全、事業判断へ広げる</li>
+                      <li>次年度のDX・AI活用ロードマップと投資優先順位を策定する</li>
+                      <li>担当者個人に依存しない、社内の運用体制を整える</li>
+                    </ul>
+                    <div class="rm-deliv">
+                      <p class="rm-deliv-label">成果物</p>
+                      <ul class="rm-chips">
+                        <li class="rm-chip">導入成果レポート</li>
+                        <li class="rm-chip">KPI評価</li>
+                        <li class="rm-chip">改善バックログ</li>
+                        <li class="rm-chip">次年度DX・AI活用計画</li>
+                        <li class="rm-chip">社内運用体制案</li>
+                        <li class="rm-chip">継続支援プラン</li>
+                      </ul>
+                    </div>
+                  </div>
+                </details>
+              </li>
+            </ol>
+            <a class="btn-roadmap" href="/#contact" data-ga-event="click_roadmap">自社に合わせた進め方を相談する</a>
+            <!-- END:roadmap -->
+        </div>
+    </section>
+
+    <!-- 活用テーマ -->
+    <section class="content-section" id="usecases" aria-labelledby="uc-title">
+        <div class="container">
+            <!-- BEGIN:usecases -->
+            <div class="uc-head">
+              <div>
+                <p class="eyebrow">USE CASES</p>
+                <h2 id="uc-title">WHERE TO <em>START</em></h2>
+              </div>
+              <p class="lead">現場と事業の、こんな仕事から始められます。</p>
+            </div>
+            <p class="uc-note">※実績ではなく活用イメージです</p>
+            <ul class="uc-list">
+              <li class="uc-item">現場記録、作業報告、点検情報、写真、動画、書類を案件・顧客単位で整理する</li>
+              <li class="uc-item">Excelや紙で管理している台帳を、検索・共有・履歴確認・集計しやすい形に整える</li>
+              <li class="uc-item">現場や外出先から、スマートフォン・タブレットで記録・報告できるようにする</li>
+              <li class="uc-item">報告書、議事録、提案書、点検記録などの下書きをAIで支援する</li>
+              <li class="uc-item">過去の資料、案件履歴、ノウハウ、マニュアルを横断検索できるようにする</li>
+              <li class="uc-item">問い合わせ、案件、作業、顧客、担当者、書類をつなぎ、対応漏れを減らす</li>
+              <li class="uc-item">業務の進捗や品質を、管理者がリアルタイムに把握しやすくする</li>
+              <li class="uc-item">映像、写真、資料、Webを活用し、社内教育、営業、採用、顧客説明を改善する</li>
+              <li class="uc-item">予約、顧客管理、サービス記録、情報発信などを整え、サービス運営を改善する</li>
+              <li class="uc-item">地図・位置情報と現場・設備・顧客情報を結び付け、運用や計画に活用する</li>
+            </ul>
+            <!-- END:usecases -->
+        </div>
+    </section>
+
+    <!-- AI・データの取扱い方針 -->
+    <section class="content-section" id="data-policy" aria-labelledby="data-policy-title">
+        <div class="container">
+            <p class="section-label">AI &amp; DATA POLICY</p>
+            <h2 class="section-title" id="data-policy-title">AI・データの取扱い方針</h2>
+            <p class="section-description">
+                AIを業務に組み込むときは、何を入力してよいか、誰が確認するかを先に決めます。
+                ここに書いている内容は、実際の案件でお客様と取り決める際の出発点です。
+            </p>
+            <div class="policy-grid">
+                <div class="policy-card">
+                    <h3 class="policy-title">AIに入力してよい情報</h3>
+                    <ul class="policy-list">
+                        <li>社内で作成した手順書、マニュアル、社内向けの説明資料</li>
+                        <li>個人や取引先が特定されない形に整えた作業記録・点検記録</li>
+                        <li>公開されている法令、規格、製品情報、技術資料</li>
+                        <li>お客様と取り決めた範囲の業務データ（保管場所と利用目的を明確にしたもの）</li>
+                    </ul>
+                </div>
+                <div class="policy-card">
+                    <h3 class="policy-title">扱うべきでない情報</h3>
+                    <ul class="policy-list">
+                        <li>取り決めのない個人情報（氏名、連絡先、顔が判別できる写真など）</li>
+                        <li>秘密保持の対象となる図面、見積、契約書、単価などの情報</li>
+                        <li>お客様の許可を得ていない他社の資料やデータ</li>
+                        <li>ID、パスワード、アクセスキーなどの認証情報</li>
+                    </ul>
+                </div>
+                <div class="policy-card">
+                    <h3 class="policy-title">人による確認・承認</h3>
+                    <ul class="policy-list">
+                        <li>AIの出力は下書きとして扱い、人が内容を確認してから使う運用にします</li>
+                        <li>品質、安全、契約、顧客対応に関わる判断は人が行う前提で設計します</li>
+                        <li>誰が確認し、誰が承認するかを、画面と運用ルールの両方に落とし込みます</li>
+                        <li>AIが誤った内容を出す前提で、元の記録をたどれる形を残します</li>
+                    </ul>
+                </div>
+                <div class="policy-card">
+                    <h3 class="policy-title">お客様のデータの取扱い</h3>
+                    <ul class="policy-list">
+                        <li>お預かりする情報の範囲、保管場所、利用目的、期間を事前に確認します</li>
+                        <li>ご担当者の同意なく、外部サービスの学習用途に提供することはありません</li>
+                        <li>案件で使う外部サービスは、取り扱いの条件を確認したうえで選定します</li>
+                        <li>アクセスできる担当者を限定し、不要になった情報の扱いも取り決めます</li>
+                    </ul>
+                </div>
+            </div>
+            <p class="policy-note">
+                お客様側にセキュリティ基準や情報システム部門の確認手順がある場合は、その内容に沿って進め方を調整します。
+                個人情報の取り扱いについては<a href="/privacy/">プライバシーポリシー</a>もご確認ください。
+            </p>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="content-section" id="faq" aria-labelledby="faq-title">
+        <div class="container">
+            <!-- BEGIN:faq-fde -->
+            <div class="faq-head">
+              <div>
+                <p class="eyebrow">FAQ</p>
+                <h2 id="faq-title">FREQUENTLY ASKED <em>QUESTIONS</em></h2>
+              </div>
+              <p class="lead">よくあるご質問</p>
+            </div>
+            <div class="faq-list">
+              <details class="faq-item" id="faq-what-is-fde">
+                <summary class="faq-q">FDEとは何ですか？</summary>
+                <div class="faq-a"><p>FDEは、現場や事業の課題を理解したうえで、AI・SaaS・データ・システムを活用する仕組みを設計・実装し、導入後の定着・改善まで伴走する役割です。ククルFMでは、分かりやすく「現場伴走型のAI・DX実装支援」と表現しています。</p></div>
+              </details>
+              <details class="faq-item" id="faq-other-industries">
+                <summary class="faq-q">建設・インフラ以外の業種でも相談できますか？</summary>
+                <div class="faq-a"><p>はい。現場業務と事務・管理業務の連携、情報の分散、属人化、帳票作成、顧客対応、データ活用などに課題がある事業であれば、業種を問わずご相談いただけます。</p></div>
+              </details>
+              <details class="faq-item" id="faq-no-it-staff">
+                <summary class="faq-q">ITに詳しい社員がいなくても大丈夫ですか？</summary>
+                <div class="faq-a"><p>はい。まずは現在の業務の進め方と、紙・Excel・写真・書類・既存ツールなどの状態を確認します。専門用語に偏らず、優先順位と最初の一歩を整理します。</p></div>
+              </details>
+              <details class="faq-item" id="faq-keep-existing">
+                <summary class="faq-q">今使っているExcelやシステムを、すべて置き換える必要がありますか？</summary>
+                <div class="faq-a"><p>いいえ。既存の運用やデータを活かし、負荷と効果の大きい部分から段階的に改善します。必要に応じて既存SaaSやExcel、CSVなどとの連携も検討します。</p></div>
+              </details>
+              <details class="faq-item" id="faq-ai-and-judgement">
+                <summary class="faq-q">AIに業務の判断を任せることになりますか？</summary>
+                <div class="faq-a"><p>いいえ。AIは、検索、整理、要約、下書きなどを補助する用途から活用します。品質・安全・顧客対応に関わる最終判断は、人が確認・承認する運用を前提に設計します。</p></div>
+              </details>
+              <details class="faq-item" id="faq-small-start">
+                <summary class="faq-q">小さなテーマから始められますか？</summary>
+                <div class="faq-a"><p>はい。1つの帳票、1つの現場、1つの部門、1つの業務プロセスなど、効果を検証しやすい範囲から始めることを推奨します。</p></div>
+              </details>
+              <details class="faq-item" id="faq-early-stage">
+                <summary class="faq-q">相談段階でも問い合わせできますか？</summary>
+                <div class="faq-a"><p>はい。「何をデジタル化すべきか分からない」「AIを使える業務があるか知りたい」といった構想段階からご相談いただけます。</p></div>
+              </details>
+              <details class="faq-item" id="faq-how-to-start">
+                <summary class="faq-q">相談から着手までは、どのような流れになりますか？</summary>
+                <div class="faq-a"><p>まずは現在の業務の進め方、使っている書類やツール、困っている場面をお聞きします。そのうえで、対象とする業務の範囲、進め方、体制、期間の考え方を整理してご提案します。いきなり開発から始めるのではなく、業務フローの整理から着手することが多いです。</p></div>
+              </details>
+              <details class="faq-item" id="faq-cost">
+                <summary class="faq-q">費用はどのくらいかかりますか？</summary>
+                <div class="faq-a"><p>対象とする業務の範囲、必要な機能、既存システムとの連携有無によって大きく変わるため、一律の金額はご提示していません。お聞きした内容をもとに、支援範囲を区切ったうえでお見積りをご提示します。まずは小さな範囲から始め、効果を確認しながら広げていく進め方もご相談いただけます。</p></div>
+              </details>
+              <details class="faq-item" id="faq-area">
+                <summary class="faq-q">対応できる地域はどこまでですか？</summary>
+                <div class="faq-a"><p>埼玉県川口市を拠点に、関東近郊を中心として対応しています。オンラインを併用した遠隔でのご相談・支援についても、内容に応じてご相談ください。現地での確認が必要な範囲は、業務内容に合わせて調整します。</p></div>
+              </details>
+              <details class="faq-item" id="faq-data-security">
+                <summary class="faq-q">社内のデータや顧客情報を扱ってもらうことはできますか？</summary>
+                <div class="faq-a"><p>お預かりする情報の範囲、保管場所、利用目的、期間を事前に確認したうえで進めます。AIに入力してよい情報と、扱うべきでない情報の線引きは、案件ごとに整理してから運用ルールに反映します。お客様のセキュリティ要件がある場合は、その内容に沿って対応方法を検討します。</p></div>
+              </details>
+            </div>
+            <!-- END:faq-fde -->
+        </div>
+        <!-- BEGIN:jsonld-faq-fde -->
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "FDEとは何ですか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "FDEは、現場や事業の課題を理解したうえで、AI・SaaS・データ・システムを活用する仕組みを設計・実装し、導入後の定着・改善まで伴走する役割です。ククルFMでは、分かりやすく「現場伴走型のAI・DX実装支援」と表現しています。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "建設・インフラ以外の業種でも相談できますか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "はい。現場業務と事務・管理業務の連携、情報の分散、属人化、帳票作成、顧客対応、データ活用などに課題がある事業であれば、業種を問わずご相談いただけます。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "ITに詳しい社員がいなくても大丈夫ですか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "はい。まずは現在の業務の進め方と、紙・Excel・写真・書類・既存ツールなどの状態を確認します。専門用語に偏らず、優先順位と最初の一歩を整理します。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "今使っているExcelやシステムを、すべて置き換える必要がありますか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "いいえ。既存の運用やデータを活かし、負荷と効果の大きい部分から段階的に改善します。必要に応じて既存SaaSやExcel、CSVなどとの連携も検討します。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "AIに業務の判断を任せることになりますか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "いいえ。AIは、検索、整理、要約、下書きなどを補助する用途から活用します。品質・安全・顧客対応に関わる最終判断は、人が確認・承認する運用を前提に設計します。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "小さなテーマから始められますか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "はい。1つの帳票、1つの現場、1つの部門、1つの業務プロセスなど、効果を検証しやすい範囲から始めることを推奨します。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "相談段階でも問い合わせできますか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "はい。「何をデジタル化すべきか分からない」「AIを使える業務があるか知りたい」といった構想段階からご相談いただけます。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "相談から着手までは、どのような流れになりますか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "まずは現在の業務の進め方、使っている書類やツール、困っている場面をお聞きします。そのうえで、対象とする業務の範囲、進め方、体制、期間の考え方を整理してご提案します。いきなり開発から始めるのではなく、業務フローの整理から着手することが多いです。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "費用はどのくらいかかりますか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "対象とする業務の範囲、必要な機能、既存システムとの連携有無によって大きく変わるため、一律の金額はご提示していません。お聞きした内容をもとに、支援範囲を区切ったうえでお見積りをご提示します。まずは小さな範囲から始め、効果を確認しながら広げていく進め方もご相談いただけます。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "対応できる地域はどこまでですか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "埼玉県川口市を拠点に、関東近郊を中心として対応しています。オンラインを併用した遠隔でのご相談・支援についても、内容に応じてご相談ください。現地での確認が必要な範囲は、業務内容に合わせて調整します。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "社内のデータや顧客情報を扱ってもらうことはできますか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "お預かりする情報の範囲、保管場所、利用目的、期間を事前に確認したうえで進めます。AIに入力してよい情報と、扱うべきでない情報の線引きは、案件ごとに整理してから運用ルールに反映します。お客様のセキュリティ要件がある場合は、その内容に沿って対応方法を検討します。"
+              }
+            }
+          ]
+        }
+        </script>
+        <!-- END:jsonld-faq-fde -->
+    </section>
+
+    <!-- CTA -->
+    <section class="content-section cta-section" id="cta">
+        <div class="container">
+            <p class="section-label">CONTACT</p>
+            <h2 class="cta-title">困りごとが整理できていなくても、ご相談ください。</h2>
+            <p class="cta-text">
+                現在の仕事の流れと、気になっていることをお聞かせください。課題の整理から伴走します。
+            </p>
+            <a class="cta-button" href="/#contact" data-ga-event="click_consultation_cta">相談する</a>
+            <ul class="contact-direct">
+                <li>
+                    <span class="contact-direct-label">TEL</span>
+                    <a href="tel:09062623842" data-ga-event="click_phone"><!-- BEGIN:cfg:company.tel -->090-6262-3842<!-- END:cfg:company.tel --></a>
+                </li>
+                <li>
+                    <span class="contact-direct-label">MAIL</span>
+                    <a href="mailto:info@cucul-fm.com" data-ga-event="click_email"><!-- BEGIN:cfg:company.email -->info@cucul-fm.com<!-- END:cfg:company.email --></a>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="service-footer">
+        <p class="footer-text">© 2026 CUCUL FM LLC. All rights reserved.</p>
+    </footer>
+</body>
+</html>

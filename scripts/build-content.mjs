@@ -269,7 +269,12 @@ export const validate = (c) => {
   c.pillars.pillars.forEach((p, i) => {
     bodyFields.push([`pillars[${i}].body`, p.body], [`pillars[${i}].fdeNote`, p.fdeNote]);
   });
-  c.pillars.crossSection.steps.forEach((st, i) => bodyFields.push([`crossSection.steps[${i}].body`, st.body]));
+  c.pillars.crossSection.steps.forEach((st, i) => bodyFields.push(
+    [`crossSection.steps[${i}].body`, st.body],
+    // detail は /fde/ の3ステップ詳細で箇条書きにする。空だと項目が黙って消える
+    [`crossSection.steps[${i}].detail`, st.detail],
+  ));
+  if (isBlank(c.pillars.crossSection.detailLabel)) errors.push('pillars.crossSection.detailLabel が空です');
   for (const [label, v] of bodyFields) {
     if (isBlank(v)) errors.push(`本文の固定コピーが空です: ${label}`);
     else if (Array.isArray(v) && v.some((x) => isBlank(x))) errors.push(`本文の固定コピーに空の行/段落があります: ${label}`);
@@ -422,6 +427,70 @@ const renderFdeSteps = (c, ctx) => {
     '</ol>',
     `<a class="btn-fde" ${linkAttrs(x.cta.href, ctx)} data-ga-event="click_fde_service">${esc(x.cta.label)}</a>`,
   ];
+};
+
+/* ---- 3ステップ詳細（/fde/ 用）----
+   トップの fde-steps と同じ crossSection.steps から描くが、
+   ・各ステップに detail（この段階ですること）を足す
+   ・CTA は付けない（/fde/ 自身へのリンクになるため） */
+const renderFdeStepsDetail = (c) => {
+  const x = c.pillars.crossSection;
+  return [
+    '<ol class="fde-steps fde-steps--detail">',
+    ...x.steps.flatMap((s) => [
+      '  <li class="step-card">',
+      `    <span class="step-no" aria-hidden="true">${esc(s.no)}</span>`,
+      `    <p class="step-en">${esc(s.en)}</p>`,
+      `    <h3 class="step-ja">${esc(s.ja)}</h3>`,
+      ...para('step-body', s.body).map((l) => `    ${l}`),
+      `    <p class="step-detail-label">${esc(x.detailLabel)}</p>`,
+      '    <ul class="step-detail">',
+      ...s.detail.map((t) => `      <li>${esc(t)}</li>`),
+      '    </ul>',
+      '  </li>',
+    ]),
+    '</ol>',
+  ];
+};
+
+/* ---- /fde/ のサービス定義（Service 構造化データと1対1で対応する可視ブロック） ----
+   構造化データに書く項目だけを、同じ値で画面にも出す。
+   どちらか一方だけを書き換えても食い違わないよう、両方をこの services[fde] から生成する。 */
+const fdeService = (c) => {
+  const s = (c.config.services || []).find((x) => x.id === 'fde');
+  if (!s) throw new Error('site.config.json の services に id="fde" のサービスがありません');
+  return s;
+};
+const renderServiceFde = (c) => {
+  const s = fdeService(c);
+  const co = c.config.company;
+  const rows = [
+    ['サービス名', esc(s.name)],
+    ['支援内容', esc(s.description)],
+    ['提供', esc(co.legalName)],
+    ['対応地域', esc(co.serviceArea)],
+  ].filter(([, v]) => v !== '');
+  return [
+    '<dl class="doc-dl svc-def">',
+    ...rows.map(([k, v]) => `  <div><dt>${esc(k)}</dt><dd>${v}</dd></div>`),
+    '</dl>',
+  ];
+};
+const renderJsonLdServiceFde = (c) => {
+  const s = fdeService(c);
+  const co = c.config.company;
+  const site = c.config.site;
+  return jsonLdScript({
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    // トップの Service 8件と同じ @id。同じサービスを2つの実体に分けない
+    '@id': `${site.url}/#service-${s.id}`,
+    name: s.name,
+    description: s.description,
+    url: abs(c, s.url),
+    provider: { '@id': `${site.url}/#organization` },
+    areaServed: co.serviceArea,
+  });
 };
 
 /* ---- 課題提起 ---- */
@@ -778,18 +847,24 @@ const renderJsonLdServices = (c) => {
    ページごとの name / description は site.config.json の pages に置き、キーは
    HTML の相対パス（"index.html" など）。マーカーは全ページ共通の1キーで済み、
    どのページを描いているかは injectFile が渡す ctx.file から決まる。
-   pages に無いファイルへ置かれたらエラーにする（空の WebPage を黙って出さない）。 */
+   pages に無いファイルへ置かれたらエラーにする（空の WebPage を黙って出さない）。
+   pages[].type を書けば AboutPage など WebPage の下位型にできる（既定は WebPage）。 */
+const WEBPAGE_TYPES = new Set(['WebPage', 'AboutPage', 'ContactPage', 'CollectionPage', 'ItemPage', 'FAQPage']);
 const renderJsonLdWebPage = (c, ctx) => {
   const key = relOf(ctx);
   const p = (c.config.pages || {})[key];
   if (!p) {
     throw new Error(`site.config.json の pages に "${key}" の定義がありません`);
   }
+  const type = p.type || 'WebPage';
+  if (!WEBPAGE_TYPES.has(type)) {
+    throw new Error(`pages["${key}"].type "${type}" は使えません（${[...WEBPAGE_TYPES].join(' / ')}）`);
+  }
   const site = c.config.site;
   const url = abs(c, p.path);
   return jsonLdScript({
     '@context': 'https://schema.org',
-    '@type': 'WebPage',
+    '@type': type,
     '@id': `${url}#webpage`,
     url,
     name: p.name,
@@ -820,6 +895,8 @@ const RENDERERS = {
   'pillars': { desc: '3本柱カード（#pillar-construction 等のアンカー付き）', render: renderPillars },
   'fde-cross': { desc: 'FDE横断セクションの見出しと本文', render: renderFdeCross },
   'fde-steps': { desc: '01 Understand / 02 Build / 03 Embed + CTA', render: renderFdeSteps },
+  'fde-steps-detail': { desc: '3ステップ詳細（/fde/ 用。detail 付き・CTAなし）', render: renderFdeStepsDetail },
+  'service-fde': { desc: 'FDE・AI実装支援のサービス定義（可視。jsonld-service-fde と対）', render: renderServiceFde },
   'challenges': { desc: '課題提起カード8枚 + 締め文', render: renderChallenges },
   'roadmap': { desc: '12か月ロードマップ4フェーズ + CTA', render: renderRoadmap },
   'usecases': { desc: '活用テーマ10項目（活用イメージ注記つき）', render: renderUsecases },
@@ -836,6 +913,7 @@ const RENDERERS = {
   'jsonld-organization': { desc: 'JSON-LD: WebSite + Organization（index.html の既存ブロックを囲んで置き換える）', render: renderJsonLdOrganization },
   'jsonld-webpage': { desc: 'JSON-LD: WebPage（site.config.json の pages[相対パス] から生成）', render: renderJsonLdWebPage },
   'jsonld-services': { desc: 'JSON-LD: Service 8件', render: renderJsonLdServices },
+  'jsonld-service-fde': { desc: 'JSON-LD: Service（FDE・AI実装支援の1件。/fde/ 用）', render: renderJsonLdServiceFde },
   'jsonld-faq-top': { desc: 'JSON-LD: FAQPage（トップ）', render: (c) => renderJsonLdFaq(c.faqTop) },
   'jsonld-faq-fde': { desc: 'JSON-LD: FAQPage（/fde/）', render: (c) => renderJsonLdFaq(c.faqFde) },
   'jsonld-breadcrumb': { desc: 'JSON-LD: BreadcrumbList（表示用 breadcrumb と同一データ）', render: renderJsonLdBreadcrumb },
@@ -898,6 +976,7 @@ const LD_PAIRS = {
   'jsonld-faq-top': 'faq-top',
   'jsonld-faq-fde': 'faq-fde',
   'jsonld-services': 'services',
+  'jsonld-service-fde': 'service-fde',
   'jsonld-breadcrumb': 'breadcrumb',
 };
 

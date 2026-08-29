@@ -636,7 +636,8 @@ const tagBalance = (html) => {
 };
 
 const BLOCK_KEYS = ['nav', 'hero-copy', 'fde-lead', 'philosophy', 'pillars', 'fde-cross', 'fde-steps',
-  'challenges', 'roadmap', 'usecases', 'faq-top', 'faq-fde', 'services', 'company-spec', 'contact-copy'];
+  'fde-steps-detail', 'service-fde', 'challenges', 'roadmap', 'usecases', 'faq-top', 'faq-fde',
+  'services', 'company-spec', 'contact-copy'];
 for (const key of BLOCK_KEYS) {
   test(`生成HTML（${key}）のタグが閉じている`, () => {
     const html = resolveRenderer(key).render(C).join('\n');
@@ -1098,7 +1099,7 @@ test('計測イベントが要件の一覧をすべて実装している', () =>
 test('計測タグが全公開ページに入っている', () => {
   const missing = PUBLIC_PAGES.filter((rel) => !read(rel).includes('<!-- BEGIN:analytics -->'));
   assert(missing.length === 0, `計測マーカーが無いページ: ${missing.join(', ')}`);
-  assert(PUBLIC_PAGES.length >= 38, `公開ページの数が想定より少ないです: ${PUBLIC_PAGES.length}`);
+  assert(PUBLIC_PAGES.length >= 40, `公開ページの数が想定より少ないです: ${PUBLIC_PAGES.length}`);
   // GTM ID が空のうちは GTM を読み込まない
   // （gtag.js も googletagmanager.com から配信されるので、ドメイン名では区別できない。
   //   GTM は gtm.js、GA4 直結は gtag/js で見分ける）
@@ -1240,6 +1241,227 @@ test('form-handler.js と analytics.js が外部ライブラリに依存して�
     assert(!/\bimport\s|\brequire\s*\(/.test(src), `${name} が外部モジュールを読み込んでいます`);
     assert(!/\$\(|jQuery/.test(src), `${name} が jQuery を使っています`);
   }
+});
+
+/* ==========================================================================
+   6e. /fde/ ・/about/（フェーズ5）
+   ========================================================================== */
+const FDE = read('fde/index.html');
+const ABOUT = read('about/index.html');
+/** ページのテキスト（タグを外し、実体参照を戻したもの） */
+const textOf = (html) => html.replace(/<[^>]+>/g, ' ')
+  .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"')
+  .replace(/&#39;/g, "'").replace(/&amp;/g, '&');
+/** ページ内の JSON-LD をすべて parse して返す */
+const ldOf = (html) => [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+  .map((m) => JSON.parse(m[1]));
+
+for (const [rel, html] of [['fde/index.html', FDE], ['about/index.html', ABOUT]]) {
+  test(`${rel} の title / description / canonical が site.config.json と一致する`, () => {
+    const p = C.config.pages[rel];
+    assert(p, `site.config.json の pages に ${rel} がありません`);
+    assertEq(html.match(/<title>([^<]*)<\/title>/)[1], p.name, '<title> が pages.name と違います');
+    assertEq(html.match(/<meta name="description" content="([^"]*)">/)[1], p.description,
+      'meta description が pages.description と違います');
+    assert(html.includes(`rel="canonical" href="https://cucul-fm.com${p.path}"`), 'canonical がありません');
+    assertEq((html.match(/<h1/g) || []).length, 1, 'H1 が1つではありません');
+    // OGP / Twitter Card も同じ文言（SNS 表示と画面がずれない）
+    for (const [attr, key, want] of [['property', 'og:title', p.name], ['property', 'og:description', p.description],
+      ['property', 'og:url', `https://cucul-fm.com${p.path}`],
+      ['name', 'twitter:title', p.name], ['name', 'twitter:description', p.description]]) {
+      const re = new RegExp(`<meta ${attr}="${key}" content="([^"]*)">`);
+      const m = html.match(re);
+      assert(m, `${key} がありません`);
+      assertEq(m[1], want, `${key} が config と違います`);
+    }
+  });
+
+  test(`${rel} のパンくず・WebPage 構造化データが表示と一致する`, () => {
+    const p = C.config.pages[rel];
+    const nav = html.match(/<nav class="breadcrumb"[\s\S]*?<\/nav>/);
+    assert(nav, '表示用のパンくずがありません');
+    const shown = [...nav[0].matchAll(/<li>(?:<a [^>]*>|<span [^>]*>)([^<]+)</g)].map((m) => m[1]);
+    const blocks = ldOf(html);
+    const bc = blocks.find((n) => n['@type'] === 'BreadcrumbList');
+    assert(bc, 'BreadcrumbList がありません');
+    assertEq(JSON.stringify(shown), JSON.stringify(bc.itemListElement.map((i) => i.name)),
+      'パンくずの表示と BreadcrumbList が一致しません');
+    assertEq(bc.itemListElement[bc.itemListElement.length - 1].item, `https://cucul-fm.com${p.path}`,
+      'BreadcrumbList の末尾がページ自身の URL ではありません');
+    const page = blocks.find((n) => n['@type'] === (p.type || 'WebPage'));
+    assert(page, `${p.type || 'WebPage'} の JSON-LD がありません`);
+    assertEq(page.name, p.name, 'WebPage の name が pages.name と違います');
+  });
+
+  test(`${rel} の内部リンク先がすべて存在する`, () => {
+    const planned = new Set(['/insights/']);
+    const hrefs = [...html.matchAll(/href="(\/[^"#]*)(?:#[^"]*)?"/g)].map((m) => m[1]);
+    const missing = hrefs.filter((h) => {
+      if (planned.has(h) || h === '/') return false;
+      return !fs.existsSync(path.join(ROOT, h.replace(/^\//, ''), 'index.html'))
+        && !fs.existsSync(path.join(ROOT, h.replace(/^\//, '')));
+    });
+    assert(missing.length === 0, `存在しないリンク先: ${[...new Set(missing)].join(', ')}`);
+  });
+
+  test(`${rel} に計測タグと「相談する」導線がある`, () => {
+    assert(html.includes('<!-- BEGIN:analytics -->'), '計測マーカーがありません');
+    assert(html.includes('data-ga-event="click_consultation_cta"'), '相談CTAの計測がありません');
+    assert(html.includes('data-ga-event="click_phone"'), '電話クリックの計測がありません');
+    assert(html.includes('data-ga-event="click_email"'), 'メールクリックの計測がありません');
+    // 電話・メールは config と一致（表示文字列も href も）
+    for (const m of [...html.matchAll(/href="mailto:([^"]+)"/g)]) {
+      assertEq(m[1], C.config.company.email, 'mailto の宛先が config と違います');
+    }
+    for (const m of [...html.matchAll(/href="(tel:[^"]+)"/g)]) {
+      assertEq(m[1], C.config.company.telHref, 'tel: の番号が config と違います');
+    }
+  });
+}
+
+test('/fde/ が要件の構成要素をすべて含んでいる', () => {
+  const text = textOf(FDE);
+  const m = C.config.messaging;
+  // 1. メインコピー（H1）とサブコピー
+  assert(FDE.includes(`<h1 class="fde-main">${m.fdeMain}</h1>`), 'H1 がメインコピーと一致しません');
+  for (const line of m.fdeSub.flat()) assert(text.includes(line), `サブコピーの行が欠けています: ${line}`);
+  // 2. 思想ブロック
+  assert(text.includes(m.philosophy.title), '思想ブロックの見出しがありません');
+  for (const line of m.philosophy.body.flat()) assert(text.includes(line), `思想ブロックの本文が欠けています: ${line}`);
+  // 3. 立ち位置（「〜ではない」4つ + 平易な言い換え）
+  for (const not of ['AIツール販売会社', 'Web制作会社', '受託開発会社', 'ITコンサルティング会社']) {
+    assert(text.includes(`単なる${not}`), `立ち位置の対比に「単なる${not}」がありません`);
+  }
+  assert(text.includes('現場伴走型のAI・DX実装支援'), '平易な言い換えが前面に出ていません');
+  // 4. 対象業種（要件の11業種）
+  for (const ind of ['下水道', '建設', '設備', '保守点検', '清掃', '物流', '製造',
+    '不動産・施設管理', 'クリエイティブ事業', '地域事業', 'サービス業']) {
+    assert(text.includes(ind), `対象業種に「${ind}」がありません`);
+  }
+  // 5. 3ステップ詳細
+  for (const s of C.pillars.crossSection.steps) {
+    assert(text.includes(s.ja), `ステップ「${s.ja}」がありません`);
+    for (const d of s.detail) assert(text.includes(d), `ステップ詳細が欠けています: ${d}`);
+  }
+  // 6. ロードマップ（4フェーズの施策・成果物がJS無しで読める）
+  assert(FDE.includes('<details class="rm-details" open>'), 'ロードマップの details が open ではありません');
+  for (const p of C.roadmap.phases) {
+    for (const item of p.items) assert(text.includes(item), `ロードマップの施策が欠けています: ${item}`);
+    for (const d of p.deliverables) assert(text.includes(d), `ロードマップの成果物が欠けています: ${d}`);
+  }
+  // 7. 活用テーマ（実績ではない注記つき）
+  assert(text.includes(C.usecases.note), '活用イメージである旨の注記がありません');
+  for (const item of C.usecases.items) assert(text.includes(item), `活用テーマが欠けています: ${item}`);
+  // 8. AI・データの取扱い方針
+  for (const need of ['AIに入力してよい情報', '扱うべきでない情報', '人による確認・承認',
+    'お客様のデータの取扱い', 'セキュリティ']) {
+    assert(text.includes(need), `AI・データの取扱い方針に「${need}」がありません`);
+  }
+  // 9. FAQ（faq-fde の全問）
+  for (const it of C.faqFde.items) assert(text.includes(it.q), `FAQ の設問が欠けています: ${it.q}`);
+  // 10. CTA・公開日・監修者
+  assert(text.includes(C.config.contact.heading), '問い合わせの見出しがありません');
+  assert(/公開日/.test(text) && /最終更新日/.test(text), '公開日・最終更新日の表記がありません');
+  assert(text.includes(`監修`) && text.includes(C.config.company.representative), '監修者の表記がありません');
+});
+
+test('/fde/ の Service 構造化データが可視ブロックと一致する', () => {
+  const svc = ldOf(FDE).find((n) => n['@type'] === 'Service');
+  assert(svc, 'Service の JSON-LD がありません');
+  const fde = C.config.services.find((s) => s.id === 'fde');
+  assertEq(svc.name, fde.name, 'Service の name が config と違います');
+  assertEq(svc.url, `https://cucul-fm.com${fde.url}`, 'Service の url が違います');
+  // トップの Service 8件と同じ @id（同じサービスを2つの実体に分けない）
+  assertEq(svc['@id'], 'https://cucul-fm.com/#service-fde', 'Service の @id がトップと揃っていません');
+  // 構造化データの各値が、画面にも同じ文字列で出ていること
+  const text = textOf(FDE);
+  for (const v of [svc.name, svc.description, svc.areaServed, C.config.company.legalName]) {
+    assert(text.includes(v), `Service の値が画面に出ていません: ${v}`);
+  }
+  assertEq(svc.provider['@id'], 'https://cucul-fm.com/#organization', 'provider が Organization を指していません');
+});
+
+test('/fde/ の3ステップ詳細は自ページへのCTAを持たない', () => {
+  const html = resolveRenderer('fde-steps-detail').render(C).join('\n');
+  assert(!html.includes('href="/fde/"'), '/fde/ の中に /fde/ へのCTAが入っています');
+  assert(!html.includes('btn-fde'), 'トップ用のCTAが混ざっています');
+  for (const s of C.pillars.crossSection.steps) {
+    for (const d of s.detail) assert(html.includes(d), `detail が出力されていません: ${d}`);
+  }
+  assert(html.includes(C.pillars.crossSection.detailLabel), 'detail の見出しが出力されていません');
+});
+
+test('/about/ が要件の掲載項目を満たしている', () => {
+  const text = textOf(ABOUT);
+  const co = C.config.company;
+  for (const v of [co.legalName, co.alternateName, co.representative, co.tel, co.email,
+    co.serviceArea, co.representativeBio, co.address.postalCode, co.address.streetAddress]) {
+    assert(text.includes(v), `会社情報が出ていません: ${v}`);
+  }
+  // 未確定情報は会社情報テーブルに空の行として出さない
+  // （「確定したら掲載します」という注記の中に語が出るのは可）
+  const spec = ABOUT.match(/<dl class="spec-table">[\s\S]*?<\/dl>/);
+  assert(spec, '会社情報テーブルがありません');
+  for (const pending of ['法人番号', '設立年月日']) {
+    assert(!spec[0].includes(pending), `未確定の${pending}の行が出ています`);
+  }
+  // ミッション・大切にする考え方
+  assert(text.includes(C.config.messaging.existingTagline), 'ミッション（既存タグライン）がありません');
+  for (const v of ['多様性と融合', '顧客中心主義', 'イノベーションとDX推進', '実現志向']) {
+    assert(text.includes(v), `大切にしている考え方に「${v}」がありません`);
+  }
+  // 3本柱とFDEの関係
+  for (const p of C.pillars.pillars) {
+    assert(text.includes(p.ja), `3本柱「${p.ja}」がありません`);
+    for (const line of p.fdeNote) assert(text.includes(line), `FDEとのつながりの補足が欠けています: ${line}`);
+  }
+  assert(text.includes(C.pillars.fdeNoteLabel), 'FDEとのつながりのラベルがありません');
+  // 事業内容（Service 8件の可視リスト）
+  for (const s of C.config.services) assert(text.includes(s.name), `事業内容に「${s.name}」がありません`);
+  // 体制・問い合わせ方法・プライバシーポリシー
+  assert(text.includes('体制'), 'FDE・AI実装支援の体制の記載がありません');
+  assert(ABOUT.includes('href="/privacy/"'), 'プライバシーポリシーへのリンクがありません');
+  assert(ABOUT.includes('href="/fde/"'), '/fde/ への内部リンクがありません');
+});
+
+test('/about/ に AboutPage と Organization の構造化データがある', () => {
+  const blocks = ldOf(ABOUT);
+  assert(blocks.some((n) => n['@type'] === 'AboutPage'), 'AboutPage がありません');
+  const graph = blocks.find((n) => Array.isArray(n['@graph']));
+  assert(graph, 'Organization の @graph がありません');
+  const org = graph['@graph'].find((n) => n['@type'] === 'Organization');
+  assert(org, 'Organization ノードがありません');
+  assertEq(org['@id'], 'https://cucul-fm.com/#organization', 'Organization の @id がトップと揃っていません');
+  assert(!('foundingDate' in org) && !('taxID' in org), '未確定情報が構造化データに入っています');
+  // sameAs は画面のリンクとも一致させる（表示していない情報を構造化データに書かない）
+  for (const u of org.sameAs) assert(ABOUT.includes(u), `sameAs のリンクが画面にありません: ${u}`);
+});
+
+test('WebPage の type は許可した下位型だけ通る', () => {
+  const c = structuredClone(C);
+  c.config.pages['about/index.html'].type = 'AboutPage';
+  const ok = resolveRenderer('jsonld-webpage').render(c, { file: 'about/index.html' }).join('\n');
+  assert(ok.includes('"@type": "AboutPage"'), 'AboutPage が出力されません');
+  c.config.pages['about/index.html'].type = 'NotAType';
+  const bad = injectFile('<!-- BEGIN:jsonld-webpage --><!-- END:jsonld-webpage -->', c, 'about/index.html');
+  assert(bad.errors.length > 0, '未知の type がエラーになりません');
+});
+
+test('新規ページの手書き本文に架空の実績・断定表現が入っていない', () => {
+  // content/*.json は validate が見ているが、HTML に直接書いた本文は素通りするのでここで見る
+  const banned = [...BANNED, '導入社数', '削減率', '導入実績', '顧客ロゴ', 'CUCUL FM .LLC'];
+  const hits = [];
+  for (const [rel, html] of [['fde/index.html', FDE], ['about/index.html', ABOUT]]) {
+    const text = textOf(html);
+    for (const w of banned) if (text.includes(w)) hits.push(`${w} @ ${rel}`);
+  }
+  assert(hits.length === 0, `禁止表現: ${hits.join(', ')}`);
+});
+
+test('Service の JSON-LD だけを置いて可視ブロックが無いページはエラーになる', () => {
+  const only = '<div><!-- BEGIN:jsonld-service-fde --><!-- END:jsonld-service-fde --></div>';
+  const r = injectFile(only, C, 'fde/index.html');
+  assert(r.errors.length > 0, '可視の service-fde が無いのにエラーになりません');
 });
 
 /* ==========================================================================

@@ -153,6 +153,17 @@ node scripts/test-build-content.mjs   # 壊れていないか確認（全件合�
 FAQ を直すと、画面の表示と構造化データ（FAQPage）が同じデータから作り直されるので、
 両者が食い違うことはない。
 
+### ページを新しく作るとき
+
+1. `content/site.config.json` の `pages` にそのHTMLの相対パスで定義を足す
+   （`path` / `name` / `description`。パンくずを出すなら `breadcrumb`、
+   会社概要のような下位型にするなら `type`（例: `AboutPage`）も）
+   - `name` / `description` は、そのHTMLの `<title>` / `<meta name="description">` と
+     一字一句そろえる。ずれているとテストが落ちる
+2. HTML の `</head>` 直前に `<!-- BEGIN:analytics --><!-- END:analytics -->` を置く
+   （全公開ページに計測タグが入っていることをテストが確認する）
+3. `node scripts/build-content.mjs` で中身が生成される
+
 ---
 
 ## 5. 困ったときの確認コマンド
