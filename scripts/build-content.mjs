@@ -147,7 +147,35 @@ const readJson = (name) => {
   }
 };
 
-const loadContent = () => ({
+/** 記事ページの相対パス（site.config.json の pages のキー） */
+export const articleKey = (slug) => `insights/${slug}/index.html`;
+
+/**
+ * 記事ページの WebPage 定義を config.pages に足す。
+ * 記事は insights.json だけを直せば済むようにしたいので、
+ * site.config.json 側に同じ title / description を二重で書かせない。
+ * （手書きの pages に同じキーがあればそちらを優先し、黙って上書きしない）
+ */
+export const withArticlePages = (c) => {
+  const suffix = c.config.site.titleSuffix;
+  for (const a of c.insights.articles || []) {
+    const key = articleKey(a.slug);
+    if (c.config.pages[key]) continue;
+    c.config.pages[key] = {
+      path: `/insights/${a.slug}/`,
+      name: `${a.title} | ${suffix}`,
+      description: a.description,
+      breadcrumb: [
+        { name: 'ホーム', path: '/' },
+        { name: 'Insights', path: '/insights/' },
+        { name: a.navTitle, path: `/insights/${a.slug}/` },
+      ],
+    };
+  }
+  return c;
+};
+
+export const loadContent = () => withArticlePages({
   config: readJson('site.config.json'),
   pillars: readJson('pillars.json'),
   challenges: readJson('challenges.json'),
@@ -155,6 +183,7 @@ const loadContent = () => ({
   usecases: readJson('usecases.json'),
   faqTop: readJson('faq-top.json'),
   faqFde: readJson('faq-fde.json'),
+  insights: readJson('insights.json'),
 });
 
 /* ==========================================================================
@@ -186,6 +215,7 @@ export const validate = (c) => {
     ['usecases.items', c.usecases?.items],
     ['faqTop.items', c.faqTop?.items],
     ['faqFde.items', c.faqFde?.items],
+    ['insights.articles', c.insights?.articles],
   ];
   for (const [label, v] of need) if (isBlank(v)) errors.push(`必須データが空です: ${label}`);
   if (errors.length) return { errors, warnings };
@@ -240,6 +270,38 @@ export const validate = (c) => {
   if (!isBlank(gtm) && !isBlank(ga4)) {
     warnings.push('analytics に gtmId と ga4MeasurementId の両方が設定されています。'
       + '二重計測を避けるため GTM を優先し、gtag.js は出力しません（GA4 の設定は GTM 側で行ってください）');
+  }
+
+  // --- 記事メタデータ（一覧・Article 構造化データ・パンくずの元になる） ---
+  const slugs = new Set();
+  for (const [i, a] of c.insights.articles.entries()) {
+    const at = `insights.articles[${i}]`;
+    if (!/^[a-z0-9-]+$/.test(a.slug || '')) {
+      errors.push(`${at}.slug は英小文字・数字・ハイフンにしてください: ${a.slug}`);
+      continue;
+    }
+    if (slugs.has(a.slug)) errors.push(`${at}.slug が重複しています: ${a.slug}`);
+    slugs.add(a.slug);
+    for (const f of ['title', 'navTitle', 'description', 'excerpt', 'category']) {
+      if (isBlank(a[f])) errors.push(`${at}.${f} が空です（${a.slug}）`);
+    }
+    for (const f of ['datePublished', 'dateModified']) {
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(a[f] || '')) {
+        errors.push(`${at}.${f} は YYYY-MM-DD 形式にしてください（${a.slug}）: ${a[f]}`);
+      }
+    }
+    if (a.datePublished && a.dateModified && a.dateModified < a.datePublished) {
+      errors.push(`${at}: dateModified が datePublished より前です（${a.slug}）`);
+    }
+  }
+  for (const [i, a] of c.insights.articles.entries()) {
+    for (const r of a.related || []) {
+      if (!slugs.has(r)) errors.push(`insights.articles[${i}].related に未知のスラッグがあります（${a.slug}）: ${r}`);
+      if (r === a.slug) errors.push(`insights.articles[${i}].related が自分自身を指しています: ${a.slug}`);
+    }
+  }
+  for (const f of ['author', 'supervisor', 'authorLabel', 'supervisorLabel', 'publishedLabel', 'modifiedLabel', 'relatedLabel']) {
+    if (isBlank(c.insights[f])) errors.push(`insights.${f} が空です`);
   }
 
   // --- 活用テーマは「実績ではない」注記が必須（要件: 実績と誤認させない） ---
@@ -490,6 +552,108 @@ const renderJsonLdServiceFde = (c) => {
     url: abs(c, s.url),
     provider: { '@id': `${site.url}/#organization` },
     areaServed: co.serviceArea,
+  });
+};
+
+/* ==========================================================================
+   Insights（記事）
+   一覧カード・記事の著者/日付表示・関連記事・Article 構造化データは、
+   すべて content/insights.json の同じ1件から作る。
+   ========================================================================== */
+
+/** "2026-08-29" → "2026年8月29日"（表示用。datetime 属性には ISO のまま入れる） */
+const jpDate = (iso) => {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(iso));
+  if (!m) throw new Error(`日付の形式が YYYY-MM-DD ではありません: ${iso}`);
+  return `${Number(m[1])}年${Number(m[2])}月${Number(m[3])}日`;
+};
+
+/** ctx.file（insights/<slug>/index.html）から記事を引く */
+const articleOf = (c, ctx) => {
+  const key = relOf(ctx);
+  const m = /^insights\/([^/]+)\/index\.html$/.exec(key);
+  if (!m) throw new Error(`記事ページ以外で使えないマーカーです（${key}）`);
+  const a = (c.insights.articles || []).find((x) => x.slug === m[1]);
+  if (!a) throw new Error(`content/insights.json の articles に "${m[1]}" がありません`);
+  return a;
+};
+
+/* ---- 一覧のカード（見出しはページ側の .section-title が持つ） ---- */
+const renderInsightsList = (c) => {
+  const d = c.insights;
+  return [
+    '<ul class="ins-list">',
+    ...d.articles.flatMap((a) => [
+      `  <li class="ins-card" id="ins-${esc(a.slug)}">`,
+      `    <a class="ins-link" href="/insights/${esc(a.slug)}/">`,
+      '      <p class="ins-meta">',
+      `        <span class="ins-cat">${esc(a.category)}</span>`,
+      `        <time class="ins-date" datetime="${esc(a.datePublished)}">${esc(jpDate(a.datePublished))}</time>`,
+      '      </p>',
+      `      <h3 class="ins-title">${esc(a.title)}</h3>`,
+      `      <p class="ins-excerpt">${esc(a.excerpt)}</p>`,
+      '      <span class="ins-go" aria-hidden="true">READ</span>',
+      '    </a>',
+      '  </li>',
+    ]),
+    '</ul>',
+  ];
+};
+
+/* ---- 記事の著者・公開日（Article 構造化データと同じ値を画面にも出す） ---- */
+const renderArticleMeta = (c, ctx) => {
+  const a = articleOf(c, ctx);
+  const d = c.insights;
+  // クラス名は post-*。article-title / article-date などは既存のブログカード用に
+  // 使われているので、記事ページ側で同じ名前を使うと下層19ページの見た目が変わる
+  return [
+    '<p class="post-meta">',
+    `  <span class="post-cat">${esc(a.category)}</span>`,
+    `  <span>${esc(d.publishedLabel)}: <time datetime="${esc(a.datePublished)}">${esc(jpDate(a.datePublished))}</time></span>`,
+    `  <span>${esc(d.modifiedLabel)}: <time datetime="${esc(a.dateModified)}">${esc(jpDate(a.dateModified))}</time></span>`,
+    `  <span>${esc(d.authorLabel)}: ${esc(d.author)}</span>`,
+    `  <span>${esc(d.supervisorLabel)}: ${esc(d.supervisor)}</span>`,
+    '</p>',
+  ];
+};
+
+/* ---- 関連記事 ---- */
+const renderArticleRelated = (c, ctx) => {
+  const a = articleOf(c, ctx);
+  const byslug = new Map(c.insights.articles.map((x) => [x.slug, x]));
+  const rel = (a.related || []).map((s) => byslug.get(s)).filter(Boolean);
+  if (rel.length === 0) return [];
+  return [
+    `<p class="related-label">${esc(c.insights.relatedLabel)}</p>`,
+    '<ul class="related-list">',
+    ...rel.map((r) => `  <li><a href="/insights/${esc(r.slug)}/"><span class="related-cat">${esc(r.category)}</span><span class="related-title">${esc(r.title)}</span></a></li>`),
+    '</ul>',
+  ];
+};
+
+/* ---- JSON-LD: Article（表示中の著者・日付と同じデータから作る） ---- */
+const renderJsonLdArticle = (c, ctx) => {
+  const a = articleOf(c, ctx);
+  const d = c.insights;
+  const site = c.config.site;
+  const url = abs(c, `/insights/${a.slug}/`);
+  return jsonLdScript({
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    '@id': `${url}#article`,
+    mainEntityOfPage: url,
+    url,
+    headline: a.title,
+    description: a.description,
+    articleSection: a.category,
+    datePublished: a.datePublished,
+    dateModified: a.dateModified,
+    author: { '@type': 'Organization', name: d.author, url: `${site.url}/` },
+    // 監修者も画面に出しているので、同じ人物を contributor として持たせる
+    contributor: { '@type': 'Person', name: c.config.company.representative },
+    publisher: { '@id': `${site.url}/#organization` },
+    image: abs(c, site.defaultOgImage),
+    inLanguage: 'ja-JP',
   });
 };
 
@@ -903,6 +1067,9 @@ const RENDERERS = {
   'faq-top': { desc: 'トップページFAQ（7問）', render: (c) => renderFaq(c.faqTop, 'faq-title') },
   'faq-fde': { desc: '/fde/ ページFAQ', render: (c) => renderFaq(c.faqFde, 'faq-title') },
   'services': { desc: 'サービス8件の可視リスト', render: renderServices },
+  'insights-list': { desc: '/insights/ の記事一覧（見出し + カード）', render: renderInsightsList },
+  'article-meta': { desc: '記事の著者・公開日・最終更新日（jsonld-article と対）', render: renderArticleMeta },
+  'article-related': { desc: '記事の関連記事リンク', render: renderArticleRelated },
   'company-spec': { desc: '会社概要テーブル（空欄項目は出力しない）', render: renderCompanySpec },
   'contact-copy': { desc: '問い合わせセクションの見出し・本文', render: renderContactCopy },
   'contact-subjects': { desc: 'ご相談の種類 <option> 群', render: renderContactSubjects },
@@ -914,6 +1081,7 @@ const RENDERERS = {
   'jsonld-webpage': { desc: 'JSON-LD: WebPage（site.config.json の pages[相対パス] から生成）', render: renderJsonLdWebPage },
   'jsonld-services': { desc: 'JSON-LD: Service 8件', render: renderJsonLdServices },
   'jsonld-service-fde': { desc: 'JSON-LD: Service（FDE・AI実装支援の1件。/fde/ 用）', render: renderJsonLdServiceFde },
+  'jsonld-article': { desc: 'JSON-LD: Article（insights.json の1件。記事ページ用）', render: renderJsonLdArticle },
   'jsonld-faq-top': { desc: 'JSON-LD: FAQPage（トップ）', render: (c) => renderJsonLdFaq(c.faqTop) },
   'jsonld-faq-fde': { desc: 'JSON-LD: FAQPage（/fde/）', render: (c) => renderJsonLdFaq(c.faqFde) },
   'jsonld-breadcrumb': { desc: 'JSON-LD: BreadcrumbList（表示用 breadcrumb と同一データ）', render: renderJsonLdBreadcrumb },
@@ -977,6 +1145,7 @@ const LD_PAIRS = {
   'jsonld-faq-fde': 'faq-fde',
   'jsonld-services': 'services',
   'jsonld-service-fde': 'service-fde',
+  'jsonld-article': 'article-meta',
   'jsonld-breadcrumb': 'breadcrumb',
 };
 

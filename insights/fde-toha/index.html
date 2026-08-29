@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FDEとは何か。ITコンサル・SES・受託開発との違い | CUCUL FM.LLC</title>
+    <meta name="description" content="FDE（Forward Deployed Engineer）は、現場と事業の課題を理解したうえで仕組みを設計・実装し、定着まで伴走する役割です。ITコンサルティング・SES・受託開発との違いを、責任の範囲と向いている場面から整理します。">
+    <link rel="canonical" href="https://cucul-fm.com/insights/fde-toha/">
+
+    <!-- Open Graph / SNS Share -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://cucul-fm.com/insights/fde-toha/">
+    <meta property="og:title" content="FDEとは何か。ITコンサル・SES・受託開発との違い | CUCUL FM.LLC">
+    <meta property="og:description" content="FDE（Forward Deployed Engineer）は、現場と事業の課題を理解したうえで仕組みを設計・実装し、定着まで伴走する役割です。ITコンサルティング・SES・受託開発との違いを、責任の範囲と向いている場面から整理します。">
+    <meta property="og:image" content="https://cucul-fm.com/logo/cuculfm.svg">
+    <meta property="og:locale" content="ja_JP">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="FDEとは何か。ITコンサル・SES・受託開発との違い | CUCUL FM.LLC">
+    <meta name="twitter:description" content="FDE（Forward Deployed Engineer）は、現場と事業の課題を理解したうえで仕組みを設計・実装し、定着まで伴走する役割です。ITコンサルティング・SES・受託開発との違いを、責任の範囲と向いている場面から整理します。">
+    <meta name="twitter:image" content="https://cucul-fm.com/logo/cuculfm.svg">
+    <link rel="icon" href="/logo/cuculfm.svg" type="image/svg+xml" sizes="any">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+JP:wght@300;400;500;700&family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="/services/style.css">
+
+    <!-- 構造化データ。中身は content/insights.json から生成する（手で書き換えない） -->
+    <!-- BEGIN:jsonld-article -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "@id": "https://cucul-fm.com/insights/fde-toha/#article",
+      "mainEntityOfPage": "https://cucul-fm.com/insights/fde-toha/",
+      "url": "https://cucul-fm.com/insights/fde-toha/",
+      "headline": "FDEとは何か。ITコンサル・SES・受託開発との違い",
+      "description": "FDE（Forward Deployed Engineer）は、現場と事業の課題を理解したうえで仕組みを設計・実装し、定着まで伴走する役割です。ITコンサルティング・SES・受託開発との違いを、責任の範囲と向いている場面から整理します。",
+      "articleSection": "FDE",
+      "datePublished": "2026-08-29",
+      "dateModified": "2026-08-29",
+      "author": {
+        "@type": "Organization",
+        "name": "ククルFM編集部",
+        "url": "https://cucul-fm.com/"
+      },
+      "contributor": {
+        "@type": "Person",
+        "name": "馬場 陽子"
+      },
+      "publisher": {
+        "@id": "https://cucul-fm.com/#organization"
+      },
+      "image": "https://cucul-fm.com/logo/cuculfm.svg",
+      "inLanguage": "ja-JP"
+    }
+    </script>
+    <!-- END:jsonld-article -->
+    <!-- BEGIN:jsonld-breadcrumb -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "ホーム",
+          "item": "https://cucul-fm.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Insights",
+          "item": "https://cucul-fm.com/insights/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "FDEとは何か",
+          "item": "https://cucul-fm.com/insights/fde-toha/"
+        }
+      ]
+    }
+    </script>
+    <!-- END:jsonld-breadcrumb -->
+
+    <!-- 計測 -->
+    <!-- BEGIN:analytics -->
+    <script>window.dataLayer=window.dataLayer||[];</script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RGHFB3LGED"></script>
+    <script>function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-RGHFB3LGED');window.CUCULFM=window.CUCULFM||{};window.CUCULFM.directGa4=true;</script>
+    <script src="/js/analytics.js" defer></script>
+    <!-- END:analytics -->
+</head>
+<body>
+    <!-- Header -->
+    <header class="service-header">
+        <div class="container">
+            <div class="header-content">
+                <a href="/insights/" class="back-link">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>記事一覧へ</span>
+                </a>
+                <div class="header-logo">CUCUL FM</div>
+                <a class="header-cta" href="/#contact" data-ga-event="click_consultation_cta">相談する</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="service-hero post-hero">
+        <div class="container">
+            <!-- BEGIN:breadcrumb -->
+            <nav class="breadcrumb" aria-label="パンくずリスト">
+              <ol>
+                <li><a href="/">ホーム</a></li>
+                <li><a href="/insights/">Insights</a></li>
+                <li><span aria-current="page">FDEとは何か</span></li>
+              </ol>
+            </nav>
+            <!-- END:breadcrumb -->
+            <p class="hero-label">INSIGHTS</p>
+            <h1 class="post-title">FDEとは何か。ITコンサル・SES・受託開発との違い</h1>
+            <p class="post-lead">
+                FDE（Forward Deployed Engineer）は、顧客の現場や事業に入り込み、課題の整理から、
+                AI・SaaS・業務システムの設計と実装、運用の定着までを一続きで担う役割です。
+                ITコンサルティング、SES、受託開発と重なる部分はありますが、違いは技術力の高さではなく、
+                どこまでを自分の仕事として引き受けるかの範囲にあります。
+                ククルFMでは、この役割を分かりやすく「現場伴走型のAI・DX実装支援」と呼んでいます。
+            </p>
+            <!-- BEGIN:article-meta -->
+            <p class="post-meta">
+              <span class="post-cat">FDE</span>
+              <span>公開日: <time datetime="2026-08-29">2026年8月29日</time></span>
+              <span>最終更新日: <time datetime="2026-08-29">2026年8月29日</time></span>
+              <span>執筆: ククルFM編集部</span>
+              <span>監修: ククルFM合同会社 代表 馬場 陽子</span>
+            </p>
+            <!-- END:article-meta -->
+        </div>
+    </section>
+
+    <!-- 本文 -->
+    <section class="content-section">
+        <div class="container">
+            <div class="post-body">
+
+                <nav class="post-toc" aria-label="目次">
+                    <p class="post-toc-label">目次</p>
+                    <ul>
+                        <li><a href="#readers">この記事の対象</a></li>
+                        <li><a href="#origin">FDEという呼び方の由来と、現場での意味</a></li>
+                        <li><a href="#difference">ITコンサル・SES・受託開発との違い</a></li>
+                        <li><a href="#why-implement">実装まで持つと、何が変わるのか</a></li>
+                        <li><a href="#our-view">ククルFMがこの役割をどう捉えているか</a></li>
+                        <li><a href="#fit">相談しやすいテーマと、そうでないテーマ</a></li>
+                        <li><a href="#faq">よくある質問</a></li>
+                    </ul>
+                </nav>
+
+                <h2 id="readers">この記事の対象</h2>
+                <p>次のような状況にある方に向けて書いています。</p>
+                <ul class="doc-list">
+                    <li>業務システムやAIの導入を考えているが、コンサルティング会社・開発会社・技術者派遣のどれに相談すべきか決めかねている</li>
+                    <li>過去に提案書は受け取ったものの、現場で使われる形にならなかった経験がある</li>
+                    <li>自社の実務が分かる相手を探している</li>
+                </ul>
+
+                <h2 id="origin">FDEという呼び方の由来と、現場での意味</h2>
+                <p>Forward Deployed Engineer は、もともとソフトウェア企業が、自社製品を顧客の環境で使える状態にするために、エンジニアを顧客側へ「前方展開」させたことに由来する呼び方です。製品を渡して終わりにせず、顧客のデータや業務の流れに合わせて設定・開発・運用支援まで行う人を指します。</p>
+                <p>この役割を、現場を持つ事業に当てはめると、次のような仕事になります。</p>
+                <ul class="doc-list">
+                    <li>現場、事務、管理、経営のそれぞれで、実際に何をどの順番で行っているかを聞き取る</li>
+                    <li>既製のSaaSで足りる範囲と、個別につくる必要がある範囲を分ける</li>
+                    <li>データの持ち方（項目、粒度、マスタ、履歴の残し方）を決める</li>
+                    <li>実際に動くものをつくり、試験運用して直す</li>
+                    <li>操作説明と運用ルールを整え、使われ続ける状態にする</li>
+                </ul>
+                <p>「業務を理解する人」「つくる人」「運用を支える人」が別々の会社に分かれていることは珍しくありません。FDEは、この3つをできるだけ同じ視点で見ようとする役割だと考えています。</p>
+
+                <h2 id="difference">ITコンサル・SES・受託開発との違い</h2>
+                <div class="table-scroll">
+                    <table class="post-table">
+                        <thead>
+                            <tr>
+                                <th>役割</th>
+                                <th>主に引き受けること</th>
+                                <th>代表的な成果物</th>
+                                <th>向いている場面</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>ITコンサルティング</td>
+                                <td>戦略・構想・要件の整理</td>
+                                <td>提案書、要件定義書、ロードマップ</td>
+                                <td>全社の投資判断や中期計画を決めたいとき</td>
+                            </tr>
+                            <tr>
+                                <td>SES（技術者派遣）</td>
+                                <td>指揮命令を受けた作業</td>
+                                <td>稼働時間に応じた技術支援</td>
+                                <td>設計と管理を自社で持てて、手が足りないとき</td>
+                            </tr>
+                            <tr>
+                                <td>受託開発</td>
+                                <td>決まった仕様の実装</td>
+                                <td>仕様どおりのシステム</td>
+                                <td>つくるものが決まっているとき</td>
+                            </tr>
+                            <tr>
+                                <td>FDE（現場伴走型の実装支援）</td>
+                                <td>課題整理から実装・定着まで</td>
+                                <td>動く仕組みと、それを回す運用</td>
+                                <td>何をつくるべきかが決まっていないとき</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p>どれが優れているという話ではありません。つくるものが明確なら、受託開発に頼むほうが早く、費用の見通しも立ちます。全社の投資判断が論点なら、コンサルティングの枠組みが必要です。FDEという形が向いているのは、「困っているのは確かだが、何をどうつくればよいかが決まっていない」状態です。</p>
+
+                <h2 id="why-implement">実装まで持つと、何が変わるのか</h2>
+                <p>仕組みは、設計する人・つくる人・使う人が離れるほど、途中で情報が落ちていきます。特に落ちやすいのは、例外の扱いです。</p>
+                <p>例として、私たちが自社で行っている下水道の管路調査の記録を挙げます。調査の報告書には、スパン（マンホール間）、管種と口径、上流管口からの距離、異常項目とランク、対応する写真番号が並びます。この帳票をデジタル化するとき、「異常項目を選択式にする」だけなら、現場を知らなくても設計できます。</p>
+                <p>ところが、実際の運用を決めるのはそこではありません。写真番号と距離が食い違っている行が出たときに、誰が気づいて誰が直すのか。台帳に無い取付管口が見つかったとき、どこに記録して誰に伝えるのか。仕様書の凡例が年度で変わったとき、過去のデータをどう扱うのか。こうした例外の置き場所を決めないまま画面だけをつくると、例外はすべて「備考欄の自由記述」に集まります。そうなると、あとから検索も集計もできません。</p>
+                <p>現場に一度立ち会えば分かることが、書面のやり取りでは何往復もかかることがあります。実装まで持つというのは、この往復を減らし、例外を最初から設計に含めるということです。</p>
+
+                <h2 id="our-view">ククルFMがこの役割をどう捉えているか</h2>
+                <p>私たちがこの役割を名乗れると考えているのは、次の2つがあるからです。</p>
+                <p>ひとつは、建設・インフラの現場を自社で持っていることです。下水道の調査・清掃や建設施工を実務として行っているため、現場で記録がどう残り、どこで手が止まるかを、自分たちの仕事として知っています。</p>
+                <p>もうひとつは、代表がプラント向けの海外プロジェクトにアプリケーションエンジニアとして携わり、その後、コンサルティング会社で電力・ガス・素材業界のDX戦略策定や業務改革を支援してきたことです。現場の手ざわりと、事業側の意思決定の両方から業務を見ることを、支援の土台にしています。</p>
+                <p>この2つがあると、「現場では正しいが経営には説明できない案」と「経営には通るが現場では回らない案」の両方を避けやすくなります。</p>
+
+                <h2 id="fit">相談しやすいテーマと、そうでないテーマ</h2>
+                <h3>この役割が向いているご相談</h3>
+                <ul class="doc-list">
+                    <li>紙・Excel・写真・チャットに分かれている記録を、検索・共有できる形に整えたい</li>
+                    <li>現場と事務所で同じ情報を二重に入力している状態をなくしたい</li>
+                    <li>AIを使いたいが、どの業務から始めるかが決まっていない</li>
+                    <li>既存のExcelや稼働中のシステムを活かしながら、部分的に改善したい</li>
+                </ul>
+                <h3>別の専門家に相談したほうが早いご相談</h3>
+                <ul class="doc-list">
+                    <li>仕様が固まった大規模システムの一括開発</li>
+                    <li>会計・法務など、有資格者の判断が中心になる領域</li>
+                    <li>特定のパッケージ製品の販売代理</li>
+                </ul>
+
+                <h2 id="faq">よくある質問</h2>
+                <div class="qa">
+                    <p class="qa-q">小さな範囲から始められますか。</p>
+                    <p class="qa-a">はい。1つの帳票、1つの現場、1つの部門など、効果を確かめやすい範囲から始めることをお勧めしています。範囲を区切ったほうが、うまくいかなかったときの引き返しも簡単です。</p>
+                </div>
+                <div class="qa">
+                    <p class="qa-q">社内では何と説明すればよいですか。</p>
+                    <p class="qa-a">「業務を理解して、使われる仕組みにするところまでやる技術支援」で伝わることが多いです。FDEという言葉を無理に使う必要はありません。</p>
+                </div>
+                <div class="qa">
+                    <p class="qa-q">すでに取引のあるベンダーがいる場合はどうなりますか。</p>
+                    <p class="qa-a">併走できます。どこを既存のベンダーが持ち、どこを私たちが持つかを先に決めてから進めます。データの受け渡し方法と、問い合わせの窓口を分けておくと混乱が起きにくくなります。</p>
+                </div>
+
+                <p class="post-close">
+                    支援の範囲や進め方は<a href="/fde/" data-ga-event="click_fde_service">FDE・AI実装支援</a>のページに、
+                    12か月の進め方は同ページの<a href="/fde/#roadmap">ロードマップ</a>にまとめています。
+                </p>
+            </div>
+
+            <!-- BEGIN:article-related -->
+            <p class="related-label">関連記事</p>
+            <ul class="related-list">
+              <li><a href="/insights/genba-dx/"><span class="related-cat">現場DX</span><span class="related-title">現場DXとは何か。失敗しやすい理由と、進め方の判断基準</span></a></li>
+              <li><a href="/insights/gyomu-flow/"><span class="related-cat">業務設計</span><span class="related-title">業務フロー診断の進め方。現場・事務・管理者の仕事を可視化して改善テーマを決める</span></a></li>
+            </ul>
+            <!-- END:article-related -->
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="content-section cta-section" id="cta">
+        <div class="container">
+            <p class="section-label">CONTACT</p>
+            <h2 class="cta-title">自社の場合はどうなるか、ご相談ください。</h2>
+            <p class="cta-text">
+                現在の仕事の流れと、気になっていることをお聞かせください。課題の整理から伴走します。
+            </p>
+            <a class="cta-button" href="/#contact" data-ga-event="click_consultation_cta">相談する</a>
+            <ul class="contact-direct">
+                <li>
+                    <span class="contact-direct-label">TEL</span>
+                    <a href="tel:09062623842" data-ga-event="click_phone"><!-- BEGIN:cfg:company.tel -->090-6262-3842<!-- END:cfg:company.tel --></a>
+                </li>
+                <li>
+                    <span class="contact-direct-label">MAIL</span>
+                    <a href="mailto:info@cucul-fm.com" data-ga-event="click_email"><!-- BEGIN:cfg:company.email -->info@cucul-fm.com<!-- END:cfg:company.email --></a>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="service-footer">
+        <p class="footer-text">© 2026 CUCUL FM LLC. All rights reserved.</p>
+    </footer>
+</body>
+</html>

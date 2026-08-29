@@ -318,7 +318,7 @@
     }
   ],
   "pages": {
-    "_note": "WebPage 構造化データのページ定義。キーは HTML の相対パス。name / description は各HTMLの <title> / <meta name=\"description\"> と一字一句そろえること（画面と構造化データを食い違わせない）。新規ページを作ったフェーズでここに追記する。",
+    "_note": "WebPage 構造化データのページ定義。キーは HTML の相対パス。name / description は各HTMLの <title> / <meta name=\"description\"> と一字一句そろえること（画面と構造化データを食い違わせない）。新規ページを作ったフェーズでここに追記する。type を書くと AboutPage / CollectionPage など WebPage の下位型になる（既定は WebPage）。 /insights/<スラッグ>/ の記事ページは content/insights.json から自動で登録されるので、ここには書かない。",
     "index.html": {
       "path": "/",
       "name": "CUCUL FM.LLC | 普段と新しい暮らしをサポートする会社",
@@ -352,6 +352,22 @@
         {
           "name": "会社概要",
           "path": "/about/"
+        }
+      ]
+    },
+    "insights/index.html": {
+      "path": "/insights/",
+      "type": "CollectionPage",
+      "name": "Insights（現場DX・AI活用の記事） | CUCUL FM.LLC",
+      "description": "ククルFMが現場で使っている判断基準と手順をまとめた記事一覧。下水道の管路調査や建設・清掃の実務をもとに、現場DXの進め方、AI活用の定着、業務フロー診断のやり方を書いています。",
+      "breadcrumb": [
+        {
+          "name": "ホーム",
+          "path": "/"
+        },
+        {
+          "name": "Insights",
+          "path": "/insights/"
         }
       ]
     },

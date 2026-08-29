@@ -22,7 +22,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { injectFile, resolveRenderer, hasMarker, validate, BANNED } from './build-content.mjs';
+import { injectFile, resolveRenderer, hasMarker, validate, loadContent, articleKey, BANNED } from './build-content.mjs';
 import { urlPathOf, ruleFor, lastmodOf } from './generate-sitemap.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -48,22 +48,16 @@ const assertEq = (a, b, msg) => {
    データ読み込み
    ========================================================================== */
 const BRIEF = read('docs/redesign/00-implementation-brief.md');
-const C = {
-  config: readJson('content/site.config.json'),
-  pillars: readJson('content/pillars.json'),
-  challenges: readJson('content/challenges.json'),
-  roadmap: readJson('content/roadmap.json'),
-  usecases: readJson('content/usecases.json'),
-  faqTop: readJson('content/faq-top.json'),
-  faqFde: readJson('content/faq-fde.json'),
-};
+// 本体と同じ読み込み経路を使う（記事ページの pages 登録もここで入る）。
+// テスト側で組み直すと、読み込み時の加工が抜けたまま合格してしまう
+const C = loadContent();
 
 /* ==========================================================================
    1. データの形
    ========================================================================== */
-test('content/ に7ファイルが揃っている', () => {
+test('content/ に8ファイルが揃っている', () => {
   const want = ['site.config.json', 'pillars.json', 'challenges.json', 'roadmap.json',
-    'usecases.json', 'faq-top.json', 'faq-fde.json'];
+    'usecases.json', 'faq-top.json', 'faq-fde.json', 'insights.json'];
   const got = fs.readdirSync(path.join(ROOT, 'content')).filter((f) => f.endsWith('.json')).sort();
   assertEq(got.join(','), want.slice().sort().join(','), 'content/ のJSONファイル構成が想定と違います');
 });
@@ -1099,7 +1093,7 @@ test('計測イベントが要件の一覧をすべて実装している', () =>
 test('計測タグが全公開ページに入っている', () => {
   const missing = PUBLIC_PAGES.filter((rel) => !read(rel).includes('<!-- BEGIN:analytics -->'));
   assert(missing.length === 0, `計測マーカーが無いページ: ${missing.join(', ')}`);
-  assert(PUBLIC_PAGES.length >= 40, `公開ページの数が想定より少ないです: ${PUBLIC_PAGES.length}`);
+  assert(PUBLIC_PAGES.length >= 45, `公開ページの数が想定より少ないです: ${PUBLIC_PAGES.length}`);
   // GTM ID が空のうちは GTM を読み込まない
   // （gtag.js も googletagmanager.com から配信されるので、ドメイン名では区別できない。
   //   GTM は gtm.js、GA4 直結は gtag/js で見分ける）
@@ -1244,10 +1238,13 @@ test('form-handler.js と analytics.js が外部ライブラリに依存して�
 });
 
 /* ==========================================================================
-   6e. /fde/ ・/about/（フェーズ5）
+   6e. /fde/ ・/about/（フェーズ5）と /insights/（フェーズ6）で共通に見るもの
    ========================================================================== */
 const FDE = read('fde/index.html');
 const ABOUT = read('about/index.html');
+const INSIGHTS = read('insights/index.html');
+/** [相対パス, HTML, insights.json の記事] */
+const ARTICLES = C.insights.articles.map((a) => [articleKey(a.slug), read(articleKey(a.slug)), a]);
 /** ページのテキスト（タグを外し、実体参照を戻したもの） */
 const textOf = (html) => html.replace(/<[^>]+>/g, ' ')
   .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"')
@@ -1256,7 +1253,15 @@ const textOf = (html) => html.replace(/<[^>]+>/g, ' ')
 const ldOf = (html) => [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
   .map((m) => JSON.parse(m[1]));
 
-for (const [rel, html] of [['fde/index.html', FDE], ['about/index.html', ABOUT]]) {
+/** フェーズ5・6でつくったページ。meta・リンク・計測は同じ基準で見る */
+const NEW_PAGES = [
+  ['fde/index.html', FDE], ['about/index.html', ABOUT], ['insights/index.html', INSIGHTS],
+  ...ARTICLES.map(([rel, html]) => [rel, html]),
+];
+/** そのうち WebPage 系の構造化データを持つページ（記事は Article なので別で見る） */
+const WEBPAGE_PAGES = [['fde/index.html', FDE], ['about/index.html', ABOUT], ['insights/index.html', INSIGHTS]];
+
+for (const [rel, html] of NEW_PAGES) {
   test(`${rel} の title / description / canonical が site.config.json と一致する`, () => {
     const p = C.config.pages[rel];
     assert(p, `site.config.json の pages に ${rel} がありません`);
@@ -1276,21 +1281,17 @@ for (const [rel, html] of [['fde/index.html', FDE], ['about/index.html', ABOUT]]
     }
   });
 
-  test(`${rel} のパンくず・WebPage 構造化データが表示と一致する`, () => {
+  test(`${rel} のパンくずが表示と BreadcrumbList で一致する`, () => {
     const p = C.config.pages[rel];
     const nav = html.match(/<nav class="breadcrumb"[\s\S]*?<\/nav>/);
     assert(nav, '表示用のパンくずがありません');
     const shown = [...nav[0].matchAll(/<li>(?:<a [^>]*>|<span [^>]*>)([^<]+)</g)].map((m) => m[1]);
-    const blocks = ldOf(html);
-    const bc = blocks.find((n) => n['@type'] === 'BreadcrumbList');
+    const bc = ldOf(html).find((n) => n['@type'] === 'BreadcrumbList');
     assert(bc, 'BreadcrumbList がありません');
     assertEq(JSON.stringify(shown), JSON.stringify(bc.itemListElement.map((i) => i.name)),
       'パンくずの表示と BreadcrumbList が一致しません');
     assertEq(bc.itemListElement[bc.itemListElement.length - 1].item, `https://cucul-fm.com${p.path}`,
       'BreadcrumbList の末尾がページ自身の URL ではありません');
-    const page = blocks.find((n) => n['@type'] === (p.type || 'WebPage'));
-    assert(page, `${p.type || 'WebPage'} の JSON-LD がありません`);
-    assertEq(page.name, p.name, 'WebPage の name が pages.name と違います');
   });
 
   test(`${rel} の内部リンク先がすべて存在する`, () => {
@@ -1316,6 +1317,16 @@ for (const [rel, html] of [['fde/index.html', FDE], ['about/index.html', ABOUT]]
     for (const m of [...html.matchAll(/href="(tel:[^"]+)"/g)]) {
       assertEq(m[1], C.config.company.telHref, 'tel: の番号が config と違います');
     }
+  });
+}
+
+for (const [rel, html] of WEBPAGE_PAGES) {
+  test(`${rel} の WebPage 構造化データが title と一致する`, () => {
+    const p = C.config.pages[rel];
+    const page = ldOf(html).find((n) => n['@type'] === (p.type || 'WebPage'));
+    assert(page, `${p.type || 'WebPage'} の JSON-LD がありません`);
+    assertEq(page.name, p.name, 'WebPage の name が pages.name と違います');
+    assertEq(page.name, html.match(/<title>([^<]*)<\/title>/)[1], 'WebPage の name が <title> と違います');
   });
 }
 
@@ -1462,6 +1473,165 @@ test('Service の JSON-LD だけを置いて可視ブロックが無いページ
   const only = '<div><!-- BEGIN:jsonld-service-fde --><!-- END:jsonld-service-fde --></div>';
   const r = injectFile(only, C, 'fde/index.html');
   assert(r.errors.length > 0, '可視の service-fde が無いのにエラーになりません');
+});
+
+/* ==========================================================================
+   6f. /insights/ 一覧と記事（フェーズ6）
+   ========================================================================== */
+test('要件で指定された記事が揃っている（フェーズ6分）', () => {
+  const got = C.insights.articles.map((a) => a.slug);
+  for (const s of ['fde-toha', 'genba-dx', 'ai-teichaku', 'gyomu-flow']) {
+    assert(got.includes(s), `記事 ${s} がありません`);
+  }
+  // 確定事項4: スラッグは SaaS の表記に合わせて saas-vs-custom にする
+  assert(!got.includes('sas-vs-custom'), 'スラッグは saas-vs-custom に修正して実装する決まりです');
+});
+
+test('insights.json の記事とページの実体が一致する', () => {
+  for (const a of C.insights.articles) {
+    assert(fs.existsSync(path.join(ROOT, articleKey(a.slug))), `${a.slug} のページがありません`);
+  }
+  const dirs = fs.readdirSync(path.join(ROOT, 'insights'), { withFileTypes: true })
+    .filter((e) => e.isDirectory()).map((e) => e.name).sort();
+  assertEq(dirs.join(','), C.insights.articles.map((a) => a.slug).sort().join(','),
+    'insights/ のディレクトリと insights.json の記事が一致しません（載っていない記事・実体の無い記事）');
+});
+
+test('一覧ページに全記事が載っている', () => {
+  const text = textOf(INSIGHTS);
+  for (const a of C.insights.articles) {
+    assert(INSIGHTS.includes(`href="/insights/${a.slug}/"`), `一覧に ${a.slug} へのリンクがありません`);
+    assert(text.includes(a.title), `一覧に「${a.title}」が出ていません`);
+    assert(text.includes(a.excerpt), `一覧に ${a.slug} の要約が出ていません`);
+    assert(text.includes(a.category), `一覧に ${a.slug} のカテゴリが出ていません`);
+  }
+});
+
+for (const [rel, html, a] of ARTICLES) {
+  test(`${rel} の Article 構造化データが表示と一致する`, () => {
+    const ld = ldOf(html).find((n) => n['@type'] === 'Article');
+    assert(ld, 'Article の JSON-LD がありません');
+    assertEq(ld.headline, a.title, 'headline が insights.json と違います');
+    assertEq(ld.description, a.description, 'description が insights.json と違います');
+    assertEq(ld.datePublished, a.datePublished, 'datePublished が違います');
+    assertEq(ld.dateModified, a.dateModified, 'dateModified が違います');
+    assertEq(ld.mainEntityOfPage, `https://cucul-fm.com/insights/${a.slug}/`, 'mainEntityOfPage が違います');
+    assertEq(ld.publisher['@id'], 'https://cucul-fm.com/#organization', 'publisher が Organization を指していません');
+    // 画面にも同じ値が出ていること（表示していない情報を構造化データに書かない）
+    const text = textOf(html);
+    assert(text.includes(a.title), 'H1 に記事タイトルが出ていません');
+    assert(text.includes(ld.author.name), '執筆者が画面に出ていません');
+    assert(text.includes(ld.contributor.name), '監修者が画面に出ていません');
+    assert(text.includes(ld.articleSection), 'カテゴリが画面に出ていません');
+    // 日付は表示用の和暦表記でも同じ日を指していること
+    const [y, mo, d] = a.datePublished.split('-').map(Number);
+    assert(text.includes(`${y}年${mo}月${d}日`), '公開日が画面に出ていません');
+    assert(html.includes(`<time datetime="${a.datePublished}">`), 'time 要素の datetime がありません');
+  });
+
+  test(`${rel} が記事の品質基準を満たしている`, () => {
+    // H1 直下に結論、FAQ小節、CTA、関連記事、目次
+    assert(html.includes(`<h1 class="post-title">${a.title}</h1>`), 'H1 が記事タイトルと一致しません');
+    assert(/<p class="post-lead">/.test(html), 'H1 直下の結論（リード）がありません');
+    assertEq((html.match(/<h2 id="faq">/g) || []).length, 1, 'FAQ小節がありません');
+    assert((html.match(/<div class="qa">/g) || []).length >= 3, 'FAQ が3問未満です');
+    assert(/<nav class="post-toc"/.test(html), '目次がありません');
+    assert(html.includes('<!-- BEGIN:article-related -->'), '関連記事のマーカーがありません');
+    assert(html.includes('href="/fde/"'), '/fde/ への内部リンクがありません');
+    assert(html.includes('href="/#contact"'), '問い合わせへの導線がありません');
+    // 本文量（要件: 2,000〜3,500字目安）
+    const body = html.match(/<div class="post-body">([\s\S]*?)<\/div>\s*<!-- BEGIN:article-related/);
+    assert(body, '本文（post-body）が見つかりません');
+    const lead = html.match(/<p class="post-lead">([\s\S]*?)<\/p>/)[1];
+    const chars = (lead + body[1]).replace(/<[^>]+>/g, ' ').replace(/\s+/g, '').length;
+    assert(chars >= 2000 && chars <= 3500, `本文が2,000〜3,500字の目安から外れています: ${chars}字`);
+    // 見出し構造（H1は1つ、H2で本論を組む）
+    assertEq((html.match(/<h1/g) || []).length, 1, 'H1 が1つではありません');
+    assert((html.match(/<h2 /g) || []).length >= 4, 'H2 の本論が4つ未満です');
+  });
+
+  test(`${rel} の目次リンクと見出しの id が一致する`, () => {
+    const ids = [...html.matchAll(/\sid="([^"]+)"/g)].map((m) => m[1]);
+    const toc = [...html.matchAll(/<li><a href="#([^"]+)">/g)].map((m) => m[1]);
+    assert(toc.length >= 5, `目次の項目が少なすぎます: ${toc.length}`);
+    const missing = toc.filter((t) => !ids.includes(t));
+    assert(missing.length === 0, `目次のリンク先が無い: ${missing.join(', ')}`);
+    // 見出し側に目次から辿れない H2 が残っていないか（追記したのに目次に足し忘れた場合）
+    const h2ids = [...html.matchAll(/<h2 id="([^"]+)"/g)].map((m) => m[1]);
+    const orphan = h2ids.filter((h) => !toc.includes(h));
+    assert(orphan.length === 0, `目次に載っていない H2: ${orphan.join(', ')}`);
+  });
+
+  test(`${rel} に架空の実績・断定表現が入っていない`, () => {
+    const banned = [...BANNED, '導入社数', '削減率', '導入実績', '顧客ロゴ', 'CUCUL FM .LLC'];
+    const text = textOf(html);
+    const hits = banned.filter((w) => text.includes(w));
+    assert(hits.length === 0, `禁止表現: ${hits.join(', ')}`);
+  });
+
+  test(`${rel} の関連記事が実在する記事を指している`, () => {
+    const links = [...html.matchAll(/<li><a href="\/insights\/([^/]+)\/">/g)].map((m) => m[1]);
+    assert(links.length > 0, '関連記事が出力されていません');
+    for (const s of links) {
+      assert(C.insights.articles.some((x) => x.slug === s), `関連記事に未知のスラッグ: ${s}`);
+      assert(s !== a.slug, '関連記事が自分自身を指しています');
+    }
+  });
+}
+
+test('記事ページのクラス名が既存のブログカードと衝突していない', () => {
+  // .article-title / .article-date / .article-excerpt は /articles/ や下層ページの
+  // カードが使っている。記事ページで同じ名前を使うと、そちらの見た目が変わる
+  const shared = ['article-title', 'article-date', 'article-excerpt', 'article-card'];
+  for (const [rel, html] of ARTICLES) {
+    for (const cls of shared) {
+      assert(!new RegExp(`class="[^"]*\\b${cls}\\b`).test(html),
+        `${rel} が既存カード用のクラス ${cls} を使っています（post-* を使ってください）`);
+    }
+  }
+  const css = read('services/style.css');
+  for (const cls of shared) {
+    const defs = (css.match(new RegExp(`\\.${cls}(?![a-zA-Z0-9_-])`, 'g')) || []).length;
+    assert(defs > 0, `${cls} の既存定義が見当たりません（このテストの前提が崩れています）`);
+  }
+});
+
+test('Article の JSON-LD だけを置いて著者・日付の表示が無いページはエラーになる', () => {
+  const only = '<div><!-- BEGIN:jsonld-article --><!-- END:jsonld-article --></div>';
+  const r = injectFile(only, C, articleKey('fde-toha'));
+  assert(r.errors.length > 0, '表示用の article-meta が無いのにエラーになりません');
+  // 記事以外のページで記事用マーカーを使ったらエラー
+  const wrong = '<div><!-- BEGIN:article-meta --><!-- END:article-meta --></div>';
+  assert(injectFile(wrong, C, 'index.html').errors.length > 0, '記事以外のページでエラーになりません');
+});
+
+test('記事メタデータの不備を validate が止める', () => {
+  const bad = (mut) => { const c = structuredClone(C); mut(c); return validate(c).errors; };
+  assert(bad((c) => { c.insights.articles[0].datePublished = '2026/08/29'; })
+    .some((e) => e.includes('datePublished')), '日付形式の誤りが検出されません');
+  assert(bad((c) => { c.insights.articles[0].slug = 'Bad_Slug'; })
+    .some((e) => e.includes('slug')), 'スラッグの誤りが検出されません');
+  assert(bad((c) => { c.insights.articles[0].related = ['no-such-article']; })
+    .some((e) => e.includes('related')), '未知の関連記事が検出されません');
+  assert(bad((c) => { c.insights.articles[0].dateModified = '2020-01-01'; })
+    .some((e) => e.includes('dateModified')), '更新日が公開日より前でも通ってしまいます');
+});
+
+test('記事ページの pages 定義が insights.json から自動で作られる', () => {
+  for (const a of C.insights.articles) {
+    const p = C.config.pages[articleKey(a.slug)];
+    assert(p, `${a.slug} の pages 定義が作られていません`);
+    assertEq(p.name, `${a.title} | ${C.config.site.titleSuffix}`, 'name が title + サフィックスになっていません');
+    assertEq(p.description, a.description, 'description が insights.json と違います');
+    assertEq(p.breadcrumb.length, 3, 'パンくずが3階層ではありません');
+    assertEq(p.breadcrumb[1].path, '/insights/', 'パンくずの2階層目が /insights/ ではありません');
+  }
+  // 手書きの pages があればそちらを優先する（黙って上書きしない）
+  const raw = JSON.parse(read('content/site.config.json'));
+  for (const a of C.insights.articles) {
+    assert(!raw.pages[articleKey(a.slug)],
+      `site.config.json に ${a.slug} の定義が手書きされています（insights.json 側だけにしてください）`);
+  }
 });
 
 /* ==========================================================================

@@ -141,6 +141,7 @@ git add . && git commit -m "chore: 会社情報を更新" && git push
 | 活用テーマ | `content/usecases.json` |
 | 課題提起のカード | `content/challenges.json` |
 | 3本柱・FDE横断セクション | `content/pillars.json` |
+| 記事（Insights）の一覧・著者・公開日・関連記事 | `content/insights.json` |
 | ナビ・問い合わせフォームの項目・提供サービス | `content/site.config.json` |
 
 編集後は必ず:
@@ -152,6 +153,21 @@ node scripts/test-build-content.mjs   # 壊れていないか確認（全件合�
 
 FAQ を直すと、画面の表示と構造化データ（FAQPage）が同じデータから作り直されるので、
 両者が食い違うことはない。
+
+### 記事（Insights）を追加するとき
+
+1. `content/insights.json` の `articles` に1件足す
+   （`slug` / `category` / `navTitle` / `title` / `description` / `excerpt` /
+   `datePublished` / `dateModified` / `related`）
+2. `insights/<slug>/index.html` を作る。既存の記事をコピーして本文を書き換えるのが早い
+   （`<!-- BEGIN:jsonld-article -->` `<!-- BEGIN:article-meta -->`
+   `<!-- BEGIN:article-related -->` `<!-- BEGIN:breadcrumb -->` を必ず残す）
+3. `node scripts/build-content.mjs`
+
+一覧・パンくず・Article 構造化データ・関連記事は insights.json から作られるので、
+`site.config.json` 側に記事ページを書き足す必要はない。
+`<title>` と `meta description` は insights.json の `title`（＋ ` | CUCUL FM.LLC`）と
+`description` に一字一句そろえる（テストが突き合わせる）。
 
 ### ページを新しく作るとき
 

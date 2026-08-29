@@ -1,0 +1,56 @@
+{
+  "_note": "Insights（記事）のメタデータ。一覧カード・Article 構造化データ・記事ページの著者/日付表示・関連記事リンクは、すべてこのファイルから生成する。 articles[] に追記すると一覧・サイトマップ・構造化データが同時に増える（記事本体のHTMLは別途つくること）。 site.config.json の pages への登録は build-content.mjs が自動で行うので、ここだけ直せばよい。 title は記事のH1・Article の headline、navTitle はパンくずと一覧カードの短い表記、description は <title> 直後の meta description と Article の description。 datePublished / dateModified は YYYY-MM-DD。架空の実績・数値は書かない。",
+  "authorLabel": "執筆",
+  "supervisorLabel": "監修",
+  "publishedLabel": "公開日",
+  "modifiedLabel": "最終更新日",
+  "author": "ククルFM編集部",
+  "supervisor": "ククルFM合同会社 代表 馬場 陽子",
+  "relatedLabel": "関連記事",
+  "articles": [
+    {
+      "slug": "fde-toha",
+      "category": "FDE",
+      "navTitle": "FDEとは何か",
+      "title": "FDEとは何か。ITコンサル・SES・受託開発との違い",
+      "description": "FDE（Forward Deployed Engineer）は、現場と事業の課題を理解したうえで仕組みを設計・実装し、定着まで伴走する役割です。ITコンサルティング・SES・受託開発との違いを、責任の範囲と向いている場面から整理します。",
+      "excerpt": "課題整理から実装・定着までを一続きで担う役割です。どれが優れているという話ではなく、責任の範囲と向いている場面が違います。",
+      "datePublished": "2026-08-29",
+      "dateModified": "2026-08-29",
+      "related": ["genba-dx", "gyomu-flow"]
+    },
+    {
+      "slug": "genba-dx",
+      "category": "現場DX",
+      "navTitle": "現場DXとは何か",
+      "title": "現場DXとは何か。失敗しやすい理由と、進め方の判断基準",
+      "description": "現場DXは、現場で生まれる記録・写真・報告を、事務所や管理側がそのまま使える形にする取り組みです。失敗しやすい5つの理由と、進め方、続いているかどうかの判断基準を、下水道の管路調査の実務をもとに整理します。",
+      "excerpt": "道具を入れることではなく、情報の受け渡しを設計することです。現場の手間が増えるだけの形になりやすい理由から考えます。",
+      "datePublished": "2026-08-29",
+      "dateModified": "2026-08-29",
+      "related": ["ai-teichaku", "gyomu-flow"]
+    },
+    {
+      "slug": "ai-teichaku",
+      "category": "AI活用",
+      "navTitle": "AI導入が現場に定着しない理由",
+      "title": "AI導入が現場に定着しない理由。業務設計・教育・ルール・評価から考える",
+      "description": "AIを試してみたものの、一部の人が使うだけで終わってしまう。その原因を、用途の絞り方、教える内容、入力してよい情報の線引き、評価のしかたという4つの観点から整理し、定着した状態をどう定義するかを説明します。",
+      "excerpt": "「使ってみた」で止まるのは、道具の性能よりも、業務のどこに置いたかで決まります。4つの観点から見直します。",
+      "datePublished": "2026-08-29",
+      "dateModified": "2026-08-29",
+      "related": ["genba-dx", "fde-toha"]
+    },
+    {
+      "slug": "gyomu-flow",
+      "category": "業務設計",
+      "navTitle": "業務フロー診断の進め方",
+      "title": "業務フロー診断の進め方。現場・事務・管理者の仕事を可視化して改善テーマを決める",
+      "description": "業務フローの可視化は、きれいな図をつくることが目的ではありません。対象の決め方、聞き取りで実際に確認していること、図の粒度、改善テーマの絞り込み方までを、手順として説明します。",
+      "excerpt": "きれいな図をつくることが目的ではありません。どこから手を付けるかを決めるための手順として整理します。",
+      "datePublished": "2026-08-29",
+      "dateModified": "2026-08-29",
+      "related": ["genba-dx", "fde-toha"]
+    }
+  ]
+}

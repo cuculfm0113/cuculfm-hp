@@ -3487,6 +3487,348 @@ html {
     list-style: none;
 }
 
+/* ==========================================================================
+   Insights（記事一覧・記事本文。改修フェーズ6で追加）
+   ・記事ページのクラスは post-* を使う。article-title / article-date /
+     article-excerpt は既存のブログカード（/articles/ ほか）が使っているので、
+     同じ名前を再定義すると下層ページの見た目が変わる
+   ========================================================================== */
+.ins-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    list-style: none;
+}
+
+.ins-card {
+    border: 1px solid rgba(212, 160, 23, 0.20);
+    border-radius: 10px;
+    background: linear-gradient(160deg, #0e0e1e, #0a0a16);
+    transition: border-color var(--transition-medium), translate var(--transition-medium);
+}
+
+.ins-card:hover {
+    translate: 0 -6px;
+    border-color: rgba(245, 225, 0, 0.5);
+    box-shadow:
+        0 18px 44px -18px rgba(245, 225, 0, 0.22),
+        0 16px 40px rgba(0, 0, 0, 0.55);
+}
+
+.ins-link {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 26px 24px;
+}
+
+.ins-meta {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.ins-cat {
+    padding: 0.3em 0.9em;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+    color: var(--color-primary);
+}
+
+.ins-date {
+    font-family: var(--font-display);
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    color: var(--c-cyan);
+    opacity: 0.85;
+}
+
+.ins-title {
+    margin-top: 1em;
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.7;
+    letter-spacing: 0.03em;
+    transition: color var(--transition-fast);
+}
+
+.ins-card:hover .ins-title {
+    color: var(--color-primary);
+}
+
+.ins-excerpt {
+    margin-top: 0.9em;
+    font-size: 0.83rem;
+    line-height: 1.95;
+    color: var(--color-text-muted);
+}
+
+.ins-go {
+    margin-top: auto;
+    padding-top: 1.4em;
+    font-family: var(--font-display);
+    font-size: 0.62rem;
+    letter-spacing: 0.24em;
+    color: var(--color-text-dim);
+}
+
+.ins-card:hover .ins-go {
+    color: var(--color-primary);
+}
+
+/* ---- 記事ページ ---- */
+.post-title {
+    font-size: clamp(1.5rem, 3.6vw, 2.2rem);
+    font-weight: 700;
+    line-height: 1.55;
+    letter-spacing: 0.02em;
+    margin-bottom: 24px;
+}
+
+.post-lead {
+    max-width: 780px;
+    font-size: clamp(0.9rem, 1.5vw, 1rem);
+    line-height: 2.1;
+    color: var(--color-text-muted);
+}
+
+.post-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 18px;
+    margin-top: 28px;
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    color: var(--color-text-dim);
+}
+
+.post-cat {
+    padding: 0.3em 0.9em;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    color: var(--color-primary);
+}
+
+.post-body {
+    max-width: 780px;
+}
+
+.post-body h2 {
+    margin-top: 2.6em;
+    padding-top: 1.2em;
+    border-top: 1px solid var(--color-border);
+    font-size: clamp(1.1rem, 2.2vw, 1.35rem);
+    font-weight: 700;
+    line-height: 1.6;
+    letter-spacing: 0.03em;
+}
+
+.post-body h2:first-of-type {
+    margin-top: 1.6em;
+}
+
+.post-body h3 {
+    margin-top: 2em;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: var(--color-text);
+}
+
+.post-body p {
+    margin-top: 1.2em;
+    font-size: 0.92rem;
+    line-height: 2.15;
+    color: var(--color-text-muted);
+}
+
+.post-body a {
+    color: var(--color-primary);
+    border-bottom: 1px solid rgba(245, 225, 0, 0.35);
+}
+
+.post-body a:hover {
+    border-bottom-color: var(--color-primary);
+}
+
+.post-body .doc-list {
+    margin-top: 1.2em;
+}
+
+.post-toc {
+    margin-bottom: 8px;
+    padding: 20px 24px;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.post-toc-label {
+    font-family: var(--font-display);
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: var(--color-primary);
+}
+
+.post-toc ul {
+    margin-top: 0.9em;
+    list-style: none;
+}
+
+.post-toc li + li {
+    margin-top: 0.5em;
+}
+
+.post-toc a {
+    font-size: 0.83rem;
+    line-height: 1.8;
+    color: var(--color-text-muted);
+    border-bottom: none;
+    transition: var(--transition-fast);
+}
+
+.post-toc a:hover {
+    color: var(--color-primary);
+}
+
+.table-scroll {
+    margin-top: 1.5em;
+    overflow-x: auto;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+}
+
+.post-table {
+    width: 100%;
+    min-width: 480px;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+}
+
+.post-table th,
+.post-table td {
+    padding: 12px 14px;
+    text-align: left;
+    line-height: 1.8;
+    border-bottom: 1px solid var(--color-border);
+    vertical-align: top;
+}
+
+.post-table th {
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--color-text);
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.post-table td {
+    color: var(--color-text-muted);
+}
+
+.post-table tbody tr:last-child th,
+.post-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.qa {
+    margin-top: 1.4em;
+    padding: 18px 20px;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.qa-q {
+    position: relative;
+    margin-top: 0;
+    padding-left: 1.6em;
+    font-size: 0.92rem;
+    font-weight: 700;
+    line-height: 1.8;
+    color: var(--color-text);
+}
+
+.qa-q::before {
+    content: 'Q';
+    position: absolute;
+    left: 0;
+    font-family: var(--font-display);
+    color: var(--color-primary);
+}
+
+.qa-a {
+    position: relative;
+    padding-left: 1.6em;
+}
+
+/* Q と同じく静的位置に置く（top を指定すると行送りの分だけ下にずれる） */
+.qa-a::before {
+    content: 'A';
+    position: absolute;
+    left: 0;
+    font-family: var(--font-display);
+    font-size: 0.9em;
+    color: var(--color-text-dim);
+}
+
+.post-close {
+    margin-top: 2.4em;
+    padding-top: 1.6em;
+    border-top: 1px solid var(--color-border);
+}
+
+.related-label {
+    margin-top: 48px;
+    font-family: var(--font-display);
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: var(--color-primary);
+}
+
+.related-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 1em;
+    list-style: none;
+}
+
+.related-list a {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    height: 100%;
+    padding: 18px 20px;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    transition: var(--transition-fast);
+}
+
+.related-list a:hover {
+    border-color: var(--color-border-hover);
+}
+
+.related-cat {
+    font-family: var(--font-display);
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    color: var(--color-text-dim);
+}
+
+.related-title {
+    font-size: 0.88rem;
+    font-weight: 700;
+    line-height: 1.7;
+}
+
+.related-list a:hover .related-title {
+    color: var(--color-primary);
+}
+
 /* ---- レスポンシブ ---- */
 @media (max-width: 900px) {
     .fde-steps,
@@ -3504,7 +3846,9 @@ html {
     .policy-grid,
     .value-list,
     .uc-list,
-    .svc-list {
+    .svc-list,
+    .ins-list,
+    .related-list {
         grid-template-columns: 1fr;
     }
 
