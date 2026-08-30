@@ -244,23 +244,23 @@ const D = {
 "sloughi":{name:"スルーギ",nameEn:"Sloughi",group:10,size:"l",origin:"モロッコ",traits:["忠実","敏感","独立心"],exercise:4,grooming:1,trainability:2,lifespan:"10〜15年",weight:"20〜28kg",height:"61〜72cm",personality:"北アフリカの砂漠で育まれた視覚ハウンド。非常に繊細で敏感。信頼した人にだけ心を許す。サルーキに似るがよりスリム。",care:["走る機会を確保。安全なドッグランが最適","繊細な性格なので穏やかな環境を","被毛は短く手入れは楽"],caution:["非常に繊細でストレスに弱い","見知らぬ人に対して非常に臆病","日本では入手がほぼ不可能"],health:["進行性網膜萎縮症","免疫系の問題"],diet:"サイトハウンド用フード。繊細な消化器に配慮した食事を。",recommended:["繊細な犬に寄り添える方","北アフリカの犬種に興味がある方","静かで穏やかな犬を求める方"]}
 };
 
-/* 写真: 自社撮影があればそれを優先し、無い犬種は無料画像API（Dog CEO）から取得する
-   （2026-08-30 発注者指示で API 紐付けを復活） */
+/* 写真の優先順位: LOCAL_PHOTOS → BREED_IMAGES（目視選定の固定URL。index.html と同じ表）→
+   DOG_API ランダム。差し替えは BREED_IMAGES のURLを書き換える（index.html 側も同じ変更をする） */
 const LOCAL_PHOTOS = {
     papillon: "../../../character-design/phantom-papillon/phantom-papillon-portrait.jpg"
 };
 
 const DOG_API = {
-"border-collie":"collie/border","shetland-sheepdog":"sheepdog/shetland","welsh-corgi-pembroke":"pembroke","welsh-corgi-cardigan":"corgi/cardigan","german-shepherd":"german/shepherd","australian-shepherd":"australian/shepherd","rough-collie":"rough/collie","belgian-malinois":"malinois","belgian-tervuren":"tervuren","old-english-sheepdog":"sheepdog/english","bearded-collie":"collie/border","briard":"briard","puli":"komondor","australian-kelpie":"australian/kelpie",
-"bernese-mountain-dog":"mountain/bernese","rottweiler":"rottweiler","great-dane":"dane/great","boxer":"boxer","dobermann":"doberman","st-bernard":"stbernard","newfoundland":"newfoundland","great-pyrenees":"pyrenees","mastiff":"mastiff/english","bullmastiff":"mastiff/bull","cane-corso":"mastiff/english","leonberger":"leonberg","miniature-schnauzer":"schnauzer/miniature","standard-schnauzer":"schnauzer/standard","giant-schnauzer":"schnauzer/giant","bulldog":"bulldog/english","tibetan-mastiff":"mastiff/tibetan","shar-pei":"sharpei",
-"yorkshire-terrier":"terrier/yorkshire","jack-russell-terrier":"terrier/russell","west-highland-white-terrier":"terrier/westhighland","scottish-terrier":"terrier/scottish","airedale-terrier":"airedale","bull-terrier":"bullterrier/staffordshire","cairn-terrier":"terrier/cairn","wire-fox-terrier":"terrier/fox","norfolk-terrier":"terrier/norfolk","staffordshire-bull-terrier":"bullterrier/staffordshire","bedlington-terrier":"terrier/bedlington","irish-terrier":"terrier/irish","kerry-blue-terrier":"terrier/kerryblue",
+"border-collie":"collie/border","shetland-sheepdog":"sheepdog/shetland","welsh-corgi-pembroke":"pembroke","welsh-corgi-cardigan":"corgi/cardigan","german-shepherd":"german/shepherd","australian-shepherd":"australian/shepherd","rough-collie":"rough/collie","belgian-malinois":"malinois","belgian-tervuren":"tervuren","old-english-sheepdog":"sheepdog/english","briard":"briard","australian-kelpie":"australian/kelpie",
+"bernese-mountain-dog":"mountain/bernese","rottweiler":"rottweiler","great-dane":"dane/great","boxer":"boxer","dobermann":"doberman","st-bernard":"stbernard","newfoundland":"newfoundland","great-pyrenees":"pyrenees","mastiff":"mastiff/english","bullmastiff":"mastiff/bull","leonberger":"leonberg","miniature-schnauzer":"schnauzer/miniature","standard-schnauzer":"schnauzer/standard","giant-schnauzer":"schnauzer/giant","bulldog":"bulldog/english","tibetan-mastiff":"mastiff/tibetan",
+"yorkshire-terrier":"terrier/yorkshire","jack-russell-terrier":"terrier/russell","west-highland-white-terrier":"terrier/westhighland","scottish-terrier":"terrier/scottish","airedale-terrier":"airedale","cairn-terrier":"terrier/cairn","wire-fox-terrier":"terrier/fox","norfolk-terrier":"terrier/norfolk","staffordshire-bull-terrier":"bullterrier/staffordshire","bedlington-terrier":"terrier/bedlington","irish-terrier":"terrier/irish","kerry-blue-terrier":"terrier/kerryblue",
 "miniature-dachshund":"dachshund","standard-dachshund":"dachshund","kaninchen-dachshund":"dachshund",
 "shiba-inu":"shiba","akita":"akita","japanese-spitz":"spitz/japanese","pomeranian":"pomeranian","samoyed":"samoyed","siberian-husky":"husky","alaskan-malamute":"malamute","chow-chow":"chow","basenji":"basenji","finnish-spitz":"finnish/lapphund",
 "beagle":"beagle","basset-hound":"hound/basset","bloodhound":"hound/blood","dalmatian":"dalmatian","rhodesian-ridgeback":"ridgeback/rhodesian","american-foxhound":"hound/english","otterhound":"otterhound","plott-hound":"hound/plott",
 "irish-setter":"setter/irish","weimaraner":"weimaraner","german-shorthaired-pointer":"pointer/german","brittany":"spaniel/brittany","vizsla":"vizsla","english-setter":"setter/english","gordon-setter":"setter/gordon","german-wirehaired-pointer":"pointer/germanlonghair",
 "golden-retriever":"retriever/golden","labrador-retriever":"labrador","flat-coated-retriever":"retriever/flatcoated","american-cocker-spaniel":"spaniel/cocker","english-cocker-spaniel":"spaniel/cocker","english-springer-spaniel":"springer/english","chesapeake-bay-retriever":"retriever/chesapeake","curly-coated-retriever":"retriever/curly","clumber-spaniel":"clumber","irish-water-spaniel":"spaniel/irish",
-"toy-poodle":"poodle/toy","miniature-poodle":"poodle/miniature","standard-poodle":"poodle/standard","chihuahua":"chihuahua","maltese":"maltese","papillon":"papillon","shih-tzu":"shihtzu","pekingese":"pekinese","cavalier-king-charles-spaniel":"spaniel/blenheim","pug":"pug","french-bulldog":"bulldog/french","boston-terrier":"bulldog/boston","bichon-frise":"frise/bichon","havanese":"havanese","chinese-crested-dog":"mexicanhairless","coton-de-tulear":"cotondetulear","japanese-chin":"spaniel/japanese","lhasa-apso":"lhasa","brussels-griffon":"brabancon","italian-greyhound":"greyhound/italian","affenpinscher":"affenpinscher",
-"greyhound":"greyhound/indian","whippet":"whippet","borzoi":"borzoi","afghan-hound":"hound/afghan","saluki":"saluki","irish-wolfhound":"wolfhound/irish","scottish-deerhound":"deerhound/scottish"
+"toy-poodle":"poodle/toy","miniature-poodle":"poodle/miniature","standard-poodle":"poodle/standard","chihuahua":"chihuahua","maltese":"maltese","papillon":"papillon","shih-tzu":"shihtzu","pekingese":"pekinese","cavalier-king-charles-spaniel":"spaniel/blenheim","pug":"pug","french-bulldog":"bulldog/french","boston-terrier":"bulldog/boston","bichon-frise":"frise/bichon","havanese":"havanese","coton-de-tulear":"cotondetulear","japanese-chin":"spaniel/japanese","lhasa-apso":"lhasa","brussels-griffon":"brabancon","italian-greyhound":"greyhound/italian","affenpinscher":"affenpinscher",
+"whippet":"whippet","borzoi":"borzoi","afghan-hound":"hound/afghan","saluki":"saluki","irish-wolfhound":"wolfhound/irish","scottish-deerhound":"deerhound/scottish"
 };
 
 function showDetailImage(src, breedId) {
@@ -269,14 +269,124 @@ function showDetailImage(src, breedId) {
     const img = document.createElement('img');
     img.src = src;
     img.alt = D[breedId]?.name || '';
-    img.style.cssText = 'width:100%;height:100%;object-fit:cover;position:absolute;top:0;left:0;border-radius:16px;';
+    img.style.cssText = 'width:100%;height:100%;object-fit:cover;object-position:center 30%;position:absolute;top:0;left:0;border-radius:16px;';
     container.style.position = 'relative';
     container.appendChild(img);
 }
 
+const BREED_IMAGES = {
+"affenpinscher":"https://images.dog.ceo/breeds/affenpinscher/n02110627_6869.jpg",
+"afghan-hound":"https://images.dog.ceo/breeds/hound-afghan/n02088094_907.jpg",
+"airedale-terrier":"https://images.dog.ceo/breeds/airedale/n02096051_5267.jpg",
+"akita":"https://images.dog.ceo/breeds/akita/an_akita_inu_resting.jpg",
+"alaskan-malamute":"https://images.dog.ceo/breeds/malamute/n02110063_8977.jpg",
+"american-cocker-spaniel":"https://images.dog.ceo/breeds/spaniel-cocker/n02102318_2971.jpg",
+"american-foxhound":"https://images.dog.ceo/breeds/hound-english/n02089973_1303.jpg",
+"australian-kelpie":"https://images.dog.ceo/breeds/australian-kelpie/img_7387.jpg",
+"australian-shepherd":"https://images.dog.ceo/breeds/australian-shepherd/sadie.jpg",
+"basenji":"https://images.dog.ceo/breeds/basenji/n02110806_2627.jpg",
+"basset-hound":"https://images.dog.ceo/breeds/hound-basset/n02088238_13439.jpg",
+"beagle":"https://images.dog.ceo/breeds/beagle/n02088364_8443.jpg",
+"bedlington-terrier":"https://images.dog.ceo/breeds/terrier-bedlington/n02093647_3114.jpg",
+"belgian-malinois":"https://images.dog.ceo/breeds/malinois/n02105162_4120.jpg",
+"belgian-tervuren":"https://images.dog.ceo/breeds/tervuren/maverick.jpg",
+"bernese-mountain-dog":"https://images.dog.ceo/breeds/mountain-bernese/n02107683_5155.jpg",
+"bichon-frise":"https://images.dog.ceo/breeds/frise-bichon/h-2.jpg",
+"bloodhound":"https://images.dog.ceo/breeds/hound-blood/n02088466_7928.jpg",
+"border-collie":"https://images.dog.ceo/breeds/collie-border/n02106166_6512.jpg",
+"borzoi":"https://images.dog.ceo/breeds/borzoi/n02090622_5261.jpg",
+"boston-terrier":"https://images.dog.ceo/breeds/bulldog-boston/n02096585_11731.jpg",
+"boxer":"https://images.dog.ceo/breeds/boxer/n02108089_813.jpg",
+"briard":"https://images.dog.ceo/breeds/briard/n02105251_6335.jpg",
+"brittany":"https://images.dog.ceo/breeds/spaniel-brittany/n02101388_4113.jpg",
+"brussels-griffon":"https://images.dog.ceo/breeds/brabancon/n02112706_1882.jpg",
+"bulldog":"https://images.dog.ceo/breeds/bulldog-english/murphy.jpg",
+"bullmastiff":"https://images.dog.ceo/breeds/mastiff-bull/n02108422_568.jpg",
+"cairn-terrier":"https://images.dog.ceo/breeds/terrier-cairn/n02096177_2982.jpg",
+"cavalier-king-charles-spaniel":"https://images.dog.ceo/breeds/spaniel-blenheim/n02086646_801.jpg",
+"chesapeake-bay-retriever":"https://images.dog.ceo/breeds/retriever-chesapeake/n02099849_31.jpg",
+"chihuahua":"https://images.dog.ceo/breeds/chihuahua/n02085620_4673.jpg",
+"chow-chow":"https://images.dog.ceo/breeds/chow/n02112137_5945.jpg",
+"clumber-spaniel":"https://images.dog.ceo/breeds/clumber/n02101556_2689.jpg",
+"coton-de-tulear":"https://images.dog.ceo/breeds/cotondetulear/100_2013.jpg",
+"curly-coated-retriever":"https://images.dog.ceo/breeds/retriever-curly/n02099429_2733.jpg",
+"dalmatian":"https://images.dog.ceo/breeds/dalmatian/cooper2.jpg",
+"dobermann":"https://images.dog.ceo/breeds/doberman/n02107142_4653.jpg",
+"english-cocker-spaniel":"https://images.dog.ceo/breeds/spaniel-cocker/img_20181221_161745_654.jpg",
+"english-setter":"https://images.dog.ceo/breeds/setter-english/n02100735_5010.jpg",
+"english-springer-spaniel":"https://images.dog.ceo/breeds/springer-english/n02102040_995.jpg",
+"finnish-spitz":"https://images.dog.ceo/breeds/finnish-lapphund/img_3801.jpg",
+"flat-coated-retriever":"https://images.dog.ceo/breeds/retriever-flatcoated/n02099267_1451.jpg",
+"french-bulldog":"https://images.dog.ceo/breeds/bulldog-french/n02108915_5201.jpg",
+"german-shepherd":"https://images.dog.ceo/breeds/german-shepherd/n02106662_2058.jpg",
+"german-shorthaired-pointer":"https://images.dog.ceo/breeds/pointer-german/n02100236_4181.jpg",
+"german-wirehaired-pointer":"https://images.dog.ceo/breeds/pointer-germanlonghair/hans3.jpg",
+"giant-schnauzer":"https://images.dog.ceo/breeds/schnauzer-giant/n02097130_1275.jpg",
+"golden-retriever":"https://images.dog.ceo/breeds/retriever-golden/z6a_3963_200731.jpg",
+"gordon-setter":"https://images.dog.ceo/breeds/setter-gordon/n02101006_1506.jpg",
+"great-dane":"https://images.dog.ceo/breeds/dane-great/n02109047_1813.jpg",
+"great-pyrenees":"https://images.dog.ceo/breeds/pyrenees/n02111500_474.jpg",
+"havanese":"https://images.dog.ceo/breeds/havanese/00100trportrait_00100_burst20191103202017556_cover.jpg",
+"irish-setter":"https://images.dog.ceo/breeds/setter-irish/n02100877_1749.jpg",
+"irish-terrier":"https://images.dog.ceo/breeds/terrier-irish/n02093991_2698.jpg",
+"irish-water-spaniel":"https://images.dog.ceo/breeds/spaniel-irish/n02102973_4510.jpg",
+"irish-wolfhound":"https://images.dog.ceo/breeds/wolfhound-irish/n02090721_847.jpg",
+"italian-greyhound":"https://images.dog.ceo/breeds/greyhound-italian/n02091032_378.jpg",
+"jack-russell-terrier":"https://images.dog.ceo/breeds/terrier-russell/jack-koda-1.jpg",
+"japanese-chin":"https://images.dog.ceo/breeds/spaniel-japanese/n02085782_1503.jpg",
+"japanese-spitz":"https://images.dog.ceo/breeds/spitz-japanese/beet-005.jpg",
+"kaninchen-dachshund":"https://images.dog.ceo/breeds/dachshund/sadie.jpg",
+"kerry-blue-terrier":"https://images.dog.ceo/breeds/terrier-kerryblue/n02093859_393.jpg",
+"labrador-retriever":"https://images.dog.ceo/breeds/labrador/n02099712_610.jpg",
+"leonberger":"https://images.dog.ceo/breeds/leonberg/n02111129_1503.jpg",
+"lhasa-apso":"https://images.dog.ceo/breeds/lhasa/n02098413_1355.jpg",
+"maltese":"https://images.dog.ceo/breeds/maltese/n02085936_6278.jpg",
+"mastiff":"https://images.dog.ceo/breeds/mastiff-english/4.jpg",
+"miniature-dachshund":"https://images.dog.ceo/breeds/dachshund/sadie.jpg",
+"miniature-poodle":"https://images.dog.ceo/breeds/poodle-miniature/n02113712_4233.jpg",
+"miniature-schnauzer":"https://images.dog.ceo/breeds/schnauzer-miniature/n02097047_4563.jpg",
+"newfoundland":"https://images.dog.ceo/breeds/newfoundland/n02111277_4317.jpg",
+"norfolk-terrier":"https://images.dog.ceo/breeds/terrier-norfolk/n02094114_550.jpg",
+"old-english-sheepdog":"https://images.dog.ceo/breeds/sheepdog-english/n02105641_12297.jpg",
+"otterhound":"https://images.dog.ceo/breeds/otterhound/n02091635_3393.jpg",
+"papillon":"https://images.dog.ceo/breeds/papillon/n02086910_9041.jpg",
+"pekingese":"https://images.dog.ceo/breeds/pekinese/n02086079_21987.jpg",
+"plott-hound":"https://images.dog.ceo/breeds/hound-plott/hhh-23456.jpg",
+"pomeranian":"https://images.dog.ceo/breeds/pomeranian/n02112018_5554.jpg",
+"pug":"https://images.dog.ceo/breeds/pug/n02110958_630.jpg",
+"rhodesian-ridgeback":"https://images.dog.ceo/breeds/ridgeback-rhodesian/n02087394_1137.jpg",
+"rottweiler":"https://images.dog.ceo/breeds/rottweiler/n02106550_895.jpg",
+"rough-collie":"https://images.dog.ceo/breeds/rough-collie/collie-rough.jpg",
+"saluki":"https://images.dog.ceo/breeds/saluki/n02091831_38.jpg",
+"samoyed":"https://images.dog.ceo/breeds/samoyed/n02111889_5145.jpg",
+"scottish-deerhound":"https://images.dog.ceo/breeds/deerhound-scottish/n02092002_296.jpg",
+"scottish-terrier":"https://images.dog.ceo/breeds/terrier-scottish/n02097298_7835.jpg",
+"shetland-sheepdog":"https://images.dog.ceo/breeds/sheepdog-shetland/n02105855_13039.jpg",
+"shiba-inu":"https://images.dog.ceo/breeds/shiba/shiba-5.jpg",
+"shih-tzu":"https://images.dog.ceo/breeds/shihtzu/n02086240_5140.jpg",
+"siberian-husky":"https://images.dog.ceo/breeds/husky/n02110185_15063.jpg",
+"st-bernard":"https://images.dog.ceo/breeds/stbernard/n02109525_13702.jpg",
+"staffordshire-bull-terrier":"https://images.dog.ceo/breeds/bullterrier-staffordshire/n02093256_911.jpg",
+"standard-dachshund":"https://images.dog.ceo/breeds/dachshund/sadie.jpg",
+"standard-poodle":"https://images.dog.ceo/breeds/poodle-standard/n02113799_3055.jpg",
+"standard-schnauzer":"https://images.dog.ceo/breeds/schnauzer/n02097209_743.jpg",
+"tibetan-mastiff":"https://images.dog.ceo/breeds/mastiff-tibetan/n02108551_2514.jpg",
+"toy-poodle":"https://images.dog.ceo/breeds/poodle-toy/n02113624_70.jpg",
+"vizsla":"https://images.dog.ceo/breeds/vizsla/n02100583_9799.jpg",
+"weimaraner":"https://images.dog.ceo/breeds/weimaraner/n02092339_7959.jpg",
+"welsh-corgi-cardigan":"https://images.dog.ceo/breeds/corgi-cardigan/n02113186_11220.jpg",
+"welsh-corgi-pembroke":"https://images.dog.ceo/breeds/pembroke/n02113023_2974.jpg",
+"west-highland-white-terrier":"https://images.dog.ceo/breeds/terrier-westhighland/n02098286_5057.jpg",
+"whippet":"https://images.dog.ceo/breeds/whippet/n02091134_10548.jpg",
+"wire-fox-terrier":"https://images.dog.ceo/breeds/terrier-fox/n02095314_1054.jpg",
+"yorkshire-terrier":"https://images.dog.ceo/breeds/terrier-yorkshire/n02094433_3766.jpg"
+};
+
 function loadDetailImage(breedId) {
     const local = LOCAL_PHOTOS[breedId];
     if (local) { showDetailImage(local, breedId); return; }
+    const fixed = BREED_IMAGES[breedId];
+    if (fixed) { showDetailImage(fixed, breedId); return; }
     const apiPath = DOG_API[breedId];
     if (!apiPath) return;
     fetch(`https://dog.ceo/api/breed/${apiPath}/images/random`)

@@ -202,6 +202,17 @@ FAQ を直すと、画面の表示と構造化データ（FAQPage）が同じデ
   `site.defaultOgImage` → `node scripts/build-content.mjs` で反映
 - ブログ13本は記事ごとの写真を og:image にしている（既定PNGではない）
 
+### 犬図鑑の犬種写真を差し替えるとき
+
+犬図鑑（`services/dog/breeds/`）の写真は、犬種ごとに目視選定した固定URLの表
+`BREED_IMAGES` で管理している（2026-08-30「顔が見切れる」指摘への対応。
+それ以前のランダム表示は廃止）。差し替えは **`index.html` と `detail.html` の両方**の
+`BREED_IMAGES` にある該当犬種のURLを書き換えるだけでよい。
+URLは Dog CEO（`https://images.dog.ceo/breeds/…`）でも他の無料画像でも可。
+自社撮影を使う場合は `LOCAL_PHOTOS` に追加する（こちらが最優先）。
+Dog CEO に正しい写真が無い7犬種（bull-terrier / chinese-crested-dog / bearded-collie /
+puli / shar-pei / cane-corso / greyhound）はプレースホルダのままにしてある。
+
 ---
 
 ## 5. 一時掲載停止中のページと戻し方

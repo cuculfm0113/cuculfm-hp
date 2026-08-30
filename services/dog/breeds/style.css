@@ -326,6 +326,9 @@ img { max-width: 100%; height: auto; display: block; }
     width: 100%;
     height: 100%;
     object-fit: cover;
+    /* 顔は写真の上寄りにあることが多い。中央クロップだと胴体だけになりやすい
+       （2026-08-30「顔が見切れる」指摘への保険） */
+    object-position: center 30%;
     transition: var(--transition-medium);
 }
 
