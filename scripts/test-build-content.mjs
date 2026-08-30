@@ -1478,9 +1478,12 @@ test('Service の JSON-LD だけを置いて可視ブロックが無いページ
 /* ==========================================================================
    6f. /insights/ 一覧と記事（フェーズ6）
    ========================================================================== */
-test('要件で指定された記事が揃っている（フェーズ6分）', () => {
+test('要件で指定された記事8本が揃っている', () => {
   const got = C.insights.articles.map((a) => a.slug);
-  for (const s of ['fde-toha', 'genba-dx', 'ai-teichaku', 'gyomu-flow']) {
+  // ブリーフ「3. 実装計画」の /insights/ に挙がっている8本。
+  // 前半4本がフェーズ6、後半4本がフェーズ7で追加された
+  for (const s of ['fde-toha', 'genba-dx', 'ai-teichaku', 'gyomu-flow',
+    'saas-vs-custom', 'ai-usecases', 'data-foundation', 'dx-roadmap']) {
     assert(got.includes(s), `記事 ${s} がありません`);
   }
   // 確定事項4: スラッグは SaaS の表記に合わせて saas-vs-custom にする
