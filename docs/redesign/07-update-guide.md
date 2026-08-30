@@ -194,13 +194,27 @@ FAQ を直すと、画面の表示と構造化データ（FAQPage）が同じデ
 | アセット | 場所 | 寸法（テストが検査） |
 |---|---|---|
 | OGP既定画像 | `images/ogp/ogp-default.png` | 1200×630 |
-| favicon | `images/icons/favicon-192.png` / `favicon-512.png` | 192×192 / 512×512 |
-| ロゴ | `logo/cuculfm.svg` | — |
+| ファビコン（ICO・16/32/48内包） | `favicon.ico`（リポジトリ直下） | — |
+| ファビコン（PNG） | `images/icons/favicon-32.png` / `favicon-192.png` / `favicon-512.png` | 32 / 192 / 512 |
+| Apple ホーム画面 | `images/icons/apple-touch-icon.png` | 180×180 |
+| Android 適応アイコン | `images/icons/maskable-512.png` | 512×512 |
+| ロゴ（ヘッダー画像・JSON-LD用） | `logo/cuculfm.svg` | — |
 
 - 同じファイル名で上書きすれば、各ページの参照はそのまま使える
 - 記事の Article 構造化データが使う画像は `content/site.config.json` の
   `site.defaultOgImage` → `node scripts/build-content.mjs` で反映
 - ブログ13本は記事ごとの写真を og:image にしている（既定PNGではない）
+
+**アイコンに `logo/cuculfm.svg` を使わないこと**（2026-08-30 の変更点）。
+このSVGは573KBあり、中身は 1062px の埋め込みPNG 4枚。さらに「CUCUL FM.LLC」の文字が
+マークの中央を横幅85%で横断しているため、16pxのタブでは文字が潰れて判読不能になる。
+`rel="icon"` に `sizes="any"` のSVGを置くと Chrome/Firefox/Edge がPNGより優先してしまうため、
+アイコン用途からは外した（テストが退行を検知する）。SVG自体はヘッダーのロゴ画像や
+JSON-LD の `Organization.logo` で使い続けている。
+
+アイコンを作り直すときは、SVGから文字レイヤー `g[clip-path="url(#9358c3c5af)"]` を
+描画時に外し、紺 `#0a0a1a` 背景の正方形として書き出す（SVGファイル自体は変更しない）。
+`favicon.ico` は 16/32/48 のPNGを ICO コンテナに詰めた PNG-in-ICO 形式。
 
 ### 犬図鑑の犬種写真を差し替えるとき
 

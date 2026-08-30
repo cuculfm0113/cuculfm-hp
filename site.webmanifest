@@ -1,11 +1,15 @@
 {
   "name": "CUCUL FM | 普段と新しい暮らしをサポートする会社",
   "short_name": "CUCUL FM",
+  "description": "ククルFM合同会社。建設・インフラ、クリエイティブ・テック、ライフスタイル。テクノロジーを横串に、普段と新しい暮らしをサポートします。",
+  "lang": "ja",
   "icons": [
-    { "src": "/images/icons/favicon-192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "/images/icons/favicon-512.png", "sizes": "512x512", "type": "image/png" }
+    { "src": "/images/icons/favicon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/images/icons/favicon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/images/icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ],
   "start_url": "/",
+  "scope": "/",
   "display": "browser",
   "theme_color": "#000510",
   "background_color": "#000510"

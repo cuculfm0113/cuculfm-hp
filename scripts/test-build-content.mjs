@@ -1693,8 +1693,37 @@ test('og:image / twitter:image が絶対URLで実在ファイルを指し、SVG�
 
 test('OGP画像とfaviconのPNGが正しい寸法で存在する', () => {
   assertEq(pngSize('images/ogp/ogp-default.png'), '1200x630', 'ogp-default.png');
+  assertEq(pngSize('images/icons/favicon-32.png'), '32x32', 'favicon-32.png');
   assertEq(pngSize('images/icons/favicon-192.png'), '192x192', 'favicon-192.png');
   assertEq(pngSize('images/icons/favicon-512.png'), '512x512', 'favicon-512.png');
+  assertEq(pngSize('images/icons/apple-touch-icon.png'), '180x180', 'apple-touch-icon.png');
+  assertEq(pngSize('images/icons/maskable-512.png'), '512x512', 'maskable-512.png');
+});
+
+/* favicon.ico は「ICONDIR(6B) + ICONDIRENTRY(16B)×N + PNGデータ」の PNG-in-ICO 形式。
+   ブラウザが暗黙に /favicon.ico を取りに来るので、ルートに置くこと自体が要件 */
+test('favicon.ico がルートにあり、複数サイズを内包した正しいICOである', () => {
+  const p = path.join(ROOT, 'favicon.ico');
+  assert(fs.existsSync(p), 'favicon.ico がリポジトリ直下にありません');
+  const b = fs.readFileSync(p);
+  assertEq(b.readUInt16LE(0), 0, 'ICO の reserved が 0 ではありません');
+  assertEq(b.readUInt16LE(2), 1, 'ICO の type が 1（アイコン）ではありません');
+  const n = b.readUInt16LE(4);
+  assert(n >= 3, `ICO に内包された画像が ${n} 枚です（16/32/48 の3枚以上にしてください）`);
+  const sizes = [];
+  for (let i = 0; i < n; i++) {
+    const e = 6 + 16 * i;
+    const w = b.readUInt8(e) || 256;
+    const len = b.readUInt32LE(e + 8);
+    const off = b.readUInt32LE(e + 12);
+    assert(off + len <= b.length, `${w}px のデータがファイル範囲外です`);
+    assertEq(b.subarray(off, off + 8).toString('hex'), '89504e470d0a1a0a',
+      `${w}px のデータが PNG ではありません`);
+    sizes.push(w);
+  }
+  for (const need of [16, 32, 48]) {
+    assert(sizes.includes(need), `ICO に ${need}px が入っていません（現在: ${sizes.join(',')}）`);
+  }
 });
 
 test('site.webmanifest が有効で、アイコンの実体と寸法が一致する', () => {
@@ -1707,14 +1736,54 @@ test('site.webmanifest が有効で、アイコンの実体と寸法が一致す
   }
 });
 
-test('全公開ページに favicon PNG と manifest のリンクがある', () => {
+test('全公開ページにアイコン一式と theme-color がある', () => {
+  const need = [
+    ['href="/favicon.ico"', 'favicon.ico のリンク'],
+    ['href="/images/icons/favicon-192.png" type="image/png"', 'PNG favicon のリンク'],
+    ['rel="apple-touch-icon" href="/images/icons/apple-touch-icon.png"', 'apple-touch-icon'],
+    ['rel="manifest"', 'manifest のリンク'],
+    ['name="theme-color"', 'theme-color'],
+  ];
   for (const rel of PUBLIC_PAGES) {
     const html = read(rel);
-    assert(html.includes('href="/images/icons/favicon-192.png" type="image/png"'),
-      `${rel}: PNG favicon のリンクがありません`);
-    assert(html.includes('rel="manifest"'), `${rel}: manifest のリンクがありません`);
-    assert(html.includes('rel="apple-touch-icon"'), `${rel}: apple-touch-icon がありません`);
+    for (const [needle, label] of need) {
+      assert(html.includes(needle), `${rel}: ${label} がありません`);
+    }
   }
+});
+
+/* タブのアイコンは 16px まで縮む。ロゴSVG（573KB・「CUCUL FM.LLC」の文字がマークの中央を
+   横断）を rel=icon に指すと文字が潰れて判読不能になり、全ページで573KB取得も発生する。
+   2026-08-30 にマークのみの PNG/ICO へ移行したので、SVG へ戻していないかを見張る */
+test('rel="icon" が SVG やデータURIを指していない', () => {
+  for (const rel of PUBLIC_PAGES) {
+    const html = read(rel);
+    for (const m of html.matchAll(/<link[^>]*rel="(?:shortcut )?icon"[^>]*>/gi)) {
+      const href = (m[0].match(/href="([^"]*)"/) || [, ''])[1];
+      assert(!href.endsWith('.svg'),
+        `${rel}: rel="icon" が SVG を指しています（16pxで文字が潰れます）: ${href}`);
+      assert(!href.startsWith('data:'),
+        `${rel}: rel="icon" がデータURIです（サイト共通のアイコンにしてください）: ${href}`);
+    }
+  }
+});
+
+test('各ページが参照するアイコン・manifest の実体が存在する', () => {
+  const seen = new Set();
+  for (const rel of PUBLIC_PAGES) {
+    const html = read(rel);
+    for (const m of html.matchAll(/<link[^>]*rel="(?:icon|apple-touch-icon|manifest)"[^>]*>/gi)) {
+      const href = (m[0].match(/href="([^"]*)"/) || [, ''])[1];
+      assert(href.startsWith('/'), `${rel}: アイコンの参照が絶対パスではありません: ${href}`);
+      seen.add(href);
+      assert(fs.existsSync(path.join(ROOT, href.replace(/^\//, ''))),
+        `${rel}: 参照先の実体がありません: ${href}`);
+    }
+  }
+  // 参照が1種類に収束していること（ページごとに違うアイコンを指していない）
+  assertEq([...seen].sort().join(' '),
+    '/favicon.ico /images/icons/apple-touch-icon.png /images/icons/favicon-192.png /site.webmanifest',
+    'ページによって参照しているアイコンが違います');
 });
 
 test('sitemap.xml が生成スクリプトの結果と一致している（URL集合）', () => {
