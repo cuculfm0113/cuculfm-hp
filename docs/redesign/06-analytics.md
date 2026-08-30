@@ -11,10 +11,12 @@
 
 | `analytics` の設定 | 出力されるタグ | 管理画面での作業 |
 |---|---|---|
-| どちらも空（現状） | なし | — |
-| `ga4MeasurementId` のみ | gtag.js（Google タグ） | **不要**。下記イベントがそのまま GA4 に届く |
+| どちらも空 | なし | — |
+| `ga4MeasurementId` のみ（**現状**: `G-RGHFB3LGED`） | gtag.js（Google タグ） | **不要**。下記イベントがそのまま GA4 に届く |
 | `gtmId` のみ | GTM コンテナ | GTM でGA4設定タグ＋イベントトリガーを作る |
 | 両方 | GTM のみ（gtag.js は出さない） | 同上。二重計測を避けるため GA4 は GTM 側で設定する |
+
+**現状は GA4 直接の構成で稼働中**（2026-08-29 に本番で page_view とカスタムイベントの送信を実測確認済み）。
 
 `ga4MeasurementId` を使う構成では、生成タグが `window.CUCULFM.directGa4 = true` を立てる。
 `js/analytics.js` はこのフラグが立っているときだけ `gtag('event', …)` も呼ぶ。
@@ -31,9 +33,9 @@ GTM 運用時に無条件で呼ぶと GTM のトリガーと二重に計上さ�
 | `contact_form_error` | 送信が失敗した（要件の一覧には無いが、失敗が無言で消えるのを避けるため追加） | `contact/form-handler.js` |
 | `click_phone` | `tel:` リンクのクリック | `js/analytics.js`（自動判定）＋ `data-ga-event` |
 | `click_email` | `mailto:` リンクのクリック | 同上 |
-| `click_consultation_cta` | ヘッダーの「相談する」／`/privacy/` の CTA | `data-ga-event`（トップ・`/privacy/`） |
-| `click_fde_service` | 「FDE・AI実装支援を見る」「FDE・AI実装支援の詳細を見る」 | `data-ga-event`（トップに2か所） |
-| `click_roadmap` | 「自社に合わせた進め方を相談する」 | `data-ga-event`（トップ） |
+| `click_consultation_cta` | 「相談する」系のCTA（各ページのヘッダー・CTAセクション） | `data-ga-event`（トップ・/fde/・/about/・/privacy/・記事全ページ） |
+| `click_fde_service` | /fde/ への導線リンク | `data-ga-event`（トップ・記事・/services/ai/・/services/web/ ほか） |
+| `click_roadmap` | 「自社に合わせた進め方を相談する」 | `data-ga-event`（トップ・/fde/） |
 | `scroll_depth_50` | ページを50%まで読み進めた（1回だけ） | `js/analytics.js` |
 | `scroll_depth_90` | 90%まで読み進めた（1回だけ。以降はスクロール購読を解除） | `js/analytics.js` |
 

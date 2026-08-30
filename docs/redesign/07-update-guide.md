@@ -19,19 +19,19 @@ netlify api listSiteDeploys --data '{"site_id":"6121d456-5d60-4371-b63c-25372f32
 
 ---
 
-## 1. お問い合わせフォームの通知先を設定する
+## 1. お問い合わせフォームの通知先（設定済み）
 
-送信内容は Netlify に保存され、そこからメールで通知が届く。
-**送信先メールアドレスはコードのどこにも書かれていない**（mailto 方式は廃止した）。
-設定は Netlify の管理画面で行う。
+**2026-08-29 に設定・動作確認済み。** Netlify Forms に `contact` が検出され、
+通知先 `info@cucul-fm.com` へのメール通知が設定されている。テスト送信1件が通り、
+受信も確認済み。**送信先メールアドレスはコードのどこにも書かれていない**（mailto 方式は廃止した）。
 
-### 手順
+### 通知先を変えるとき
 
 1. https://app.netlify.com/projects/cuculfm-hp/configuration/notifications を開く
-   （画面から辿る場合: `Project configuration` → `Notifications` → `Emails and webhooks`）
-2. `Form submission notifications` の `Add notification` → `Email notification`
-3. 通知先に **`info@cucul-fm.com`** を入力し、対象フォームは `contact` を選ぶ
-4. 保存
+   （画面から辿る場合: `Project configuration` → `Notifications` → `Emails and webhooks`
+   → **`Form submission notifications`**。Deploy notifications の「Add notification」には
+   フォームのイベントが出ない。別セクションなので注意）
+2. 既存の `Email notification` を編集、または追加する
 
 ### フォームが一覧に出てこないとき
 
@@ -43,10 +43,11 @@ Netlify は**フォーム検出をONにした後のデプロイ**でしかHTML�
 ```bash
 # "contact" が返れば検出済み。[] なら未検出
 netlify api listSiteForms --data '{"site_id":"6121d456-5d60-4371-b63c-25372f32737d"}'
-
-# 検出されると Netlify が data-netlify 属性を外す。0 になっていれば成功
-curl -s https://cucul-fm.com/ | grep -c 'data-netlify'
 ```
+
+**注意: 「検出されると `data-netlify` 属性が外れる」という情報は誤り。**
+検出成功後も本番HTMLに属性は残る（実測）。属性の有無で検出を判断しないこと。
+判定は上の `listSiteForms` で行う。
 
 ### 動作確認
 
@@ -59,25 +60,21 @@ https://cucul-fm.com/#contact から実際にテスト送信して、
 
 ---
 
-## 2. アクセス解析（GA4）を有効にする
+## 2. アクセス解析（GA4・設定済み）
 
-**GTM の設定作業は不要。** GA4 の測定IDを1つ設定ファイルに書くだけでよい。
+**2026-08-29 に設定・稼働確認済み。** 測定ID `G-RGHFB3LGED` が
+`content/site.config.json` の `analytics.ga4MeasurementId` に入っており、
+全ページの `<head>` に Google タグが出力されている。本番で page_view と
+カスタムイベントの送信を実測確認済み。**GTM は使っていない**（設定作業も不要）。
 
-### 測定IDの取得
-
-1. https://analytics.google.com/ を開く
-2. 管理（歯車）→ `プロパティを作成` → 名前は「CUCUL FM」など
-3. データストリームを作成 → `ウェブ` → URL に `https://cucul-fm.com`、ストリーム名は任意
-4. 作成後に表示される **測定ID `G-` で始まる文字列**（例 `G-ABCD123456`）をコピー
-
-### サイトへの反映
+### 測定IDを変えるとき
 
 `content/site.config.json` の `analytics` を書き換える。
 
 ```json
 "analytics": {
   "gtmId": "",
-  "ga4MeasurementId": "G-ABCD123456",
+  "ga4MeasurementId": "G-RGHFB3LGED",
   "googleSiteVerification": "…"
 }
 ```
@@ -86,10 +83,9 @@ https://cucul-fm.com/#contact から実際にテスト送信して、
 
 ```bash
 node scripts/build-content.mjs        # 全ページの計測タグを書き換える
-git add . && git commit -m "chore: GA4の測定IDを設定" && git push
+git add . && git commit -m "chore: GA4の測定IDを変更" && git push
 ```
 
-反映されると、全ページの `<head>` に Google タグが入る。
 どのイベントが取れるかは [06-analytics.md](06-analytics.md) を参照。
 
 ### GTM を使いたくなったら
@@ -161,13 +157,18 @@ FAQ を直すと、画面の表示と構造化データ（FAQPage）が同じデ
    `datePublished` / `dateModified` / `related`）
 2. `insights/<slug>/index.html` を作る。既存の記事をコピーして本文を書き換えるのが早い
    （`<!-- BEGIN:jsonld-article -->` `<!-- BEGIN:article-meta -->`
-   `<!-- BEGIN:article-related -->` `<!-- BEGIN:breadcrumb -->` を必ず残す）
+   `<!-- BEGIN:article-related -->` `<!-- BEGIN:breadcrumb -->` を必ず残す）。
+   コピーした場合、`<head>` の canonical / og:url / og:title などのURL・文言を
+   新しい記事のものに書き換えるのを忘れないこと（テストが自身のURLとの一致を検査する）
 3. `node scripts/build-content.mjs`
+4. `node scripts/generate-sitemap.mjs`（新URLを sitemap.xml へ）
+5. `node scripts/test-build-content.mjs` が全件合格することを確認
 
 一覧・パンくず・Article 構造化データ・関連記事は insights.json から作られるので、
 `site.config.json` 側に記事ページを書き足す必要はない。
 `<title>` と `meta description` は insights.json の `title`（＋ ` | CUCUL FM.LLC`）と
 `description` に一字一句そろえる（テストが突き合わせる）。
+記事本文の品質基準（文字数2,000〜3,500字・目次・FAQ・禁止表現など）もテストが検査する。
 
 ### ページを新しく作るとき
 
@@ -176,17 +177,44 @@ FAQ を直すと、画面の表示と構造化データ（FAQPage）が同じデ
    会社概要のような下位型にするなら `type`（例: `AboutPage`）も）
    - `name` / `description` は、そのHTMLの `<title>` / `<meta name="description">` と
      一字一句そろえる。ずれているとテストが落ちる
-2. HTML の `</head>` 直前に `<!-- BEGIN:analytics --><!-- END:analytics -->` を置く
-   （全公開ページに計測タグが入っていることをテストが確認する）
+2. `<head>` に次の一式を必ず入れる（テストが全公開ページを検査する）:
+   - `<!-- BEGIN:analytics --><!-- END:analytics -->`（`</head>` 直前）
+   - canonical（自身の絶対URL）
+   - OGP + Twitter Card（og:type / og:url / og:title / og:description /
+     og:image / og:locale / twitter:card / twitter:image。画像は
+     `https://cucul-fm.com/images/ogp/ogp-default.png` を絶対URLで）
+   - favicon 一式 + manifest（SVG・PNG192・apple-touch-icon・`/site.webmanifest` の4行。
+     既存ページからコピーすればよい）
 3. `node scripts/build-content.mjs` で中身が生成される
+4. `node scripts/generate-sitemap.mjs` で sitemap.xml に追加
+5. `node scripts/test-build-content.mjs` が全件合格することを確認
+
+### OGP画像・faviconを差し替えるとき
+
+| アセット | 場所 | 寸法（テストが検査） |
+|---|---|---|
+| OGP既定画像 | `images/ogp/ogp-default.png` | 1200×630 |
+| favicon | `images/icons/favicon-192.png` / `favicon-512.png` | 192×192 / 512×512 |
+| ロゴ | `logo/cuculfm.svg` | — |
+
+- 同じファイル名で上書きすれば、各ページの参照はそのまま使える
+- 記事の Article 構造化データが使う画像は `content/site.config.json` の
+  `site.defaultOgImage` → `node scripts/build-content.mjs` で反映
+- ブログ13本は記事ごとの写真を og:image にしている（既定PNGではない）
 
 ---
 
 ## 5. 困ったときの確認コマンド
 
 ```bash
+# テスト一式（コンテンツ整合・SEOメタ・記事品質など全件）
+node scripts/test-build-content.mjs
+
 # HTML と content/ がずれていないか（差分0なら同期済み）
 node scripts/build-content.mjs --check
+
+# sitemap.xml が最新か
+node scripts/generate-sitemap.mjs --check
 
 # 使えるマーカーの一覧
 node scripts/build-content.mjs --list
