@@ -44,6 +44,10 @@ HTML側を手で直しても次回の同期で消えるので、直すのはデ�
 
 ## 2. 全公開ページのSEO一覧（48ページ）
 
+> 2026-08-30 追記: このうち8ページ（ai-tools / media / condo×4 / custom / craft）は
+> 発注者指示で**一時掲載停止**（noindex・_redirects 404・sitemap 除外・全導線撤去）。
+> head の canonical / OGP はファイルに残してあり、再開時はそのまま使える。
+
 公開URLの正は `sitemap.xml`（`scripts/generate-sitemap.mjs` の結果と一致することをテストが検査）。
 `404.html` は `noindex, nofollow` で sitemap 外。内訳:
 
@@ -116,14 +120,14 @@ for(const u of urls){
 | `/services/custom/` | オーダーメイド製品販売 \| CUCUL FM | ククルFMのオーダーメイド製品販売事業。お客様のご要望に合わせた特注品を製作。既製品では対応できない特殊なニーズにも柔軟に対応いたします。 | 既定PNG |
 | `/services/document/` | 資料作成 \| CUCUL FM | ククルFMの資料作成サービス。社内外向けのプレゼン資料、レポート、提案書などを高品質に作成します。 | 既定PNG |
 | `/services/dog/` | 犬に携わる業務 \| CUCUL FM | ククルFMの犬関連事業。ブリーディング、ペットシッター、ドッグサロンなど、愛犬家のための総合サービス。 | 既定PNG |
-| `/services/dog/breeds/` | 犬図鑑 - 犬種大全 \| CUCUL FM | FCIの10グループで140犬種を検索・絞り込み。写真は自社で撮れた犬種だけ。性格とお手入れの目安をカードで比較できます。 | 既定PNG |
+| `/services/dog/breeds/` | 犬図鑑 - 犬種大全 \| CUCUL FM | FCIの10グループで140犬種を検索・絞り込み。犬種ごとの写真つきで、性格とお手入れの目安をカードで比較できます。 | 既定PNG |
 | `/services/dog/breeds/detail.html` | 犬図鑑 \| CUCUL FM | 犬種の性格・育て方・注意点・健康管理を詳しく解説。CUCUL FMの犬図鑑。 | 既定PNG |
 | `/services/dog/pet-floor/` | CUCULペットの床 \| 犬に携わる業務 \| CUCUL FM | ククルFMの自社製品「ペットの床」。愛犬の歩行に配慮したUVフロアコーティングで、滑りにくさとお手入れのしやすさを両立。販売・施工のご相談を承ります。 | 既定PNG |
 | `/services/inspection/` | 調査・清掃 \| CUCUL FM | ククルFMの調査・清掃事業。下水道管路内調査清掃を中心に、ソーラーパネル清掃、外壁調査、ドローン測量まで専門サービスをご提供。 | 既定PNG |
 | `/services/media/` | メディア運営 \| CUCUL FM | ククルFMのメディア運営事業。YouTube、Instagram、ポッドキャストなど複数プラットフォームでの情報発信をサポート。 | 既定PNG |
 | `/services/tools/` | 専門工具販売 \| CUCUL FM | ククルFMの専門工具販売事業。建設・インフラ現場のプロフェッショナル向け専門工具を販売。第1弾は東京都型マンホール鍵（自社製品）。 | 既定PNG |
 | `/services/video/` | 映像制作・編集 \| CUCUL FM | ククルFMの映像制作。所持機材は Sony FX30 / α6700、DaVinci Resolve、ドローン・FPV。空撮から編集まで。 | 既定PNG |
-| `/services/web/` | ホームページ制作・3Dデザイン・アプリ開発 \| CUCUL FM | ククルFMのWeb・3Dデザイン事業。コーポレートは領域を先に固定。実績は公式サイト、ファントムDJ、ペットの床LP、犬図鑑。 | 既定PNG |
+| `/services/web/` | ホームページ制作・3Dデザイン・アプリ開発 \| CUCUL FM | ククルFMのWeb・3Dデザイン事業。コーポレートは領域を先に固定。実績は公式サイト、ファントムDJ、犬図鑑。 | 既定PNG |
 
 ---
 

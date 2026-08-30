@@ -5,19 +5,19 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>犬図鑑 - 犬種大全 | CUCUL FM</title>
-    <meta name="description" content="FCIの10グループで140犬種を検索・絞り込み。写真は自社で撮れた犬種だけ。性格とお手入れの目安をカードで比較できます。">
+    <meta name="description" content="FCIの10グループで140犬種を検索・絞り込み。犬種ごとの写真つきで、性格とお手入れの目安をカードで比較できます。">
     <link rel="canonical" href="https://cucul-fm.com/services/dog/breeds/">
 
     <!-- Open Graph / SNS Share -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://cucul-fm.com/services/dog/breeds/">
     <meta property="og:title" content="犬図鑑 - 犬種大全 | CUCUL FM">
-    <meta property="og:description" content="FCIの10グループで140犬種を検索・絞り込み。写真は自社で撮れた犬種だけ。性格とお手入れの目安をカードで比較できます。">
+    <meta property="og:description" content="FCIの10グループで140犬種を検索・絞り込み。犬種ごとの写真つきで、性格とお手入れの目安をカードで比較できます。">
     <meta property="og:image" content="https://cucul-fm.com/images/ogp/ogp-default.png">
     <meta property="og:locale" content="ja_JP">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="犬図鑑 - 犬種大全 | CUCUL FM">
-    <meta name="twitter:description" content="FCIの10グループで140犬種を検索・絞り込み。写真は自社で撮れた犬種だけ。性格とお手入れの目安をカードで比較できます。">
+    <meta name="twitter:description" content="FCIの10グループで140犬種を検索・絞り込み。犬種ごとの写真つきで、性格とお手入れの目安をカードで比較できます。">
     <meta name="twitter:image" content="https://cucul-fm.com/images/ogp/ogp-default.png">
     <link rel="icon" href="/logo/cuculfm.svg" type="image/svg+xml" sizes="any">
     <link rel="icon" href="/images/icons/favicon-192.png" type="image/png" sizes="192x192">
@@ -63,7 +63,7 @@
             <p class="hero-label">DOG BREED ENCYCLOPEDIA</p>
             <h1 class="hero-title">犬図鑑</h1>
             <p class="hero-description">
-                FCI の10グループで探すための図鑑です。検索と絞り込みが先。写真は自社で撮れた犬種だけ載せ、無いカードはプレースホルダのままにします。
+                FCI の10グループで探すための図鑑です。検索と絞り込みが先。写真は自社撮影と無料画像（Dog CEO）を組み合わせて表示し、対応が無い犬種はプレースホルダのままにします。
             </p>
             <div class="hero-stats">
                 <div class="hero-stat">
@@ -350,16 +350,44 @@ const GROUPS = {
 
 const SIZE_LABELS = {xs:"超小型犬",s:"小型犬",m:"中型犬",l:"大型犬",xl:"超大型犬"};
 
-/* 自社写真がある犬種だけ。外部のランダム画像は使わない */
+/* 写真: 自社撮影があればそれを優先し、無い犬種は無料画像API（Dog CEO / Stanford Dogs）から
+   取得する（2026-08-30 発注者指示で API 紐付けを復活）。対応表に無い犬種はプレースホルダのまま */
 const LOCAL_PHOTOS = {
     papillon: "../../../character-design/phantom-papillon/phantom-papillon-portrait.jpg"
 };
 
+const DOG_API = {
+"border-collie":"collie/border","shetland-sheepdog":"sheepdog/shetland","welsh-corgi-pembroke":"pembroke","welsh-corgi-cardigan":"corgi/cardigan","german-shepherd":"german/shepherd","australian-shepherd":"australian/shepherd","rough-collie":"rough/collie","belgian-malinois":"malinois","belgian-tervuren":"tervuren","old-english-sheepdog":"sheepdog/english","bearded-collie":"collie/border","briard":"briard","puli":"komondor","australian-kelpie":"australian/kelpie",
+"bernese-mountain-dog":"mountain/bernese","rottweiler":"rottweiler","great-dane":"dane/great","boxer":"boxer","dobermann":"doberman","st-bernard":"stbernard","newfoundland":"newfoundland","great-pyrenees":"pyrenees","mastiff":"mastiff/english","bullmastiff":"mastiff/bull","cane-corso":"mastiff/english","leonberger":"leonberg","miniature-schnauzer":"schnauzer/miniature","standard-schnauzer":"schnauzer/standard","giant-schnauzer":"schnauzer/giant","bulldog":"bulldog/english","tibetan-mastiff":"mastiff/tibetan","shar-pei":"sharpei",
+"yorkshire-terrier":"terrier/yorkshire","jack-russell-terrier":"terrier/russell","west-highland-white-terrier":"terrier/westhighland","scottish-terrier":"terrier/scottish","airedale-terrier":"airedale","bull-terrier":"bullterrier/staffordshire","cairn-terrier":"terrier/cairn","wire-fox-terrier":"terrier/fox","norfolk-terrier":"terrier/norfolk","staffordshire-bull-terrier":"bullterrier/staffordshire","bedlington-terrier":"terrier/bedlington","irish-terrier":"terrier/irish","kerry-blue-terrier":"terrier/kerryblue",
+"miniature-dachshund":"dachshund","standard-dachshund":"dachshund","kaninchen-dachshund":"dachshund",
+"shiba-inu":"shiba","akita":"akita","japanese-spitz":"spitz/japanese","pomeranian":"pomeranian","samoyed":"samoyed","siberian-husky":"husky","alaskan-malamute":"malamute","chow-chow":"chow","basenji":"basenji","finnish-spitz":"finnish/lapphund",
+"beagle":"beagle","basset-hound":"hound/basset","bloodhound":"hound/blood","dalmatian":"dalmatian","rhodesian-ridgeback":"ridgeback/rhodesian","american-foxhound":"hound/english","otterhound":"otterhound","plott-hound":"hound/plott",
+"irish-setter":"setter/irish","weimaraner":"weimaraner","german-shorthaired-pointer":"pointer/german","brittany":"spaniel/brittany","vizsla":"vizsla","english-setter":"setter/english","gordon-setter":"setter/gordon","german-wirehaired-pointer":"pointer/germanlonghair",
+"golden-retriever":"retriever/golden","labrador-retriever":"labrador","flat-coated-retriever":"retriever/flatcoated","american-cocker-spaniel":"spaniel/cocker","english-cocker-spaniel":"spaniel/cocker","english-springer-spaniel":"springer/english","chesapeake-bay-retriever":"retriever/chesapeake","curly-coated-retriever":"retriever/curly","clumber-spaniel":"clumber","irish-water-spaniel":"spaniel/irish",
+"toy-poodle":"poodle/toy","miniature-poodle":"poodle/miniature","standard-poodle":"poodle/standard","chihuahua":"chihuahua","maltese":"maltese","papillon":"papillon","shih-tzu":"shihtzu","pekingese":"pekinese","cavalier-king-charles-spaniel":"spaniel/blenheim","pug":"pug","french-bulldog":"bulldog/french","boston-terrier":"bulldog/boston","bichon-frise":"frise/bichon","havanese":"havanese","chinese-crested-dog":"mexicanhairless","coton-de-tulear":"cotondetulear","japanese-chin":"spaniel/japanese","lhasa-apso":"lhasa","brussels-griffon":"brabancon","italian-greyhound":"greyhound/italian","affenpinscher":"affenpinscher",
+"greyhound":"greyhound/indian","whippet":"whippet","borzoi":"borzoi","afghan-hound":"hound/afghan","saluki":"saluki","irish-wolfhound":"wolfhound/irish","scottish-deerhound":"deerhound/scottish"
+};
+
+/* 同じ犬種を再取得しない（ランダムAPIのため、キャッシュしないとカードごとに別写真になる） */
+const imgCache = {};
+
 function loadBreedImage(id, imgEl) {
-    const src = LOCAL_PHOTOS[id];
-    if (!src) return;
-    imgEl.src = src;
-    imgEl.style.display = "block";
+    const local = LOCAL_PHOTOS[id];
+    if (local) { imgEl.src = local; imgEl.style.display = "block"; return; }
+    if (imgCache[id]) { imgEl.src = imgCache[id]; imgEl.style.display = "block"; return; }
+    const apiPath = DOG_API[id];
+    if (!apiPath) return; /* 対応表に無い犬種はプレースホルダのまま */
+    fetch(`https://dog.ceo/api/breed/${apiPath}/images/random`)
+        .then(r => r.json())
+        .then(data => {
+            if (data.status === "success") {
+                imgCache[id] = data.message;
+                imgEl.src = data.message;
+                imgEl.style.display = "block";
+            }
+        })
+        .catch(() => {}); /* 失敗時は静かにプレースホルダを残す */
 }
 
 /* ---------- State ---------- */

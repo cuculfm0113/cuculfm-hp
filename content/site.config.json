@@ -283,7 +283,7 @@
     {
       "id": "ai-adoption",
       "name": "AI業務活用支援",
-      "url": "/services/ai-tools/",
+      "url": "/fde/",
       "description": "資料検索、情報整理、記録の要約、帳票の下書きなど、用途を絞ったAI活用の設計と、人が確認・承認する運用ルールづくりの支援。"
     },
     {
@@ -308,13 +308,13 @@
       "id": "construction",
       "name": "建設・インフラ関連事業",
       "url": "/services/construction/",
-      "description": "建設施工、調査・清掃、専門工具・クラフトの販売など、社会基盤を支える事業。"
+      "description": "建設施工、調査・清掃、専門工具の販売など、社会基盤を支える事業。"
     },
     {
       "id": "lifestyle",
       "name": "ライフスタイル関連事業",
       "url": "/services/dog/",
-      "description": "犬に携わる業務やオーナーズコモンなど、暮らしに寄り添う体験とサービスを提供する事業。"
+      "description": "犬に携わる業務をはじめ、暮らしに寄り添う体験とサービスを提供する事業。"
     }
   ],
   "pages": {

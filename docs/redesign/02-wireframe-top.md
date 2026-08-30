@@ -184,7 +184,7 @@ style で常時表示に倒す。
 │ │construction ││creative    ││lifestyle   │               │
 │ │建設・インフラ││クリエイティ ││ライフスタイル│              │
 │ │+FDEつながり注││ブ・テック  ││            │               │
-│ │+下層リンク5 ││+リンク6    ││+リンク2    │               │
+│ │+下層リンク3 ││+リンク4    ││+リンク1    │               │
 │ └────────────┘└────────────┘└────────────┘               │
 │ ── SERVICE LIST / 各事業のご紹介 ──                       │
 │ ┌────┐┌────┐┌────┐┌────┐┌────┐┌────┐┌────┐→ 横スクロール │
@@ -201,7 +201,7 @@ style で常時表示に倒す。
 |---|---|
 | 要素 | `section#business`。eyebrow「AI-DRIVEN / BLUE-COLLAR / BUILD-UP」、h2 `#biz-title` 「OUR <em>BUSINESS</em>」、lead「AI × 現場。建設・インフラからライフスタイルまで、AIを駆使してブルーカラーの仕事をビルドアップする——ククルFM合同会社の7つの領域。」 |
 | 3本柱 | 小見出し「THREE PILLARS / 3つの事業領域」。マーカー `pillars` ← `content/pillars.json`（`pillars` + `fdeNoteLabel`）。`#pillar-construction`「建設・インフラ」/ `#pillar-creative`「クリエイティブ・テック」/ `#pillar-lifestyle`「ライフスタイル」。各カードに「FDE・AI実装支援とのつながり」注記と下層 `/services/*/` リンク |
-| 7カード | 小見出し「SERVICE LIST / 各事業のご紹介」。`#biz-scroller` > `.biz-grid` > `.biz-card`（**直書き・マーカーなし**）。01 DX SYSTEMS(/services/ai/・feat.AIバッジ) / 02 CONSTRUCTION / 03 INSPECTION & CLEANING / 04 TOOLS & CRAFT / 05 VIDEO & DOCUMENTS / 06 WEB & 3D DESIGN / 07 DOG SERVICES |
+| 7カード | 小見出し「SERVICE LIST / 各事業のご紹介」。`#biz-scroller` > `.biz-grid` > `.biz-card`（**直書き・マーカーなし**）。01 DX SYSTEMS(/services/ai/・feat.AIバッジ) / 02 CONSTRUCTION / 03 INSPECTION & CLEANING / 04 TOOLS / 05 VIDEO & DOCUMENTS / 06 WEB & 3D DESIGN / 07 DOG SERVICES |
 | 提供サービス | 小見出し「WHAT WE PROVIDE / 提供サービス」（h3 `#svc-title`）。マーカー `services` ← `site.config.json` の `services`（8件、id は `svc-fde` 〜 `svc-lifestyle`）。**直後の `jsonld-services` マーカーと必ずセット**（画面に出していない内容を構造化データに書かないため、同一データから両方生成する） |
 | CTA計測 | なし（カードは通常リンク） |
 | 挙動 | 進捗線 `#biz-line` はデスクトップ(≥1200px)が ScrollTrigger scrub、モバイルは `initBizProgressMobile()` が scrollLeft 比率で更新。カード reveal は `.pillar-in` / `.biz-scroller` / `.svc-in` トリガーの `gsap.from`（once） |
@@ -400,7 +400,7 @@ style で常時表示に倒す。
 | 項目 | 実装 |
 |---|---|
 | 要素 | `footer.site-footer` > `.foot-in`（3カラム / モバイル1カラム）。**マーカーなし（直書き）** |
-| Services | `/fde/` を筆頭に `/services/ai/` `construction` `inspection` `tools` `craft` `video` `document` `web` `dog` の10リンク |
+| Services | `/fde/` を筆頭に `/services/ai/` `construction` `inspection` `tools` `video` `document` `web` `dog` の9リンク（craft は2026-08-30の掲載停止で削除） |
 | News & Company | `/insights/` `/articles/` `/recruit/` `/event/` `/services/dog/#puppies` `/about/` `#about`(PROFILE) `#contact` `/privacy/` の9リンク + Instagram / X |
 | 注記 | `.foot-note` 「© 2026 CUCUL FM LLC. All rights reserved.」 |
 
@@ -421,7 +421,7 @@ style で常時表示に倒す。
 | 要素 | `div.idx#index-overlay`（`role="dialog"` `aria-modal="true"`）。body 直下（pin 区間外） |
 | h2 | `#idx-title` 「ALL <em>LINKS</em>」、eyebrow「CUCULFM.LLC / SITE INDEX」 |
 | 開閉 | `data-idx-open` を持つ3ボタン（`#btn-index-gnav` / `#btn-index-top` / `#btn-index-hero`）が開き、`#idx-close` / Esc で閉じる。開閉は CSS transition で **GSAP が無くても動く**。Tab 巡回（フォーカストラップ）は `initIndexOverlay()` |
-| 内容 | Services 10 / News & Info 5 / Company 5（+住所・SNS）。**マーカーなし（直書き）**。gnav のモバイルメニューはこれを流用 |
+| 内容 | Services 9 / News & Info 5 / Company 5（+住所・SNS）。**マーカーなし（直書き）**。gnav のモバイルメニューはこれを流用 |
 
 ---
 

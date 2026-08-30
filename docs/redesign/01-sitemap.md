@@ -1,8 +1,10 @@
 # 01. 改修後サイトマップ
 
-フェーズ8完了時点（2026-08-30）の公開URL構成。
+フェーズ10完了時点（2026-08-30）の公開URL構成。
 **正となるデータは sitemap.xml**（`node scripts/generate-sitemap.mjs` で自動生成）。
-以下のツリーは `node scripts/generate-sitemap.mjs --list` の実行結果（48件）を全数掲載したもの。
+以下のツリーは掲載中の40件 + 一時掲載停止8件（〔停止中〕印）の全数。
+2026-08-30 発注者指示により、現状商品・提供体制の無い5サービス（8 URL）を
+一時掲載停止にした（noindex + _redirects 404 + 全導線を撤去。戻し方は 07 の該当章）。
 
 計画書（00-implementation-brief.md「改修後サイトマップ」）との差分:
 
@@ -33,24 +35,24 @@
 │   └─ /insights/dx-roadmap/             中小企業がDXを進める12か月ロードマップ ★新設
 ├─ /services/                            （一覧ページなし。各サービスは直下ディレクトリ）
 │   ├─ /services/ai/                     DX・業務効率化システム開発
-│   ├─ /services/ai-tools/               AIツール紹介 / 学習
+│   ├─ /services/ai-tools/               AIツール紹介 / 学習 〔停止中〕
 │   ├─ /services/construction/           建設業
 │   ├─ /services/inspection/             調査・清掃
 │   ├─ /services/tools/                  工具販売
-│   ├─ /services/craft/                  オリジナルクラフト販売
-│   ├─ /services/custom/                 オーダーメイド製品販売
+│   ├─ /services/craft/                  オリジナルクラフト販売 〔停止中〕
+│   ├─ /services/custom/                 オーダーメイド製品販売 〔停止中〕
 │   ├─ /services/video/                  映像制作・編集
 │   ├─ /services/document/               資料作成
-│   ├─ /services/media/                  メディア運営
+│   ├─ /services/media/                  メディア運営 〔停止中〕
 │   ├─ /services/web/                    Web制作・3D・アプリ開発
 │   ├─ /services/dog/                    犬に携わる業務
 │   │   ├─ /services/dog/breeds/         犬図鑑
 │   │   │   └─ /services/dog/breeds/detail.html   犬種詳細（services 配下で唯一の .html 直URL）
 │   │   └─ /services/dog/pet-floor/      CUCULペットの床
-│   └─ /services/condo/                  オーナーズコモン
-│       ├─ /services/condo/garage/       プライベートガレージ
-│       ├─ /services/condo/hideaway/     共有型隠れ家
-│       └─ /services/condo/mahjong/      高級麻雀スペース
+│   └─ /services/condo/                  オーナーズコモン 〔停止中〕
+│       ├─ /services/condo/garage/       プライベートガレージ 〔停止中〕
+│       ├─ /services/condo/hideaway/     共有型隠れ家 〔停止中〕
+│       └─ /services/condo/mahjong/      高級麻雀スペース 〔停止中〕
 ├─ /blog/                                （一覧ページなし。存続13本のみ・すべて .html）
 │   ├─ /blog/dog/home-grooming.html
 │   ├─ /blog/dog/puppy-preparation.html
@@ -70,7 +72,7 @@
 └─ /recruit/                             アルバイト募集
 ```
 
-内訳: トップ1 + 新設12（fde / about / privacy / insights 9）+ services 19 + blog 13 + articles / event / recruit 3 = **48**。
+内訳（sitemap 掲載分）: トップ1 + 新設12（fde / about / privacy / insights 9）+ services 11 + blog 13 + articles / event / recruit 3 = **40**。ほかに一時掲載停止 8 URL（ファイルは残置・noindex・404配信）。
 
 changefreq / priority は `scripts/generate-sitemap.mjs` の `RULES` 配列が一元管理している
 （トップ 1.0、insights 一覧・fde・services 0.9、記事・about 0.8、privacy 0.3 など）。
@@ -131,7 +133,7 @@ section 以外の主要 id: `#gnav`（ヘッダー）、`#index-overlay`（INDEX
 
 | 列 | リンク |
 |---|---|
-| Services | `/fde/`・`/services/ai/`・`/services/construction/`・`/services/inspection/`・`/services/tools/`・`/services/craft/`・`/services/video/`・`/services/document/`・`/services/web/`・`/services/dog/` |
+| Services | `/fde/`・`/services/ai/`・`/services/construction/`・`/services/inspection/`・`/services/tools/`・`/services/video/`・`/services/document/`・`/services/web/`・`/services/dog/`（9件。craft は停止に伴い削除） |
 | News & Company | `/insights/`・`/articles/`・`/recruit/`・`/event/`・`/services/dog/#puppies`・`/about/`・`#about`・`#contact`・`/privacy/` |
 | SNS | Instagram（cuculfm_llc）・X（madarame365） |
 
@@ -139,7 +141,7 @@ section 以外の主要 id: `#gnav`（ヘッダー）、`#index-overlay`（INDEX
 
 | グループ | リンク |
 |---|---|
-| Services（10件） | フッター Services 列と同一の10件（`/fde/` 〜 `/services/dog/`） |
+| Services（9件） | フッター Services 列と同一の9件（`/fde/` 〜 `/services/dog/`） |
 | News & Info（5件） | `/insights/`・`/articles/`・`/recruit/`・`/event/`・`/services/dog/#puppies` |
 | Company（5件） | `/about/`・`#about`・`#contact`・`tel:09062623842`・`/privacy/` |
 
@@ -174,7 +176,8 @@ section 以外の主要 id: `#gnav`（ヘッダー）、`#index-overlay`（INDEX
 |---|---|
 | `/docs/*` `/content/*` `/scripts/*` | ディレクトリごと停止 |
 | `/AGENTS.md` `/CLAUDE.md` `/SEO_LMO_BEST_PRACTICES.md` | ルート直下の .md |
-| `/character-design/phantom-dj/viewer.html` `viewer-procedural.html` | 開発用ビューアのみ（model.glb は配信継続） |
+| `/character-design/phantom-dj/viewer-procedural.html` | 開発用ビューアのみ（model.glb は配信継続。viewer.html は /services/web/ の制作実績として公開しているため 2026-08-30 に遮断解除） |
+| `/services/ai-tools/*` `/services/media/*` `/services/condo/*` `/services/custom/*` `/services/craft/*` | 一時掲載停止（2026-08-30 発注者指示） |
 
 末尾の `!`（force）が無いと実在ファイルが優先されてルールが効かない（実測済み）。
 日本語ファイル名（会社内容.md）はパス一致が効かなかったため docs/ へ移動して対応した。
@@ -187,10 +190,10 @@ section 以外の主要 id: `#gnav`（ヘッダー）、`#index-overlay`（INDEX
 | `/blog/dog/dog-care-basics.html` | `/blog/dog/home-grooming.html` |
 | `/blog/construction/*` | `/services/construction/` |
 | `/blog/craft/*` `/blog/tools/*` | `/services/tools/` |
-| `/blog/custom/*` | `/services/custom/` |
+| `/blog/custom/*` | `/services/tools/` |
 | `/blog/document/*` `/blog/media/*` `/blog/video/*` | `/services/video/` |
-| `/blog/condo/*` | `/services/condo/` |
-| `/blog/ai-tools/*` `/blog/ai/*` | `/services/ai-tools/` |
+| `/blog/condo/*` | `/` |
+| `/blog/ai-tools/*` `/blog/ai/*` | `/services/ai/` |
 | `/blog/web/*` | `/services/web/` |
 
 ---

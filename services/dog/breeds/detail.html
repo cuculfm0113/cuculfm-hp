@@ -244,14 +244,26 @@ const D = {
 "sloughi":{name:"スルーギ",nameEn:"Sloughi",group:10,size:"l",origin:"モロッコ",traits:["忠実","敏感","独立心"],exercise:4,grooming:1,trainability:2,lifespan:"10〜15年",weight:"20〜28kg",height:"61〜72cm",personality:"北アフリカの砂漠で育まれた視覚ハウンド。非常に繊細で敏感。信頼した人にだけ心を許す。サルーキに似るがよりスリム。",care:["走る機会を確保。安全なドッグランが最適","繊細な性格なので穏やかな環境を","被毛は短く手入れは楽"],caution:["非常に繊細でストレスに弱い","見知らぬ人に対して非常に臆病","日本では入手がほぼ不可能"],health:["進行性網膜萎縮症","免疫系の問題"],diet:"サイトハウンド用フード。繊細な消化器に配慮した食事を。",recommended:["繊細な犬に寄り添える方","北アフリカの犬種に興味がある方","静かで穏やかな犬を求める方"]}
 };
 
-/* 自社写真がある犬種だけ。外部のランダム画像は使わない */
+/* 写真: 自社撮影があればそれを優先し、無い犬種は無料画像API（Dog CEO）から取得する
+   （2026-08-30 発注者指示で API 紐付けを復活） */
 const LOCAL_PHOTOS = {
     papillon: "../../../character-design/phantom-papillon/phantom-papillon-portrait.jpg"
 };
 
-function loadDetailImage(breedId) {
-    const src = LOCAL_PHOTOS[breedId];
-    if (!src) return;
+const DOG_API = {
+"border-collie":"collie/border","shetland-sheepdog":"sheepdog/shetland","welsh-corgi-pembroke":"pembroke","welsh-corgi-cardigan":"corgi/cardigan","german-shepherd":"german/shepherd","australian-shepherd":"australian/shepherd","rough-collie":"rough/collie","belgian-malinois":"malinois","belgian-tervuren":"tervuren","old-english-sheepdog":"sheepdog/english","bearded-collie":"collie/border","briard":"briard","puli":"komondor","australian-kelpie":"australian/kelpie",
+"bernese-mountain-dog":"mountain/bernese","rottweiler":"rottweiler","great-dane":"dane/great","boxer":"boxer","dobermann":"doberman","st-bernard":"stbernard","newfoundland":"newfoundland","great-pyrenees":"pyrenees","mastiff":"mastiff/english","bullmastiff":"mastiff/bull","cane-corso":"mastiff/english","leonberger":"leonberg","miniature-schnauzer":"schnauzer/miniature","standard-schnauzer":"schnauzer/standard","giant-schnauzer":"schnauzer/giant","bulldog":"bulldog/english","tibetan-mastiff":"mastiff/tibetan","shar-pei":"sharpei",
+"yorkshire-terrier":"terrier/yorkshire","jack-russell-terrier":"terrier/russell","west-highland-white-terrier":"terrier/westhighland","scottish-terrier":"terrier/scottish","airedale-terrier":"airedale","bull-terrier":"bullterrier/staffordshire","cairn-terrier":"terrier/cairn","wire-fox-terrier":"terrier/fox","norfolk-terrier":"terrier/norfolk","staffordshire-bull-terrier":"bullterrier/staffordshire","bedlington-terrier":"terrier/bedlington","irish-terrier":"terrier/irish","kerry-blue-terrier":"terrier/kerryblue",
+"miniature-dachshund":"dachshund","standard-dachshund":"dachshund","kaninchen-dachshund":"dachshund",
+"shiba-inu":"shiba","akita":"akita","japanese-spitz":"spitz/japanese","pomeranian":"pomeranian","samoyed":"samoyed","siberian-husky":"husky","alaskan-malamute":"malamute","chow-chow":"chow","basenji":"basenji","finnish-spitz":"finnish/lapphund",
+"beagle":"beagle","basset-hound":"hound/basset","bloodhound":"hound/blood","dalmatian":"dalmatian","rhodesian-ridgeback":"ridgeback/rhodesian","american-foxhound":"hound/english","otterhound":"otterhound","plott-hound":"hound/plott",
+"irish-setter":"setter/irish","weimaraner":"weimaraner","german-shorthaired-pointer":"pointer/german","brittany":"spaniel/brittany","vizsla":"vizsla","english-setter":"setter/english","gordon-setter":"setter/gordon","german-wirehaired-pointer":"pointer/germanlonghair",
+"golden-retriever":"retriever/golden","labrador-retriever":"labrador","flat-coated-retriever":"retriever/flatcoated","american-cocker-spaniel":"spaniel/cocker","english-cocker-spaniel":"spaniel/cocker","english-springer-spaniel":"springer/english","chesapeake-bay-retriever":"retriever/chesapeake","curly-coated-retriever":"retriever/curly","clumber-spaniel":"clumber","irish-water-spaniel":"spaniel/irish",
+"toy-poodle":"poodle/toy","miniature-poodle":"poodle/miniature","standard-poodle":"poodle/standard","chihuahua":"chihuahua","maltese":"maltese","papillon":"papillon","shih-tzu":"shihtzu","pekingese":"pekinese","cavalier-king-charles-spaniel":"spaniel/blenheim","pug":"pug","french-bulldog":"bulldog/french","boston-terrier":"bulldog/boston","bichon-frise":"frise/bichon","havanese":"havanese","chinese-crested-dog":"mexicanhairless","coton-de-tulear":"cotondetulear","japanese-chin":"spaniel/japanese","lhasa-apso":"lhasa","brussels-griffon":"brabancon","italian-greyhound":"greyhound/italian","affenpinscher":"affenpinscher",
+"greyhound":"greyhound/indian","whippet":"whippet","borzoi":"borzoi","afghan-hound":"hound/afghan","saluki":"saluki","irish-wolfhound":"wolfhound/irish","scottish-deerhound":"deerhound/scottish"
+};
+
+function showDetailImage(src, breedId) {
     const container = document.querySelector('.detail-hero-image');
     if (!container) return;
     const img = document.createElement('img');
@@ -260,6 +272,17 @@ function loadDetailImage(breedId) {
     img.style.cssText = 'width:100%;height:100%;object-fit:cover;position:absolute;top:0;left:0;border-radius:16px;';
     container.style.position = 'relative';
     container.appendChild(img);
+}
+
+function loadDetailImage(breedId) {
+    const local = LOCAL_PHOTOS[breedId];
+    if (local) { showDetailImage(local, breedId); return; }
+    const apiPath = DOG_API[breedId];
+    if (!apiPath) return;
+    fetch(`https://dog.ceo/api/breed/${apiPath}/images/random`)
+        .then(r => r.json())
+        .then(data => { if (data.status === 'success') showDetailImage(data.message, breedId); })
+        .catch(() => {});
 }
 
 /* ===== Page Logic ===== */

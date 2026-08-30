@@ -4,8 +4,7 @@
 項目の文言は要件原文（[00-implementation-brief.md](00-implementation-brief.md) の「9. 公開前チェックリスト」）から
 一字一句そのまま引き写し、各項目の下に実装側で確認した現状を添えた。
 
-> 本ファイル作成時点（2026-08-30）では、フェーズ5以降の4コミット
-> （`04291e0` `2b90f58` `2b80cb6` `85cd7e7`）が **未push**。
+> フェーズ5以降のコミットは **未push**（`git log origin/main..main` で確認できる）。
 > そのため /fde/ や /insights/ などは本番ではまだ404になる。push すると自動で本番に出る。
 
 ---
@@ -21,7 +20,7 @@
 - [ ] 重要な本文がHTMLとして取得できる
   - 現状: 全コンテンツはマーカー注入方式で静的HTMLに直接書き込まれ、JS無効でも初期状態で読める
 - [ ] robots.txt、sitemap.xml、canonical、noindex設定を確認した
-  - 現状: robots.txt は全許可＋AIクローラー明示許可＋Sitemap行あり。sitemap.xml は48 URL（`scripts/generate-sitemap.mjs` が生成）。canonical は全公開ページで自身のURLを指すことをテスト済み。404.html のみ noindex で sitemap 外
+  - 現状: robots.txt は全許可＋AIクローラー明示許可＋Sitemap行あり。sitemap.xml は40 URL（`scripts/generate-sitemap.mjs` が生成）。canonical は全公開ページで自身のURLを指すことをテスト済み。404.html と一時掲載停止8ページ（2026-08-30 発注者指示: ai-tools / media / condo×4 / custom / craft）が noindex で sitemap 外
 - [ ] モバイルでCTAとフォームが正常に機能する
   - 現状: レスポンシブ実装済み。実機での最終確認は発注者確認
 - [ ] フォーム送信後の計測イベントが発火する
@@ -132,9 +131,10 @@ FAQ・記事・サービス説明の直し方は [07-update-guide.md](07-update-
 | 3 | Bing Webmaster Tools へのサイト登録（Search Console連携インポート可）と AI Performance の確認 | 未着手 |
 | 4 | Google Business Profile の登録・情報整合性確認 | 未着手 |
 | 5 | 法人番号・設立年月日が確定したら `content/site.config.json` に記入して `node scripts/build-content.mjs` を実行 | 未着手（現在は空欄。空欄のあいだは画面にも構造化データにも出ない） |
-| 6 | 本番デプロイの承認 | **未実施**。フェーズ5以降の4コミットが未push。承認後に `git push` すれば自動で本番反映される |
-| 7 | Insights記事内の自社実務の記述の事実確認 | **要確認**。「管路調査の異常ランクの候補出しを試した」「報告書作成時間などを着手前に控えている」等、社内実務を一人称で書いた箇所がある（数値・顧客名は無し）。実態と合っているかは発注者にしか確認できない |
-| 8 | 補足コピー「AI・データ・クリエイティブを、使われ続ける仕組みへ。」の掲載可否 | **判断待ち**。要件の最重要メッセージに挙がっているが掲載場所の指定が無く、現状どのページにも表示していない（`content/site.config.json` の `messaging.siteTaglineSupport` にデータとして保持済み）。掲載するなら場所をご指定ください |
+| 6 | 本番デプロイの承認 | **未実施**。フェーズ5以降のコミットが未push。承認後に `git push` すれば自動で本番反映される |
+| 7 | Insights記事内の自社実務の記述の事実確認 | 2026-08-30 発注者回答: **現状ステイ**。「管路調査の異常ランクの候補出しを試した」「報告書作成時間などを着手前に控えている」等、社内実務を一人称で書いた箇所がある（数値・顧客名は無し）。実態と合っているかは発注者にしか確認できない |
+| 8 | 補足コピー「AI・データ・クリエイティブを、使われ続ける仕組みへ。」の掲載可否 | 2026-08-30 発注者回答: **現状ステイ**（7・8とも当面このまま） |
+| 9 | 一時掲載停止5サービスの再開判断 | ai-tools / media / condo / custom / craft を停止中（2026-08-30 指示）。商品・提供体制が整ったら再開。戻し方は [07-update-guide.md](07-update-guide.md) |
 
 > 計画との差分: ブリーフ2番は「GTMコンテナ / GA4プロパティを作成し…」だったが、
 > 実装は GTM を経由しない GA4 直接構成で完了した（GTM は `content/site.config.json` の

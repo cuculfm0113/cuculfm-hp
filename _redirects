@@ -9,7 +9,8 @@
 #
 # 注意: /character-design/* を丸ごと塞がないこと。
 #       トップの3Dキャラが /character-design/phantom-dj/model.glb を読んでいる。
-#       ここで塞ぐのは開発用ビューアの2ファイルだけ。
+#       viewer.html は /services/web/ が制作実績として公開リンクしているため塞がない
+#       （2026-08-30 に遮断を解除）。塞ぐのは開発用の viewer-procedural.html だけ。
 # ============================================================================
 /docs/*    /404.html  404!
 /content/* /404.html  404!
@@ -19,8 +20,16 @@
 /SEO_LMO_BEST_PRACTICES.md /404.html  404!
 # 会社内容.md は docs/ へ移動した。日本語ファイル名は _redirects のパス一致が
 # エンコードに左右されて効かなかったため（実際 404! を書いても 200 のままだった）。
-/character-design/phantom-dj/viewer.html            /404.html  404!
 /character-design/phantom-dj/viewer-procedural.html /404.html  404!
+
+# 一時掲載停止 (2026-08-30 発注者指示: 現状商品・提供体制が無いため隠す)
+# 再開するときは以下5行を消し、各ページの noindex メタを外し、
+# pillars.json / index.html のリンクを戻して sitemap を再生成する（docs/redesign/07 参照）
+/services/ai-tools/* /404.html 404!
+/services/media/*    /404.html 404!
+/services/condo/*    /404.html 404!
+/services/custom/*   /404.html 404!
+/services/craft/*    /404.html 404!
 
 # 旧プレビューURL(トップ昇格に伴い本体へ)
 /top-v2/* / 301
@@ -31,14 +40,14 @@
 # 統廃合で事業ページへ集約 (2026-08-18)
 /blog/construction/* /services/construction/ 301
 /blog/craft/* /services/tools/ 301
-/blog/custom/* /services/custom/ 301
+/blog/custom/* /services/tools/ 301
 /blog/document/* /services/video/ 301
 /blog/media/* /services/video/ 301
 /blog/tools/* /services/tools/ 301
-/blog/condo/* /services/condo/ 301
+/blog/condo/* / 301
 
 # ブログ一旦廃止 (2026-08-20): 調査・清掃/犬関連のみ存続、他は事業ページへ
-/blog/ai-tools/* /services/ai-tools/ 301
-/blog/ai/* /services/ai-tools/ 301
+/blog/ai-tools/* /services/ai/ 301
+/blog/ai/* /services/ai/ 301
 /blog/video/* /services/video/ 301
 /blog/web/* /services/web/ 301

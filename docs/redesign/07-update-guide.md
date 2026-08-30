@@ -204,7 +204,39 @@ FAQ を直すと、画面の表示と構造化データ（FAQPage）が同じデ
 
 ---
 
-## 5. 困ったときの確認コマンド
+## 5. 一時掲載停止中のページと戻し方
+
+2026-08-30 の発注者指示で、現状商品・提供体制の無い5サービス（8ページ）を掲載停止にしている。
+
+| サービス | URL |
+|---|---|
+| AIツール紹介 / 学習 | `/services/ai-tools/` |
+| メディア運営 | `/services/media/` |
+| オーナーズコモン | `/services/condo/`（garage / hideaway / mahjong 含む） |
+| オーダーメイド製品販売 | `/services/custom/` |
+| オリジナルクラフト販売 | `/services/craft/` |
+
+停止はファイル削除ではなく「隠す」実装（HTMLは残置）。構成要素は4つ:
+
+1. `_redirects` の 404 行（「一時掲載停止」ブロックの5行）
+2. 各ページ `<head>` の `<meta name="robots" content="noindex">`（sitemap から自動除外される）
+3. 導線の撤去: `content/pillars.json` の links、`content/site.config.json` の
+   `services[ai-adoption].url`（→ `/fde/` に変更済み）と construction / lifestyle の説明文、
+   `index.html` のフッター・INDEXオーバーレイ・事業カード04（TOOLS）・#about 事業内容、
+   `articles/index.html` のフッター、`services/ai/` の関連サービス案内（削除済み）
+4. 旧ブログ301の付け替え（`/blog/custom/*`→tools、`/blog/ai-tools|ai/*`→ai、`/blog/condo/*`→/）
+
+### 再開の手順
+
+1. `_redirects` から該当の 404 行を消す
+2. ページの noindex メタを外す
+3. 3.の導線を戻す（pillars.json に links を足し、`node scripts/build-content.mjs`）
+4. `node scripts/generate-sitemap.mjs` で sitemap に復帰
+5. `node scripts/test-build-content.mjs` 全件合格を確認して push
+
+---
+
+## 6. 困ったときの確認コマンド
 
 ```bash
 # テスト一式（コンテンツ整合・SEOメタ・記事品質など全件）
@@ -226,7 +258,7 @@ netlify status
 
 ---
 
-## 6. 触らないほうがよいところ
+## 7. 触らないほうがよいところ
 
 - `index.html` の `id="contact"` `id="business"` `id="about"`
   … 下層ページから深リンクされている。変えるとリンク切れになる

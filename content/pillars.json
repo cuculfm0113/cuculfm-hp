@@ -26,14 +26,6 @@
         {
           "label": "専門工具販売",
           "href": "/services/tools/"
-        },
-        {
-          "label": "オリジナルクラフト販売",
-          "href": "/services/craft/"
-        },
-        {
-          "label": "オーダーメイド製品販売",
-          "href": "/services/custom/"
         }
       ]
     },
@@ -66,14 +58,6 @@
         {
           "label": "資料作成",
           "href": "/services/document/"
-        },
-        {
-          "label": "AIツール紹介 / 学習",
-          "href": "/services/ai-tools/"
-        },
-        {
-          "label": "メディア運営",
-          "href": "/services/media/"
         }
       ]
     },
@@ -94,10 +78,6 @@
         {
           "label": "犬に携わる業務",
           "href": "/services/dog/"
-        },
-        {
-          "label": "オーナーズコモン",
-          "href": "/services/condo/"
         }
       ]
     }
