@@ -23,7 +23,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { injectFile, resolveRenderer, hasMarker, validate, loadContent, articleKey, BANNED } from './build-content.mjs';
-import { urlPathOf, ruleFor, lastmodOf } from './generate-sitemap.mjs';
+import { urlPathOf, ruleFor, lastmodOf, build as buildSitemap } from './generate-sitemap.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const read = (p) => fs.readFileSync(path.join(ROOT, p), 'utf8');
@@ -1635,6 +1635,117 @@ test('記事ページの pages 定義が insights.json から自動で作られ�
     assert(!raw.pages[articleKey(a.slug)],
       `site.config.json に ${a.slug} の定義が手書きされています（insights.json 側だけにしてください）`);
   }
+});
+
+/* ==========================================================================
+   6g. SEOメタとアセット（フェーズ8）
+   ========================================================================== */
+
+const BASE_URL = C.config.site.url.replace(/\/$/, '');
+/** canonical / OGP を検査する対象（404 は noindex なので除外） */
+const SEO_PAGES = PUBLIC_PAGES.filter((p) => p !== '404.html');
+/** 絶対URL → リポジトリ内ファイルパス（ディレクトリURLは index.html に読み替え） */
+const localFileOf = (url) => {
+  if (!url.startsWith(BASE_URL + '/')) return null;
+  let p = url.slice(BASE_URL.length + 1);
+  if (p === '' || p.endsWith('/')) p += 'index.html';
+  return p;
+};
+/** PNG の幅・高さ（IHDR チャンク） */
+const pngSize = (rel) => {
+  const b = fs.readFileSync(path.join(ROOT, rel));
+  return `${b.readUInt32BE(16)}x${b.readUInt32BE(20)}`;
+};
+
+test('全公開ページに canonical があり自身のURLを指している', () => {
+  for (const rel of SEO_PAGES) {
+    const html = read(rel);
+    const m = html.match(/<link rel="canonical" href="([^"]+)">/);
+    assert(m, `${rel}: canonical がありません`);
+    assertEq(m[1], BASE_URL + urlPathOf(path.join(ROOT, rel)), `${rel}: canonical のURLが違います`);
+  }
+});
+
+test('全公開ページに OGP / Twitter Card が揃っている', () => {
+  const need = ['property="og:type"', 'property="og:url"', 'property="og:title"',
+    'property="og:description"', 'property="og:image"', 'property="og:locale"',
+    'name="twitter:card"', 'name="twitter:image"'];
+  for (const rel of SEO_PAGES) {
+    const html = read(rel);
+    for (const n of need) assert(html.includes(n), `${rel}: ${n} がありません`);
+    const ogUrl = html.match(/<meta property="og:url" content="([^"]+)">/)[1];
+    assertEq(ogUrl, BASE_URL + urlPathOf(path.join(ROOT, rel)), `${rel}: og:url が自身のURLと違います`);
+  }
+});
+
+test('og:image / twitter:image が絶対URLで実在ファイルを指し、SVGでない', () => {
+  for (const rel of SEO_PAGES) {
+    const html = read(rel);
+    for (const m of html.matchAll(/<meta (?:property="og:image"|name="twitter:image") content="([^"]+)">/g)) {
+      const url = m[1];
+      assert(/^https:\/\//.test(url), `${rel}: 画像が絶対URLではありません: ${url}`);
+      assert(!url.endsWith('.svg'), `${rel}: OGP画像がSVGです（SNSで描画されません）: ${url}`);
+      const local = localFileOf(url);
+      assert(local && fs.existsSync(path.join(ROOT, local)), `${rel}: OGP画像の実体がありません: ${url}`);
+    }
+  }
+});
+
+test('OGP画像とfaviconのPNGが正しい寸法で存在する', () => {
+  assertEq(pngSize('images/ogp/ogp-default.png'), '1200x630', 'ogp-default.png');
+  assertEq(pngSize('images/icons/favicon-192.png'), '192x192', 'favicon-192.png');
+  assertEq(pngSize('images/icons/favicon-512.png'), '512x512', 'favicon-512.png');
+});
+
+test('site.webmanifest が有効で、アイコンの実体と寸法が一致する', () => {
+  const man = JSON.parse(read('site.webmanifest'));
+  assert(Array.isArray(man.icons) && man.icons.length >= 2, 'icons が2件未満です');
+  for (const ic of man.icons) {
+    const rel = ic.src.replace(/^\//, '');
+    assert(fs.existsSync(path.join(ROOT, rel)), `manifest のアイコンがありません: ${ic.src}`);
+    assertEq(pngSize(rel), ic.sizes, `${ic.src} の寸法が sizes と違います`);
+  }
+});
+
+test('全公開ページに favicon PNG と manifest のリンクがある', () => {
+  for (const rel of PUBLIC_PAGES) {
+    const html = read(rel);
+    assert(html.includes('href="/images/icons/favicon-192.png" type="image/png"'),
+      `${rel}: PNG favicon のリンクがありません`);
+    assert(html.includes('rel="manifest"'), `${rel}: manifest のリンクがありません`);
+    assert(html.includes('rel="apple-touch-icon"'), `${rel}: apple-touch-icon がありません`);
+  }
+});
+
+test('sitemap.xml が生成スクリプトの結果と一致している（URL集合）', () => {
+  const xml = read('sitemap.xml');
+  const inFile = new Set([...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]));
+  const generated = new Set(buildSitemap().entries.map((e) => e.loc));
+  const missing = [...generated].filter((u) => !inFile.has(u));
+  const stale = [...inFile].filter((u) => !generated.has(u));
+  assert(missing.length === 0, `sitemap.xml に不足: ${missing.join(', ')}`);
+  assert(stale.length === 0, `sitemap.xml に残骸: ${stale.join(', ')}`);
+});
+
+test('sitemap.xml に改修で追加した全ページが載っている', () => {
+  const xml = read('sitemap.xml');
+  const urls = ['/fde/', '/about/', '/privacy/', '/insights/',
+    ...C.insights.articles.map((a) => `/insights/${a.slug}/`)];
+  for (const u of urls) assert(xml.includes(`<loc>${BASE_URL}${u}</loc>`), `sitemap に ${u} がありません`);
+});
+
+test('/services/ai/ と /services/web/ に /fde/ への導線がある', () => {
+  for (const rel of ['services/ai/index.html', 'services/web/index.html']) {
+    const html = read(rel);
+    assert(/href="\/fde\/"[^>]*data-ga-event="click_fde_service"/.test(html),
+      `${rel}: /fde/ への導線（click_fde_service 付き）がありません`);
+  }
+});
+
+test('404.html の参照が絶対パスになっている（任意のURLで表示されるため）', () => {
+  const html = read('404.html');
+  const bad = [...html.matchAll(/(?:href|src)="(?!https?:\/\/|\/|#|mailto:|tel:)([^"]+)"/g)].map((m) => m[1]);
+  assert(bad.length === 0, `相対参照が残っています: ${bad.join(', ')}`);
 });
 
 /* ==========================================================================

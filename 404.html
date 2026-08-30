@@ -5,9 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>404 - ページが見つかりません | CUCUL FM</title>
     <meta name="robots" content="noindex, nofollow">
-    <link rel="icon" href="logo/cuculfm.svg" type="image/svg+xml" sizes="any">
+    <!-- Netlify は任意のパスでこのページを返すため、参照はすべて絶対パスにする -->
+    <link rel="icon" href="/logo/cuculfm.svg" type="image/svg+xml" sizes="any">
+    <link rel="icon" href="/images/icons/favicon-192.png" type="image/png" sizes="192x192">
+    <link rel="apple-touch-icon" href="/images/icons/favicon-192.png">
+    <link rel="manifest" href="/site.webmanifest">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/style.css">
     <style>
         .error-section { min-height: 70vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 60px 20px; }
         .error-code { font-family: 'Orbitron', sans-serif; font-size: clamp(4rem, 15vw, 8rem); font-weight: 700; color: var(--color-primary); margin-bottom: 16px; text-shadow: 0 0 60px rgba(245, 225, 0, 0.35); }
@@ -27,18 +31,18 @@
 <body>
     <nav class="navbar">
         <div class="nav-container">
-            <a href="index.html" class="logo">
-                <img src="logo/cuculfm.svg" alt="CUCUL FM" class="logo-img">
+            <a href="/" class="logo">
+                <img src="/logo/cuculfm.svg" alt="CUCUL FM" class="logo-img">
                 <span class="logo-text">CUCUL FM</span>
             </a>
             <ul class="nav-menu">
-                <li><a href="index.html#business">事業内容</a></li>
-                <li><a href="index.html#about">About</a></li>
-                <li><a href="index.html#contact">お問い合わせ</a></li>
+                <li><a href="/#business">事業内容</a></li>
+                <li><a href="/#about">About</a></li>
+                <li><a href="/#contact">お問い合わせ</a></li>
             </ul>
             <div class="nav-contact">
                 <span class="phone">090-6262-3842</span>
-                <a href="index.html#contact" class="btn-contact">CONTACT</a>
+                <a href="/#contact" class="btn-contact">CONTACT</a>
             </div>
             <div class="hamburger">
                 <span></span>
@@ -54,8 +58,8 @@
             <h1 class="error-title">ページが見つかりません</h1>
             <p class="error-desc">お探しのページは存在しないか、移動した可能性があります。<br>トップページまたは下部リンクからお探しください。</p>
             <div class="error-btns">
-                <a href="index.html" class="btn-primary">トップページへ</a>
-                <a href="index.html#contact" class="btn-secondary"><span>お問い合わせ</span></a>
+                <a href="/" class="btn-primary">トップページへ</a>
+                <a href="/#contact" class="btn-secondary"><span>お問い合わせ</span></a>
             </div>
         </div>
     </section>
@@ -64,8 +68,8 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-info">
-                    <a href="index.html" class="footer-logo">
-                        <img src="logo/cuculfm.svg" alt="CUCUL FM" width="30">
+                    <a href="/" class="footer-logo">
+                        <img src="/logo/cuculfm.svg" alt="CUCUL FM" width="30">
                         <span class="logo-text">CUCUL FM</span>
                     </a>
                     <address class="footer-address">
@@ -76,10 +80,10 @@
                 </div>
                 <nav class="footer-nav">
                     <ul class="footer-nav-list">
-                        <li><a href="services/construction/index.html">建設業</a></li>
-                        <li><a href="recruit/index.html">採用情報</a></li>
-                        <li><a href="index.html#about">会社情報</a></li>
-                        <li><a href="index.html#contact">お問い合わせ</a></li>
+                        <li><a href="/services/construction/">建設業</a></li>
+                        <li><a href="/recruit/">採用情報</a></li>
+                        <li><a href="/#about">会社情報</a></li>
+                        <li><a href="/#contact">お問い合わせ</a></li>
                     </ul>
                 </nav>
             </div>
@@ -89,6 +93,6 @@
         </div>
     </footer>
 
-    <script src="script.js" defer></script>
+    <script src="/script.js" defer></script>
 </body>
 </html>
