@@ -1,0 +1,13 @@
+# Netlify のレスポンスヘッダー設定
+# ============================================================================
+# .webmanifest は Netlify の既定だと application/octet-stream で返る。
+# 仕様上は application/manifest+json なので明示する（2026-08-30）。
+/site.webmanifest
+  Content-Type: application/manifest+json; charset=utf-8
+
+# アイコン類は内容が変わったらファイル名ではなく中身で差し替える運用のため、
+# 長期キャッシュにはせず、再検証つきの1日キャッシュにしておく。
+/favicon.ico
+  Cache-Control: public, max-age=86400, must-revalidate
+/images/icons/*
+  Cache-Control: public, max-age=86400, must-revalidate
