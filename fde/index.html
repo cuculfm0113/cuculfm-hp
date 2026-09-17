@@ -30,7 +30,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+JP:wght@300;400;500;700&family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
 
     <!-- Styles -->
+    <link rel="stylesheet" href="/css/brand.css">
     <link rel="stylesheet" href="/services/style.css">
+    <link rel="stylesheet" href="/css/pages.css">
 
     <!-- 構造化データ。中身は content/ から生成する（手で書き換えない）
          Service は画面の「サービス定義」ブロックと同じデータから作っている -->
@@ -101,23 +103,30 @@
     <script src="/js/analytics.js" defer></script>
     <!-- END:analytics -->
 </head>
-<body>
+<body class="moonlight-page page-fde">
+    <a class="page-skip" href="#main-content">本文へ移動</a>
     <!-- Header -->
     <header class="service-header">
         <div class="container">
             <div class="header-content">
-                <a href="/" class="back-link">
-                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <a href="/" class="back-link" aria-label="ホームへ戻る">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                         <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                     <span>TOP に戻る</span>
                 </a>
-                <div class="header-logo">CUCUL FM</div>
+                <a class="header-logo" href="/">CUCUL FM<span class="header-brand-dot" aria-hidden="true">.</span></a>
+                <nav class="page-nav" aria-label="メインナビゲーション">
+                    <a href="/fde/" aria-current="page">FDE・AI実装支援</a>
+                    <a href="/about/">会社概要</a>
+                    <a href="/insights/">Insights</a>
+                </nav>
                 <a class="header-cta" href="/#contact" data-ga-event="click_consultation_cta">相談する</a>
             </div>
         </div>
     </header>
 
+    <main id="main-content" tabindex="-1">
     <!-- Hero -->
     <section class="service-hero fde-hero">
         <div class="container">
@@ -145,6 +154,23 @@
             <p class="page-meta">公開日: 2026年8月29日　最終更新日: 2026年8月29日　監修: ククルFM合同会社 代表 馬場 陽子</p>
         </div>
     </section>
+
+    <div class="fde-layout">
+        <nav class="page-toc" aria-label="このページの目次">
+            <p class="page-toc-label">ON THIS PAGE</p>
+            <ol>
+                <li><a href="#philosophy">支援の考え方</a></li>
+                <li><a href="#position">支援の範囲</a></li>
+                <li><a href="#industries">対象とする業種</a></li>
+                <li><a href="#steps">進め方の3ステップ</a></li>
+                <li><a href="#roadmap">12か月のロードマップ</a></li>
+                <li><a href="#usecases">活用テーマ</a></li>
+                <li><a href="#data-policy">AI・データの取扱い</a></li>
+                <li><a href="#faq">よくある質問</a></li>
+            </ol>
+            <a class="page-toc-contact" href="/#contact" data-ga-event="click_consultation_cta">相談する <span aria-hidden="true">↗</span></a>
+        </nav>
+        <div class="fde-content">
 
     <!-- 思想 -->
     <section class="content-section" id="philosophy" aria-labelledby="philosophy-title">
@@ -699,6 +725,9 @@
         </div>
     </section>
 
+        </div>
+    </div>
+
     <!-- CTA -->
     <section class="content-section cta-section" id="cta">
         <div class="container">
@@ -721,8 +750,17 @@
         </div>
     </section>
 
+    </main>
+
     <!-- Footer -->
     <footer class="service-footer">
+        <nav class="page-footer-nav" aria-label="フッターナビゲーション">
+            <a href="/">ホーム</a>
+            <a href="/fde/">FDE・AI実装支援</a>
+            <a href="/about/">会社概要</a>
+            <a href="/insights/">Insights</a>
+            <a href="/privacy/">プライバシーポリシー</a>
+        </nav>
         <p class="footer-text">© 2026 CUCUL FM LLC. All rights reserved.</p>
     </footer>
 </body>

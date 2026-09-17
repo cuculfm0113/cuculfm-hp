@@ -1,0 +1,33 @@
+/* CUCUL FM — moonlight UI. The character's materials/lights are independent. */
+:root {
+  --ui-bg: #000510;
+  --ui-surface: #0b1220;
+  --ui-surface-raised: #111c2c;
+  --ui-accent: #f5e100;
+  --ui-text: #fffde8;
+  --ui-body: #e7eaf0;
+  --ui-muted: #adb5c4;
+  --ui-line: rgba(255,253,232,.13);
+  --ui-glass: linear-gradient(145deg,rgba(255,253,232,.045),rgba(146,175,205,.015)), var(--ui-surface);
+  --ui-edge: inset 0 1px 0 rgba(255,253,232,.13), inset 0 24px 48px rgba(175,197,221,.025);
+  --ui-radius: 16px;
+  --ui-pill: 999px;
+  --ui-container: 1200px;
+  --ui-gutter: clamp(20px,4vw,48px);
+  --ui-section: clamp(64px,8vw,120px);
+  --ui-fast: 120ms;
+  --ui-motion: 200ms;
+  --ui-slow: 320ms;
+}
+html[data-theme="red"] {
+  --ui-bg: #160208;
+  --ui-surface: #200b14;
+  --ui-surface-raised: #2a111b;
+  --ui-text: #fff4ed;
+  --ui-body: #eee1e2;
+  --ui-muted: #cdb0b7;
+  --ui-line: rgba(255,219,217,.16);
+}
+@media (prefers-reduced-motion: reduce) {
+  :root { --ui-fast: 0ms; --ui-motion: 0ms; --ui-slow: 0ms; }
+}

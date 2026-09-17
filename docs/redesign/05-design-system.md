@@ -1,195 +1,114 @@
 # 05. デザインシステム
 
-改修で触る CSS は主に **2系統**。どちらを触っているかを最初に確認すること。
+2026-09-17 更新。黄色と月夜の濃紺を中心に、既存の世界観と3Dキャラクターを保ちながら、本文・導線・フォームを整理した。判断の根拠と確認手順は [09-moonlight-ui.md](09-moonlight-ui.md) を参照。
 
-| 系統 | 場所 | 適用ページ | トークン接頭辞 | コンテナ幅 |
-|---|---|---|---|---|
-| A | トップ `index.html` のインラインCSS（`:root` は136行目〜） | トップのみ（単一HTML完結） | `--c-*`（ブランド色）+ `--t-*`（テーマ連動） | `--container:1440px` |
-| B | `/services/style.css`（`:root` は9行目〜） | **改修対象の下層**（/fde/ /about/ /privacy/ /insights/ /services/*） | `--color-*` | `--container-max:1000px` |
+## 1. ファイルの役割と適用範囲
 
-- 改修対象ページは `<link rel="stylesheet" href="/services/style.css">` を読む。トップは外部CSSを読まない
-- **例外（services/style.css を編集しても変わらないページ）**:
-  - ルート `/style.css`（569行）… `404.html`（14行目）と `/event/`（event/index.html 28行目）が読む。ファイル冒頭コメントにも「Shared Styles for 404.html / event/」と明記
-  - `/articles/style.css`（938行）… `/articles/`（articles/index.html 28行目）が読む
-  - `/blog/style.css`（448行）… blog 記事13本が `../style.css` で読む
-  - `/recruit/` … ローカルCSSを一切読まず、インライン `<style>` のみで完結
-- **計画との差分**: `00-implementation-brief.md` には「下層は1200px」とあるが、実際の `style.css` は `--container-max: 1000px`。実装が正
-- `style.css` は末尾（2143行目〜「シネマティック統一 (2026-08-20)」）で同名セレクタの上書きを重ねる構成。
-  `:root` も2箇所ある（9行目=基礎、2143行目=シネマ上書き）。**色を変えるときは末尾の `:root` が勝つ**
+| 役割 | ファイル | 適用範囲 |
+|---|---|---|
+| 共通UIトークン | `css/brand.css` | トップ、FDE、会社概要、Insights一覧 |
+| トップの演出基盤 | `css/home.css` | hero、seq、星空・月、SVG/3D配置、テーマ、INDEX |
+| トップの情報・操作UI | `css/home-ui.css` | statement以降、固定ナビ、問い合わせ、フッター、INDEXの補足UI |
+| 下層の既存基盤 | `services/style.css` | FDE、会社概要、privacy、Insights一覧・記事、サービスなど29ページ |
+| 主要下層の新UI | `css/pages.css` | `/fde/`、`/about/`、`/insights/` の3ページのみ |
+| トップのUI・演出制御 | `js/home.js` | ナビ、INDEX、音、テーマ、スクロール・GSAP、3D/SVGの切替調整 |
+| 3D描画 | `js/character.js` | GLB、マテリアル・照明、カメラ、歩行、描画停止・復帰 |
+| 問い合わせ | `contact/form-handler.js` | 検証、Netlify Forms POST、送信状態、結果通知 |
 
----
+CSSの読み込み順は、トップが **brand → home → home-ui**、主要下層が **brand → services/style → pages**。
+主要下層には `body.moonlight-page` と `page-fde` / `page-about` / `page-insights` を付ける。
+`pages.css` を他のページに追加しただけで改修対象を広げないこと。
 
-## 1. トークン一覧
+トップは以前のインラインCSS/JSを外部ファイルへ分離した。静的HTMLと生成マーカー方式は維持しており、フレームワークや実行時ビルドは不要。
 
-### A) トップ `index.html`（インラインCSS）
+**別系統のまま維持するページ**:
 
-ブランド色（テーマによらず固定）:
+- ルート `style.css`：404とイベント。
+- `articles/style.css`：従来の記事一覧。
+- `blog/style.css`：ブログ記事。
+- `services/dog/breeds/style.css`：犬図鑑。
+- `services/dog/pet-floor/pet-floor.css`：サービス共通CSSに重ねる独自UI。
+- `/recruit/`：ページ内CSS。
 
-| トークン | 値 |
+`services/style.css` の共通変更は、フォーカス、ヘッダー操作領域、モバイルの戻るリンク、reduced-motionに限定。本文・写真・個別サービスの全面改修は今回の範囲に含めない。
+
+## 2. 共通トークンと役割
+
+`css/brand.css` が新UIの正。色は役割で選び、紫やシアンを新しい主要アクセントにしない。
+
+| トークン | 既定値 | 用途 |
+|---|---|---|
+| `--ui-bg` | `#000510` | ページの夜空の土台 |
+| `--ui-surface` | `#0b1220` | 本文カード・フォーム |
+| `--ui-surface-raised` | `#111c2c` | 強調する情報面 |
+| `--ui-accent` | `#f5e100` | 主CTA、番号、選択・フォーカス |
+| `--ui-text` | `#fffde8` | 見出し・主要ラベル |
+| `--ui-body` | `#e7eaf0` | 本文 |
+| `--ui-muted` | `#adb5c4` | 補足・メタ情報 |
+| `--ui-line` | `rgba(255,253,232,.13)` | 区切り・輪郭 |
+| `--ui-glass` / `--ui-edge` | 共通CSSのグラデーション／内側シャドウ | 控えめな面の奥行き。本文全体のぼかしには使わない |
+| `--ui-radius` / `--ui-pill` | `16px` / `999px` | 面／CTA |
+| `--ui-container` | `1200px` | 新UIの最大外幅（内側余白を含む） |
+| `--ui-gutter` | `clamp(20px,4vw,48px)` | トップ本文の左右余白 |
+| `--ui-section` | `clamp(64px,8vw,120px)` | トップのセクション間隔 |
+| `--ui-fast` / `--ui-motion` / `--ui-slow` | `120ms` / `200ms` / `320ms` | UIの状態変化。reduced-motion時は0ms |
+
+`html[data-theme="red"]` は既存の代替テーマとして維持する。`brand.css` には赤テーマ用の面・文字色の上書きがあるが、主要下層にはテーマ切替を追加していない。
+
+### 既存トークンとの境界
+
+- トップの `--c-*`（既存ブランド色）と `--t-*`（演出・テーマ）は `home.css` に残す。heroの1440pxコンテナ、`--pad`、キャラクター配置は本文用1200pxコンテナとは別。
+- moonの `--t-bg-0/-1/-2` は `#000510 / #080e1b / #111a2a`、`--t-accent` は黄色。星空レイヤーの背景は `.theme-layer--moon` も確認する。変数だけ変えても、固定値のグラデーションには反映されない。
+- 3Dの色・光・マテリアルは `js/character.js` の `CFG3D`、`GLOW`、`DECALS`、`LINING`、`RIGS` が管理する。UI配色の変更目的でこれらを変更しない。
+- 既存下層は `services/style.css` の `--color-*` と1000pxコンテナを維持。同ファイルには基礎と「シネマティック統一」の2つの `:root` があり、後者の上書きに注意。
+- 主要下層だけは `.moonlight-page` で `--color-*` を `--ui-*` に対応付け、1200pxコンテナへ変更する。主要下層の左右余白は `clamp(22px,4vw,48px)`。
+
+## 3. タイポグラフィとコンポーネント
+
+フォントは既存の3種類を維持する。
+
+| フォント | 用途 |
 |---|---|
-| `--c-primary` | `#f5e100` |
-| `--c-primary-glow` | `rgba(245,225,0,.28)` |
-| `--c-secondary` | `#7b61ff` |
-| `--c-accent` | `#ff6b6b` |
-| `--c-amber` | `#fac458` |
-| `--c-cyan` | `#00cce6` |
-| `--c-magenta` | `#e666e6` |
-| `--c-grey` | `#828788` |
-| `--c-mint` | `#00f5d4` |
+| Orbitron | 短い英字ラベル・番号・ブランド表記 |
+| Bebas Neue | 英語の大見出し・大きな番号 |
+| Noto Sans JP | 日本語見出し・本文・読みやすさを優先するナビとCTA |
 
-テーマ連動トークン（`--t-*`）。既定は `<html lang="ja" data-theme="moon">` だが、
-**moon 用のセレクタは存在しない**。素の `:root` の値が moon（MIDNIGHT）で、
-`html[data-theme="red"]{...}`（179行目〜）が red の上書き。主要なもの:
+トップ・主要下層の本文は原則16px、補助情報は14pxを基本とする（短い英字ラベル・番号・バッジは別階層）。フォーム入力は16px以上。日本語見出しにBebasの巨大サイズを継承させず、和文用セレクタを明示する。
 
-| トークン | moon（既定 = `:root`） | red |
+| 部品 | 現行の扱い | 編集元 |
 |---|---|---|
-| `--t-bg-0` / `-1` / `-2` | `#000510` / `#0a0a1a` / `#0f0f20` | `#160208` / `#200510` / `#2a0714` |
-| `--t-accent` | `#00f5d4` | `#f5e100` |
-| `--t-text` | `#ffffff` | `#fff4f4` |
-| `--t-muted` | `#8a8a9b` | `#c39a9a` |
-| `--t-dim` | `#80809a`（WCAG AA 4.5:1 以上） | `#a87a84`（同） |
-| `--t-line` | `rgba(255,255,255,.10)` | `rgba(255,190,190,.14)` |
-| `--t-pill` | `rgba(255,255,255,.05)` | `rgba(255,120,120,.07)` |
-| `--t-bar`（固定ヘッダー下地） | `rgba(5,7,20,.78)` | `rgba(22,4,10,.80)` |
-| `--t-moon` | `#fffde8` | `#ffe8e0` |
-| `--t-vignette` | `rgba(0,0,0,.55)` | `rgba(30,0,8,.65)` |
+| 固定ナビ | 事業一覧、AI・DX実装支援、Insights、会社概要と相談CTA。完全な導線はINDEXに保持 | `renderNav` / `content/site.config.json`、`home-ui.css` |
+| statement / FDE横断 | 左右の情報階層、3ステップをつなぐ図解 | `messaging` / `pillars.json`、`home-ui.css` |
+| 3本柱・サービス | 3領域の入口、7事業の画像カード、8支援内容の行を分けて扱う | `pillars.json` / `services`、トップの静的カード |
+| 課題・活用テーマ | 番号と区切りによる一覧 | `challenges.json` / `usecases.json` |
+| ロードマップ | 4フェーズのdetails。成果物は `.rm-deliv` | `roadmap.json`、トップとFDEで共有 |
+| FAQ | native details / summary。Q表示はCSS疑似要素 | `faq-top.json` / `faq-fde.json`、FAQPageも同時生成 |
+| お問い合わせ | 相談文とフォームの2列、必須／任意、送信ボタン付近の結果領域 | `contact.fields` / `contact.errors`、フォームJS |
+| FDE下層 | 目次を常設。デスクトップは左レール、900px以下は横スクロールの目次 | `fde/index.html`、`pages.css` |
+| 会社概要 | ミッション／会社情報の左右構成、価値観の一覧、3本柱 | `about/index.html` と生成マーカー、`pages.css` |
+| Insights一覧 | 最初の記事を強調し、以降はカテゴリ・見出し・概要を揃えた行 | `insights.json`、`pages.css` |
+| Insights記事 | 既存の `post-*` / `related-*` を維持 | 各記事HTML、`services/style.css` |
 
-ほかに演出用の `--t-glow-a/b` `--t-title` `--t-title-glow` `--t-char-rim` `--t-particle`
-`--t-moon-red` `--t-beam` `--t-media-tint` がある（値は `index.html` 136〜201行目参照）。
-余白は `--pad:clamp(18px,4vw,46px)`。
+クラス名は生成側とCSSの契約。生成されたDOMに存在しないクラスへスタイルを追加しない。
+`BEGIN:*` 内の構造を変える場合は `scripts/build-content.mjs` を編集し、全HTMLを同期する。
 
-### B) 下層 `/services/style.css`
+## 4. 操作・レスポンシブ・演出の保護
 
-基礎 `:root`（9行目〜）:
+- ナビ・主要CTA・チェック同意ラベル等は44px以上の操作領域を確保。フォーム入力は48px以上。
+- 主要下層にはmain、本文へのskip link、明確なfocusを設置。モバイルで戻るリンクのテキストを隠す場合も、アクセシブル名を残す。
+- トップの事業画像カードは768px以上でグリッド、767px以下で横スクロール。プログレスのJS条件も合わせる。
+- FDE目次は固定ヘッダーの高さに合わせる。主要下層は680px以下でヘッダーが2段になるため、目次とアンカー位置を同時に確認する。
+- `#hero` / `#seq`、キャラクター用DOM、カメラ経路・ターン・歩行アニメーションは保護対象。`body` / `main` / `section` の祖先にtransform・filter・perspectiveを付けない。
+- INDEX内の同一ページリンクは `#...` + `data-scroll`。モーダルを閉じ、背景ロックを解除してから目的位置へフォーカスを移す。
+- reduced-motionはCSSとJSの両方で追従。本文を非表示にしたまま残さず、3Dが使えない場合はSVGへ戻す。主要下層の星・月・ギャラリーにも設定を適用する。
+- 既存下層には全体の `ul { list-style:none }` がない。新しいリストはマーカーと余白を明示する。
+- 原文の `<br>` はカード幅に合わないことがある。改行の非表示で自然に流し、固定コピー自体は変更しない。
 
-| トークン | 値 |
-|---|---|
-| `--color-bg-dark` | `#0a0a0f` |
-| `--color-bg-darker` | `#050508` |
-| `--color-bg-card` | `#12121a` |
-| `--color-bg-card-hover` | `#1a1a25` |
-| `--color-primary` | `rgba(245, 233, 0, 0.938)` |
-| `--color-primary-glow` | `rgba(245, 233, 0, 0.3)` |
-| `--color-secondary` | `#7b61ff` |
-| `--color-accent` | `#ff6b6b` |
-| `--color-text` | `#ffffff` |
-| `--color-text-muted` | `#8a8a9b` |
-| `--color-text-dim` | `#5a5a6b` |
-| `--color-border` | `rgba(255, 255, 255, 0.08)` |
-| `--color-border-hover` | `rgba(245, 233, 0, 0.3)` |
-| `--section-padding` | `clamp(60px, 10vw, 120px)` |
-| `--container-max` | `1000px` |
-| `--container-padding` | `clamp(20px, 5vw, 40px)` |
-| `--transition-fast` / `--transition-medium` | `0.2s ease` / `0.4s ease` |
+## 5. 画像と検証
 
-シネマ上書き `:root`（2143行目〜。**こちらが最終的に効く**）:
+OGPは `images/ogp/ogp-default.png`（1200×630）。faviconはICOとPNG、Apple用180px、Android用maskable512pxを使用する。
+`logo/cuculfm.svg` はJSON-LD等のロゴ用途を維持するが、2026-08-30以降はファビコンに使わない。詳細は [07-update-guide.md](07-update-guide.md) を参照。
 
-| トークン | 値 |
-|---|---|
-| `--color-primary` | `#f5e100` |
-| `--color-primary-glow` | `rgba(245, 225, 0, 0.28)` |
-| `--color-border-hover` | `rgba(245, 225, 0, 0.35)` |
-| `--color-bg-dark` | `#000510` |
-| `--color-bg-darker` | `#02030a` |
-| `--color-bg-card` | `#0d0d1c` |
-| `--color-bg-card-hover` | `#131328` |
-| `--c-gold` / `--c-gold-soft` / `--c-gold-line` | `rgba(212, 160, 23, 0.55)` / `(0.25)` / `(0.18)` |
-| `--c-cyan` | `#00cce6` |
+既存の3Dモデル、事業・掲示板画像を利用し、架空の実績や顧客ロゴ、新しい人物画像は追加しない。犬写真を扱う既存下層へfilterを新設しない。
 
-下層には `--t-*` は無く、テーマ切替（moon/red）も無い。
-
----
-
-## 2. フォント
-
-Google Fonts から読み込み（トップ・下層とも）。トークン名は両系統で同じ。
-
-| トークン | フォント | 用途 |
-|---|---|---|
-| `--font-display` | `'Orbitron'` | 英字ラベル・eyebrow・ナビ・ピル（小さく・letter-spacing 広め・uppercase） |
-| `--font-heading` | `'Bebas Neue'` | 英語の大見出し（H2 の巨大タイポ）。**和文には使わない**（後述の罠参照） |
-| `--font-body` | `'Noto Sans JP'` | 本文・和文見出し |
-
-フォールバックは実ファイルどおり
-`-apple-system,BlinkMacSystemFont,sans-serif`（display/heading）、
-`'Hiragino Kaku Gothic ProN','Hiragino Sans',Meiryo,sans-serif`（body）。
-
----
-
-## 3. 見出しパターン
-
-| 場所 | 構造 | 実装 |
-|---|---|---|
-| トップ | `.eyebrow`（Orbitron英字ラベル）→ Bebas の英語 H2（`em` でアクセント色）→ 日本語リード | `index.html` 1085行目付近のコメントどおり「eyebrow → Bebas の英語 h2 → 日本語リード」。既存 `.biz-head` / `.news-head` と同じ骨格を `#fde-cross` 以降の追加セクションでも踏襲 |
-| 下層 | `.section-label`（Orbitron 0.625rem・`--color-primary`）→ `.section-title`（1.5rem・700） | `style.css` 358 / 366行目 |
-
-トップの和文大見出し（`.stm-title` `.fde-heading` `.ct-heading`）は、句読点で区切った
-`<span>` を `display:inline-block` にして「語中で割れない改行」にしている。同型を増やすときはこの扱いを揃える。
-
----
-
-## 4. 改修で追加した主要コンポーネント
-
-クラス名は `scripts/build-content.mjs` が生成する HTML と対になっているため**変えない**。
-「データソース」列は `content/` の JSON とマーカーキー（`<!-- BEGIN:キー -->`）。
-
-| 接頭辞 | 用途 | 使用ページ | CSS定義 | データソース |
-|---|---|---|---|---|
-| `gnav-*` | グローバルヘッダー（ナビ+相談CTA）。下層のヘッダーは別物（`.service-header` / `.header-cta`） | トップのみ | index.html | `BEGIN:nav` ← site.config.json `nav` |
-| `stm-*` | ヒーロー直下 `#statement`（技術定着メッセージ+CTA2つ） | トップ | index.html | `BEGIN:hero-copy` ← site.config.json `messaging` |
-| `fde-*` | FDE横断セクション `#fde-cross`（`.fde-in` `.fde-heading` `.fde-body` `.fde-steps`）と /fde/ のリード（`.fde-main` `.fde-sub`） | トップ・/fde/ | 両方 | `BEGIN:fde-cross` / `fde-steps` / `fde-steps-detail` ← pillars.json `crossSection`、`BEGIN:fde-lead` ← site.config.json `messaging` |
-| `pillar-*` | 3本柱カード（アンカー `#pillar-construction` / `-creative` / `-lifestyle` は変更禁止） | トップ・/about/ | 両方 | `BEGIN:pillars` ← pillars.json |
-| `chal-*` | 課題提起カード8枚 `#challenges` + 締め文 | トップ | index.html | `BEGIN:challenges` ← challenges.json |
-| `rm-*` | 12か月ロードマップ4フェーズ `#roadmap` | トップ・/fde/ | 両方 | `BEGIN:roadmap` ← roadmap.json |
-| `uc-*` | 活用テーマ10項目 `#usecases`（`.uc-note` = 活用イメージ注記） | トップ・/fde/ | 両方 | `BEGIN:usecases` ← usecases.json |
-| `faq-*` | FAQ（`.faq-item` `.faq-q` `.faq-a`） | トップ・/fde/ | 両方 | `BEGIN:faq-top` / `faq-fde` ← faq-top.json / faq-fde.json |
-| `ct-*` | 問い合わせ `#contact`（Netlify Forms。`.ct-heading` `.ct-body` `.ct-form-box`） | トップのみ | index.html | `BEGIN:contact-copy` / `contact-fields` / `contact-config` ← site.config.json `contact`。ご相談の種類の `<option>` は `contact-fields` 内で生成される（`contact-subjects` は build-content.mjs のレンダラーキーとしてのみ存在し、ページにマーカーは無い） |
-| `post-*` | 記事本文（`.post-title` `.post-meta` `.post-toc` `.post-body` `.post-table` `.post-close`） | /insights/ 記事8本 | style.css（フェーズ6ブロック 3490行目〜） | 本文は各HTML直書き。メタは `BEGIN:article-meta` ← insights.json |
-| `ins-*` | 記事一覧カード（`.ins-card` `.ins-cat` `.ins-title` `.ins-excerpt`） | /insights/ | style.css | `BEGIN:insights-list` ← insights.json |
-| `related-*` | 記事末尾の関連記事リンク | 記事8本 | style.css | `BEGIN:article-related` ← insights.json |
-| `policy-*` | 「AI・データの取扱い方針」カード（2列グリッド） | /fde/ | style.css | 静的（マーカーなし。fde/index.html 481行目〜） |
-| `breadcrumb` | パンくず。表示と BreadcrumbList JSON-LD を同一データから生成 | 下層の新規ページ全部（/fde/ /about/ /privacy/ /insights/ 一覧+記事） | style.css（フェーズ4ブロック 2351行目〜） | `BEGIN:breadcrumb` ← site.config.json `pages[相対パス].breadcrumb` |
-| `industry-links` | 対象領域リンク群 | /fde/ | style.css | 静的 |
-| `shop-link` | 外部リンクボタン（改修前からある既存部品） | /services/dog/ /services/web/ /services/ai/ | style.css（1220行目） | 静的 |
-| `cta-section` | 下層共通の締めCTA（改修前からある既存部品を新規ページでも再利用） | /fde/ /about/ /privacy/ /insights/ ほか | style.css（2003行目） | 静的。電話・メールは `BEGIN:cfg:company.tel` 等のインライン展開 |
-
-補助: `.doc-list` `.doc-dl` `.doc-body`（読み物の最小セット、フェーズ4）、
-`.step-card` `.step-body` `.step-detail`（/fde/ の3ステップ詳細、フェーズ5）も style.css にある。
-
----
-
-## 5. 実装上の注意（過去に踏んだ罠）
-
-1. **和文見出しの詳細度**。トップの `.ct-in h2` のような「セクション内 h2」指定は
-   Bebas の巨大サイズ（例: `clamp(2rem,5.4vw,4.2rem)`）を持つ。和文見出しクラスを
-   `.ct-heading` 単独で書くと詳細度で負けて**和文に Bebas サイズが当たり巨大化する**。
-   `index.html` のコメントどおり `.ct-in .ct-heading` のように同じ詳細度以上で書くこと。
-2. **下層のリストマーカー**。`style.css` には `ul { list-style:none }` の共通指定が**無い**
-   （トップのインラインCSSには有る）。しかも `* { padding:0 }` でマーカーの居場所だけ消えるため、
-   素の `<ul>` は「マーカーが枠外にはみ出す/消える」状態になる。新しいリストには
-   `list-style:none` を明示するか、`.doc-list` 等の既存クラスを使う（style.css 2482行目のコメント参照）。
-3. **`--t-*` は下層に無い**。トップのCSSを下層へ移植するときは `--color-*` へ読み替える
-   （例: `--t-text` → `--color-text`、`--t-muted` → `--color-text-muted`、`--t-line` → `--color-border`）。
-   style.css のフェーズ5ブロック冒頭コメントにもこの方針を明記済み。
-4. **下層コンテナは1000px**。トップ（1440px）向けに `<br>` で改行位置を決めた原文を
-   3列カードに流し込むと1列が狭く行が割れる。style.css は
-   `.step-body br, .pillar-body br, .pillar-note-body br { display: none; }`（2841行目〜）で
-   `<br>` を無効化して自然に流している（テキスト自体は1文字も変えない）。
-   同様のカードを増やしたらこのセレクタに追記する。
-
----
-
-## 6. 画像アセット規約
-
-| アセット | パス | 仕様 |
-|---|---|---|
-| OGP画像 | `/images/ogp/ogp-default.png` | 1200×630 PNG（実測確認済み）。`og:image` / `twitter:image` は `https://cucul-fm.com/...` の絶対URLで書く |
-| favicon（PNG） | `/images/icons/favicon-192.png` / `favicon-512.png` | 192×192 / 512×512。192 は `apple-touch-icon` 兼用 |
-| favicon（SVG） | `/logo/cuculfm.svg` | `<link rel="icon" ... type="image/svg+xml" sizes="any">`。JSON-LD Organization の `logo` にも使用 |
-| manifest | `/site.webmanifest` | 512 PNG を参照 |
-
-禁止事項（要件・ブリーフより）:
-
-- 安易なロボット画像・ネオン調・サイバーパンク調・安っぽいAI生成風の人物画像を使わない
-- 既存ヒーロービジュアルを維持するため、新規ビジュアルは原則不要
-- 下層の犬写真は無加工（`img` への `filter` 新設禁止。style.css シネマ統一ブロックの掟）
+コード検証はコンテンツ同期、フォーム、3D保護の3系統を使う。ブラウザーでの見た目・操作確認は別工程であり、自動テストの合格だけで完了扱いにしない。再現コマンドは [09-moonlight-ui.md](09-moonlight-ui.md) に記載。

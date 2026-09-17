@@ -2,6 +2,10 @@
 
 このサイトの設定変更・情報更新のやり方をまとめたもの。
 
+2026-09-17 のUI改修後も静的HTML＋コンテンツ同期方式を維持する。CSS/JSの編集場所は
+本書「4. 文言や一覧を変更する」の末尾と [05-design-system.md](05-design-system.md)、
+改修の判断・検証手順は [09-moonlight-ui.md](09-moonlight-ui.md) を参照。
+
 ---
 
 ## 最初に知っておくこと: push すると本番に出る
@@ -57,6 +61,25 @@ https://cucul-fm.com/#contact から実際にテスト送信して、
 - `info@cucul-fm.com` に通知メールが届く
 
 の両方を確かめる。届かない場合は迷惑メールフォルダと、そのアドレスが実際に受信できるかを確認する。
+
+上の受信確認は2026-08-29時点の記録。2026-09のUI改修の自動テストは通信を模擬しており、
+本番Netlifyへのテスト送信やメール受信の再確認を代替するものではない。
+
+### UI改修後の送信動作
+
+- 入力項目・フォーム名・文言は `content/site.config.json` の `contact`、描画は
+  `scripts/build-content.mjs` の `contact-fields` / `contact-config`、送信処理は
+  `contact/form-handler.js` が担当する。
+- 必須／任意をラベルに明記。必須の空欄、メール形式、個人情報への同意を検証し、最初の不備へフォーカスを移す。
+- 送信中はボタンを無効化し、フォームを `aria-busy` にする。Enter等の重複送信も防ぐ。
+- 通信は20秒で打ち切る。失敗・タイムアウト時は入力と同意を保持し、自動再送しない。
+- 成功時だけ入力をリセット。成功・失敗は送信ボタン付近の結果領域に残し、そこへフォーカスを移す。
+- reduced-motion設定時は結果・エラーへの移動を即時にする。fetch / AbortControllerがない環境では、標準のフォームPOSTとブラウザー検証を使う。
+- `contact_form_submit` / `contact_form_success` / `contact_form_error` の既存イベント名を維持する。
+
+ローカルでの回帰確認は `node --test scripts/test-contact-form.mjs`。実データを送らず、成功、
+重複送信、HTTPエラー、通信失敗、タイムアウト、再送、入力検証、計測失敗を確認する。
+Pythonの簡易サーバーはNetlify Formsを受け付けないため、画面プレビューで送信成功を判定しない。
 
 ---
 
@@ -150,6 +173,10 @@ node scripts/test-build-content.mjs   # 壊れていないか確認（全件合�
 FAQ を直すと、画面の表示と構造化データ（FAQPage）が同じデータから作り直されるので、
 両者が食い違うことはない。
 
+固定ナビは `nav.items` の全8項目をそのまま並べず、`renderNav` が4つの主要導線を選んで表示する。
+3事業領域などの導線はINDEXに残る。ナビの構成を変更する場合はデータだけでなく、
+レンダラーとINDEXの静的リンク、コンパクトナビのテストも合わせて確認する。
+
 ### 記事（Insights）を追加するとき
 
 1. `content/insights.json` の `articles` に1件足す
@@ -183,7 +210,7 @@ FAQ を直すと、画面の表示と構造化データ（FAQPage）が同じデ
    - OGP + Twitter Card（og:type / og:url / og:title / og:description /
      og:image / og:locale / twitter:card / twitter:image。画像は
      `https://cucul-fm.com/images/ogp/ogp-default.png` を絶対URLで）
-   - favicon 一式 + manifest（SVG・PNG192・apple-touch-icon・`/site.webmanifest` の4行。
+   - favicon 一式 + manifest（ICO・PNG192・apple-touch-icon・`/site.webmanifest` の4行。
      既存ページからコピーすればよい）
 3. `node scripts/build-content.mjs` で中身が生成される
 4. `node scripts/generate-sitemap.mjs` で sitemap.xml に追加
@@ -227,6 +254,33 @@ URLは Dog CEO（`https://images.dog.ceo/breeds/…`）でも他の無料画像�
 Dog CEO に正しい写真が無い7犬種（bull-terrier / chinese-crested-dog / bearded-collie /
 puli / shar-pei / cane-corso / greyhound）はプレースホルダのままにしてある。
 
+### デザイン・UI・3Dを変更するとき
+
+| 変更内容 | 編集場所 |
+|---|---|
+| トップ＋主要3ページの共通UI色・面・文字色・余白 | `css/brand.css` |
+| トップの本文、固定ナビ、フォーム、事業カード、フッター | `css/home-ui.css` |
+| トップのhero / seqの配置、星空・月、テーマ、INDEX基盤 | `css/home.css` |
+| トップのUI、GSAP、3D/SVG切替、ページ内移動 | `js/home.js` |
+| 3Dモデル・マテリアル・照明・カメラ・描画復帰 | `js/character.js` |
+| FDE／会社概要／Insights一覧のレイアウト | 各HTMLのマーカー外＋`css/pages.css` |
+| 既存下層共通のスタイル | `services/style.css`（29ページへ波及） |
+
+トップのCSS/JSは `index.html` のインラインから分離済み。トップの読み込み順は
+`brand.css → home.css → home-ui.css`、主要下層は `brand.css → services/style.css → pages.css`。
+`pages.css` は `body.moonlight-page` とページ別クラスを前提にしている。
+Insights記事本文や既存サービス全部へ新UIを適用する変更は、別途対象を確認してから行う。
+
+UI配色の調整では3Dの色・動きの設定を変更しない。既定の3Dは本文の表示を待たせず、
+遅れて読み込まれた場合も現在のスクロール進捗へ合流する。WebGLが使えない場合はSVGを表示する。
+`js/home.js` の `CFG.seq.enabled` は既定で `false`。将来フレーム連番を使う場合のみ、
+アセット全件の配置・回帰確認とセットで有効化する（単にファイルを置くだけでは切り替わらない）。
+
+3D保護テストは `node --test scripts/test-home-motion.mjs`。改修前コミット
+`da391902e0de9762de1807c255633377347927c8` のキャラ設定・カメラ経路と比較する。
+テストが落ちたとき、通すためだけに基準コミットを現在のHEADへ変えないこと。
+このコミットを含まない浅いクローンでは、まず基準履歴を取得する。
+
 ---
 
 ## 5. 一時掲載停止中のページと戻し方
@@ -267,6 +321,9 @@ puli / shar-pei / cane-corso / greyhound）はプレースホルダのままに�
 # テスト一式（コンテンツ整合・SEOメタ・記事品質など全件）
 node scripts/test-build-content.mjs
 
+# 問い合わせと3Dの回帰テスト（通信は模擬、本番送信なし）
+node --test scripts/test-contact-form.mjs scripts/test-home-motion.mjs
+
 # HTML と content/ がずれていないか（差分0なら同期済み）
 node scripts/build-content.mjs --check
 
@@ -275,6 +332,9 @@ node scripts/generate-sitemap.mjs --check
 
 # 使えるマーカーの一覧
 node scripts/build-content.mjs --list
+
+# ローカルの画面確認（停止は Ctrl+C）
+python3 -m http.server 8000
 
 # 本番の状態を見る
 curl -s -o /dev/null -w "%{http_code}\n" https://cucul-fm.com/
@@ -288,10 +348,14 @@ netlify status
 - `index.html` の `id="contact"` `id="business"` `id="about"`
   … 下層ページから深リンクされている。変えるとリンク切れになる
 - `id="pillar-construction"` `id="pillar-creative"` `id="pillar-lifestyle"`
-  … グローバルナビが指している
+  … INDEXとページ内リンクが指している
 - フォームの `name="contact"` / `data-netlify` / hidden の `form-name` / `bot-field`
   … Netlify のフォーム検出とひも付けの契約
 - `<!-- BEGIN:… -->` 〜 `<!-- END:… -->` の区間
   … 同期コマンドが上書きする。中を手で直しても次回実行で消える。直すのはデータ側
 - `/character-design/phantom-dj/model.glb`
   … トップの3Dキャラクター本体
+- `js/character.js` の `CFG3D` / `GLOW` / `DECALS` / `LINING` / `RIGS` / `SEQ_KEYS` / `SEQ_TURN`
+  … 保護するキャラの外観・照明・カメラ経路。UI改修だけで変更しない
+- `#hero` / `#seq` とキャラクター用DOMの親子関係
+  … ひとつのcanvasをheroとseqへ付け替える。祖先にtransform・filter・perspectiveを加えない

@@ -39,6 +39,8 @@
     };
 
     var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    var REQUEST_TIMEOUT_MS = 20000;
+    var inFlight = false;
 
     var CFG = readConfig();
 
@@ -153,17 +155,29 @@
     }
 
     /* ----------------------------------------------------------------------
-       送信結果のメッセージ（フォーム先頭に出す。自動では消さない）
+       エラー項目・送信結果へ移動（動きを減らす設定では即座に移動）
        ---------------------------------------------------------------------- */
-    function showMessage(form, type, message) {
-        var existing = form.querySelector('.form-message');
-        if (existing) { existing.remove(); }
+    function focusAndReveal(el) {
+        el.focus({ preventScroll: true });
+        if (typeof el.scrollIntoView === 'function') {
+            var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            el.scrollIntoView({ block: 'center', behavior: reduced ? 'instant' : 'smooth' });
+        }
+    }
 
-        var el = document.createElement('div');
+    /* 送信結果は送信ボタンの近くに残し、読み上げ・キーボードにも通知する。 */
+    function showMessage(form, type, message) {
+        var el = form.querySelector('.form-message');
+        if (!el) {
+            el = document.createElement('div');
+            form.insertBefore(el, form.querySelector('.btn-submit'));
+        }
         el.className = 'form-message ' + type;
         el.setAttribute('role', type === 'error' ? 'alert' : 'status');
+        el.setAttribute('tabindex', '-1');
         el.textContent = message;
-        form.insertBefore(el, form.firstChild);
+        el.hidden = false;
+        focusAndReveal(el);
         return el;
     }
 
@@ -181,6 +195,8 @@
 
     function handleSubmit(e) {
         e.preventDefault();
+        // ボタンの無効化だけでは Enter や requestSubmit による再送を防げない。
+        if (inFlight) { return; }
 
         var form = e.target;
         var msgs = CFG.messages;
@@ -189,13 +205,14 @@
         if (invalid.length) {
             /* 画面内のどこが悪いのかはインライン表示が伝えるので、
                ここでは最初の項目へ移動するだけにする */
-            invalid[0].focus();
-            if (typeof invalid[0].scrollIntoView === 'function') {
-                invalid[0].scrollIntoView({ block: 'center', behavior: 'smooth' });
-            }
+            focusAndReveal(invalid[0]);
             return;
         }
 
+        inFlight = true;
+        form.setAttribute('aria-busy', 'true');
+        var previousMessage = form.querySelector('.form-message');
+        if (previousMessage) { previousMessage.hidden = true; }
         var button = form.querySelector('.btn-submit');
         var original = button ? button.innerHTML : '';
         if (button) {
@@ -205,27 +222,45 @@
 
         track('contact_form_submit', { form_name: CFG.formName });
 
-        fetch(form.getAttribute('action') || '/', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: encodeForm(form)
-        }).then(function (res) {
-            if (!res.ok) { throw new Error('HTTP ' + res.status); }
-            showMessage(form, 'success', msgs.success);
-            track('contact_form_success', { form_name: CFG.formName });
-            form.reset();
-            controlsOf(form).forEach(clearError);
-        }).catch(function (err) {
-            showMessage(form, 'error', msgs.failure);
-            track('contact_form_error', {
-                form_name: CFG.formName,
-                error_message: String((err && err.message) || err)
-            });
-        }).then(function () {
+        var controller = new AbortController();
+        var timedOut = false;
+        var timer = setTimeout(function () {
+            timedOut = true;
+            controller.abort();
+        }, REQUEST_TIMEOUT_MS);
+        function finishRequest() {
+            clearTimeout(timer);
+            inFlight = false;
+            form.removeAttribute('aria-busy');
             if (button) {
                 button.disabled = false;
                 button.innerHTML = original;
             }
+        }
+
+        // Promise 内で組み立てることで、同期的な送信エラーでも入力とボタンを復帰する。
+        return Promise.resolve().then(function () {
+            return fetch(form.getAttribute('action') || '/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: encodeForm(form),
+                signal: controller.signal
+            });
+        }).then(function (res) {
+            if (!res.ok) { throw new Error('HTTP ' + res.status); }
+            finishRequest();
+            form.reset();
+            controlsOf(form).forEach(clearError);
+            showMessage(form, 'success', msgs.success);
+            track('contact_form_success', { form_name: CFG.formName });
+        }).catch(function (err) {
+            finishRequest();
+            // 通信エラー・タイムアウトでは入力を残す。自動再送はしない。
+            showMessage(form, 'error', msgs.failure);
+            track('contact_form_error', {
+                form_name: CFG.formName,
+                error_message: timedOut ? 'Request timed out after 20000ms' : String((err && err.message) || err)
+            });
         });
     }
 
@@ -235,6 +270,8 @@
     function initContactForm() {
         var form = document.getElementById('contactForm');
         if (!form) { return; }
+        // 古いブラウザでは静的HTMLの標準POST・標準バリデーションを維持する。
+        if (typeof fetch !== 'function' || typeof AbortController !== 'function') { return; }
 
         /* JS が動くのでブラウザ標準のバブル表示は止め、こちらの表示に一本化する */
         form.noValidate = true;

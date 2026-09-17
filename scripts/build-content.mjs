@@ -388,10 +388,16 @@ const sectionHead = (cls, section, headingJa, titleId) => [
 const renderNav = (c, ctx) => {
   const { items, cta } = c.config.nav;
   const attrs = (h) => linkAttrs(h, ctx);
+  // 完全なリンク一覧は INDEX に残し、固定バーでは次の行動を選びやすくする。
+  const primaryLabels = new Map([
+    ['/#business', '事業一覧'], ['/fde/', 'AI・DX実装支援'],
+    ['/insights/', 'Insights'], ['/about/', '会社概要'],
+  ]);
   return [
     '<nav class="gnav-nav" aria-label="グローバルナビゲーション">',
     '  <ul class="gnav-list">',
-    ...items.map((it) => `    <li><a class="gnav-link" ${attrs(it.href)}>${esc(it.label)}</a></li>`),
+    ...items.filter((it) => primaryLabels.has(it.href)).map((it) =>
+      `    <li><a class="gnav-link" ${attrs(it.href)}>${esc(primaryLabels.get(it.href))}</a></li>`),
     '  </ul>',
     '</nav>',
     `<a class="gnav-cta" ${attrs(cta.href)} data-ga-event="click_consultation_cta">${esc(cta.label)}</a>`,
@@ -441,8 +447,9 @@ const renderPillars = (c) => {
   const label = c.pillars.fdeNoteLabel;
   return [
     '<div class="pillar-grid">',
-    ...c.pillars.pillars.flatMap((p) => [
+    ...c.pillars.pillars.flatMap((p, i) => [
       `  <article class="pillar-card" id="${esc(p.id)}">`,
+      `    <span class="pillar-no" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span>`,
       `    <p class="eyebrow">${esc(p.en)}</p>`,
       `    <h3 class="pillar-ja">${esc(p.ja)}</h3>`,
       ...para('pillar-body', p.body).map((l) => `    ${l}`),
@@ -815,7 +822,7 @@ const renderContactFields = (c) => {
       `aria-describedby="${esc(errId)}"`,
     ].filter(Boolean).join(' ');
     const ph = f.placeholder ? ` placeholder="${esc(f.placeholder)}"` : '';
-    const star = f.required ? ' <span class="required">*</span>' : '';
+    const status = ` <span class="field-status field-status--${f.required ? 'required' : 'optional'}">${f.required ? '必須' : '任意'}</span>`;
     const err = `  <p class="field-error" id="${esc(errId)}" role="alert" hidden></p>`;
 
     if (f.type === 'checkbox') {
@@ -824,7 +831,7 @@ const renderContactFields = (c) => {
         '  <label class="check-label">',
         // value にラベルをそのまま入れる = 通知メールで何に同意したかが読める
         `    <input type="checkbox" ${attrs} value="${esc(f.label)}">`,
-        `    <span>${labelWithLink(f.label, f.link)}${star}</span>`,
+        `    <span>${labelWithLink(f.label, f.link)}${status}</span>`,
         '  </label>',
         err,
         '</div>',
@@ -836,8 +843,8 @@ const renderContactFields = (c) => {
         ? [`  <select ${attrs}>`, ...subjectOptions(c).map((o) => `    ${o}`), '  </select>']
         : [`  <input type="${esc(f.type)}" ${attrs}${ph}>`];
     return [
-      '<div class="form-group">',
-      `  <label for="${esc(f.name)}">${esc(f.label)}${star}</label>`,
+      `<div class="form-group${f.type === 'textarea' ? ' form-group--wide' : ''}">`,
+      `  <label for="${esc(f.name)}">${esc(f.label)}${status}</label>`,
       ...control,
       err,
       '</div>',

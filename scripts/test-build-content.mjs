@@ -363,6 +363,8 @@ test('FAQの共通設問がトップと /fde/ で一致している', () => {
    3. マーカー注入が index.html を壊さないこと
    ========================================================================== */
 const INDEX = read('index.html');
+const HOME_JS = read('js/home.js');
+const HOME_CSS = read('css/home.css') + '\n' + read('css/home-ui.css');
 /** index.html が実際に持っているマーカー数（フェーズが進むほど増える） */
 const INDEX_MARKERS = [...INDEX.matchAll(/<!--\s*BEGIN:([A-Za-z0-9_.:@-]+)\s*-->/g)].length;
 /** マーカーを持たない実ファイル。「触らない」ことの検証に使う。
@@ -644,8 +646,10 @@ test('生成HTMLでテキストがエスケープされる', () => {
   const html = resolveRenderer('pillars').render(C).join('\n');
   assert(html.includes('CONSTRUCTION &amp; INFRASTRUCTURE'), '& がエスケープされていません');
   assert(!/CONSTRUCTION & INFRASTRUCTURE/.test(html), '生の & が残っています');
-  const nav = resolveRenderer('nav').render(C).join('\n');
-  assert(nav.includes('Construction &amp; Infrastructure'), 'ナビの & がエスケープされていません');
+  const custom = structuredClone(C);
+  custom.config.nav.cta.label = '相談 & お問い合わせ';
+  const nav = resolveRenderer('nav').render(custom).join('\n');
+  assert(nav.includes('相談 &amp; お問い合わせ'), 'ナビの & がエスケープされていません');
 });
 
 test('重要本文がJS無しでもHTMLに存在する（details は初期表示 open）', () => {
@@ -783,23 +787,28 @@ test('見出しの装飾タグは <em>/<strong>/<br> だけ許可される', () 
    6b. グローバルナビの表示切替（フェーズ2）
    ========================================================================== */
 test('グローバルナビが GSAP に依存していない', () => {
-  const start = INDEX.indexOf('function initGlobalNav()');
-  assert(start > 0, 'initGlobalNav が index.html にありません');
-  const src = INDEX.slice(start, INDEX.indexOf('function initBizProgressMobile()'));
+  assert(/<script\b[^>]*src="\/js\/home\.js"/.test(INDEX), 'ホームのUIスクリプトが読み込まれていません');
+  const start = HOME_JS.indexOf('function initGlobalNav()');
+  assert(start > 0, 'initGlobalNav がホームのUIスクリプトにありません');
+  const src = HOME_JS.slice(start, HOME_JS.indexOf('function initBizProgressMobile()'));
   assert(!/gsap|ScrollTrigger/.test(src),
     'initGlobalNav が GSAP を参照しています（CDN 断でナビが出なくなる）');
-  assert(INDEX.includes('initGlobalNav();'), 'initGlobalNav() が呼ばれていません');
+  assert(HOME_JS.includes('initGlobalNav();'), 'initGlobalNav() が呼ばれていません');
   assert(INDEX.includes('<noscript><style>.gnav{'), 'JS 無効時のフォールバックがありません');
 });
 
 test('グローバルナビがヒーロー通過で出て、戻すと消える（ヒステリシスあり）', () => {
-  const start = INDEX.indexOf('function initGlobalNav()');
-  const src = INDEX.slice(start, INDEX.indexOf('function initBizProgressMobile()'));
+  const start = HOME_JS.indexOf('function initGlobalNav()');
+  const src = HOME_JS.slice(start, HOME_JS.indexOf('function initBizProgressMobile()'));
   const cls = new Set();
+  const rootClasses = new Set();
   const handlers = {};
   const bar = { classList: { toggle: (n, v) => { if (v) cls.add(n); else cls.delete(n); } } };
   const hero = { offsetHeight: 900 };
   const $sel = (sel) => (sel === '#gnav' ? bar : sel === '#hero' ? hero : null);
+  const doc = { documentElement: { classList: {
+    toggle: (n, v) => { if (v) rootClasses.add(n); else rootClasses.delete(n); },
+  } } };
   const win = {
     scrollY: 0,
     innerHeight: 900,
@@ -807,8 +816,14 @@ test('グローバルナビがヒーロー通過で出て、戻すと消える�
     addEventListener: (t, f) => { (handlers[t] = handlers[t] || []).push(f); },
   };
   // eslint-disable-next-line no-new-func
-  new Function('$', 'window', `${src}; return initGlobalNav;`)($sel, win)();
-  const at = (y) => { win.scrollY = y; (handlers.scroll || []).forEach((f) => f()); return cls.has('is-on'); };
+  new Function('$', 'window', 'document', `${src}; return initGlobalNav;`)($sel, win, doc)();
+  const at = (y) => {
+    win.scrollY = y;
+    (handlers.scroll || []).forEach((f) => f());
+    assertEq(rootClasses.has('past-hero'), cls.has('is-on'),
+      'ヒーロー通過後の背景状態がナビの表示状態と一致しません');
+    return cls.has('is-on');
+  };
   assertEq(at(0), false, '最上部でバーが出ています');
   assertEq(at(819), false, 'ヒーロー内でバーが出ています');
   assertEq(at(821), true, 'ヒーローを通過してもバーが出ません');
@@ -818,7 +833,10 @@ test('グローバルナビがヒーロー通過で出て、戻すと消える�
 });
 
 test('固定ヘッダー分のアンカー余白がある（深リンクがバーに潜らない）', () => {
-  assert(/html\{scroll-padding-top:/.test(INDEX),
+  for (const href of ['/css/home.css', '/css/home-ui.css']) {
+    assert(INDEX.includes(`href="${href}"`), `${href} がホームで読み込まれていません`);
+  }
+  assert(/html\s*\{[^}]*scroll-padding-top:/.test(HOME_CSS),
     'html への scroll-padding-top がありません（#contact 等がヘッダーの下に隠れます）');
 });
 
@@ -845,15 +863,20 @@ test('セクションが要件どおりの順序で並んでいる', () => {
   assertEq(JSON.stringify(got), JSON.stringify(want), 'セクションの並びが要件と違います');
 });
 
-test('グローバルナビのページ内リンク先がすべて存在する', () => {
+test('主要ナビとINDEXのページ内リンク先がすべて存在する', () => {
   const anchors = [...INDEX.matchAll(/<a class="gnav-(?:link|cta)" href="#([a-z0-9-]+)"/g)].map((m) => m[1]);
-  assert(anchors.length >= 5, `ナビのページ内リンクが見つかりません（${anchors.length}件）`);
+  assertEq(anchors.join(','), 'business,contact', '固定バーには事業一覧と相談へのページ内リンクが必要です');
   for (const id of anchors) {
     assert(INDEX.includes(`id="${id}"`), `ナビのリンク先 #${id} がページ内に存在しません`);
   }
-  // 3本柱のアンカーは要件で指定された固定 id
+  const nav = INDEX.match(/<nav class="gnav-nav"[\s\S]*?<\/nav>/)?.[0] || '';
+  const destinations = [...nav.matchAll(/class="gnav-link" href="([^"]+)"/g)].map(m => m[1]);
+  assertEq(destinations.join(','), '#business,/fde/,/insights/,/about/',
+    '固定バーが主要4ページへの入口になっていません');
+  const overlay = INDEX.slice(INDEX.indexOf('id="index-overlay"'), INDEX.indexOf('<audio id="site-bgm"'));
+  // 3本柱は INDEX に集約する。既存の固定 id とスクロール導線は残す。
   for (const id of ['pillar-construction', 'pillar-creative', 'pillar-lifestyle']) {
-    assert(anchors.includes(id), `ナビが #${id} を指していません`);
+    assert(overlay.includes(`href="#${id}" data-scroll`), `INDEX から #${id} へのスクロール導線がありません`);
     assert(INDEX.includes(`id="${id}"`), `#${id} がページ内に存在しません`);
   }
 });
@@ -953,11 +976,11 @@ test('フッターとINDEXオーバーレイに新規ページへの導線があ
 test('ロードマップの折りたたみは JS 無効時に本文を隠さない', () => {
   assertEq((INDEX.match(/<details class="rm-details" open>/g) || []).length, C.roadmap.phases.length,
     'ロードマップの details が全フェーズ open で出力されていません');
-  const start = INDEX.indexOf('function initRoadmapFold()');
-  assert(start > 0, 'initRoadmapFold が index.html にありません');
-  const src = INDEX.slice(start, INDEX.indexOf('function initAnimations()'));
+  const start = HOME_JS.indexOf('function initRoadmapFold()');
+  assert(start > 0, 'initRoadmapFold がホームのUIスクリプトにありません');
+  const src = HOME_JS.slice(start, HOME_JS.indexOf('function initAnimations()'));
   assert(!/gsap|ScrollTrigger/.test(src), 'initRoadmapFold が GSAP を参照しています');
-  assert(INDEX.includes('initRoadmapFold();'), 'initRoadmapFold() が呼ばれていません');
+  assert(HOME_JS.includes('initRoadmapFold();'), 'initRoadmapFold() が呼ばれていません');
 });
 
 test('新セクションの reveal は gsap.from（GSAP が落ちても可視のまま）', () => {
@@ -965,14 +988,14 @@ test('新セクションの reveal は gsap.from（GSAP が落ちても可視の
     '#challenges', '#roadmap', '#usecases', '#faq'];
   for (const trg of triggers) {
     const re = new RegExp(`gsap\\.from\\([^;]*?trigger: '${trg.replace(/[.#]/g, '\\$&')}'`);
-    assert(re.test(INDEX), `${trg} の reveal が gsap.from で登録されていません`);
+    assert(re.test(HOME_JS), `${trg} の reveal が gsap.from で登録されていません`);
   }
 });
 
 test('新セクションが reduced-motion で即時可視になる', () => {
-  const start = INDEX.indexOf("mm.add('(prefers-reduced-motion: reduce)'");
+  const start = HOME_JS.indexOf("mm.add('(prefers-reduced-motion: reduce)'");
   assert(start > 0, 'reduced-motion の打ち消しブロックがありません');
-  const src = INDEX.slice(start, INDEX.indexOf("mm.add('(prefers-reduced-motion: no-preference)'"));
+  const src = HOME_JS.slice(start, HOME_JS.indexOf("mm.add('(prefers-reduced-motion: no-preference)'"));
   for (const sel of ['.pillar-card', '.step-card', '.chal-card', '.rm-item',
     '.uc-item', '.faq-item', '.svc-item']) {
     assert(src.includes(`'${sel}'`), `reduced-motion の打ち消しに ${sel} がありません`);

@@ -17,8 +17,8 @@
     --color-secondary: #7b61ff;
     --color-accent: #ff6b6b;
     --color-text: #ffffff;
-    --color-text-muted: #8a8a9b;
-    --color-text-dim: #5a5a6b;
+    --color-text-muted: #b5bdcb;
+    --color-text-dim: #adb5c4;
     --color-border: rgba(255, 255, 255, 0.08);
     --color-border-hover: rgba(245, 233, 0, 0.3);
     
@@ -1634,7 +1634,8 @@ a.feature-item--link:hover {
     align-items: center;
     gap: 12px;
     padding: 16px 32px;
-    background: linear-gradient(135deg, #833ab4 0%, #fd1d1d 50%, #fcb045 100%);
+    background: #111c2c;
+    border: 1px solid rgba(245, 225, 0, .4);
     color: white;
     border-radius: 999px;
     font-family: var(--font-display);
@@ -1645,7 +1646,7 @@ a.feature-item--link:hover {
 
 .instagram-link:hover {
     transform: translateY(-3px);
-    box-shadow: 0 10px 30px rgba(131, 58, 180, 0.4);
+    box-shadow: 0 10px 30px rgba(245, 225, 0, .12);
 }
 
 .instagram-link svg {
@@ -2131,7 +2132,14 @@ a.feature-item--link:hover {
     }
 
     .back-link span {
-        display: none;
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
     }
 }
 
@@ -2170,7 +2178,7 @@ body::before {
     inset: 0;
     z-index: 89;
     pointer-events: none;
-    box-shadow: inset 0 0 min(38vw, 520px) min(6vw, 80px) rgba(0, 0, 5, 0.42);
+    box-shadow: inset 0 0 min(38vw, 520px) min(6vw, 80px) rgba(0, 0, 5, 0.18);
 }
 
 body::after {
@@ -3282,6 +3290,9 @@ html {
 }
 
 .contact-direct a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
     color: var(--color-text);
     border-bottom: 1px solid var(--color-border);
     transition: var(--transition-fast);
@@ -3684,6 +3695,9 @@ html {
 }
 
 .post-toc a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
     font-size: 0.83rem;
     line-height: 1.8;
     color: var(--color-text-muted);
@@ -3899,4 +3913,25 @@ html {
 
 .article-image--card .article-category {
     display: none;
+}
+
+/* Shared interaction foundations; page-specific art direction lives in /css/pages.css. */
+:where(a, button, summary, input, textarea, select):focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 4px;
+}
+.back-link, .header-logo, .header-cta {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+}
+.back-link { min-width: 44px; }
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
+    }
 }
