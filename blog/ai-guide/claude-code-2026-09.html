@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude Codeの最新アップデート（2026年9月）｜Opus 5.5と非エンジニアにも使える新機能 | CUCUL FM</title>
+  <meta name="description" content="2026年9月22日、Claude Codeの標準モデルがOpus 5.5になりました。8〜9月の主な変更を年表で整理し、画面デザインの下書きやスマホからの操作など、エンジニアでなくても仕事で使える新機能と、料金・注意点を解説します。">
+  <link rel="canonical" href="https://cucul-fm.com/blog/ai-guide/claude-code-2026-09.html">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://cucul-fm.com/blog/ai-guide/claude-code-2026-09.html">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:title" content="Claude Codeの最新アップデート（2026年9月）｜Opus 5.5と非エンジニアにも使える新機能 | CUCUL FM">
+  <meta property="og:description" content="2026年9月22日、Claude Codeの標準モデルがOpus 5.5になりました。8〜9月の主な変更を年表で整理し、画面デザインの下書きやスマホからの操作など、エンジニアでなくても仕事で使える新機能と、料金・注意点を解説します。">
+  <meta property="og:image" content="https://cucul-fm.com/images/blog/claude-code-2026-09/claude-code-2026-09-00.png">
+  <meta property="og:image:width" content="2400">
+  <meta property="og:image:height" content="1260">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Claude Codeの最新アップデート（2026年9月）｜Opus 5.5と非エンジニアにも使える新機能 | CUCUL FM">
+  <meta name="twitter:description" content="2026年9月22日、Claude Codeの標準モデルがOpus 5.5になりました。8〜9月の主な変更を年表で整理し、画面デザインの下書きやスマホからの操作など、エンジニアでなくても仕事で使える新機能と、料金・注意点を解説します。">
+  <meta name="twitter:image" content="https://cucul-fm.com/images/blog/claude-code-2026-09/claude-code-2026-09-00.png">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Claude Codeの最新アップデート（2026年9月）｜Opus 5.5と非エンジニアにも使える新機能", "description": "2026年9月22日、Claude Codeの標準モデルがOpus 5.5になりました。8〜9月の主な変更を年表で整理し、画面デザインの下書きやスマホからの操作など、エンジニアでなくても仕事で使える新機能と、料金・注意点を解説します。", "datePublished": "2026-09-24", "dateModified": "2026-09-24", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC", "logo": {"@type": "ImageObject", "url": "https://cucul-fm.com/images/icons/favicon-512.png"}}, "mainEntityOfPage": "https://cucul-fm.com/blog/ai-guide/claude-code-2026-09.html", "image": ["https://cucul-fm.com/images/blog/claude-code-2026-09/claude-code-2026-09-00.png"]}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "ホーム", "item": "https://cucul-fm.com/"}, {"@type": "ListItem", "position": 2, "name": "記事一覧", "item": "https://cucul-fm.com/articles/"}, {"@type": "ListItem", "position": 3, "name": "Claude Codeの最新アップデート（2026年9月）｜Opus 5.5と非エンジニアにも使える新機能", "item": "https://cucul-fm.com/blog/ai-guide/claude-code-2026-09.html"}]}</script>
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" href="/images/icons/favicon-192.png" type="image/png" sizes="192x192">
+  <link rel="apple-touch-icon" href="/images/icons/apple-touch-icon.png" sizes="180x180">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#000510">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../../css/brand.css">
+  <link rel="stylesheet" href="guide.css">
+  <script src="guide.js" defer></script>
+<!-- 計測。GTM ID が content/site.config.json に入るまで GTM は読み込まれない -->
+<!-- BEGIN:analytics -->
+<script>window.dataLayer=window.dataLayer||[];</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RGHFB3LGED"></script>
+<script>function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-RGHFB3LGED');window.CUCULFM=window.CUCULFM||{};window.CUCULFM.directGa4=true;</script>
+<script src="/js/analytics.js" defer></script>
+<!-- END:analytics -->
+</head>
+<body class="guide-page">
+  <a class="g-skip" href="#article-body">本文へスキップ</a>
+  <header class="blog-header">
+    <div class="header-container">
+      <a href="../../articles/index.html" class="back-link" aria-label="記事一覧へ戻る">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>記事一覧へ戻る</span>
+      </a>
+      <a href="../../index.html" class="header-logo">CUCUL FM</a>
+    </div>
+  </header>
+
+  <main class="g-page" id="main">
+    <nav class="g-breadcrumb" aria-label="パンくずリスト">
+      <ol>
+        <li><a href="../../index.html">ホーム</a></li>
+        <li><a href="../../articles/index.html">記事一覧</a></li>
+        <li><span>AIツール</span></li>
+      </ol>
+    </nav>
+
+    <header class="g-header">
+      <p class="g-tag"><span class="g-tag__en">AI GUIDE</span>AIツール</p>
+      <h1 class="g-title">Claude Codeの最新アップデート（2026年9月）｜Opus 5.5と非エンジニアにも使える新機能</h1>
+      <p class="g-lead">2026年9月22日、Claude Codeの標準モデルがOpus 5.5になりました。8〜9月の主な変更を年表で整理し、画面デザインの下書きやスマホからの操作など、エンジニアでなくても仕事で使える新機能と、料金・注意点を解説します。</p>
+      <dl class="g-meta">
+        <div><dt>公開日</dt><dd><time datetime="2026-09-24">2026.09.24</time></dd></div>
+        <div><dt>著者</dt><dd>ククルFM編集部</dd></div>
+        <div><dt>読む時間</dt><dd>約9分</dd></div>
+      </dl>
+      <figure class="g-hero"><img src="../../images/blog/claude-code-2026-09/claude-code-2026-09-00.png" alt="Claude Codeの2026年9月の最新アップデートを解説する記事のアイキャッチ" fetchpriority="high" decoding="async" width="2400" height="1260"></figure>
+    </header>
+
+    <div class="g-layout">
+      <aside class="g-side" aria-label="目次と相談">
+        <details class="g-toc" open>
+          <summary class="g-toc__summary"><span class="g-eyebrow">CONTENTS</span>目次</summary>
+          <nav aria-label="目次">
+            <ol class="g-toc__list">
+          <li><a href="#sec-01"><span class="g-toc__num" aria-hidden="true">01</span>先に結論：9月の変化は3つ</a></li>
+          <li><a href="#sec-02"><span class="g-toc__num" aria-hidden="true">02</span>Claude Codeとは：ターミナル以外でも使えるようになった</a></li>
+          <li><a href="#sec-03"><span class="g-toc__num" aria-hidden="true">03</span>9月の最大の変化：Opus 5.5が標準モデルに</a></li>
+          <li><a href="#sec-04"><span class="g-toc__num" aria-hidden="true">04</span>2026年8〜9月の主な変更</a></li>
+          <li><a href="#sec-05"><span class="g-toc__num" aria-hidden="true">05</span>エンジニアでなくても使える新機能</a></li>
+          <li><a href="#sec-06"><span class="g-toc__num" aria-hidden="true">06</span>料金とプランの選び方（2026年9月時点）</a></li>
+          <li><a href="#sec-07"><span class="g-toc__num" aria-hidden="true">07</span>使う前に知っておきたい注意点</a></li>
+          <li><a href="#sec-08"><span class="g-toc__num" aria-hidden="true">08</span>まとめ</a></li>
+            </ol>
+          </nav>
+        </details>
+        <div class="g-side-cta">
+          <p class="g-side-cta__title">AI活用の相談</p>
+          <p class="g-side-cta__text">どの業務に、どのAIを使うか。現場の段階から一緒に考えます。</p>
+          <a class="g-btn g-btn--sm" href="../../index.html#contact" data-ga-event="click_consultation_cta">相談する</a>
+        </div>
+      </aside>
+
+      <article class="g-article" id="article-body">
+        <div class="g-body">
+<p>Anthropic（アンソロピック）の「Claude Code（クロード・コード）」は、AIに指示を出して、Webページや社内ツールなどのファイルを作ったり直したりしてもらうツールです。2026年9月22日に新しいモデル「Opus 5.5」が標準になりました。8〜9月には、エンジニアでなくても使いやすくなる機能もいくつか追加されています。</p>
+<p>この記事では、9月時点の最新情報と8〜9月の主な変更、エンジニアでなくても使える機能、料金、注意点を整理します。情報は2026年9月24日時点です。更新は週単位で続いているため、使う前に公式の情報も確認してください。</p>
+<p>※本記事はAI（Claude）の支援を受けて作成し、内容は編集部がAnthropicの公式情報と照らし合わせて確認しています。</p>
+<h2 id="sec-01"><span class="g-num" aria-hidden="true">01</span>先に結論：9月の変化は3つ</h2>
+<ul>
+<li><strong>標準モデルがOpus 5.5に</strong>：9月22日から。個人向けのProプランと、Teamプランの標準シート（Standard）も、標準がSonnetからOpusに変わりました</li>
+<li><strong>目で見て確かめられる機能が増えた</strong>：画面デザインの下書き（/design）、スマホからの操作、利用上限が戻ったあとの自動再開など</li>
+<li><strong>確認の手間が減った</strong>：操作の許可をAIが判断する「auto mode」が標準になりました。ただし、任せきりにはできません</li>
+</ul>
+<h2 id="sec-02"><span class="g-num" aria-hidden="true">02</span>Claude Codeとは：ターミナル以外でも使えるようになった</h2>
+<p>Claude Codeは、もともと「ターミナル」（文字でパソコンに命令する画面）で使うエンジニア向けのツールでした。今は次の場所から使えます。</p>
+<div class="g-table" role="region" aria-label="表1" tabindex="0"><table>
+<thead><tr><th>使う場所</th><th>特徴</th><th>向いている人</th></tr></thead>
+<tbody>
+<tr><td>デスクトップアプリ（Codeタブ）</td><td>ボタンや画面で操作できる。ターミナルは不要</td><td>エンジニアではない人、はじめての人</td></tr>
+<tr><td>ターミナル</td><td>新しい機能が最初に入る</td><td>エンジニア、細かく設定したい人</td></tr>
+<tr><td>VS Codeなどの編集ソフト</td><td>ファイルを見ながら指示できる</td><td>普段から編集ソフトを使う人</td></tr>
+<tr><td>スマホ・Web</td><td>外出先から指示や確認ができる</td><td>作業の続きを外で見たい人</td></tr>
+</tbody>
+</table></div>
+<p>デスクトップアプリには「Chat」「Cowork」「Code」の3つのタブがあります。資料の整理などの事務作業はCowork、Webページや社内ツールづくりはCodeが目安です。</p>
+<h2 id="sec-03"><span class="g-num" aria-hidden="true">03</span>9月の最大の変化：Opus 5.5が標準モデルに</h2>
+<figure class="g-figure"><img src="../../images/blog/claude-code-2026-09/claude-code-2026-09-01.png" alt="Claudeアプリのモデル選択画面。Fable 5.1、Opus 5.5、Sonnet 5、Haiku 4.5と、エフォートの低・中・高・超高・最大が並ぶ" loading="lazy" decoding="async" width="1132" height="666"><figcaption>Claudeアプリのモデルとエフォートの選択画面（2026年9月24日撮影）</figcaption></figure>
+<p>9月22日、AnthropicはOpus 5.5を発表し、同じ日にClaude Codeの標準モデルになりました。あわせて、ProプランとTeamの標準シートも、標準がSonnetからOpusに変わりました。</p>
+<p>Anthropicによると、Opus 5.5は前のOpus 5より約40％安く動かせ、文章を出す速さも30％以上上がりました。プログラミングやパソコン操作などの一部の評価では、最上位のFable 5.1を上回ったとしています（いずれもAnthropic自身の測定です）。</p>
+<div class="g-table" role="region" aria-label="表2" tabindex="0"><table>
+<thead><tr><th>モデル</th><th>画面の説明</th><th>Claude Codeでの扱い</th></tr></thead>
+<tbody>
+<tr><td>Fable 5.1</td><td>最も困難な課題に</td><td>最上位。自分で選んだときだけ使う。プランによっては追加の利用料金（利用クレジット）がかかる</td></tr>
+<tr><td>Opus 5.5</td><td>本格的な作業に最適な性能</td><td>標準（9月22日から）</td></tr>
+<tr><td>Sonnet 5</td><td>日常のタスクに最も効率的</td><td>9月21日まで、Pro・Teamの標準シートの標準</td></tr>
+<tr><td>Haiku 4.5</td><td>素早い回答に最適</td><td>軽い作業向け</td></tr>
+</tbody>
+</table></div>
+<p>システムに組み込んで使う場合（API）の料金は、100万トークンあたりOpus 5.5が入力4ドル・出力20ドル、Fable 5.1が入力10ドル・出力50ドルです。</p>
+<h3>「エフォート」は“考える深さ”の設定</h3>
+<p>モデルの横にある「エフォート」は、AIがどれだけ深く考えてから答えるかの設定です。深くするほど丁寧になりますが、時間がかかり、利用上限も早く減ります。</p>
+<div class="g-table" role="region" aria-label="表3" tabindex="0"><table>
+<thead><tr><th>エフォート</th><th>使いどころの目安</th></tr></thead>
+<tbody>
+<tr><td>低</td><td>短い質問、簡単な修正</td></tr>
+<tr><td>中</td><td>Opus 5.5の標準。普段の作業はここから</td></tr>
+<tr><td>高</td><td>少し込み入った作業</td></tr>
+<tr><td>超高</td><td>深く考えさせたい作業</td></tr>
+<tr><td>最大</td><td>設計の判断など、本当に難しい作業だけ。画面には「6×以上の使用量」と表示される</td></tr>
+</tbody>
+</table></div>
+<p>公式には、「最大」は考えすぎて効果が頭打ちになることもあるとされています。まずは標準の「中」で使い、足りないときだけ上げましょう。以前にエフォートを変えていた人も、Opus 5.5では「中」から始まります。</p>
+<h2 id="sec-04"><span class="g-num" aria-hidden="true">04</span>2026年8〜9月の主な変更</h2>
+<figure class="g-figure"><img src="../../images/blog/claude-code-2026-09/claude-code-2026-09-02.png" alt="Claude Codeの2026年8〜9月の主な変更を並べた年表。9月22日のOpus 5.5の標準化を強調している" loading="lazy" decoding="async" width="1520" height="2380"><figcaption>Claude Codeの8〜9月の主な変更（Anthropicの公式情報をもとに編集部作成）</figcaption></figure>
+<p>8〜9月の主な変更は図のとおりです。次の章では、このうちエンジニアでなくても使いやすいものを紹介します。</p>
+<h2 id="sec-05"><span class="g-num" aria-hidden="true">05</span>エンジニアでなくても使える新機能</h2>
+<h3>1. 画面デザインを先に見せてもらう（/design）</h3>
+<p>「/design」に続けて作りたいものを書くと、Claudeが画面デザインの案を何枚か作り、ブラウザで見られるページにまとめます。気に入った案を選んで手直しし、「この案で作って」と頼めます。</p>
+<p>文章だけで指示するより、実物を見て選ぶほうが「完成してから思っていたのと違う」を防げます。8月に研究プレビュー（試験提供）として始まり、Pro・Max・Team・Enterpriseで使えます。</p>
+<p>例：<code>/design 問い合わせフォームの画面を、スマホで入力しやすい形で3案</code></p>
+<h3>2. スマホから、自分のパソコンで作業を始める</h3>
+<p>パソコンで「claude remote-control」を起動しておくと、スマホのClaudeアプリの「Code」タブにそのパソコンが表示されます。タップしてフォルダを選べば、外出先からでも、パソコンの中のファイルを使った作業を始められます。この機能（Remote Control）は8月に試験提供を終えました。</p>
+<p>使うには、パソコンの電源が入っていて、Remote Controlが起動したままになっている必要があります。会社のプラン（Team・Enterprise）では、管理者の設定が必要な場合があります。</p>
+<h3>3. 許可の確認を減らす「auto mode」</h3>
+<p>Claude Codeは、ファイルの書き換えやコマンドの実行の前に「実行してよいか」を人に確認します。安全な反面、確認が続くと作業が止まります。</p>
+<p>auto modeは、この確認をAIの安全チェックが代わりに判断し、安全な操作は進め、危険な操作は止める仕組みです。8月14日から、Pro・Max・Teamプランで新しく始める作業の標準になりました。ただし万能ではありません。大事なファイルはバックアップを取り、作業のあとに変更内容を確認してください。</p>
+<h3>4. 利用上限に達しても、自動で続きから再開</h3>
+<p>月額プランには利用上限があり、達すると作業が止まります。8月から、上限が戻ったときに自動で続きから再開できるようになりました。デスクトップアプリは上限の案内でチェックを入れると有効になり、ターミナル版は標準でオンです。長い作業を夜のうちに進めておく使い方がしやすくなります。</p>
+<h3>5. claude.aiで使っているスキルがそのまま使える</h3>
+<p>claude.aiで有効にしている「スキル」（作業の手順をまとめた指示書）やプラグインが、同じアカウントのClaude Codeでも使えるようになりました（9月17日）。claude.aiで作った「自社の文章ルール」などを、そのまま使い回せます。</p>
+<p>9月18日には、ほかのAIツールでも使われる作業ルールのファイル「AGENTS.md」にも対応しました。複数のAIツールを使い分けている会社は、ルールを1つにまとめやすくなります。</p>
+<h3>そのほかの便利な変更</h3>
+<ul>
+<li><strong>結論から答える「Concise（簡潔）」表示</strong>：前置きを省き、結果から答えます。/config の「Output style」で選べます</li>
+<li><strong>パソコン操作のバックグラウンド実行</strong>：macOSのデスクトップアプリで、許可したアプリをClaudeが裏で操作します。その間も自分は別の作業ができます（Pro・Maxのベータ版）</li>
+</ul>
+<h2 id="sec-06"><span class="g-num" aria-hidden="true">06</span>料金とプランの選び方（2026年9月時点）</h2>
+<figure class="g-figure"><img src="../../images/blog/claude-code-2026-09/claude-code-2026-09-03.png" alt="Claudeの個人向けプラン。Proは年払いで月19ドル、Maxは月110ドルから" loading="lazy" decoding="async" width="1698" height="1372"><figcaption>Claudeの個人向けプラン（消費税込み）（出典：Anthropic、2026年9月24日撮影）</figcaption></figure>
+<figure class="g-figure"><img src="../../images/blog/claude-code-2026-09/claude-code-2026-09-04.png" alt="ClaudeのTeamプランとEnterpriseプラン。Teamは標準シート月22ドル、プレミアムシート月110ドル" loading="lazy" decoding="async" width="1690" height="1652"><figcaption>ClaudeのTeamプランとEnterpriseプラン（消費税込み）（出典：Anthropic、2026年9月24日撮影）</figcaption></figure>
+<div class="g-table" role="region" aria-label="表4" tabindex="0"><table>
+<thead><tr><th>プラン</th><th>料金（米ドル、消費税込み）</th><th>Claude Code</th><th>向いている人</th></tr></thead>
+<tbody>
+<tr><td>Pro</td><td>年払いで月19ドル（年220ドルを一括）</td><td>使える</td><td>まず仕事で試したい個人</td></tr>
+<tr><td>Max</td><td>月110ドルから（月払い）</td><td>使える。利用量はProの最大20倍</td><td>毎日長く使う個人</td></tr>
+<tr><td>Team 標準シート</td><td>1人月22ドル（年払い）。月払いは27.50ドル</td><td>使える</td><td>2〜150人の会社</td></tr>
+<tr><td>Team プレミアムシート</td><td>1人月110ドル（年払い）。月払いは137.50ドル</td><td>使える。利用量は標準シートの5倍</td><td>社内でよく使う人</td></tr>
+<tr><td>Enterprise</td><td>1シート20ドル＋税＋使った分のAPI料金</td><td>使える</td><td>20人以上で、管理機能が必要な会社</td></tr>
+</tbody>
+</table></div>
+<p>料金ページでは、Claude CodeはProプランで追加される機能として書かれており、無料プランには含まれていません。Proの月払いの料金は料金ページで確認してください。</p>
+<p>選び方の目安は次のとおりです。</p>
+<ul>
+<li><strong>まず試したい</strong>：Pro。9月22日からは、Proでも標準のモデルがOpusになりました</li>
+<li><strong>毎日長く使い、上限に何度も当たる</strong>：Max</li>
+<li><strong>会社で複数人が使う</strong>：Team。まず標準シートで始め、よく使う人だけプレミアムシートにできます（シートの種類は組み合わせ可能）。Teamは、標準で会社のデータをAIの学習に使いません</li>
+</ul>
+<h2 id="sec-07"><span class="g-num" aria-hidden="true">07</span>使う前に知っておきたい注意点</h2>
+<ul>
+<li><strong>古いバージョンのままだと新機能が出ない</strong>：Opus 5.5は、9月22日公開のバージョン2.1.280で追加されました。ターミナル版は <code>claude --version</code> でバージョンを確認し、古ければ <code>claude update</code> で更新してください</li>
+<li><strong>重い設定は必要なときだけ</strong>：Fable 5.1やエフォート「最大」は、利用量が大きく増えます。まずはOpus 5.5の「中」で試しましょう</li>
+<li><strong>試験提供の機能は変わる</strong>：/designなどの研究プレビューは、内容や提供範囲が変わる可能性があります</li>
+<li><strong>機密情報の扱い</strong>：Teamは標準でデータが学習に使われません。個人プランは、学習に使われない設定になっているかを確認してから使いましょう</li>
+<li><strong>最後は人が確認する</strong>：作ったページやツールは、公開や社内での利用の前に、人が動作と内容を確認してください</li>
+</ul>
+<figure class="g-figure"><img src="../../images/blog/claude-code-2026-09/claude-code-2026-09-05.png" alt="Claude Codeのターミナル版の起動画面。2行目に使っているモデル名が表示されている" loading="lazy" decoding="async" width="820" height="272"><figcaption>ターミナル版の起動画面。2行目で使っているモデルを確認できる（フォルダ名などは加工しています）</figcaption></figure>
+<h2 id="sec-08"><span class="g-num" aria-hidden="true">08</span>まとめ</h2>
+<ul>
+<li>9月22日からOpus 5.5が標準に。ProプランとTeamの標準シートもOpusになった</li>
+<li>エフォートは「中」が標準。足りないときだけ上げる</li>
+<li>エンジニアでなくても、/design、スマホからの操作、上限後の自動再開、スキルの共有が便利</li>
+<li>auto modeで確認は減るが、バックアップと最後の確認は人が行う</li>
+</ul>
+<p>まずはProプランでデスクトップアプリのCodeタブを開き、「自社サイトのお知らせページを作って」のような小さな作業から試してみてください。</p>
+
+
+
+        </div>
+      <aside class="g-cta" aria-labelledby="g-cta-title">
+        <p class="g-eyebrow">CONSULTATION</p>
+        <h2 id="g-cta-title" class="g-cta__title">AIの業務活用を、現場から相談する</h2>
+        <p>ククルFMでは、現場やバックオフィスでのAI活用、Webサイト・システム制作のご相談を受け付けています。「Claude Codeを業務に取り入れたいが、どこから始めればいいか分からない」という段階でもご相談ください。</p>
+        <a class="g-btn" href="../../index.html#contact" data-ga-event="click_consultation_cta">お問い合わせはこちら</a>
+      </aside>
+      </article>
+    </div>
+
+    <section class="g-related" aria-labelledby="g-related-title">
+      <h2 id="g-related-title" class="g-related__heading">関連記事</h2>
+      <ul class="g-related__list">
+        <li><a class="g-related__item" href="./gpt-6-astra-sol-luna.html"><span class="g-related__cat">AIツール</span><span class="g-related__title">GPT-6のAstra・Sol・Lunaの違いは？料金と使い分けを比較</span><span class="g-related__arrow" aria-hidden="true">→</span></a></li>
+        <li><a class="g-related__item" href="./refero-mcp.html"><span class="g-related__cat">AIツール</span><span class="g-related__title">Referoとは？特徴・料金とMCP連携でAIっぽさを減らす方法</span><span class="g-related__arrow" aria-hidden="true">→</span></a></li>
+        <li><a class="g-related__item" href="../../insights/ai-usecases/"><span class="g-related__cat">Insights</span><span class="g-related__title">現場・バックオフィスにおけるAI活用例と、人が最終判断すべき範囲</span><span class="g-related__arrow" aria-hidden="true">→</span></a></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="blog-footer">
+    <p class="footer-text">© 2026 CUCUL FM LLC. All rights reserved.</p>
+  </footer>
+</body>
+</html>

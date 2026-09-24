@@ -931,6 +931,13 @@ body {
     color: var(--color-primary);
 }
 
+/* 選択中のピルは、ホバー中（タップ直後のスマホを含む）も文字を黒のままにする */
+.filter-btn.active,
+.filter-btn.active:hover {
+    color: var(--color-bg-dark);
+    border-color: var(--color-primary);
+}
+
 @media (max-width: 600px) {
     .articles-grid {
         grid-template-columns: repeat(2, 1fr);

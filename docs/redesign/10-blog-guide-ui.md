@@ -49,6 +49,7 @@
    - 画像の直後の行を `*説明文*` にすると、図の説明（figcaption）になる
    - 末尾の「問い合わせリンクだけの段落」とその直前の段落は、相談導線の枠になる
    - `## 関連記事` の箇条書きは、関連記事カードになる
+   - 文字の多い図（年表など）は幅760pxで作る。本文幅（最大720px）でもスマホ幅（約350px）でも読める大きさになる。幅1200pxの図はスマホで文字が5px前後まで縮む
 3. `python3 scripts/build_blog_guide.py blog/ai-guide/<slug>.md`
 4. 記事一覧 `articles/index.html` にカードを追加し、カード画像を生成する
    `python3 -m http.server 8123` を起動した状態で `cd scripts/cardgen && node gen-mtg-cards.mjs <slug>`

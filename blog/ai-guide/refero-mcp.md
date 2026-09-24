@@ -152,6 +152,7 @@ AIでサイトやアプリを作っていて「なんとなくAIっぽい」と�
 
 ## 関連記事
 
+- [Claude Codeの最新アップデート（2026年9月）｜Opus 5.5と非エンジニアにも使える新機能](./claude-code-2026-09.html)
 - [GPT-6のAstra・Sol・Lunaの違いは？料金と使い分けを比較](./gpt-6-astra-sol-luna.html)
 - [現場・バックオフィスにおけるAI活用例と、人が最終判断すべき範囲](../../insights/ai-usecases/)
 - [AI導入が現場に定着しない理由。業務設計・教育・ルール・評価から考える](../../insights/ai-teichaku/)
