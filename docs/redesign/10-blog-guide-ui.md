@@ -39,6 +39,7 @@
 
 - クラス名（`g-*`）は `build_blog_guide.py` との契約。出力にないクラスへスタイルを足さない。
 - `build_blog.py` は `blog/ai-guide/` を読み飛ばす（`--all` を付けても上書きしない）。
+- 公開URLは `.html` を外した形（例：`https://cucul-fm.com/blog/ai-guide/cursor-2026-09`）。canonical・og:url・構造化データ・sitemap.xml はすべてこの形にそろえる（2026-09-25）。本番はNetlifyのPretty URLsで、サイト内リンクの `.html` も自動で外れる
 - JSがなくても、本文・目次・表はすべて読める。reduced-motion ではスムーズスクロールと動きを止める。
 - 操作領域は44px以上、主CTAは48px。フォーカスは黄色の輪郭。
 
@@ -71,4 +72,4 @@ Safari・Firefox・実機は未確認。
 2. 本文を直し、`python3 scripts/build_blog_guide.py blog/ai-guide/<slug>.md`
    - 更新日は、記事上部の「更新日」と、構造化データの `dateModified` に入る。`**更新日**` がない記事は、今までどおり公開日だけを表示する
 3. `node scripts/generate-sitemap.mjs` → `node scripts/test-build-content.mjs`
-4. `main` に反映したあと、Google Search Consoleで該当URLの「インデックス登録をリクエスト」を押す
+4. `main` に反映したあと、Google Search Consoleの「URL検査」に `.html` を外したURLを貼り、「インデックス登録をリクエスト」を押す

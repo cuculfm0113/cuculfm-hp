@@ -69,7 +69,13 @@ def img_attrs(src: str, md_dir: Path) -> str:
 
 
 def site_url(rel_path: Path) -> str:
-    return SITE + "/" + rel_path.relative_to(ROOT).as_posix()
+    """ページの公開URL。本番（Netlify の Pretty URLs）に合わせて .html を外す。"""
+    rel = rel_path.relative_to(ROOT).as_posix()
+    if rel.endswith("/index.html"):
+        rel = rel[: -len("index.html")]
+    elif rel.endswith(".html"):
+        rel = rel[: -len(".html")]
+    return SITE + "/" + rel
 
 
 def absolute_asset(src: str, md_dir: Path) -> str:

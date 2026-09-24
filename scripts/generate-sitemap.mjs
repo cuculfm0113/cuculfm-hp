@@ -7,7 +7,8 @@
  *   - ベースURLは content/site.config.json の site.url を使う（一元管理）
  *   - 下書き・非公開・ツール類のディレクトリ（docs/ note/ scripts/ 等）は除外
  *   - 404.html と <meta name="robots" content="noindex"> のページは除外
- *   - index.html はディレクトリURL（末尾スラッシュ）、それ以外は .html のまま
+ *   - index.html はディレクトリURL（末尾スラッシュ）、それ以外は .html を外したURL
+ *     （Netlify の Pretty URLs で本番は .html なしのURLに転送されるため。2026-09-25 統一）
  *   - lastmod は git の最終コミット日。未コミットの変更があるファイルと git 管理外は mtime
  *
  * 使い方:
@@ -162,6 +163,7 @@ const urlPathOf = (file) => {
   const rel = path.relative(ROOT, file).split(path.sep).join('/');
   if (rel === 'index.html') return '/';
   if (rel.endsWith('/index.html')) return `/${rel.slice(0, -'index.html'.length)}`;
+  if (rel.endsWith('.html')) return `/${rel.slice(0, -'.html'.length)}`;
   return `/${rel}`;
 };
 

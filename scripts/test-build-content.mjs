@@ -1846,7 +1846,7 @@ test('404.html の参照が絶対パスになっている（任意のURLで表�
 test('ファイルパス→URL変換が正しい', () => {
   assertEq(urlPathOf(path.join(ROOT, 'index.html')), '/', 'ルート');
   assertEq(urlPathOf(path.join(ROOT, 'services/ai/index.html')), '/services/ai/', 'ディレクトリURL');
-  assertEq(urlPathOf(path.join(ROOT, 'blog/dog/home-grooming.html')), '/blog/dog/home-grooming.html', '個別HTML');
+  assertEq(urlPathOf(path.join(ROOT, 'blog/dog/home-grooming.html')), '/blog/dog/home-grooming', '個別HTML（.html を外す）');
   assertEq(urlPathOf(path.join(ROOT, 'fde/index.html')), '/fde/', '新規ページ');
 });
 
