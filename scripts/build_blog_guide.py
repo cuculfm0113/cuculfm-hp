@@ -168,8 +168,21 @@ def head_shared_blocks():
     return icons, analytics
 
 
+def read_updated(md_path: Path):
+    """見出しブロック（最初の --- まで）の **更新日** を読む。なければ ("", None)。"""
+    for ln in md_path.read_text(encoding="utf-8").splitlines():
+        if ln.strip() == "---":
+            break
+        m = re.match(r"\*\*更新日\*\*:\s*(.+?)\s*$", ln.strip())
+        if m:
+            disp = m.group(1).strip()
+            return disp, bb._normalize_date_iso(disp)
+    return "", None
+
+
 def render(md_path: Path) -> str:
     a = bb.parse_md(md_path)
+    updated_display, updated_iso = read_updated(md_path)
     md_dir = md_path.parent
     out_path = md_path.with_suffix(".html")
     url = site_url(out_path)
@@ -194,6 +207,11 @@ def render(md_path: Path) -> str:
             f'fetchpriority="high" decoding="async"{img_attrs(src, md_dir)}></figure>'
         )
 
+    updated_html = (
+        f'        <div><dt>更新日</dt><dd><time datetime="{updated_iso or ""}">{esc(updated_display)}</time></dd></div>\n'
+        if updated_display else ""
+    )
+
     json_ld = [
         {
             "@context": "https://schema.org",
@@ -201,7 +219,7 @@ def render(md_path: Path) -> str:
             "headline": a.title,
             "description": a.description,
             "datePublished": a.date_iso or "",
-            "dateModified": a.date_iso or "",
+            "dateModified": updated_iso or a.date_iso or "",
             "author": {"@type": "Organization", "name": a.author},
             "publisher": {"@type": "Organization", "name": "CUCUL FM LLC",
                           "logo": {"@type": "ImageObject", "url": SITE + "/images/icons/favicon-512.png"}},
@@ -321,7 +339,7 @@ def render(md_path: Path) -> str:
       <p class="g-lead">{esc(a.description)}</p>
       <dl class="g-meta">
         <div><dt>公開日</dt><dd><time datetime="{a.date_iso or ''}">{esc(a.date_display)}</time></dd></div>
-        <div><dt>著者</dt><dd>{esc(a.author)}</dd></div>
+{updated_html}        <div><dt>著者</dt><dd>{esc(a.author)}</dd></div>
         <div><dt>読む時間</dt><dd>約{minutes}分</dd></div>
       </dl>
       {hero_html}

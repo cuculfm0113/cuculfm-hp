@@ -62,3 +62,13 @@ Chromium（Playwright）で幅1440 / 1024 / 768 / 390 / 320pxを描画し、2記
 目次の現在地の切り替え、スマホ幅での目次の開閉、表の横スクロール案内の表示を確認。
 外部フォント・GA4は検証環境から読み込めないため、フォントは代替表示で確認している。
 Safari・Firefox・実機は未確認。
+
+## 6. 記事の更新（改訂版を出すとき）
+
+2026-09-24 追加。AIツールの記事は、2週間ごとに公式の更新履歴・料金ページを確認し、大きな変更があれば改訂版を出す（台帳：Claudeプロジェクトの `claude/記事更新台帳.md`）。
+
+1. `blog/ai-guide/<slug>.md` の見出しブロックに、`**公開日**` の次の行として `**更新日**: YYYY.MM.DD` を足す（公開日は変えない）
+2. 本文を直し、`python3 scripts/build_blog_guide.py blog/ai-guide/<slug>.md`
+   - 更新日は、記事上部の「更新日」と、構造化データの `dateModified` に入る。`**更新日**` がない記事は、今までどおり公開日だけを表示する
+3. `node scripts/generate-sitemap.mjs` → `node scripts/test-build-content.mjs`
+4. `main` に反映したあと、Google Search Consoleで該当URLの「インデックス登録をリクエスト」を押す
