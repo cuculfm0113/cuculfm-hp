@@ -160,6 +160,7 @@ claude.aiで有効にしている「スキル」（作業の手順をまとめ�
 
 ## 関連記事
 
+- [Superwhisperとは？使い方と料金、買い切りで使えるAI音声入力ツール（2026年9月）](./superwhisper-2026-09.html)
 - [Cursorの最新情報（2026年9月）｜SpaceX傘下での変化と料金、非エンジニアが使うときの注意点](./cursor-2026-09.html)
 - [Geminiの最新情報とGoogle Workspace（2026年9月）｜仕事で使えるAI機能とプランの選び方](./gemini-workspace-2026-09.html)
 - [GPT-6のAstra・Sol・Lunaの違いは？料金と使い分けを比較](./gpt-6-astra-sol-luna.html)

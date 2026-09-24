@@ -2,7 +2,7 @@
    - 630×880(63:88)。金縁フレーム+タイトルバー+油彩アート窓+タイプ行+フレーバー欄
    - アートは legacy/gen-cardart.mjs の油彩パイプライン(決定的シード)を小型化して再利用
    - 前提: リポジトリルートで python3 -m http.server 8123 / cd scripts && npm i
-   実行: node gen-mtg-cards.mjs [slug...]   (slug省略で全18枚) */
+   実行: node gen-mtg-cards.mjs [slug...]   (slug省略で全19枚) */
 import puppeteer from 'puppeteer-core';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -76,6 +76,9 @@ const CARDS = [
   { slug: 'cursor-2026-09', cat: 'ai-guide', num: 18, seed: 0x62A5,
     name: '指先の工房', flavor: '「任せる手と、確かめる目。\n工房の主は人のまま。」',
     template: 'photoPlain', photo: '/images/blog/cursor-2026-09/card-art.png', crop: { cx: .5, cy: .5, zoom: 1 } },
+  { slug: 'superwhisper-2026-09', cat: 'ai-guide', num: 19, seed: 0x63A6,
+    name: '囁きの筆', flavor: '「手を止めずに、声で書く。\n言葉はそのまま文字になる。」',
+    template: 'photoPlain', photo: '/images/blog/superwhisper-2026-09/card-art.png', crop: { cx: .5, cy: .5, zoom: 1 } },
 ];
 
 const only = process.argv.slice(2);
