@@ -516,6 +516,11 @@ address {
     color: #fff;
 }
 
+.cat-ai-guide {
+    background: rgba(250, 196, 88, 0.92);
+    color: #000;
+}
+
 .article-content {
     padding: 24px;
 }

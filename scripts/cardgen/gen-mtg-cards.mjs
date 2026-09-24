@@ -2,7 +2,7 @@
    - 630×880(63:88)。金縁フレーム+タイトルバー+油彩アート窓+タイプ行+フレーバー欄
    - アートは legacy/gen-cardart.mjs の油彩パイプライン(決定的シード)を小型化して再利用
    - 前提: リポジトリルートで python3 -m http.server 8123 / cd scripts && npm i
-   実行: node gen-mtg-cards.mjs [slug...]   (slug省略で全13枚) */
+   実行: node gen-mtg-cards.mjs [slug...]   (slug省略で全15枚) */
 import puppeteer from 'puppeteer-core';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -16,6 +16,7 @@ fs.mkdirSync(OUT, { recursive: true });
 const CATS = {
   inspection: { label: '調査・清掃', color: '56,189,168', en: 'INSPECTION' },
   dog: { label: '犬関連', color: '245,225,0', en: 'DOG' },
+  'ai-guide': { label: 'AIツール', color: '250,196,88', en: 'AI GUIDE' },
 };
 const CARDS = [
   // --- 調査・清掃 (photo×5=無加工写真, procedural×4) ---
@@ -59,6 +60,13 @@ const CARDS = [
     name: '四季の見張り番', flavor: '「夏の熱、冬の冷え。\n季節は犬にも巡る。」',
     template: 'photoPlain', photo: '/services/dog/images/schnauzer.jpg',
     crop: { cx: .48, cy: .45, zoom: 1 } },
+  // --- AIツール (photo×2。画面スクショ・編集部作成の図を無加工で使用) ---
+  { slug: 'refero-mcp', cat: 'ai-guide', num: 14, seed: 0x5EA1,
+    name: '参照の書庫', flavor: '「実在の画面を引いて、\nAIの手癖をほどく。」',
+    template: 'photoPlain', photo: '/images/blog/refero-mcp/card-art.png', crop: { cx: .5, cy: .5, zoom: 1 } },
+  { slug: 'gpt-6-astra-sol-luna', cat: 'ai-guide', num: 15, seed: 0x5FA2,
+    name: '三つの星', flavor: '「Astra、Sol、Luna。\n仕事の重さで星を選ぶ。」',
+    template: 'photoPlain', photo: '/images/blog/gpt-6-astra-sol-luna/card-art.png', crop: { cx: .5, cy: .5, zoom: 1 } },
 ];
 
 const only = process.argv.slice(2);
@@ -71,6 +79,7 @@ const browser = await puppeteer.launch({
 });
 const page = await browser.newPage();
 await page.goto('http://localhost:8123/', { waitUntil: 'domcontentloaded' });
+await page.evaluate((n) => { window.TOTAL_CARDS = n; }, CARDS.length);
 
 /* ============ ページ内パイプライン注入 ============ */
 await page.evaluate(() => {
@@ -703,7 +712,7 @@ await page.evaluate(() => {
     g.fillStyle = '#8a7a62';
     g.textAlign = 'center';
     const numStr = String(spec.num).padStart(2, '0');
-    g.fillText(`${numStr}/13 · CUCUL FM PRESS · 2026 · ${spec.catEn}`, CW / 2, CH - 34);
+    g.fillText(`${numStr}/${window.TOTAL_CARDS} · CUCUL FM PRESS · 2026 · ${spec.catEn}`, CW / 2, CH - 34);
     g.textAlign = 'left';
     try { g.letterSpacing = '0px'; } catch (e) {}
 
