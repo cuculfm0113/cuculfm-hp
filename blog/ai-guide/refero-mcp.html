@@ -12,11 +12,14 @@
   <meta property="og:title" content="Referoとは？特徴・料金とMCP連携でAIっぽさを減らす方法 | CUCUL FM">
   <meta property="og:description" content="Referoは実在するWeb・iOSの画面やフロー、デザインスタイルを集めた参考ライブラリです。MCPでClaude CodeやCursorとつなぐと、AIが実例を調べてから画面を作れます。特徴・始め方・料金・注意点を解説します。">
   <meta property="og:image" content="https://cucul-fm.com/images/blog/refero-mcp/refero-mcp-00.png">
+  <meta property="og:image:width" content="2400">
+  <meta property="og:image:height" content="1260">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Referoとは？特徴・料金とMCP連携でAIっぽさを減らす方法 | CUCUL FM">
   <meta name="twitter:description" content="Referoは実在するWeb・iOSの画面やフロー、デザインスタイルを集めた参考ライブラリです。MCPでClaude CodeやCursorとつなぐと、AIが実例を調べてから画面を作れます。特徴・始め方・料金・注意点を解説します。">
   <meta name="twitter:image" content="https://cucul-fm.com/images/blog/refero-mcp/refero-mcp-00.png">
-  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Referoとは？特徴・料金とMCP連携でAIっぽさを減らす方法", "datePublished": "2026-09-24", "dateModified": "2026-09-24", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC"}, "image": ["https://cucul-fm.com/images/blog/refero-mcp/refero-mcp-00.png"]}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Referoとは？特徴・料金とMCP連携でAIっぽさを減らす方法", "description": "Referoは実在するWeb・iOSの画面やフロー、デザインスタイルを集めた参考ライブラリです。MCPでClaude CodeやCursorとつなぐと、AIが実例を調べてから画面を作れます。特徴・始め方・料金・注意点を解説します。", "datePublished": "2026-09-24", "dateModified": "2026-09-24", "author": {"@type": "Organization", "name": "ククルFM編集部"}, "publisher": {"@type": "Organization", "name": "CUCUL FM LLC", "logo": {"@type": "ImageObject", "url": "https://cucul-fm.com/images/icons/favicon-512.png"}}, "mainEntityOfPage": "https://cucul-fm.com/blog/ai-guide/refero-mcp.html", "image": ["https://cucul-fm.com/images/blog/refero-mcp/refero-mcp-00.png"]}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "ホーム", "item": "https://cucul-fm.com/"}, {"@type": "ListItem", "position": 2, "name": "記事一覧", "item": "https://cucul-fm.com/articles/"}, {"@type": "ListItem", "position": 3, "name": "Referoとは？特徴・料金とMCP連携でAIっぽさを減らす方法", "item": "https://cucul-fm.com/blog/ai-guide/refero-mcp.html"}]}</script>
   <link rel="icon" href="/favicon.ico" sizes="32x32">
   <link rel="icon" href="/images/icons/favicon-192.png" type="image/png" sizes="192x192">
   <link rel="apple-touch-icon" href="/images/icons/apple-touch-icon.png" sizes="180x180">
@@ -24,8 +27,11 @@
   <meta name="theme-color" content="#000510">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../../css/brand.css">
+  <link rel="stylesheet" href="guide.css">
+  <script src="guide.js" defer></script>
 <!-- 計測。GTM ID が content/site.config.json に入るまで GTM は読み込まれない -->
 <!-- BEGIN:analytics -->
 <script>window.dataLayer=window.dataLayer||[];</script>
@@ -35,71 +41,103 @@
 <script src="/js/analytics.js" defer></script>
 <!-- END:analytics -->
 </head>
-<body>
+<body class="guide-page">
+  <a class="g-skip" href="#article-body">本文へスキップ</a>
   <header class="blog-header">
     <div class="header-container">
-      <a href="../../articles/index.html" class="back-link">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <a href="../../articles/index.html" class="back-link" aria-label="記事一覧へ戻る">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <span>記事一覧へ戻る</span>
       </a>
       <a href="../../index.html" class="header-logo">CUCUL FM</a>
     </div>
   </header>
 
-  <article class="article-container">
-    <header class="article-header">
-      <span class="article-category">AIツール</span>
-      <h1 class="article-title">Referoとは？特徴・料金とMCP連携でAIっぽさを減らす方法</h1>
-      <div class="article-meta">
-        <time class="article-date">2026.09.24</time>
-        <span class="article-author">ククルFM編集部</span>
-      </div>
+  <main class="g-page" id="main">
+    <nav class="g-breadcrumb" aria-label="パンくずリスト">
+      <ol>
+        <li><a href="../../index.html">ホーム</a></li>
+        <li><a href="../../articles/index.html">記事一覧</a></li>
+        <li><span>AIツール</span></li>
+      </ol>
+    </nav>
+
+    <header class="g-header">
+      <p class="g-tag"><span class="g-tag__en">AI GUIDE</span>AIツール</p>
+      <h1 class="g-title">Referoとは？特徴・料金とMCP連携でAIっぽさを減らす方法</h1>
+      <p class="g-lead">Referoは実在するWeb・iOSの画面やフロー、デザインスタイルを集めた参考ライブラリです。MCPでClaude CodeやCursorとつなぐと、AIが実例を調べてから画面を作れます。特徴・始め方・料金・注意点を解説します。</p>
+      <dl class="g-meta">
+        <div><dt>公開日</dt><dd><time datetime="2026-09-24">2026.09.24</time></dd></div>
+        <div><dt>著者</dt><dd>ククルFM編集部</dd></div>
+        <div><dt>読む時間</dt><dd>約9分</dd></div>
+      </dl>
+      <figure class="g-hero"><img src="../../images/blog/refero-mcp/refero-mcp-00.png" alt="Referoの特徴・料金とMCP連携を解説する記事のアイキャッチ" fetchpriority="high" decoding="async" width="2400" height="1260"></figure>
     </header>
 
-    <div class="article-featured-image"><img src="../../images/blog/refero-mcp/refero-mcp-00.png" alt="Referoの特徴・料金とMCP連携を解説する記事のアイキャッチ" loading="lazy"></div>
+    <div class="g-layout">
+      <aside class="g-side" aria-label="目次と相談">
+        <details class="g-toc" open>
+          <summary class="g-toc__summary"><span class="g-eyebrow">CONTENTS</span>目次</summary>
+          <nav aria-label="目次">
+            <ol class="g-toc__list">
+          <li><a href="#sec-01"><span class="g-toc__num" aria-hidden="true">01</span>Referoとは</a></li>
+          <li><a href="#sec-02"><span class="g-toc__num" aria-hidden="true">02</span>Referoの特徴・強み</a></li>
+          <li><a href="#sec-03"><span class="g-toc__num" aria-hidden="true">03</span>なぜMCP連携で「AIっぽさ」が減るのか</a></li>
+          <li><a href="#sec-04"><span class="g-toc__num" aria-hidden="true">04</span>Refero MCPの始め方</a></li>
+          <li><a href="#sec-05"><span class="g-toc__num" aria-hidden="true">05</span>料金プラン</a></li>
+          <li><a href="#sec-06"><span class="g-toc__num" aria-hidden="true">06</span>注意点・向かない人</a></li>
+          <li><a href="#sec-07"><span class="g-toc__num" aria-hidden="true">07</span>Mobbinとの違い</a></li>
+          <li><a href="#sec-08"><span class="g-toc__num" aria-hidden="true">08</span>まとめ</a></li>
+            </ol>
+          </nav>
+        </details>
+        <div class="g-side-cta">
+          <p class="g-side-cta__title">AI活用の相談</p>
+          <p class="g-side-cta__text">どの業務に、どのAIを使うか。現場の段階から一緒に考えます。</p>
+          <a class="g-btn g-btn--sm" href="../../index.html#contact" data-ga-event="click_consultation_cta">相談する</a>
+        </div>
+      </aside>
 
-    <div class="article-content">
+      <article class="g-article" id="article-body">
+        <div class="g-body">
 <p>AIにWebサイトやアプリの画面を作らせると、どこかで見たような仕上がりになることがあります。グラデーションの背景、角丸カードの3列並び、中央寄せの大きな見出し。いわゆる「AIっぽい」デザインです。</p>
 <p>理由のひとつは、AIが具体的な参考例を持たないまま、よく見る組み合わせで画面を組み立てることにあります。そこで役立つのが、実在するWebサービスやiOSアプリの画面を集めたデザイン参考ライブラリ「Refero」です。MCPという仕組みでClaude CodeやCursorなどのAIツールとつなぐと、AIが作業の前に実例を探し、それを根拠に画面を組み立てられるようになります。</p>
 <p>この記事では、Referoの特徴と強み、MCP連携の始め方、料金と注意点をまとめます。情報は2026年9月時点のものです。</p>
-<h2>Referoとは</h2>
+<h2 id="sec-01"><span class="g-num" aria-hidden="true">01</span>Referoとは</h2>
 <p>Referoは、実在するWebサービスとiOSアプリの画面、画面の流れ（ユーザーフロー）、デザインスタイルを集めたライブラリです。「Design research for the AI era（AI時代のデザインリサーチ）」を掲げ、デザイナーだけでなく、開発者やAIがデザインを決めるための材料を提供しています。</p>
 <p>収録数は、料金ページの表記で14万2,000画面以上、公式GitHubによるとフローは6,000件以上です。画面は毎週追加されています。対象はWebとiOSで、Androidアプリは含まれません。</p>
 <p>トップ画面は「Describe your product, goal, or problem（作りたいもの、目的、課題を書いてください）」という入力欄が中心です。左のメニューから、Webアプリ、iOSアプリ、Styles（ベータ版）を切り替えて探せます。</p>
-<p><img src="../../images/blog/refero-mcp/refero-mcp-01.png" alt="Referoのトップ画面。中央に作りたいものや課題を入力する欄がある" loading="lazy"></p>
-<p><em>Referoのトップ画面。作りたいものや課題を文章で入力して探す（出典：Refero）</em></p>
-<h2>Referoの特徴・強み</h2>
+<figure class="g-figure"><img src="../../images/blog/refero-mcp/refero-mcp-01.png" alt="Referoのトップ画面。中央に作りたいものや課題を入力する欄がある" loading="lazy" decoding="async" width="929" height="856"><figcaption>Referoのトップ画面。作りたいものや課題を文章で入力して探す（出典：Refero）</figcaption></figure>
+<h2 id="sec-02"><span class="g-num" aria-hidden="true">02</span>Referoの特徴・強み</h2>
 <h3>1. 実在するサービスの画面だけを集めている</h3>
 <p>デザイナーの作品投稿サイトには、実際には公開されていないコンセプト作品も多く含まれます。Referoが集めているのは、実際にリリースされているサービスの画面です。見た目の好みだけでなく、実際のサービスで使われている配置や導線を確認できます。</p>
 <p>探し方も実務向けです。「ページの種類」から、ダッシュボード、商品ページ・LP、料金・課金画面、ログイン、404ページ、ブログ、会社概要、採用、問い合わせなどを選べます。これから作るページと同じ種類の実例を並べて比べられます。</p>
-<p><img src="../../images/blog/refero-mcp/refero-mcp-02.png" alt="Referoのページの種類一覧。ダッシュボードやログインなどのボタンが並ぶ" loading="lazy"></p>
-<p><em>「Page Types」から、作りたいページの種類を選んで実例を探せる（出典：Refero）</em></p>
+<figure class="g-figure"><img src="../../images/blog/refero-mcp/refero-mcp-02.png" alt="Referoのページの種類一覧。ダッシュボードやログインなどのボタンが並ぶ" loading="lazy" decoding="async" width="932" height="492"><figcaption>「Page Types」から、作りたいページの種類を選んで実例を探せる（出典：Refero）</figcaption></figure>
 <h3>2. 画面単体だけでなく「流れ」で見られる</h3>
 <p>会員登録、初回の使い方案内（オンボーディング）、決済のように、複数の画面にまたがる流れ（フロー）も収録されています。1枚の画面の見た目だけでなく、「どの順番で何を見せるか」というUXの参考になります。</p>
 <h3>3. Styles：デザインのルールをAIが読める形式で受け取れる</h3>
 <p>ベータ版の「Styles」では、実在サービスのデザインルールを2,000件以上公開しています（毎週追加）。色、文字、余白、角の丸み、影、部品ごとの扱いがまとめられていて、DESIGN.md（AI向けの説明書の形式）、Tailwind v4、CSS変数、デザイントークンの4つの形式でコピー・ダウンロードできます。</p>
 <p>たとえばCursorのスタイルでは、背景色、文字色、アクセント色が一つずつ名前と値つきで並び、「どこに使う色か」「何に使ってはいけないか」まで説明されています。AIに渡せば、色の値だけでなく使い分けの意図まで伝わります。</p>
-<p><img src="../../images/blog/refero-mcp/refero-mcp-03.png" alt="ReferoのStyles画面。左に参考サイトの画面、右にDESIGN.md形式の色の定義が表示されている" loading="lazy"></p>
-<p><em>Stylesの画面。右側にDESIGN.md形式のデザインルールが表示される（出典：Refero）</em></p>
+<figure class="g-figure"><img src="../../images/blog/refero-mcp/refero-mcp-03.png" alt="ReferoのStyles画面。左に参考サイトの画面、右にDESIGN.md形式の色の定義が表示されている" loading="lazy" decoding="async" width="1904" height="942"><figcaption>Stylesの画面。右側にDESIGN.md形式のデザインルールが表示される（出典：Refero）</figcaption></figure>
 <h3>4. 文章で相談できるResearch mode</h3>
 <p>トップ画面には新機能の「Research mode」があります。やりたいことや課題を文章で書くと、分析、参考例、その理由をまとめて返す機能です。何を探せばよいか分からない段階でも使えます。</p>
 <h3>5. AIツールから直接使えるMCP連携</h3>
 <p>Referoの最大の特徴が、MCPへの対応です。MCP（Model Context Protocol）は、AIツールが外部のサービスやデータを使うための共通の仕組みです。Referoをつなぐと、AIが自分でReferoを検索し、実例を見ながら作業できるようになります。</p>
-<h2>なぜMCP連携で「AIっぽさ」が減るのか</h2>
+<h2 id="sec-03"><span class="g-num" aria-hidden="true">03</span>なぜMCP連携で「AIっぽさ」が減るのか</h2>
 <p>AIに「おしゃれなLPを作って」とだけ頼むと、手元の知識だけで画面を組み立てるため、よく見る組み合わせに寄りやすくなります。Refero MCPをつなぐと、AIは作業の前に実在の画面・フロー・スタイルを検索し、そこから配色や余白、構成を選んで実装できます。</p>
-<p><img src="../../images/blog/refero-mcp/refero-mcp-04.png" alt="MCPなしではAIがよく見る組み合わせに寄り、MCPありではReferoで実例を調べてから設計する流れを示した図" loading="lazy"></p>
+<figure class="g-figure"><img src="../../images/blog/refero-mcp/refero-mcp-04.png" alt="MCPなしではAIがよく見る組み合わせに寄り、MCPありではReferoで実例を調べてから設計する流れを示した図" loading="lazy" decoding="async" width="2400" height="1310"></figure>
 <p>MCPでAIが使える機能は10種類あり、大きく3つに分けられます。</p>
-<table>
+<div class="g-table" role="region" aria-label="表1" tabindex="0"><table>
 <thead><tr><th>種類</th><th>AIができること</th></tr></thead>
 <tbody>
 <tr><td>探す</td><td>Webサイト、iOSアプリ、スタイル、画面、フローをキーワードで検索する</td></tr>
 <tr><td>詳しく見る</td><td>スタイルの色・文字・余白・角の丸み・影、画面のフォントやページの種類、フローの各ステップを取得する</td></tr>
 <tr><td>広げる</td><td>似た画面を探す、画面の画像を取得する</td></tr>
 </tbody>
-</table>
+</table></div>
 <p>Refero公式は、AI向けの手順書（スキル）も公開しています。「実装の前に必ずリサーチする」「デザインの判断を参考例に結びつける」といった手順をAIに守らせるものです。MCPとあわせて使うと、「調べてから作る」流れが崩れにくくなります。</p>
 <p>ただし、参考先が良くても、指示が曖昧なら結果もぶれます。「誰向けの、何のページか」「どのサービスの雰囲気に近づけたいか」を具体的に伝えることが大切です。</p>
-<h2>Refero MCPの始め方</h2>
+<h2 id="sec-04"><span class="g-num" aria-hidden="true">04</span>Refero MCPの始め方</h2>
 <p>Referoの「Connect MCP」の画面に手順がまとまっています。</p>
 <ol>
 <li><strong>有料プランに登録する</strong>：MCPはPro、Team、Lifetimeプランで使えます。無料プランでは使えません。</li>
@@ -107,17 +145,15 @@
 <li><strong>ツールを再起動してログインする</strong>：初めてReferoを呼び出したときにブラウザが開くので、Referoのアカウントでログインします。2回目以降は自動です。</li>
 <li><strong>試してみる</strong>：「フィンテックアプリのオンボーディングの流れを探して」のように頼むと、AIがReferoを検索します。</li>
 </ol>
-<p><img src="../../images/blog/refero-mcp/refero-mcp-05.png" alt="ReferoのConnect MCP画面。有料プラン登録から接続完了までの4ステップが並ぶ" loading="lazy"></p>
-<p><em>「Connect MCP」の画面。4つのステップで接続できる（出典：Refero）</em></p>
+<figure class="g-figure"><img src="../../images/blog/refero-mcp/refero-mcp-05.png" alt="ReferoのConnect MCP画面。有料プラン登録から接続完了までの4ステップが並ぶ" loading="lazy" decoding="async" width="936" height="871"><figcaption>「Connect MCP」の画面。4つのステップで接続できる（出典：Refero）</figcaption></figure>
 <p>Claude Codeに手動で追加する場合は、次のコマンドを使います（公式ドキュメントより）。</p>
 <pre><code>claude mcp add --transport http refero https://api.refero.design/mcp</code></pre>
 <p>ブラウザでのログイン（OAuth）ではなくAPIトークンで認証する場合は、末尾に <code>--header &quot;Authorization: Bearer &lt;トークン&gt;&quot;</code> を付けます。トークンは他人に見せたり、公開するファイルに含めたりしないでください。</p>
 <p>MCPの利用回数は、1ユーザーあたり月8,000回までです。使い切れなかった分は翌月に繰り越されません。</p>
-<h2>料金プラン</h2>
+<h2 id="sec-05"><span class="g-num" aria-hidden="true">05</span>料金プラン</h2>
 <p>2026年9月24日時点で、日本からアクセスした場合の料金ページの表示です。</p>
-<p><img src="../../images/blog/refero-mcp/refero-mcp-06.png" alt="Referoの料金ページ。Free、Pro、Teamの3プランの年払い料金が並ぶ" loading="lazy"></p>
-<p><em>料金ページ（年払いの表示）。月払い・年払い・買い切りを切り替えて確認できる（出典：Refero）</em></p>
-<table>
+<figure class="g-figure"><img src="../../images/blog/refero-mcp/refero-mcp-06.png" alt="Referoの料金ページ。Free、Pro、Teamの3プランの年払い料金が並ぶ" loading="lazy" decoding="async" width="1180" height="431"><figcaption>料金ページ（年払いの表示）。月払い・年払い・買い切りを切り替えて確認できる（出典：Refero）</figcaption></figure>
+<div class="g-table" role="region" aria-label="表2" tabindex="0"><table>
 <thead><tr><th>プラン</th><th>料金（年払い）</th><th>主な内容</th><th>MCP</th></tr></thead>
 <tbody>
 <tr><td>Free</td><td>無料</td><td>ライブラリの約3%のみ閲覧できる、基本的な検索</td><td>×</td></tr>
@@ -126,9 +162,9 @@
 <tr><td>Lifetime</td><td>買い切り（価格は料金ページで確認）</td><td>Proの内容（1人用）</td><td>○</td></tr>
 <tr><td>Enterprise</td><td>個別見積もり</td><td>SAML SSO、優先サポート、個別の契約</td><td>要問い合わせ</td></tr>
 </tbody>
-</table>
+</table></div>
 <p>Proは年払いにすると、月払いより年11,000円安くなると表示されています。支払いは月払いと年払いから選べます。支払い方法はクレジットカード、Apple Pay、銀行振込など（地域によって異なります）。支払い済みの料金は、法律で必要な場合を除いて返金されません。また、アカウントの共有はどのプランでも禁止されています。</p>
-<h2>注意点・向かない人</h2>
+<h2 id="sec-06"><span class="g-num" aria-hidden="true">06</span>注意点・向かない人</h2>
 <ul>
 <li><strong>無料では主な機能が使えない</strong>：無料プランで見られるのはライブラリの約3%です。MCP、フロー、Figmaプラグインは有料プランのみです。</li>
 <li><strong>Androidアプリは対象外</strong>：Android向けの画面を探したい人には向きません。</li>
@@ -136,9 +172,9 @@
 <li><strong>参考と模倣は別物</strong>：実在サービスの画面をそのまま写すと、権利の侵害やブランドの混同につながるおそれがあります。配色や構成の「考え方」を借りて、自社のブランドで組み直すことが前提です。</li>
 <li><strong>最後は人が判断する</strong>：AIが選んだ参考例が、自社の読者や業種に合うとは限りません。採用するかどうかは人が決めます。</li>
 </ul>
-<h2>Mobbinとの違い</h2>
+<h2 id="sec-07"><span class="g-num" aria-hidden="true">07</span>Mobbinとの違い</h2>
 <p>似たサービスに「Mobbin」があり、こちらもMCPに対応しています（2026年9月時点ではベータ版）。</p>
-<table>
+<div class="g-table" role="region" aria-label="表3" tabindex="0"><table>
 <thead><tr><th>項目</th><th>Refero</th><th>Mobbin</th></tr></thead>
 <tbody>
 <tr><td>収録対象</td><td>Web・iOS</td><td>モバイル・Web</td></tr>
@@ -147,9 +183,9 @@
 <tr><td>MCPの回数上限</td><td>月8,000回</td><td>ベータ期間中は無制限（今後は上限を設ける予定）</td></tr>
 <tr><td>特徴</td><td>Stylesで、AIに渡せる形式のデザインルールが手に入る</td><td>収録数が多い</td></tr>
 </tbody>
-</table>
+</table></div>
 <p>Webサイトを作る場面で、AIにデザインのルールまで渡したいならRefero、とにかく多くの実例から探したいならMobbin、という選び方ができます。料金は変わることがあるため、どちらも公式サイトで確認してください。</p>
-<h2>まとめ</h2>
+<h2 id="sec-08"><span class="g-num" aria-hidden="true">08</span>まとめ</h2>
 <ul>
 <li>Referoは、実在するWeb・iOSの画面、フロー、スタイルを集めたデザイン参考ライブラリ</li>
 <li>MCPでAIツールとつなぐと、AIが作業の前に実例を調べ、それを根拠に画面を作れる</li>
@@ -157,18 +193,29 @@
 <li>MCPは有料プランのみで、Androidは対象外。参考例は写さず、考え方を借りる</li>
 </ul>
 <p>AIでサイトやアプリを作っていて「なんとなくAIっぽい」と感じている方は、まず無料プランで画面の雰囲気を確かめてから、有料プランとMCP連携を検討してみてください。</p>
-<p>ククルFMでは、現場やバックオフィスでのAI活用、Webサイト・システム制作のご相談を受け付けています。「AIを使いたいが、何から始めればいいか分からない」という段階でもご相談ください。</p>
-<p><a href="../../index.html#contact">お問い合わせはこちら</a></p>
-<h2>関連記事</h2>
-<ul>
-<li><a href="./gpt-6-astra-sol-luna.html">GPT-6のAstra・Sol・Lunaの違いは？料金と使い分けを比較</a></li>
-<li><a href="../../insights/ai-usecases/">現場・バックオフィスにおけるAI活用例と、人が最終判断すべき範囲</a></li>
-<li><a href="../../insights/ai-teichaku/">AI導入が現場に定着しない理由。業務設計・教育・ルール・評価から考える</a></li>
-<li><a href="../../insights/saas-vs-custom/">SaaS導入と個別開発の選び方。既製SaaS・ノーコード・個別開発・既存連携の判断軸</a></li>
-</ul>
 
+
+
+        </div>
+      <aside class="g-cta" aria-labelledby="g-cta-title">
+        <p class="g-eyebrow">CONSULTATION</p>
+        <h2 id="g-cta-title" class="g-cta__title">AIの業務活用を、現場から相談する</h2>
+        <p>ククルFMでは、現場やバックオフィスでのAI活用、Webサイト・システム制作のご相談を受け付けています。「AIを使いたいが、何から始めればいいか分からない」という段階でもご相談ください。</p>
+        <a class="g-btn" href="../../index.html#contact" data-ga-event="click_consultation_cta">お問い合わせはこちら</a>
+      </aside>
+      </article>
     </div>
-  </article>
+
+    <section class="g-related" aria-labelledby="g-related-title">
+      <h2 id="g-related-title" class="g-related__heading">関連記事</h2>
+      <ul class="g-related__list">
+        <li><a class="g-related__item" href="./gpt-6-astra-sol-luna.html"><span class="g-related__cat">AIツール</span><span class="g-related__title">GPT-6のAstra・Sol・Lunaの違いは？料金と使い分けを比較</span><span class="g-related__arrow" aria-hidden="true">→</span></a></li>
+        <li><a class="g-related__item" href="../../insights/ai-usecases/"><span class="g-related__cat">Insights</span><span class="g-related__title">現場・バックオフィスにおけるAI活用例と、人が最終判断すべき範囲</span><span class="g-related__arrow" aria-hidden="true">→</span></a></li>
+        <li><a class="g-related__item" href="../../insights/ai-teichaku/"><span class="g-related__cat">Insights</span><span class="g-related__title">AI導入が現場に定着しない理由。業務設計・教育・ルール・評価から考える</span><span class="g-related__arrow" aria-hidden="true">→</span></a></li>
+        <li><a class="g-related__item" href="../../insights/saas-vs-custom/"><span class="g-related__cat">Insights</span><span class="g-related__title">SaaS導入と個別開発の選び方。既製SaaS・ノーコード・個別開発・既存連携の判断軸</span><span class="g-related__arrow" aria-hidden="true">→</span></a></li>
+      </ul>
+    </section>
+  </main>
 
   <footer class="blog-footer">
     <p class="footer-text">© 2026 CUCUL FM LLC. All rights reserved.</p>

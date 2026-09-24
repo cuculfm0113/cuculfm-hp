@@ -26,6 +26,7 @@ CSSの読み込み順は、トップが **brand → home → home-ui**、主要�
 - ルート `style.css`：404とイベント。
 - `articles/style.css`：従来の記事一覧。
 - `blog/style.css`：ブログ記事。
+- `blog/ai-guide/guide.css`：解説記事（AIツール）。`blog/style.css` の上に `css/brand.css` のトークンで重ねる。出力元は `scripts/build_blog_guide.py`。判断と手順は [10-blog-guide-ui.md](10-blog-guide-ui.md)。
 - `services/dog/breeds/style.css`：犬図鑑。
 - `services/dog/pet-floor/pet-floor.css`：サービス共通CSSに重ねる独自UI。
 - `/recruit/`：ページ内CSS。

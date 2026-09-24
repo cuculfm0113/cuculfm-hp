@@ -563,6 +563,9 @@ def build(md_files: Optional[List[Path]] = None, allow_all: bool = False):
         # skip draft storage
         if "note" in md_path.parts:
             continue
+        # 解説記事（blog/ai-guide/）は別テンプレート。scripts/build_blog_guide.py で出力する
+        if "ai-guide" in md_path.parts:
+            continue
         out_html = md_path.with_suffix(".html")
         a = parse_md(md_path)
         html_txt = render_article(a, out_html)
