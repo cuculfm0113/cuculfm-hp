@@ -160,6 +160,7 @@ claude.aiで有効にしている「スキル」（作業の手順をまとめ�
 
 ## 関連記事
 
+- [Geminiの最新情報とGoogle Workspace（2026年9月）｜仕事で使えるAI機能とプランの選び方](./gemini-workspace-2026-09.html)
 - [GPT-6のAstra・Sol・Lunaの違いは？料金と使い分けを比較](./gpt-6-astra-sol-luna.html)
 - [Referoとは？特徴・料金とMCP連携でAIっぽさを減らす方法](./refero-mcp.html)
 - [現場・バックオフィスにおけるAI活用例と、人が最終判断すべき範囲](../../insights/ai-usecases/)

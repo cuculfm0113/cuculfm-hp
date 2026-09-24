@@ -128,6 +128,7 @@ Proには利用量が「5倍」と「20倍」の2種類があります。20倍�
 
 ## 関連記事
 
+- [Geminiの最新情報とGoogle Workspace（2026年9月）｜仕事で使えるAI機能とプランの選び方](./gemini-workspace-2026-09.html)
 - [Claude Codeの最新アップデート（2026年9月）｜Opus 5.5と非エンジニアにも使える新機能](./claude-code-2026-09.html)
 - [Referoとは？特徴・料金とMCP連携でAIっぽさを減らす方法](./refero-mcp.html)
 - [現場・バックオフィスにおけるAI活用例と、人が最終判断すべき範囲](../../insights/ai-usecases/)

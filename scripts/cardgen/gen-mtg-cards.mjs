@@ -2,7 +2,7 @@
    - 630×880(63:88)。金縁フレーム+タイトルバー+油彩アート窓+タイプ行+フレーバー欄
    - アートは legacy/gen-cardart.mjs の油彩パイプライン(決定的シード)を小型化して再利用
    - 前提: リポジトリルートで python3 -m http.server 8123 / cd scripts && npm i
-   実行: node gen-mtg-cards.mjs [slug...]   (slug省略で全16枚) */
+   実行: node gen-mtg-cards.mjs [slug...]   (slug省略で全17枚) */
 import puppeteer from 'puppeteer-core';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -70,6 +70,9 @@ const CARDS = [
   { slug: 'claude-code-2026-09', cat: 'ai-guide', num: 16, seed: 0x60A3,
     name: '九月の更新', flavor: '「見て選び、任せて、確かめる。\n道具は人の手を離れない。」',
     template: 'photoPlain', photo: '/images/blog/claude-code-2026-09/card-art.png', crop: { cx: .5, cy: .5, zoom: 1 } },
+  { slug: 'gemini-workspace-2026-09', cat: 'ai-guide', num: 17, seed: 0x61A4,
+    name: '双子の書記', flavor: '「いつもの道具に、\nもう一人の書き手が座る。」',
+    template: 'photoPlain', photo: '/images/blog/gemini-workspace-2026-09/card-art.png', crop: { cx: .5, cy: .5, zoom: 1 } },
 ];
 
 const only = process.argv.slice(2);
