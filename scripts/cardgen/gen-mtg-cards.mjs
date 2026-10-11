@@ -82,6 +82,10 @@ const CARDS = [
   { slug: 'ai-news-2026-10-11', cat: 'ai-guide', num: 20, seed: 0x64A7,
     name: '十の便り', flavor: '「使える知らせと、待つ知らせ。\n送る前には人が見る。」',
     template: 'photoPlain', photo: '/images/blog/ai-news-2026-10-11/card-art.png', crop: { cx: .5, cy: .5, zoom: 1 } },
+  // --- 調査・清掃（追加分。編集部作成の図を無加工で使用） ---
+  { slug: 'sewer-news-2026-10', cat: 'inspection', num: 21, seed: 0x65C9,
+    name: '入らぬ点検', flavor: '「人は管に入らず、\n確かめる目は人に残す。」',
+    template: 'photoPlain', photo: '/images/blog/sewer-news-2026-10/card-art.png', crop: { cx: .5, cy: .5, zoom: 1 } },
 ];
 
 const only = process.argv.slice(2);

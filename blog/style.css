@@ -326,6 +326,23 @@ a:hover {
     background: rgba(245, 225, 0, 0.03);
 }
 
+/* 本文中の図（記事内の画像は列幅に収める） */
+.article-content img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 24px 0 8px;
+    border-radius: 8px;
+}
+
+.article-content p:has(> img) + p > em:only-child {
+    display: block;
+    margin-top: -8px;
+    font-size: 0.85em;
+    font-style: normal;
+    color: rgba(227, 214, 192, 0.7);
+}
+
 .article-content code {
     padding: 2px 8px;
     background: #02030a;
@@ -438,6 +455,12 @@ a:hover {
 @media (max-width: 768px) {
     .article-container {
         padding: 80px 16px 60px;
+    }
+
+    .article-content th,
+    .article-content td {
+        padding: 10px 10px;
+        overflow-wrap: anywhere;
     }
 
     .article-meta {
