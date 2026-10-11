@@ -113,6 +113,7 @@ Workspaceでは、いつものアプリの中からGeminiを呼び出せます�
 
 ## 関連記事
 
+- [今週のAIニュース10本（2026年10月5日〜11日）｜GPT-6が無料版に、Claude Haiku 5.5ほか](./ai-news-2026-10-11.html)
 - [Cursorの最新情報（2026年9月）｜SpaceX傘下での変化と料金、非エンジニアが使うときの注意点](./cursor-2026-09.html)
 - [Claude Codeの最新アップデート（2026年9月）｜Opus 5.5と非エンジニアにも使える新機能](./claude-code-2026-09.html)
 - [GPT-6のAstra・Sol・Lunaの違いは？料金と使い分けを比較](./gpt-6-astra-sol-luna.html)

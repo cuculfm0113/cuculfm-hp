@@ -160,6 +160,7 @@ claude.aiで有効にしている「スキル」（作業の手順をまとめ�
 
 ## 関連記事
 
+- [今週のAIニュース10本（2026年10月5日〜11日）｜GPT-6が無料版に、Claude Haiku 5.5ほか](./ai-news-2026-10-11.html)
 - [Superwhisperとは？使い方と料金、買い切りで使えるAI音声入力ツール（2026年9月）](./superwhisper-2026-09.html)
 - [Cursorの最新情報（2026年9月）｜SpaceX傘下での変化と料金、非エンジニアが使うときの注意点](./cursor-2026-09.html)
 - [Geminiの最新情報とGoogle Workspace（2026年9月）｜仕事で使えるAI機能とプランの選び方](./gemini-workspace-2026-09.html)
