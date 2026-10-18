@@ -2,7 +2,7 @@
    - 630×880(63:88)。金縁フレーム+タイトルバー+油彩アート窓+タイプ行+フレーバー欄
    - アートは legacy/gen-cardart.mjs の油彩パイプライン(決定的シード)を小型化して再利用
    - 前提: リポジトリルートで python3 -m http.server 8123 / cd scripts && npm i
-   実行: node gen-mtg-cards.mjs [slug...]   (slug省略で全20枚) */
+   実行: node gen-mtg-cards.mjs [slug...]   (slug省略で全22枚) */
 import puppeteer from 'puppeteer-core';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -86,6 +86,10 @@ const CARDS = [
   { slug: 'sewer-news-2026-10', cat: 'inspection', num: 21, seed: 0x65C9,
     name: '入らぬ点検', flavor: '「人は管に入らず、\n確かめる目は人に残す。」',
     template: 'photoPlain', photo: '/images/blog/sewer-news-2026-10/card-art.png', crop: { cx: .5, cy: .5, zoom: 1 } },
+  // --- AIツール（追加分。編集部作成の図を無加工で使用） ---
+  { slug: 'grok-bot-vs-dots', cat: 'ai-guide', num: 22, seed: 0x66A8,
+    name: '二つの相棒', flavor: '「日々の用事は小さな手に、\n段取りは一つの頭に。」',
+    template: 'photoPlain', photo: '/images/blog/grok-bot-vs-dots/card-art.png', crop: { cx: .5, cy: .5, zoom: 1 } },
 ];
 
 const only = process.argv.slice(2);
