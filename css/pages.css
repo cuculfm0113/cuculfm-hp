@@ -213,6 +213,7 @@
 
 /* Insights: readable editorial rows, with one featured starting point. */
 .page-insights #articles .section-title { margin-bottom: 36px; }
+.page-insights .ins-preparing { max-width: 40rem; margin: 0; padding-top: 8px; }
 .page-insights .ins-list { grid-template-columns: 1fr; gap: 0; }
 .page-insights .ins-card { background: transparent; border: none; border-bottom: 1px solid var(--ui-line); border-radius: 0; }
 .page-insights .ins-card:hover { translate: none; box-shadow: none; background: rgba(255, 253, 232, .02); }

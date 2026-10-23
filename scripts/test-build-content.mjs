@@ -1523,13 +1523,23 @@ test('insights.json の記事とページの実体が一致する', () => {
     'insights/ のディレクトリと insights.json の記事が一致しません（載っていない記事・実体の無い記事）');
 });
 
-test('一覧ページに全記事が載っている', () => {
+test('一覧ページの掲載が listingStatus と一致する', () => {
   const text = textOf(INSIGHTS);
+  const open = (C.insights.listingStatus || 'published') !== 'preparing';
+  if (open) {
+    for (const a of C.insights.articles) {
+      assert(INSIGHTS.includes(`href="/insights/${a.slug}/"`), `一覧に ${a.slug} へのリンクがありません`);
+      assert(text.includes(a.title), `一覧に「${a.title}」が出ていません`);
+      assert(text.includes(a.excerpt), `一覧に ${a.slug} の要約が出ていません`);
+      assert(text.includes(a.category), `一覧に ${a.slug} のカテゴリが出ていません`);
+    }
+    return;
+  }
+  assert(text.includes(C.insights.preparing.heading), '準備中の見出しが出ていません');
+  assert(text.includes(C.insights.preparing.body), '準備中の本文が出ていません');
   for (const a of C.insights.articles) {
-    assert(INSIGHTS.includes(`href="/insights/${a.slug}/"`), `一覧に ${a.slug} へのリンクがありません`);
-    assert(text.includes(a.title), `一覧に「${a.title}」が出ていません`);
-    assert(text.includes(a.excerpt), `一覧に ${a.slug} の要約が出ていません`);
-    assert(text.includes(a.category), `一覧に ${a.slug} のカテゴリが出ていません`);
+    assert(!INSIGHTS.includes(`/insights/${a.slug}/`), `準備中なのに一覧が ${a.slug} へリンクしています`);
+    assert(!text.includes(a.title), `準備中なのに「${a.title}」が出ています`);
   }
 });
 
@@ -1641,6 +1651,10 @@ test('記事メタデータの不備を validate が止める', () => {
     .some((e) => e.includes('related')), '未知の関連記事が検出されません');
   assert(bad((c) => { c.insights.articles[0].dateModified = '2020-01-01'; })
     .some((e) => e.includes('dateModified')), '更新日が公開日より前でも通ってしまいます');
+  assert(bad((c) => { c.insights.listingStatus = 'hidden'; })
+    .some((e) => e.includes('listingStatus')), 'listingStatus の誤りが検出されません');
+  assert(bad((c) => { c.insights.listingStatus = 'preparing'; c.insights.preparing = { label: '', heading: '準備中', body: '本文' }; })
+    .some((e) => e.includes('preparing.label')), '準備中の文言が空でも通ってしまいます');
 });
 
 test('記事ページの pages 定義が insights.json から自動で作られる', () => {
@@ -1821,9 +1835,51 @@ test('sitemap.xml が生成スクリプトの結果と一致している（URL�
 
 test('sitemap.xml に改修で追加した全ページが載っている', () => {
   const xml = read('sitemap.xml');
-  const urls = ['/fde/', '/about/', '/privacy/', '/insights/',
-    ...C.insights.articles.map((a) => `/insights/${a.slug}/`)];
+  const urls = ['/fde/', '/about/', '/privacy/', '/insights/'];
+  const articlesOpen = (C.insights.listingStatus || 'published') !== 'preparing';
+  if (articlesOpen) urls.push(...C.insights.articles.map((a) => `/insights/${a.slug}/`));
   for (const u of urls) assert(xml.includes(`<loc>${BASE_URL}${u}</loc>`), `sitemap に ${u} がありません`);
+  if (!articlesOpen) {
+    for (const a of C.insights.articles) {
+      assert(!xml.includes(`/insights/${a.slug}/`), `準備中なのに sitemap に ${a.slug} が残っています`);
+    }
+  }
+});
+
+test('準備中の Insights 記事は公開導線から外れている', () => {
+  if ((C.insights.listingStatus || 'published') !== 'preparing') return;
+  const rd = read('_redirects');
+  assert(/^\/insights\/:slug\s+\/insights\/\s+302!$/m.test(rd), '個別記事を /insights/ へ戻す 302! がありません');
+  assert(/^\/insights\/:slug\/\s+\/insights\/\s+302!$/m.test(rd), '末尾スラッシュ付きの 302! がありません');
+  const hidden = new Set(C.insights.articles.map((a) => articleKey(a.slug)));
+  for (const rel of hidden) {
+    assert(/<meta name="robots" content="noindex"/.test(read(rel)), `${rel} に noindex がありません`);
+  }
+  const leak = [];
+  for (const rel of PUBLIC_PAGES) {
+    if (hidden.has(rel)) continue;
+    const html = read(rel);
+    for (const a of C.insights.articles) {
+      if (html.includes(`/insights/${a.slug}`)) leak.push(`${rel} → ${a.slug}`);
+    }
+  }
+  const mdFiles = [];
+  const walkMd = (dir) => {
+    for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+      if (e.name === 'node_modules' || e.name === '.git' || e.name === 'docs') continue;
+      const p = path.join(dir, e.name);
+      if (e.isDirectory()) walkMd(p);
+      else if (e.name.endsWith('.md')) mdFiles.push(p);
+    }
+  };
+  walkMd(path.join(ROOT, 'blog'));
+  for (const file of mdFiles) {
+    const text = fs.readFileSync(file, 'utf8');
+    for (const a of C.insights.articles) {
+      if (text.includes(`/insights/${a.slug}`)) leak.push(`${path.relative(ROOT, file)} → ${a.slug}`);
+    }
+  }
+  assert(leak.length === 0, `準備中の記事へのリンクが残っています: ${leak.join(', ')}`);
 });
 
 test('/services/ai/ と /services/web/ に /fde/ への導線がある', () => {

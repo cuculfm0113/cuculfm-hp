@@ -146,5 +146,4 @@ Proには、利用量の違う3種類があります。月100ドル、月200ド�
 - [Geminiの最新情報とGoogle Workspace（2026年9月）｜仕事で使えるAI機能とプランの選び方](./gemini-workspace-2026-09.html)
 - [Claude Codeの最新アップデート（2026年9月）｜Opus 5.5と非エンジニアにも使える新機能](./claude-code-2026-09.html)
 - [Referoとは？特徴・料金とMCP連携でAIっぽさを減らす方法](./refero-mcp.html)
-- [現場・バックオフィスにおけるAI活用例と、人が最終判断すべき範囲](../../insights/ai-usecases/)
-- [AI導入が現場に定着しない理由。業務設計・教育・ルール・評価から考える](../../insights/ai-teichaku/)
+- [現場DX・AI活用の記事（準備中）](../../insights/)

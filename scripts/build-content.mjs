@@ -303,6 +303,16 @@ export const validate = (c) => {
   for (const f of ['author', 'supervisor', 'authorLabel', 'supervisorLabel', 'publishedLabel', 'modifiedLabel', 'relatedLabel']) {
     if (isBlank(c.insights[f])) errors.push(`insights.${f} が空です`);
   }
+  const listingStatus = c.insights.listingStatus || 'published';
+  if (!['published', 'preparing'].includes(listingStatus)) {
+    errors.push(`insights.listingStatus は "published" か "preparing" にしてください: ${listingStatus}`);
+  }
+  if (listingStatus === 'preparing') {
+    const prep = c.insights.preparing || {};
+    for (const f of ['label', 'heading', 'body']) {
+      if (isBlank(prep[f])) errors.push(`insights.preparing.${f} が空です（listingStatus が preparing のとき必須）`);
+    }
+  }
 
   // --- 活用テーマは「実績ではない」注記が必須（要件: 実績と誤認させない） ---
   if (isBlank(c.usecases.note)) errors.push('usecases.json の note（活用イメージである旨の注記）が空です');
@@ -585,10 +595,23 @@ const articleOf = (c, ctx) => {
   return a;
 };
 
-/* ---- 一覧のカード（見出しはページ側の .section-title が持つ） ---- */
+/** 一覧を出すか。preparing のあいだはカードを出さず、準備中の文言だけにする */
+const insightsListingOpen = (c) => (c.insights.listingStatus || 'published') !== 'preparing';
+
+/* ---- 一覧。見出しもここから出す（preparing のときはカードを出さない） ---- */
 const renderInsightsList = (c) => {
   const d = c.insights;
+  if (!insightsListingOpen(c)) {
+    const p = d.preparing;
+    return [
+      `<p class="section-label">${esc(p.label)}</p>`,
+      `<h2 class="section-title" id="articles-title">${esc(p.heading)}</h2>`,
+      `<p class="section-description ins-preparing">${esc(p.body)}</p>`,
+    ];
+  }
   return [
+    '<p class="section-label">ARTICLES</p>',
+    '<h2 class="section-title" id="articles-title">記事一覧</h2>',
     '<ul class="ins-list">',
     ...d.articles.flatMap((a) => [
       `  <li class="ins-card" id="ins-${esc(a.slug)}">`,
@@ -1074,7 +1097,7 @@ const RENDERERS = {
   'faq-top': { desc: 'トップページFAQ（7問）', render: (c) => renderFaq(c.faqTop, 'faq-title') },
   'faq-fde': { desc: '/fde/ ページFAQ', render: (c) => renderFaq(c.faqFde, 'faq-title') },
   'services': { desc: 'サービス8件の可視リスト', render: renderServices },
-  'insights-list': { desc: '/insights/ の記事一覧（見出し + カード）', render: renderInsightsList },
+  'insights-list': { desc: '/insights/ の記事一覧（見出し + カード。preparing のときは準備中の文言）', render: renderInsightsList },
   'article-meta': { desc: '記事の著者・公開日・最終更新日（jsonld-article と対）', render: renderArticleMeta },
   'article-related': { desc: '記事の関連記事リンク', render: renderArticleRelated },
   'company-spec': { desc: '会社概要テーブル（空欄項目は出力しない）', render: renderCompanySpec },

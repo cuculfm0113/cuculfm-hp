@@ -1,5 +1,11 @@
 {
-  "_note": "Insights（記事）のメタデータ。一覧カード・Article 構造化データ・記事ページの著者/日付表示・関連記事リンクは、すべてこのファイルから生成する。 articles[] に追記すると一覧・サイトマップ・構造化データが同時に増える（記事本体のHTMLは別途つくること）。 site.config.json の pages への登録は build-content.mjs が自動で行うので、ここだけ直せばよい。 title は記事のH1・Article の headline、navTitle はパンくずと一覧カードの短い表記、description は <title> 直後の meta description と Article の description。 datePublished / dateModified は YYYY-MM-DD。架空の実績・数値は書かない。",
+  "_note": "Insights（記事）のメタデータ。一覧カード・Article 構造化データ・記事ページの著者/日付表示・関連記事リンクは、すべてこのファイルから生成する。 articles[] に追記すると一覧・サイトマップ・構造化データが同時に増える（記事本体のHTMLは別途つくること）。 site.config.json の pages への登録は build-content.mjs が自動で行うので、ここだけ直せばよい。 title は記事のH1・Article の headline、navTitle はパンくずと一覧カードの短い表記、description は <title> 直後の meta description と Article の description。 datePublished / dateModified は YYYY-MM-DD。架空の実績・数値は書かない。 listingStatus が preparing のあいだ、一覧（<!-- BEGIN:insights-list -->）は preparing の文言だけを出す。記事HTMLは残し、noindex と _redirects の /insights/:slug で配信しない。 published に戻したあとは build-content を流すとカードが戻る。あわせて各記事の noindex、_redirects、site.config.json と insights/index.html の description・ヒーロー・CTA、FDE とブログからの個別記事リンク、sitemap を戻す。",
+  "listingStatus": "preparing",
+  "preparing": {
+    "label": "PREPARING",
+    "heading": "準備中",
+    "body": "記事の本文は、いま公開していません。内容が整い次第、このページに一覧を戻します。それまでのご相談は、下の連絡先からどうぞ。"
+  },
   "authorLabel": "執筆",
   "supervisorLabel": "監修",
   "publishedLabel": "公開日",

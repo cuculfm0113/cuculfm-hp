@@ -31,6 +31,13 @@
 /services/custom/*   /404.html 404!
 /services/craft/*    /404.html 404!
 
+# Insights の個別記事を一時非公開 (2026-10-23)。一覧 /insights/ は残し、準備中を表示する。
+# :slug は1階層だけなので /insights/ 自体には当たらない。実在ファイルより優先するため ! が必要。
+# 再開: この2行と各記事の noindex を外し、content/insights.json の listingStatus を published にして
+# build-content と sitemap を再生成する。ヒーロー・説明文・FDE とブログのリンクも戻す。
+/insights/:slug   /insights/  302!
+/insights/:slug/  /insights/  302!
+
 # 旧プレビューURL(トップ昇格に伴い本体へ)
 /top-v2/* / 301
 
