@@ -96,7 +96,12 @@ const SEQ_TURN = { from: 0.52, to: 1.0 };            // この区間で 360° �
 const PARAMS = new URLSearchParams(location.search);
 const RMQ = window.matchMedia('(prefers-reduced-motion: reduce)');
 const emit = (name, detail) => window.dispatchEvent(new CustomEvent(name, { detail }));
-const done = ok => emit('char3d:done', { ok });
+const done = ok => {
+  if (window.__characterPresentation) {
+    window.__characterPresentation.setState(ok ? 'ready' : 'fallback');
+  }
+  emit('char3d:done', { ok });
+};
 const clamp01 = v => Math.min(1, Math.max(0, v));
 const smooth01 = v => { v = clamp01(v); return v * v * (3 - 2 * v); };
 const lerp = (a, b, k) => a + (b - a) * k;
@@ -265,11 +270,12 @@ function makeShadowTexture(){
 }
 
 /* ================================================================ boot */
-/* Promise チェックはメイン側 CHAR3D_ON と対称（three.js のローダー群が Promise 依存） */
-if (PARAMS.get('nochar3d') === null && typeof window.Promise === 'function') {
+/* head の判定と共有。判定スクリプトの失敗・非対応・明示無効化はSVGのみ。 */
+if (PARAMS.get('nochar3d') === null && typeof window.Promise === 'function' &&
+    window.__characterPresentation && window.__characterPresentation.state === 'pending') {
   try { boot(); }
   catch (err) { console.warn('[char3d] init failed → SVG fallback', err); done(false); }
-}
+} else { done(false); }
 
 function boot(){
   const container = document.getElementById('char3d');
@@ -645,7 +651,7 @@ function boot(){
 
   /* ---- モデル ---- */
   let model = null, mixer = null, action = null, headBone = null;
-  let ready = false, modelReady = false, contextLost = false, fadeRaf = 0;
+  let ready = false, modelReady = false, contextLost = false;
 
   new GLTFLoader().load(
     CFG3D.model,
@@ -681,26 +687,20 @@ function boot(){
           if (RMQ.matches){ mixer.update(0.42); action.paused = true; }   // 静止=中間ポーズ
         }
 
-        /* ---- スワップ（SVG → canvas のクロスフェード） ----
-           GLB ダウンロード中にテーマが切り替わっている可能性があるため、
-           表示直前に data-theme を読み直してリグを再同期する（lerp 不要 = 即時） */
+        /* ---- 読み込み完了。pending 中からSVGは不可視なので重ねて表示しない。 ---- */
         themeAnim = null;
         applyRig(RIGS[document.documentElement.getAttribute('data-theme') === 'red' ? 'red' : 'moon']);
         modelReady = true;
         window.__char3d = api;
         if (contextLost) return; // 復帰イベントが読み込み済みモデルを有効化する
         ready = true;
+        heroWrap.classList.add('is-3d');
+        container.style.opacity = '1';
         container.classList.add('is-on');
         resize();
         /* 先に通知して現在のスクロール進捗・canvas の親を同期してから描画する。 */
         done(true);
         render();
-        if (mode === 'seq' || RMQ.matches) {
-          container.style.opacity = '1';
-          heroWrap.classList.add('is-3d');
-        } else {
-          fadeIn(container, 420, () => heroWrap.classList.add('is-3d'));
-        }
         updateRunning();
         console.log('[char3d] ready — bloom:', USE_BLOOM, '| bones:', bones.length,
           '| head:', headBone ? headBone.name : '(none)');
@@ -719,19 +719,6 @@ function boot(){
       giveUpWebGL();
     }
   );
-
-  function fadeIn(el, dur, onDone){
-    cancelAnimationFrame(fadeRaf);
-    el.style.opacity = '0';
-    const t0 = performance.now();
-    (function step(){
-      if (!ready || contextLost || dead) return;
-      const k = RMQ.matches ? 1 : clamp01((performance.now() - t0) / dur);
-      el.style.opacity = String(k);
-      if (k < 1){ fadeRaf = requestAnimationFrame(step); }
-      else if (onDone){ onDone(); }
-    })();
-  }
 
   /* ---- resize ----
      寸法が前回と同じなら何もしない: RO と window resize の二重発火や
@@ -844,7 +831,6 @@ function boot(){
     ready = false;
     running = false;
     cancelAnimationFrame(rafId);
-    cancelAnimationFrame(fadeRaf);
     seqDetach();
     heroWrap.classList.remove('is-3d');
     container.classList.remove('is-on');
@@ -888,7 +874,6 @@ function boot(){
   function seqAttach(){
     if (!ready || dead || contextLost || mode === 'seq') return;
     mode = 'seq';
-    cancelAnimationFrame(fadeRaf);
     container.style.opacity = '1';
     heroWrap.classList.add('is-3d');
     seqWrap.classList.add('is-on');

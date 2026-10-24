@@ -72,13 +72,13 @@
     ],
     "heroCtas": [
       {
-        "label": "ククルFMの事業を見る",
-        "href": "#business"
+        "label": "相談する",
+        "href": "/#contact",
+        "gaEvent": "click_consultation_cta"
       },
       {
-        "label": "FDE・AI実装支援を見る",
-        "href": "/fde/",
-        "gaEvent": "click_fde_service"
+        "label": "事業一覧",
+        "href": "#business"
       }
     ],
     "fdeMain": "現場を知るから、変革を動かせる。",

@@ -124,6 +124,8 @@
 <!-- 既存 index.html:40 と同一のフォントリクエスト -->
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Orbitron:wght@500;700&family=Bebas+Neue&display=swap" rel="stylesheet">
 
+<!-- Decide the character presentation before the first paint. -->
+<script src="/js/character-state.js"></script>
 <link rel="stylesheet" href="/css/brand.css">
 <link rel="stylesheet" href="/css/home.css">
 <link rel="stylesheet" href="/css/home-ui.css">
@@ -138,54 +140,9 @@
 <!-- END:analytics -->
 </head>
 <body class="home-page">
-<!-- ==========================================================================
-     CONFIG : 編集はここだけ見れば足ります
-     --------------------------------------------------------------------------
-     [links]
-       SOUND         : /audio/cuculfm-ambient.mp3  （#site-bgm / #btn-sound で明示再生）
-       VIEW BUSINESS : #business
-       OUR ROADMAP   : #business  ← TODO: ロードマップページ新設時に差し替え
-       INDEX / BUSINESS INDEX : #index-overlay を開く（全リンク網羅のオーバーレイ）
-       Instagram     : https://www.instagram.com/cuculfm_llc/
-       X             : https://x.com/madarame365
-       TEL           : tel:09062623842  （表記 090-6262-3842）
-     [business cards]  ※ DX を先頭に配置（テック × ブルーカラーのビルドアップを前面化）
-       01 DX SYSTEMS (feat. AI)  /services/ai/   ← URL は既存SEO維持のため /ai/ のまま
-       02 CONSTRUCTION           /services/construction/
-       03 INSPECTION & CLEANING  /services/inspection/
-       04 TOOLS                  /services/tools/
-       05 VIDEO & DOCUMENTS      /services/video/
-       06 WEB & 3D DESIGN        /services/web/
-       07 DOG SERVICES           /services/dog/
-     [index overlay]  SERVICES 9 / NEWS & INFO 4 / COMPANY
-       SERVICES : /services/ai/ /services/construction/ /services/inspection/ /services/tools/
-                  /services/video/ /services/document/ /services/web/ /services/dog/
-       NEWS     : /articles/ /recruit/ /event/ /services/dog/#puppies
-       COMPANY  : #about #contact / tel:09062623842 / Instagram / X
-     [anchors]  下層ページが深リンクする id（変更禁止）
-       #contact : 19ファイル26箇所（全サービスCTA） / #about・#business : 各3ファイル（404, articles, event）
-     [news band]  #business 直下の4カード（掲示板A4カード風）
-       01 ARTICLES /articles/ ・02 RECRUIT /recruit/ ・03 EVENT /event/ ・04 PUPPIES /services/dog/#puppies
-     [copy]
-       corner-left   : SUPPORTING BLUE-COLLAR &amp; AILIFE
-       corner-center : CONSTRUCTION &amp; TECH &amp; LIFESTYLE
-       theme switch  : PRESS [ENTERBAR] TO SWITCH  （Enter キーで moon / red をトグル）
-                       ※ Space は奪わない = 標準のスクロール動作のまま
-     [audio]  アンビエントBGM（autoplay 無し / 初期は無音・停止）
-       ファイル : /audio/cuculfm-ambient.mp3  （差し替え時は同名で上書き）
-       操作     : ヒーローナビの #btn-sound のみ（SOUND OFF ⇄ SOUND ON）
-       音量     : initSound() の VOLUME（既定 0.32）
-       挙動     : タブ非表示で停止。ユーザーが再生を選んでいたセッションだけ復帰時に再開
-                  ※ prefers-reduced-motion は「動き」の設定なので音の可否判定には使わない
-     [sequence]  /assets/sequence/frame_0001.png … （未配置。置けば自動で有効化）
-     [character] ファントムDJ GLB（module script / ファイル末尾）
-       モデル   : /character-design/phantom-dj/model.glb （5.4MB / Meshy製・歩行アニメ内蔵）
-       優先順位 : フレーム連番 > GLB 3Dタイムライン > SVGクローン（seq区間）
-       フォールバック : GLB失敗・importmap非対応・file:// では SVG 胸像のまま
-       無効化   : ?nochar3d=1
-       調整ノブ : module script 冒頭の CFG3D / GLOW / DECALS / LINING / RIGS
-       注意     : GLB + HDRI はローカルサーバー必須（python3 -m http.server 8123 をリポジトリ直下で）
-     ========================================================================== -->
+<!-- TOP: copy is generated from content/site.config.json. Keep #business,
+     #contact and the pillar anchors stable. Moon theme is fixed; INDEX holds
+     secondary navigation. Character state is controlled before first paint. -->
 
 <a class="skip-link" href="#business">事業一覧へスキップ</a>
 
@@ -219,7 +176,7 @@
     <nav class="gnav-nav" aria-label="グローバルナビゲーション">
       <ul class="gnav-list">
         <li><a class="gnav-link" href="#business" data-scroll>事業一覧</a></li>
-        <li><a class="gnav-link" href="/fde/">AI・DX実装支援</a></li>
+        <li><a class="gnav-link" href="/fde/">FDE・AI実装支援</a></li>
         <li><a class="gnav-link" href="/insights/">Insights</a></li>
         <li><a class="gnav-link" href="/about/">会社概要</a></li>
       </ul>
@@ -239,7 +196,7 @@
 <!-- ======================================================================
      HERO
      ====================================================================== -->
-<section id="hero" aria-label="CUCUL FM.LLC">
+<section id="hero" aria-labelledby="hero-title">
 
   <div class="hero-sky" aria-hidden="true">
     <div class="stars stars-small"></div>
@@ -257,18 +214,10 @@
   <div class="hero-top">
     <div class="brand"><span class="bar"></span>CUCULFM.LLC</div>
     <nav class="hero-nav" aria-label="ヒーローナビゲーション">
-      <!-- BGM トグル。autoplay はせず、この明示操作だけで #site-bgm を再生／停止する -->
       <button class="pill" id="btn-sound" type="button"
               aria-pressed="false" aria-controls="site-bgm" aria-label="BGMを再生する">
-        <span class="dot"></span><span class="snd-label">SOUND OFF</span>
+        <span class="dot" aria-hidden="true"></span><span class="snd-label">SOUND OFF</span>
       </button>
-      <a class="pill" href="#business" data-scroll>VIEW BUSINESS</a>
-      <a class="icon-btn" href="https://www.instagram.com/cuculfm_llc/" target="_blank" rel="noopener" aria-label="Instagram（新しいタブで開く）">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5.2"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1.15" fill="currentColor" stroke="none"/></svg>
-      </a>
-      <a class="icon-btn" href="https://x.com/madarame365" target="_blank" rel="noopener" aria-label="X（旧Twitter・新しいタブで開く）">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 3h3.2l-7 8 8.3 10h-6.5l-5-6.1L4.6 21H1.4l7.5-8.6L1 3h6.7l4.6 5.6L17.5 3zm-1.1 16h1.8L7.7 4.9H5.8L16.4 19z"/></svg>
-      </a>
       <!-- サイト全リンクのインデックスを開く（#index-overlay） -->
       <button class="pill pill--menu" id="btn-index-top" type="button"
               data-idx-open aria-haspopup="dialog" aria-expanded="false" aria-controls="index-overlay">
@@ -277,11 +226,18 @@
     </nav>
   </div>
 
-  <p class="corner corner--l">SUPPORTING BLUE-COLLAR &amp; AILIFE</p>
-  <p class="corner corner--c">CONSTRUCTION &amp; TECH &amp; LIFESTYLE<span class="corner-ja">普段と新しい暮らしをサポートする会社</span></p>
-
   <div class="hero-stage">
-    <h1 class="giant-type"><span class="w">CUCUL</span> <span class="w"><span class="flip">FM</span>.LLC</span></h1>
+    <div class="giant-type" aria-hidden="true"><span class="w">CUCUL</span> <span class="w"><span class="flip">FM</span>.LLC</span></div>
+    <div class="hero-copy">
+      <!-- BEGIN:hero-copy -->
+      <h1 class="hero-title" id="hero-title"><span>現場と事業に、</span><span>技術を定着させる。</span></h1>
+      <p class="hero-lead">建設・インフラ、クリエイティブ・テック、ライフスタイル。<span class="no-break">異なる</span>事業を横断し、AI・データ・クリエイティブの力で、人と現場がより良く働く仕組みをつくります。</p>
+      <div class="hero-actions">
+        <a class="hero-consult" href="/#contact" data-scroll data-ga-event="click_consultation_cta">相談する</a>
+        <a class="hero-business-link" href="#business" data-scroll>事業一覧</a>
+      </div>
+      <!-- END:hero-copy -->
+    </div>
 
     <div class="hero-char-wrap">
       <div class="char-breathe">
@@ -493,43 +449,6 @@
     </div>
   </div>
 
-  <div class="hero-bottom">
-    <!-- TODO: ロードマップページ新設時に href を差し替え -->
-    <a class="pill" href="#business" data-scroll>OUR ROADMAP</a>
-    <button id="theme-switch" type="button" aria-pressed="false" aria-keyshortcuts="Enter">
-      <span class="led" aria-hidden="true"></span>PRESS <kbd>[ENTERBAR]</kbd> TO SWITCH
-    </button>
-    <div class="end">
-      <span class="eyebrow">EST. KAWAGUCHI / SAITAMA</span>
-      <button class="pill" id="btn-index-hero" type="button"
-              data-idx-open aria-haspopup="dialog" aria-expanded="false" aria-controls="index-overlay">
-        <span class="dot"></span>BUSINESS INDEX
-      </button>
-    </div>
-  </div>
-
-  <p class="sr-only" id="theme-live" role="status" aria-live="polite"></p>
-</section>
-
-<!-- ======================================================================
-     STATEMENT （サイト全体の補強キャッチ）
-     ・#hero は 100svh に構図が詰まりきっているため、内側ではなく直後の帯として置く
-       = ヒーローの見え方（キャラ・巨大タイポ・下部バーの位置）は一切変えない
-     ・本文は content/site.config.json の messaging から生成（マーカー区間）
-     ・JS 無効でも読める（初期状態で可視。フェードは GSAP が後から掛ける）
-     ====================================================================== -->
-<section id="statement" aria-labelledby="stm-title">
-  <div class="stm-in">
-    <p class="eyebrow stm-label">TECHNOLOGY × FIELD</p>
-    <!-- BEGIN:hero-copy -->
-    <h2 class="stm-title" id="stm-title"><span>現場と事業に、</span><span>技術を定着させる。</span></h2>
-    <p class="stm-lead">建設・インフラ、クリエイティブ・テック、ライフスタイル。<br>異なる事業を横断し、AI・データ・クリエイティブの力で、<br>人と現場がより良く働く仕組みをつくります。</p>
-    <div class="stm-cta">
-      <a class="btn-stm" href="#business" data-scroll>ククルFMの事業を見る</a>
-      <a class="btn-stm btn-stm--ghost" href="/fde/" data-ga-event="click_fde_service">FDE・AI実装支援を見る</a>
-    </div>
-    <!-- END:hero-copy -->
-  </div>
 </section>
 
 <!-- ======================================================================
@@ -554,11 +473,11 @@
   <div class="seq-tint" aria-hidden="true"></div>
 
   <div class="seq-cap seq-cap--1">
-    <h2>WE BUILD<br>THE ORDINARY<br>&amp; THE NEXT</h2>
+    <h2>普段を支え、<br>次の暮らしをつくる。</h2>
     <p>現場も、オフィスも、映像も、AIも。現場に立つ人の「普段」を支えながら、次の暮らしをつくる。</p>
   </div>
   <div class="seq-cap seq-cap--2">
-    <h2>TECH<br>ACROSS ALL</h2>
+    <h2>3つの事業を、<br>技術でつなぐ。</h2>
     <p>建設・インフラ / クリエイティブ・テック / ライフスタイル。3本の柱をテクノロジーで横串に。</p>
   </div>
 
@@ -627,7 +546,7 @@
       <p class="eyebrow">AI-DRIVEN / BLUE-COLLAR / BUILD-UP</p>
       <h2 id="biz-title">OUR <em>BUSINESS</em></h2>
     </div>
-    <p class="lead">AI × 現場。建設・インフラからライフスタイルまで、AIを駆使してブルーカラーの仕事をビルドアップする——ククルFM合同会社の7つの領域。</p>
+    <p class="lead">AI × 現場。建設・インフラからライフスタイルまで、AIを駆使してブルーカラーの仕事をビルドアップする。</p>
   </div>
 
   <div class="biz-sub">
@@ -733,7 +652,7 @@
         <span class="go">VIEW<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
       </a>
 
-      <a class="biz-card" href="/services/web/" style="--a1:#00f5d4;--a2:#00cce6">
+      <a class="biz-card biz-card--web3d" href="/services/web/" style="--a1:#00f5d4;--a2:#00cce6">
         <span class="thumb" aria-hidden="true"><img src="/images/biz/biz-06-web3d.jpg" alt="" loading="lazy" decoding="async" width="600" height="1000"></span>
         <span class="no">06</span>
         <span class="en">WEB &amp;<br>3D DESIGN</span>
@@ -899,10 +818,8 @@
     <!-- BEGIN:challenges -->
     <div class="chal-head">
       <div>
-        <p class="eyebrow">CHALLENGES</p>
-        <h2 id="chal-title">COMMON <em>ISSUES</em></h2>
+        <h2 id="chal-title">こんな課題はありませんか。</h2>
       </div>
-      <p class="lead">こんな課題はありませんか。</p>
     </div>
     <ul class="chal-grid">
       <li class="chal-card">
@@ -952,10 +869,8 @@
     <!-- BEGIN:roadmap -->
     <div class="rm-head-sec">
       <div>
-        <p class="eyebrow">12-MONTH ROADMAP</p>
-        <h2 id="roadmap-title">HOW WE <em>WORK</em></h2>
+        <h2 id="roadmap-title">12か月で、現場の課題を使われる仕組みへ。</h2>
       </div>
-      <p class="lead">12か月で、現場の課題を使われる仕組みへ。</p>
     </div>
     <p class="rm-intro">最初から完璧な仕組みを目指すのではなく、<br>優先度の高い業務から始めます。<br>現場で試し、改善し、データと運用を育てながら、<br>継続的に成果を生む業務基盤へつなげます。</p>
     <ol class="rm-list">
@@ -1090,10 +1005,8 @@
     <!-- BEGIN:usecases -->
     <div class="uc-head">
       <div>
-        <p class="eyebrow">USE CASES</p>
-        <h2 id="uc-title">WHERE TO <em>START</em></h2>
+        <h2 id="uc-title">現場と事業の、こんな仕事から始められます。</h2>
       </div>
-      <p class="lead">現場と事業の、こんな仕事から始められます。</p>
     </div>
     <p class="uc-note">※実績ではなく活用イメージです</p>
     <ul class="uc-list">
@@ -1119,7 +1032,7 @@
   <div class="news-head">
     <div>
       <p class="eyebrow">NEWS &amp; INFO</p>
-      <h2 id="news-title">BULLETIN <em>BOARD</em></h2>
+      <h2 id="news-title">お知らせ</h2>
     </div>
     <p class="lead">記事・採用・イベント・子犬情報。ククルFMの「いま」を掲示板から。</p>
   </div>
@@ -1168,7 +1081,7 @@
   <div class="abt-head">
     <div>
       <p class="eyebrow">ABOUT US</p>
-      <h2 id="abt-title">COMPANY <em>PROFILE</em></h2>
+      <h2 id="abt-title">会社情報</h2>
     </div>
     <p class="eyebrow">CUCUL FM.LLC / KAWAGUCHI SAITAMA JP</p>
   </div>
@@ -1226,10 +1139,8 @@
     <!-- BEGIN:faq-top -->
     <div class="faq-head">
       <div>
-        <p class="eyebrow">FAQ</p>
-        <h2 id="faq-title">FREQUENTLY ASKED <em>QUESTIONS</em></h2>
+        <h2 id="faq-title">よくあるご質問</h2>
       </div>
-      <p class="lead">よくあるご質問</p>
     </div>
     <div class="faq-list">
       <details class="faq-item" id="faq-what-is-fde">
@@ -1623,6 +1534,6 @@
 </script>
 <!-- onerror: three.js の CDN 取得/インスタンス化失敗（jsDelivr 不達など）を
      SVG フォールバックを継続する。本文・ナビは3Dの読み込みを待たない -->
-<script type="module" src="/js/character.js" onerror="window.dispatchEvent(new CustomEvent('char3d:done',{detail:{ok:false}}))"></script>
+<script type="module" src="/js/character.js" onerror="if(window.__characterPresentation)window.__characterPresentation.fail()"></script>
 </body>
 </html>

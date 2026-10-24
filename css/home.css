@@ -31,7 +31,7 @@
   --t-bg-1:#080e1b;
   --t-bg-2:#111a2a;
   --t-glow-a:rgba(130,159,194,.09);
-  --t-glow-b:rgba(245,225,0,.10);
+  --t-glow-b:rgba(130,159,194,.06);
   --t-title:rgba(255,255,255,.05);
   --t-title-glow:rgba(255,253,232,.07);
   --t-char-rim:rgba(0,245,212,.5);
@@ -41,7 +41,7 @@
   --t-beam:0;
   --t-vignette:rgba(0,0,0,.55);
   --t-media-tint:transparent;
-  --t-accent:#f5e100;
+  --t-accent:#adb5c4;
   --t-text:#ffffff;
   --t-muted:#adb5c4;
   --t-dim:#adb5c4;          /* WCAG AA 4.5:1 以上（theme-layer 最明部 #0f0f20 基準） */
@@ -65,7 +65,7 @@ html[data-theme="red"]{
   --t-beam:.4;
   --t-vignette:rgba(30,0,8,.65);
   --t-media-tint:rgba(200,20,40,.18);
-  --t-accent:#f5e100;
+  --t-accent:#adb5c4;
   --t-text:#fff4f4;
   --t-muted:#c39a9a;
   --t-dim:#a87a84;          /* 同上（red の最明部 #2a0714 基準） */
@@ -97,7 +97,7 @@ img,svg,video,canvas{display:block;max-width:100%}
 a{color:inherit;text-decoration:none}
 button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 ul{list-style:none}
-::selection{background:var(--c-primary);color:#0a0a0f}
+::selection{background:var(--t-muted);color:#0a0a0f}
 
 :focus-visible{
   outline:2px solid var(--t-accent);
@@ -114,7 +114,7 @@ ul{list-style:none}
   position:fixed;top:10px;left:10px;z-index:300;
   transform:translateY(-160%);
   padding:10px 18px;border-radius:999px;
-  background:var(--c-primary);color:#0a0a0f;
+  background:var(--t-muted);color:#0a0a0f;
   font-family:var(--font-display);font-size:.7rem;letter-spacing:.16em;
   transition:transform .25s ease;
 }
@@ -131,7 +131,7 @@ ul{list-style:none}
   opacity:1;
   background:
     radial-gradient(ellipse 80% 50% at 50% 0%,rgba(130,159,194,.09) 0%,transparent 50%),
-    radial-gradient(ellipse 60% 40% at 80% 100%,rgba(245,225,0,.10) 0%,transparent 42%),
+    radial-gradient(ellipse 60% 40% at 80% 100%,rgba(130,159,194,.06) 0%,transparent 42%),
     linear-gradient(to bottom,#000510 0%,#080e1b 50%,#111a2a 100%);
 }
 .theme-layer--red{
@@ -238,7 +238,7 @@ html[data-theme="red"] .theme-layer--red{opacity:1}
 #loader .ld-bar{
   width:min(320px,62vw);height:2px;background:rgba(255,255,255,.12);overflow:hidden;
 }
-#loader .ld-bar i{display:block;height:100%;width:0%;background:var(--c-primary)}
+#loader .ld-bar i{display:block;height:100%;width:0%;background:var(--t-muted)}
 #loader .ld-num{
   font-family:var(--font-display);font-size:.72rem;letter-spacing:.34em;color:var(--t-muted);
 }
@@ -357,7 +357,7 @@ main{position:relative;z-index:2}
 .stars-large{
   background-image:
     radial-gradient(2px 2px at 8% 12%,rgba(255,255,255,1),transparent),
-    radial-gradient(2px 2px at 28% 78%,rgba(245,225,0,.9),transparent),
+    radial-gradient(2px 2px at 28% 78%,rgba(255,255,255,.9),transparent),
     radial-gradient(2px 2px at 52% 42%,rgba(255,255,255,.9),transparent),
     radial-gradient(2px 2px at 72% 8%,rgba(123,97,255,.8),transparent),
     radial-gradient(2px 2px at 92% 68%,rgba(255,255,255,1),transparent),
@@ -448,7 +448,7 @@ main{position:relative;z-index:2}
   font-family:var(--font-display);font-weight:700;
   font-size:clamp(.72rem,1.4vw,.92rem);letter-spacing:.2em;
 }
-.brand .bar{width:26px;height:2px;background:var(--c-primary);box-shadow:0 0 12px var(--c-primary-glow)}
+.brand .bar{width:26px;height:2px;background:var(--t-muted);box-shadow:0 0 12px rgba(173,181,196,.28)}
 .hero-nav{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}
 .icon-btn{
   display:inline-flex;align-items:center;justify-content:center;
@@ -520,8 +520,8 @@ html[data-theme="red"] .bg-red{opacity:1}
 .burst{position:absolute;left:50%;top:42%;width:2px;height:2px;z-index:4;pointer-events:none}
 .burst i{
   position:absolute;left:0;top:0;width:7px;height:7px;border-radius:50%;
-  background:var(--c-primary);
-  box-shadow:0 0 14px var(--c-primary);
+  background:var(--t-muted);
+  box-shadow:0 0 14px var(--t-muted);
   opacity:0;
 }
 
@@ -554,7 +554,7 @@ html[data-theme="red"] .bg-red{opacity:1}
   color:var(--t-text);
   transition:border-color .35s ease,color .35s ease,box-shadow .35s ease,background-color .8s ease;
 }
-#theme-switch:hover{border-color:var(--c-primary);color:var(--c-primary);box-shadow:0 0 26px -8px var(--c-primary)}
+#theme-switch:hover{border-color:var(--t-muted);color:var(--t-muted);box-shadow:0 0 26px -8px var(--t-muted)}
 #theme-switch kbd{
   font-family:var(--font-display);font-size:.92em;
   padding:.15em .5em;border-radius:4px;
@@ -601,6 +601,7 @@ html[data-theme="red"] .bg-red{opacity:1}
 /* GSAP が transform を上書きするため、センタリングは親の flex で行う
    （stage 自身に translate(-50%) を書くと scale アニメで消える） */
 #seq-stage-wrap{
+  visibility:hidden;
   position:absolute;inset:0;z-index:1;
   display:flex;align-items:center;justify-content:center;
   pointer-events:none;
@@ -729,7 +730,7 @@ html[data-theme="red"] .idx{background:rgba(18,1,7,.93)}
   color:var(--t-text);
   transition:border-color .3s ease,color .3s ease,box-shadow .3s ease;
 }
-.idx-close:hover{border-color:var(--c-primary);color:var(--c-primary);box-shadow:0 0 24px -8px var(--c-primary)}
+.idx-close:hover{border-color:var(--t-muted);color:var(--t-muted);box-shadow:0 0 24px -8px var(--t-muted)}
 .idx-cols{
   display:grid;
   grid-template-columns:1.35fr 1fr 1fr;
@@ -772,14 +773,14 @@ html[data-theme="red"] .idx{background:rgba(18,1,7,.93)}
 }
 .idx-item:hover,.idx-item:focus-visible{
   translate:6px 0;
-  border-color:rgba(245,225,0,.45);
+  border-color:rgba(173,181,196,.45);
 }
 .idx-item:hover .en,.idx-item:focus-visible .en{
-  color:var(--c-primary);
-  text-shadow:0 0 22px rgba(245,225,0,.6);
+  color:var(--t-muted);
+  text-shadow:0 0 22px rgba(173,181,196,.6);
 }
 .idx-item:hover .n,.idx-item:hover .ja,
-.idx-item:focus-visible .n,.idx-item:focus-visible .ja{color:var(--c-primary)}
+.idx-item:focus-visible .n,.idx-item:focus-visible .ja{color:var(--t-muted)}
 .idx-note{
   margin-top:16px;
   font-size:.7rem;line-height:1.95;color:var(--t-muted);
@@ -792,7 +793,7 @@ html[data-theme="red"] .idx{background:rgba(18,1,7,.93)}
   border:1px solid var(--t-line);color:var(--t-muted);
   transition:border-color .3s ease,color .3s ease,translate .3s ease;
 }
-.idx-sns a:hover{border-color:var(--c-primary);color:var(--c-primary);translate:0 -2px}
+.idx-sns a:hover{border-color:var(--t-muted);color:var(--t-muted);translate:0 -2px}
 .idx-sns svg{width:16px;height:16px}
 
 /* ヘッダー右端の INDEX ボタン（ハンバーガー） */
@@ -902,6 +903,11 @@ html[data-theme="red"] .c-rim--red{opacity:1}
 #char3d.is-on{display:block}
 #char3d canvas{display:block;width:100%;height:100%}
 /* 3D 有効時: SVG は不可視（inline style を使わない = GSAP clearProps の影響を受けない） */
+/* SVG remains a layout box; rendering is exclusive and independent of GSAP. */
+html[data-char-state="pending"] #cucul-char,
+html[data-char-state="ready"] #cucul-char,
+html[data-char-svg="seq"] #cucul-char { visibility:hidden; }
+html[data-char-state="fallback"][data-char-svg="seq"] #seq-stage-wrap { visibility:visible; }
 .hero-char-wrap.is-3d #cucul-char{visibility:hidden}
 /* 全身キャラ向けにグロー / リング / ヒット領域を再配置（後着スワップ時に滑らかに移動） */
 .backglow-anchor,.emblem-anchor{transition:top .6s ease,left .6s ease,width .6s ease,height .6s ease}
@@ -939,6 +945,8 @@ html[data-theme="red"] .c-rim--red{opacity:1}
   .moon-glow,.badge::after{animation:none;opacity:0}
   #seq{height:auto;min-height:0;padding:clamp(70px,10vw,120px) 0}
   #seq-stage-wrap{position:relative;inset:auto;height:auto}
+  html[data-char-state="pending"] #seq-stage-wrap,
+  html[data-char-state="ready"] #seq-stage-wrap{display:none}
   .seq-sky{display:none}
   .seq-cap{position:relative;left:auto;right:auto;top:auto;bottom:auto;margin:0 auto;max-width:min(720px,88vw);padding:0 var(--pad);text-align:left}
   .seq-cap--2{margin-top:2.2em;text-align:left}

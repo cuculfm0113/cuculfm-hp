@@ -171,7 +171,8 @@ const lineExact = () => {
   const x = C.pillars.crossSection;
   return [
     m.existingTagline, m.siteTagline, ...m.siteTaglineSupport,
-    m.heroTagline, ...m.heroLead, ...m.heroCtas.map((b) => b.label),
+    // ヒーローCTAは2026-10のトップ改修で更新。下の専用契約で確認する。
+    m.heroTagline, ...m.heroLead,
     m.fdeMain, ...m.fdeSub.flat(),
     m.philosophy.title, ...m.philosophy.body.flat(),
     ...C.config.nav.items.map((i) => i.label), C.config.nav.cta.label,
@@ -205,7 +206,6 @@ const roundTrips = () => {
     ['Service 8件', C.config.services.map((s) => s.name), briefBullets('Serviceには、以下のサービスを設定する。')],
     ['課題提起8件', C.challenges.items, briefBullets('以下を、業界を限定しない表現のカードとして表示する。')],
     ['活用テーマ10件', C.usecases.items, briefBullets('以下は実績ではなく、「活用イメージ」と明記する。')],
-    ['ヒーローCTA', C.config.messaging.heroCtas.map((b) => b.label), briefBullets('CTA：')],
     ['ヒーロー本文', C.config.messaging.heroLead,
       briefPara('その下またはアニメーション切り替え要素で、以下を表示する。', 1)],
     ['ロードマップ導入文', C.roadmap.intro, briefPara('導入文：')],
@@ -527,10 +527,19 @@ test('会社概要テーブルはキーが存在しない場合も undefined を
 
 test('ヒーローCTAの計測イベントはデータ由来で、リンク先変更で消えない', () => {
   const hc = structuredClone(C);
-  hc.config.messaging.heroCtas[1].href = '/fde/index.html';
+  hc.config.messaging.heroCtas[0].href = '/contact/';
   const html = resolveRenderer('hero-copy').render(hc).join('\n');
-  assert(html.includes('data-ga-event="click_fde_service"'), 'リンク先を変えたら計測属性が消えました');
-  assert(html.includes('href="/fde/index.html"'), 'リンク先が反映されていません');
+  assert(html.includes('data-ga-event="click_consultation_cta"'), 'リンク先を変えたら計測属性が消えました');
+  assert(html.includes('href="/contact/"'), 'リンク先が反映されていません');
+});
+
+test('ヒーローCTAが今回指定された相談ボタンと事業一覧リンクに一致する', () => {
+  const expected = [
+    { label: '相談する', href: '/#contact', gaEvent: 'click_consultation_cta' },
+    { label: '事業一覧', href: '#business' },
+  ];
+  assertEq(JSON.stringify(C.config.messaging.heroCtas), JSON.stringify(expected),
+    'ヒーローCTAが承認されたラベル・リンク先・計測と一致しません');
 });
 
 test('本文の固定コピーが空だと validate がエラーにする', () => {
@@ -857,10 +866,44 @@ const INDEX_LD = [...INDEX.matchAll(/<script type="application\/ld\+json">([\s\S
 const LD_NODES = INDEX_LD.flatMap((n) => (n['@graph'] ? n['@graph'] : [n]));
 
 test('セクションが要件どおりの順序で並んでいる', () => {
-  const want = ['hero', 'statement', 'seq', 'fde-cross', 'business',
+  const want = ['hero', 'seq', 'fde-cross', 'business',
     'challenges', 'roadmap', 'usecases', 'news', 'about', 'faq', 'contact'];
   const got = [...INDEX.matchAll(/<section id="([a-z0-9-]+)"/g)].map((m) => m[1]);
   assertEq(JSON.stringify(got), JSON.stringify(want), 'セクションの並びが要件と違います');
+});
+
+test('ヒーロー内に唯一の日本語H1・本文・相談導線があり、巨大社名は装飾である', () => {
+  const hero = INDEX.match(/<section\b[^>]*id="hero"[^>]*>([\s\S]*?)<\/section>/)?.[1] || '';
+  const heading = hero.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/)?.[1] || '';
+  const lead = hero.match(/<p class="hero-lead">([\s\S]*?)<\/p>/)?.[1] || '';
+  const text = (value) => value.replace(/<[^>]+>/g, '');
+  assertEq((INDEX.match(/<h1\b/g) || []).length, 1, 'トップのH1は1つでなければなりません');
+  assertEq(text(heading), C.config.messaging.heroTagline, 'ヒーローH1が日本語コピーと一致しません');
+  assertEq(text(lead), C.config.messaging.heroLead.join(''), 'ヒーロー本文が欠けるか不要な空白があります');
+  assert(/<div\b(?=[^>]*class="[^"]*\bgiant-type\b)(?=[^>]*aria-hidden="true")[^>]*>/.test(hero),
+    '巨大社名が支援技術から隠された装飾divではありません');
+  assert(/<a class="hero-consult" href="\/#contact" data-scroll data-ga-event="click_consultation_cta">相談する<\/a>/.test(hero),
+    'ヒーローに指定の相談ボタンがありません');
+  assert(/<a class="hero-business-link" href="#business" data-scroll>事業一覧<\/a>/.test(hero),
+    'ヒーローに指定の事業一覧リンクがありません');
+  assert(!INDEX.includes('id="statement"'), '移動済みのstatementが残っています');
+});
+
+test('トップの生成見出しは日本語のみで、下層の共通コンテンツは変わらない', () => {
+  for (const [key, data, id] of [
+    ['challenges', C.challenges, 'chal-title'], ['roadmap', C.roadmap, 'roadmap-title'],
+    ['usecases', C.usecases, 'uc-title'], ['faq-top', C.faqTop, 'faq-title'],
+  ]) {
+    const result = injectFile(`<!-- BEGIN:${key} --><!-- END:${key} -->`, C, 'index.html');
+    assertEq(result.errors.length, 0, `${key}: トップ生成エラー`);
+    assert(result.next.includes(`<h2 id="${id}">${escText(data.heading)}</h2>`), `${key}: 日本語H2がありません`);
+    assert(!result.next.includes('class="eyebrow"'), `${key}: 英語ラベルが残っています`);
+    assert(!result.next.includes('class="lead"'), `${key}: 同じ日本語見出しがリードとして重複しています`);
+  }
+  const fde = read('fde/index.html');
+  const result = injectFile(fde, C, 'fde/index.html');
+  assertEq(result.errors.length, 0, 'FDE再生成エラー');
+  assertEq(result.next, fde, 'トップの生成変更がFDEページへ波及しています');
 });
 
 test('主要ナビとINDEXのページ内リンク先がすべて存在する', () => {
@@ -873,6 +916,7 @@ test('主要ナビとINDEXのページ内リンク先がすべて存在する', 
   const destinations = [...nav.matchAll(/class="gnav-link" href="([^"]+)"/g)].map(m => m[1]);
   assertEq(destinations.join(','), '#business,/fde/,/insights/,/about/',
     '固定バーが主要4ページへの入口になっていません');
+  assert(nav.includes('href="/fde/">FDE・AI実装支援</a>'), '固定バーのFDE表記が統一されていません');
   const overlay = INDEX.slice(INDEX.indexOf('id="index-overlay"'), INDEX.indexOf('<audio id="site-bgm"'));
   // 3本柱は INDEX に集約する。既存の固定 id とスクロール導線は残す。
   for (const id of ['pillar-construction', 'pillar-creative', 'pillar-lifestyle']) {
@@ -881,10 +925,11 @@ test('主要ナビとINDEXのページ内リンク先がすべて存在する', 
   }
 });
 
-test('トップ内のCTAはページを再読込しない（/# ではなく # + data-scroll）', () => {
-  const bad = [...INDEX.matchAll(/href="(\/#[a-z0-9-]+)"/g)].map((m) => m[1]);
+test('指定のヒーロー相談URLを保持し、トップ内のCTAはスクロール操作になる', () => {
+  const topWithoutHeroCta = INDEX.replace(/<a class="hero-consult" href="\/#contact" data-scroll[^>]*>[^<]*<\/a>/, '');
+  const bad = [...topWithoutHeroCta.matchAll(/href="(\/#[a-z0-9-]+)"/g)].map((m) => m[1]);
   assertEq(bad.length, 0,
-    `トップに /# リンクが残っています（押すとヒーローの3D・イントロがやり直しになる）: ${bad.join(', ')}`);
+    `指定のヒーローCTA以外に /# リンクが残っています: ${bad.join(', ')}`);
   assert(/<a class="btn-roadmap" href="#contact" data-scroll/.test(INDEX),
     'ロードマップCTAがページ内スクロールになっていません');
   // 下層ページでは逆に /#contact のまま（ページ間リンクなので落としてはいけない）

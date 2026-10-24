@@ -47,8 +47,8 @@
   var deepTarget = null, deepPrevTop = 0;
   function docTop(el) { return el.getBoundingClientRect().top + window.scrollY; }
 
-  /* 3D は progressive enhancement。HTML/SVG とナビは読み込みを待たずに表示し、
-     char3d:done により同じスクロール進捗で描画方式だけを切り替える。 */
+  /* 本文とナビは3Dの読み込みを待たない。キャラクターの可視性はheadの
+     character-state.jsが管理し、char3d:doneで同じスクロール進捗に同期する。 */
 
   /* ======================================================================
      SequencePlayer : /assets/sequence/ に連番があれば canvas 再生に切替わる
@@ -173,60 +173,23 @@
       prefixIds(src.outerHTML);
   }
 
-  /* ---------------- テーマ（moon / red） ---------------- */
-  var themeFx = null;   /* GSAP 側から差し込まれる（未ロードでも切替自体は動く） */
-  function initTheme() {
-    var root = document.documentElement;
-    var btn = $('#theme-switch');
-    var live = $('#theme-live');
+  /* ---------------- hero の可視性（moon 固定） ---------------- */
+  function initHeroVisibility() {
     var hero = $('#hero');
-    var heroVisible = true;
-
-    function apply(t) {
-      root.setAttribute('data-theme', t);
-      if (btn) { btn.setAttribute('aria-pressed', t === 'red' ? 'true' : 'false'); }
-      if (live) { live.textContent = (t === 'red' ? 'テーマをブラッドレッドに切り替えました' : 'テーマをミッドナイトムーンに切り替えました'); }
-      if (typeof themeFx === 'function') { themeFx(t); }
-      /* GLB キャラのライトリグも連動（moon / red）。module 未着ならスキップ
-         （module 側が初期化時に data-theme を読むので取りこぼさない） */
-      if (window.__char3d) { window.__char3d.setTheme(t); }
-    }
-    function toggle() { apply(root.getAttribute('data-theme') === 'red' ? 'moon' : 'red'); }
-    if (btn) { btn.addEventListener('click', toggle); }
-
-    /* hero が 50% 以上見えているときだけ Enter をテーマ切替に使う（[ENTERBAR]）。
-       Space は一切奪わない = ページ送り（標準スクロール）はそのまま生きる。 */
     if (hero && 'IntersectionObserver' in window) {
       new IntersectionObserver(function (es) {
-        var last = es[es.length - 1];          /* 最新のエントリ（es[0] は最古のスナップショット） */
-        heroVisible = last.intersectionRatio >= 0.5;
-        /* hero が完全に画面外の間は呼吸 / リング回転を止める */
+        var last = es[es.length - 1];
         heroInView = last.isIntersecting;
         setHeroLoopsPaused(!heroInView || document.hidden);
-      }, { threshold: [0, 0.25, 0.5, 0.75, 1] }).observe(hero);
+      }, { threshold: 0 }).observe(hero);
     }
-    window.addEventListener('keydown', function (e) {
-      if (e.key !== 'Enter') { return; }
-      if (e.metaKey || e.ctrlKey || e.altKey || e.shiftKey) { return; }
-      if (e.isComposing || e.keyCode === 229) { return; }  /* IME 変換確定の Enter は無視 */
-      if (!heroVisible) { return; }                       /* hero 外では無反応 */
-      if (idxIsOpen()) { return; }                        /* INDEX オーバーレイ表示中は発火させない */
-      var a = document.activeElement;
-      if (a && a !== document.body) {                     /* 対話要素にフォーカス中は二重発火を避ける */
-        if (a.isContentEditable) { return; }
-        if (/^(BUTTON|A|INPUT|TEXTAREA|SELECT|VIDEO|AUDIO|SUMMARY|DETAILS|DIALOG)$/.test(a.tagName)) { return; }
-      }
-      if (e.repeat) { return; }                           /* キーリピートでは再トグルしない */
-      /* preventDefault はしない: Enter の既定動作を奪う理由が無い（Space も一切奪わない） */
-      toggle();
-    });
   }
 
   /* ---------------- INDEX オーバーレイ ----------------
      ・開閉は CSS transition（.is-open）で完結 = GSAP 未ロードでも動く
      ・GSAP があれば idxFx() で項目の stagger 入場を上乗せする
      ・body 直下の要素なので #seq の pin 区間には一切干渉しない */
-  var idxIsOpen = function () { return false; };   /* initTheme の keydown から参照される */
+  var idxIsOpen = function () { return false; };
   var idxFx = null;                                /* GSAP 側から差し込まれる */
 
   function initIndexOverlay() {
@@ -299,7 +262,7 @@
     /* 同一ページアンカー（#about / #contact）はオーバーレイを閉じてから遷移させる。
        フォーカスは遷移先セクションへ移る（initSmoothScroll が focus する）ため、
        lastFocus を消して opener への復帰スクロールを起こさない */
-    $$('a[href^="#"]', ov).forEach(function (a) {
+    $$('a[href^="#"],a[href^="/#"]', ov).forEach(function (a) {
       a.addEventListener('click', function () {
         lastFocus = null;
         close();
@@ -416,9 +379,14 @@
   function initSmoothScroll() {
     $$('[data-scroll]').forEach(function (a) {
       a.addEventListener('click', function (e) {
+        if (e.button > 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey ||
+            a.getAttribute('target') === '_blank') { return; }
         var id = a.getAttribute('href');
+        if (id && id.indexOf('/#') === 0 &&
+            (location.pathname === '/' || location.pathname === '/index.html')) { id = id.slice(1); }
         if (!id || id.charAt(0) !== '#') { return; }
-        var target = document.querySelector(id);
+        var target;
+        try { target = document.querySelector(id); } catch (err) { return; }
         if (!target) { return; }
         e.preventDefault();
         /* probe 解決前にここを踏んだ場合も再アンカーの対象にする（#11） */
@@ -510,31 +478,6 @@
     gsap.registerPlugin(ScrollTrigger);
     ScrollTrigger.config({ ignoreMobileResize: true });
 
-    /* ---- T5 themeFx : 切替時に1回だけ走る演出 ---- */
-    themeFx = function () {
-      if (RMQ.matches) { return; }
-      gsap.fromTo('.beam i',
-        { yPercent: -22, scaleY: 1.3, opacity: 0.15 },
-        { yPercent: 0, scaleY: 1, opacity: 1, duration: 1.15, ease: 'power2.out', stagger: 0.09, overwrite: true });
-      var bg = $('#char-backglow');
-      if (bg) {
-        gsap.fromTo(bg, { scale: 1 },
-          { scale: 1.26, duration: 0.42, yoyo: true, repeat: 1, ease: 'power2.out', transformOrigin: '50% 50%', overwrite: true });
-      }
-      var parts = $$('.burst i');
-      parts.forEach(function (p, i) {
-        var a = (i / (parts.length || 1)) * Math.PI * 2 + (Math.random() * 0.5 - 0.25);
-        var d = 90 + Math.random() * 140;
-        gsap.fromTo(p,
-          { x: 0, y: 0, scale: 1, opacity: 1 },
-          {
-            x: Math.cos(a) * d, y: Math.sin(a) * d * 0.82,
-            scale: 0.15, opacity: 0,
-            duration: 1.0 + Math.random() * 0.6, ease: 'power2.out', overwrite: true
-          });
-      });
-    };
-
     /* ---- INDEX オーバーレイ: 開くたびの stagger 入場（CSS transition の上乗せ） ----
        reduced-motion では何もしない（CSS のフェードだけで開く = 二重防御の JS 側） */
     idxFx = function () {
@@ -552,9 +495,9 @@
     /* ---------------- reduced-motion : 全て即時可視・静止 ---------------- */
     mm.add('(prefers-reduced-motion: reduce)', function () {
       gsap.set(['.giant-type .w', '.char-zoom', '.hero-top .brand', '.hero-nav > *',
-        '.corner', '.hero-bottom > *', '.biz-card', '.news-card',
+        '.biz-card', '.news-card',
         '#about .abt-head', '#about .abt-col', '#contact .ct-in > *',
-        '.idx-group h3', '.idx-item', '.seq-cap', '#statement .stm-in > *',
+        '.idx-group h3', '.idx-item', '.seq-cap',
         '#fde-cross .fde-in > *', '.step-card', '.btn-fde',
         '.pillar-card', '.svc-item', '.chal-card', '.chal-closing',
         '.rm-item', '.btn-roadmap', '.uc-item', '.faq-item'],
@@ -569,10 +512,10 @@
          キャラは .char-zoom（SVG と GLB canvas 双方を包むラッパー）を対象にする。
          #cucul-char 直指定に戻さないこと: GSAP の inline style が 3D スワップの
          visibility 制御（.is-3d クラス）を上書きしてしまう。
-         SVG を先に入場させ、GLB の読み込み時間に左右されない。 --- */
+         SVG/canvasの表示状態はCSSに任せ、本文・CTAは常に可視のままにする。 --- */
       gsap.set('.giant-type .w', { yPercent: 42, autoAlpha: 0 });
       gsap.set('.char-zoom', { scale: 0.94, autoAlpha: 0, transformOrigin: '50% 58%' });
-      gsap.set(['.hero-top .brand', '.hero-nav > *', '.corner', '.hero-bottom > *'], { y: 18, autoAlpha: 0 });
+      gsap.set(['.hero-top .brand', '.hero-nav > *'], { y: 18, autoAlpha: 0 });
 
       var intro = gsap.timeline({ paused: true, defaults: { ease: 'power3.out' } });
       intro
@@ -580,8 +523,7 @@
         .to('.char-zoom', { scale: 1, autoAlpha: 1, duration: 1.5, ease: 'power2.out' }, 0.1)
         /* clearProps: インライン transform（translate/rotate/scale:none を含む）を除去しないと
            :hover{transform:translateY(-2px)} が恒久的に効かなくなる */
-        .to(['.hero-top .brand', '.hero-nav > *'], { y: 0, autoAlpha: 1, duration: 0.8, stagger: 0.08, clearProps: 'transform' }, 0.5)
-        .to(['.corner', '.hero-bottom > *'], { y: 0, autoAlpha: 1, duration: 0.8, stagger: 0.08 }, 0.72);
+        .to(['.hero-top .brand', '.hero-nav > *'], { y: 0, autoAlpha: 1, duration: 0.8, stagger: 0.08, clearProps: 'transform' }, 0.5);
       intro.play();
 
       /* --- T2 : idle 群 ---
@@ -604,15 +546,6 @@
       gsap.to('.giant-type', { yPercent: 15, ease: 'none', scrollTrigger: hp });
       gsap.to('.hero-char-wrap', { yPercent: 8, ease: 'none', scrollTrigger: hp });
       gsap.to('.hero-sky', { yPercent: 4, ease: 'none', scrollTrigger: hp });
-
-      /* --- T5b : STATEMENT（ヒーロー直下の補強キャッチ） ---
-         gsap.from を使うので、JS が動かない/GSAP が落ちた場合は
-         最初から可視のまま残る（重要本文を JS 依存にしない）。
-         clearProps は T6/T7 と同じ理由（インライン transform を残さない）で必須。 */
-      gsap.from('#statement .stm-in > *', {
-        y: 26, autoAlpha: 0, duration: 0.9, stagger: 0.12, ease: 'power2.out', clearProps: 'transform',
-        scrollTrigger: { trigger: '#statement', start: 'top 82%', once: true }
-      });
 
       /* --- T5d : FDE横断セクション（3事業を横串に通す帯） --- */
       gsap.from('#fde-cross .fde-in > *', {
@@ -838,12 +771,12 @@
           .to('.seq-cap--1', { autoAlpha: 0, y: -18, duration: 0.4 }, 1.15)
           .fromTo('.seq-cap--2', { autoAlpha: 0, y: 26 }, { autoAlpha: 1, y: 0, duration: 0.45 }, 1.55);
 
-        var io = new IntersectionObserver(syncCharacter, { threshold: 0 });
-        io.observe(seqEl);
+        var io = 'IntersectionObserver' in window ? new IntersectionObserver(syncCharacter, { threshold: 0 }) : null;
+        if (io) { io.observe(seqEl); }
         window.addEventListener('char3d:done', syncCharacter);
         syncCharacter();
         return function () {
-          io.disconnect();
+          if (io) { io.disconnect(); }
           window.removeEventListener('char3d:done', syncCharacter);
           if (window.__char3d) { window.__char3d.seqDetach(); }
           if (stageWrap) { stageWrap.style.display = ''; }
@@ -855,14 +788,14 @@
   }
 
   /* ---- 起動 ----
-     非GSAP機能（モーダル/テーマ/スムーススクロール/ダスト/クローン）は deferred な
+     非GSAP機能（モーダル/スムーススクロール/ダスト/クローン）は deferred な
      GSAP CDN の完了を待たずに即時初期化する。classic script は body 末尾から呼ばれるので
      参照する要素はすべてパース済み。※ ここで初期化したものを DCL に再登録しないこと
-     （二重登録するとテーマが2回トグルして打ち消される・ダストが44個になる等の退行が出る）。 */
+     （二重登録するとイベントが重複し、ダストも44個になる等の退行が出る）。 */
   buildDust();
   cloneCharacter();
-  initIndexOverlay();   /* initTheme より先: keydown ガードが参照する idxIsOpen を確定させる */
-  initTheme();
+  initIndexOverlay();
+  initHeroVisibility();
   initSound();
   initSmoothScroll();
   initBizProgressMobile();

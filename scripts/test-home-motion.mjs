@@ -12,6 +12,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const read = name => readFileSync(path.join(root, name), 'utf8');
 const home = read('js/home.js');
 const character = read('js/character.js');
+const presentation = read('js/character-state.js');
 const html = read('index.html');
 // Approved appearance before the UI refresh. Do not compare against moving HEAD:
 // committing a regression must not silently redefine what these tests preserve.
@@ -25,7 +26,7 @@ function between(source, start, end) {
   return source.slice(a, b);
 }
 function constant(source, name) {
-  const match = source.match(new RegExp(`^const ${name} = [\\s\\S]*?^};|^const ${name} = \\[[\\s\\S]*?^\\];|^const ${name} = [^\\n]+;`, 'm'));
+  const match = source.match(new RegExp(`^const ${name} = (?:\\[[\\s\\S]*?^\\];|\\{[ \\t]*\\n[\\s\\S]*?^};|[^\\n]+;)`, 'm'));
   assert.ok(match, `Missing ${name}`);
   return match[0];
 }
@@ -64,12 +65,127 @@ test('Camera position, target and full turn retain their numerical path', () => 
 });
 
 test('Classic UI boots before the version-pinned 3D module; no GLB loading gate hides HTML', () => {
+  assert.ok(html.includes('src="/js/character-state.js"'));
+  assert.ok(html.indexOf('src="/js/character-state.js"') < html.indexOf('<body'));
   assert.ok(html.indexOf('src="/js/home.js"') < html.indexOf('type="importmap"'));
   assert.ok(html.indexOf('type="importmap"') < html.indexOf('src="/js/character.js"'));
   assert.ok(html.includes('three@0.170.0/build/three.module.js'));
   assert.ok(!home.includes('charGate'));
   assert.ok(home.includes('intro.play();'));
   assert.match(home, /seq:\s*\{\s*enabled: false/);
+});
+
+test('Missing presentation bootstrap never starts 3D over the visible fallback', () => {
+  const guard = between(character, '/* ================================================================ boot */', '\nfunction boot(){');
+  for (const [state, search, expectedBoots] of [
+    [undefined, '', 0], ['fallback', '', 0], ['ready', '', 0],
+    ['pending', '', 1], ['pending', '?nochar3d=1', 0],
+  ]) {
+    let boots = 0;
+    const notices = [];
+    const window = { Promise };
+    if (state !== undefined) window.__characterPresentation = { state };
+    vm.runInNewContext(guard, {
+      PARAMS: new URLSearchParams(search), window,
+      boot() { boots++; }, done(value) { notices.push(value); }, console,
+    });
+    assert.equal(boots, expectedBoots, `state=${state}, search=${search}`);
+    assert.deepEqual(notices, expectedBoots ? [] : [false]);
+  }
+});
+
+function presentationHarness({ search = '', modules = true, importmaps = true,
+  webgl = true, promises = true, observer = true, seqTop = 1000, seqCharacter = true } = {}) {
+  const attributes = {};
+  const events = new Map();
+  const notices = [];
+  const rect = { top: seqTop, bottom: seqTop + 900 };
+  const window = { innerHeight: 900,
+    Promise: promises ? Promise : undefined,
+    IntersectionObserver: observer ? function () {} : undefined,
+    WebGL2RenderingContext: webgl ? function () {} : undefined,
+    addEventListener(name, fn) { events.set(name, fn); },
+    dispatchEvent(event) { notices.push(event); },
+  };
+  const document = {
+    documentElement: { setAttribute(name, value) { attributes[name] = value; } },
+    createElement: () => modules ? { noModule: false } : {},
+    getElementById: id => id === 'seq' ? { getBoundingClientRect: () => rect }
+      : id === 'seq-cucul-char' && seqCharacter ? {} : null,
+    addEventListener(name, fn) { events.set(name, fn); },
+    createEvent: () => ({ initCustomEvent(name, bubbles, cancelable, detail) { this.name = name; this.detail = detail; } }),
+  };
+  vm.runInNewContext(presentation, { window, document, location: { search },
+    HTMLScriptElement: { supports: name => name === 'importmap' && importmaps } });
+  return { attributes, events, notices, rect, api: window.__characterPresentation };
+}
+
+test('Capable browsers start pending before body parsing; disabled and unsupported browsers use SVG', () => {
+  assert.equal(presentationHarness().attributes['data-char-state'], 'pending');
+  for (const options of [{ search: '?nochar3d=1' }, { search: '?x=1&nochar3d=1' },
+    { modules: false }, { importmaps: false }, { webgl: false }, { promises: false }, { observer: false }]) {
+    assert.equal(presentationHarness(options).attributes['data-char-state'], 'fallback', JSON.stringify(options));
+  }
+});
+
+test('Module failure enables exactly one fallback owner without GSAP; scrolling swaps that owner', () => {
+  const h = presentationHarness();
+  h.api.fail();
+  assert.equal(h.attributes['data-char-state'], 'fallback');
+  assert.equal(h.attributes['data-char-svg'], 'hero');
+  assert.equal(h.notices[0].name, 'char3d:done');
+  assert.equal(h.notices[0].detail.ok, false);
+  h.rect.top = 0;
+  h.rect.bottom = 900;
+  h.events.get('scroll')();
+  assert.equal(h.attributes['data-char-svg'], 'seq');
+  h.rect.top = 1000;
+  h.events.get('scroll')();
+  assert.equal(h.attributes['data-char-svg'], 'hero');
+});
+
+test('A failed UI script cannot hide the hero SVG in favor of a missing sequence clone', () => {
+  const h = presentationHarness({ search: '?nochar3d=1', seqTop: 0, seqCharacter: false });
+  assert.equal(h.attributes['data-char-state'], 'fallback');
+  assert.equal(h.attributes['data-char-svg'], 'hero');
+  for (const event of ['DOMContentLoaded', 'scroll', 'resize', 'pageshow']) {
+    h.events.get(event)();
+    assert.equal(h.attributes['data-char-svg'], 'hero', event);
+  }
+});
+
+test('Readiness and context recovery cannot briefly restore the SVG while 3D is available', () => {
+  const h = presentationHarness({ seqTop: 0 });
+  h.api.setState('ready');
+  h.events.get('scroll')();
+  assert.equal(h.attributes['data-char-state'], 'ready');
+  h.api.setState('fallback');
+  assert.equal(h.attributes['data-char-svg'], 'seq');
+  h.api.setState('ready');
+  h.events.get('resize')();
+  assert.equal(h.attributes['data-char-state'], 'ready');
+  assert.ok(!character.includes('fadeIn(container'));
+});
+
+test('Root-relative consultation anchors scroll locally while modified clicks retain browser behavior', () => {
+  for (const href of ['#business', '/#contact']) {
+    let click, prevented = false, scrolled = false;
+    const anchor = { getAttribute: name => name === 'href' ? href : null,
+      addEventListener: (name, fn) => { click = fn; } };
+    const target = { getBoundingClientRect: () => ({ top: 100 }),
+      scrollIntoView: () => { scrolled = true; }, setAttribute() {}, focus() {} };
+    const context = vm.createContext({ $$: () => [anchor], location: { pathname: '/' },
+      document: { querySelector: selector => selector === href.replace(/^\//, '') ? target : null },
+      RMQ: { matches: false }, deepTarget: null, deepPrevTop: 0, docTop: () => 100 });
+    vm.runInContext(`${between(home, '  function initSmoothScroll()', '  /* ---------------- BUSINESS 横スクロール')}
+      initSmoothScroll();`, context);
+    click({ ctrlKey: true, preventDefault: () => { prevented = true; } });
+    assert.equal(prevented, false);
+    assert.equal(scrolled, false);
+    click({ button: 0, preventDefault: () => { prevented = true; } });
+    assert.equal(prevented, true);
+    assert.equal(scrolled, true);
+  }
 });
 
 test('Internal scroll restoration is immediate; intentional anchor clicks keep smooth scrolling', () => {

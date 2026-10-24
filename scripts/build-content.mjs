@@ -394,13 +394,22 @@ const sectionHead = (cls, section, headingJa, titleId) => [
   '</div>',
 ];
 
+// トップは日本語を見出しにする。共有データを使う下層ページの英語見出しは維持する。
+const pageSectionHead = (cls, section, headingJa, titleId, ctx) => relOf(ctx) === 'index.html' ? [
+  `<div class="${cls}">`,
+  '  <div>',
+  `    <h2 id="${esc(titleId)}">${esc(headingJa)}</h2>`,
+  '  </div>',
+  '</div>',
+] : sectionHead(cls, section, headingJa, titleId);
+
 /* ---- グローバルヘッダーのナビゲーション ---- */
 const renderNav = (c, ctx) => {
   const { items, cta } = c.config.nav;
   const attrs = (h) => linkAttrs(h, ctx);
   // 完全なリンク一覧は INDEX に残し、固定バーでは次の行動を選びやすくする。
   const primaryLabels = new Map([
-    ['/#business', '事業一覧'], ['/fde/', 'AI・DX実装支援'],
+    ['/#business', '事業一覧'], ['/fde/', 'FDE・AI実装支援'],
     ['/insights/', 'Insights'], ['/about/', '会社概要'],
   ]);
   return [
@@ -414,18 +423,19 @@ const renderNav = (c, ctx) => {
   ];
 };
 
-/* ---- ヒーロー追加コピー（既存ビジュアル・既存メッセージの下に置く想定） ---- */
+/* ---- ヒーローの主要見出し・本文・相談導線 ---- */
 const renderHeroCopy = (c, ctx) => {
   const m = c.config.messaging;
-  // 見出しは h2。h1 はヒーローの .giant-type（CUCUL FM.LLC）が持つため増やさない。
-  const attrs = (h) => linkAttrs(h, ctx);
+  // 指定された /#contact を保持し、同じページ内の移動は home.js に任せる。
+  const attrs = (h) => h.startsWith('#') || h.startsWith('/#')
+    ? `href="${esc(h)}" data-scroll` : linkAttrs(h, ctx);
   return [
-    `<h2 class="stm-title" id="stm-title">${jpPhrases(m.heroTagline).map((t) => `<span>${esc(t)}</span>`).join('')}</h2>`,
-    ...para('stm-lead', m.heroLead),
-    '<div class="stm-cta">',
+    `<h1 class="hero-title" id="hero-title">${jpPhrases(m.heroTagline).map((t) => `<span>${esc(t)}</span>`).join('')}</h1>`,
+    `<p class="hero-lead">${esc(m.heroLead.join('')).replace('異なる', '<span class="no-break">異なる</span>')}</p>`,
+    '<div class="hero-actions">',
     // 計測イベント名はデータ側（site.config.json の heroCtas[].gaEvent）で持つ。
     // href の文字列一致で判定すると、リンク先を変えた瞬間に計測が無言で外れるため。
-    ...m.heroCtas.map((b, i) => `  <a class="btn-stm${i === 0 ? '' : ' btn-stm--ghost'}" ${attrs(b.href)}${b.gaEvent ? ` data-ga-event="${esc(b.gaEvent)}"` : ''}>${esc(b.label)}</a>`),
+    ...m.heroCtas.map((b, i) => `  <a class="${i === 0 ? 'hero-consult' : 'hero-business-link'}" ${attrs(b.href)}${b.gaEvent ? ` data-ga-event="${esc(b.gaEvent)}"` : ''}>${esc(b.label)}</a>`),
     '</div>',
   ];
 };
@@ -688,10 +698,10 @@ const renderJsonLdArticle = (c, ctx) => {
 };
 
 /* ---- 課題提起 ---- */
-const renderChallenges = (c) => {
+const renderChallenges = (c, ctx) => {
   const d = c.challenges;
   return [
-    ...sectionHead('chal-head', d.section, d.heading, 'chal-title'),
+    ...pageSectionHead('chal-head', d.section, d.heading, 'chal-title', ctx),
     '<ul class="chal-grid">',
     ...d.items.map((t, i) => [
       '  <li class="chal-card">',
@@ -708,7 +718,7 @@ const renderChallenges = (c) => {
 const renderRoadmap = (c, ctx) => {
   const d = c.roadmap;
   return [
-    ...sectionHead('rm-head-sec', d.section, d.heading, 'roadmap-title'),
+    ...pageSectionHead('rm-head-sec', d.section, d.heading, 'roadmap-title', ctx),
     ...para('rm-intro', d.intro),
     '<ol class="rm-list">',
     ...d.phases.flatMap((p) => [
@@ -739,10 +749,10 @@ const renderRoadmap = (c, ctx) => {
 };
 
 /* ---- 活用テーマ ---- */
-const renderUsecases = (c) => {
+const renderUsecases = (c, ctx) => {
   const d = c.usecases;
   return [
-    ...sectionHead('uc-head', d.section, d.heading, 'uc-title'),
+    ...pageSectionHead('uc-head', d.section, d.heading, 'uc-title', ctx),
     `<p class="uc-note">${esc(d.note)}</p>`,
     '<ul class="uc-list">',
     ...d.items.map((t) => `  <li class="uc-item">${esc(t)}</li>`),
@@ -751,8 +761,8 @@ const renderUsecases = (c) => {
 };
 
 /* ---- FAQ（details アコーディオン。JS無効でも開閉・閲覧できる） ---- */
-const renderFaq = (data, titleId) => [
-  ...sectionHead('faq-head', data.section, data.heading, titleId),
+const renderFaq = (data, titleId, ctx) => [
+  ...pageSectionHead('faq-head', data.section, data.heading, titleId, ctx),
   '<div class="faq-list">',
   ...data.items.flatMap((it) => [
     `  <details class="faq-item" id="faq-${esc(it.id)}">`,
@@ -1083,7 +1093,7 @@ const renderJsonLdFaq = (data) => jsonLdScript({
 /** マーカーキー → { render, inline?, desc } */
 const RENDERERS = {
   'nav': { desc: 'グローバルヘッダーのナビ + 相談するCTA', render: renderNav },
-  'hero-copy': { desc: 'ヒーロー追加コピー（技術定着メッセージ + CTA2つ）', render: renderHeroCopy },
+  'hero-copy': { desc: 'ヒーローH1・本文・相談CTAと事業一覧リンク', render: renderHeroCopy },
   'fde-lead': { desc: '/fde/ のメインコピー（H1）とサブコピー', render: renderFdeLead },
   'philosophy': { desc: '思想ブロック「AIはAIらしく、人は人らしく。」', render: renderPhilosophy },
   'pillars': { desc: '3本柱カード（#pillar-construction 等のアンカー付き）', render: renderPillars },
@@ -1094,7 +1104,7 @@ const RENDERERS = {
   'challenges': { desc: '課題提起カード8枚 + 締め文', render: renderChallenges },
   'roadmap': { desc: '12か月ロードマップ4フェーズ + CTA', render: renderRoadmap },
   'usecases': { desc: '活用テーマ10項目（活用イメージ注記つき）', render: renderUsecases },
-  'faq-top': { desc: 'トップページFAQ（7問）', render: (c) => renderFaq(c.faqTop, 'faq-title') },
+  'faq-top': { desc: 'トップページFAQ（7問）', render: (c, ctx) => renderFaq(c.faqTop, 'faq-title', ctx) },
   'faq-fde': { desc: '/fde/ ページFAQ', render: (c) => renderFaq(c.faqFde, 'faq-title') },
   'services': { desc: 'サービス8件の可視リスト', render: renderServices },
   'insights-list': { desc: '/insights/ の記事一覧（見出し + カード。preparing のときは準備中の文言）', render: renderInsightsList },
